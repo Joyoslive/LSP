@@ -147,10 +147,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DXCore.cpp" />
+    <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="ForwardRenderStrategy.cpp" />
+    <ClCompile Include="GfxCore.cpp" />
+    <ClCompile Include="GfxRenderer.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="IRenderStrategy.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DXCore.h" />
+    <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="ForwardRenderStrategy.h" />
+    <ClInclude Include="GfxCore.h" />
+    <ClInclude Include="GfxRenderer.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

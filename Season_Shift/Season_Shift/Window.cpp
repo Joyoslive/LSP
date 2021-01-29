@@ -66,7 +66,7 @@ void Window::resizeToWindowToFitClient()
 
 }
 
-HWND Window::getHWND() const
+HWND& Window::getHWND()
 {
     return m_hwnd;
 }
