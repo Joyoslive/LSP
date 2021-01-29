@@ -8,7 +8,8 @@ class Transform;
 class Component
 {
 public:
-	Component(std::shared_ptr<GameObject> gameObject);
+	Component(std::shared_ptr<GameObject> gameObject, std::shared_ptr<Transform> transform);
+	virtual ~Component() = default;
 
 protected:
 

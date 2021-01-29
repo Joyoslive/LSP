@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include <typeinfo>
+#include "RigidBodyComponent.h"
 
 GameObject::GameObject()
 {
@@ -9,19 +10,6 @@ GameObject::~GameObject()
 {
 }
 
-
-template<typename T>
-std::optional<T&> GameObject::getComponentType()
-{
-	for (auto& c : m_componentVector)
-	{
-		if (typeid(T) == typeid(*c))
-		{
-			return *c;
-		}
-	}
-	return std::nullopt;
-}
 
 
 
@@ -33,21 +21,8 @@ void GameObject::update()
 {
 }
 
-void GameObject::testAdd()
+void GameObject::testAdd() // need to fix this templated
 {
+	m_componentVector.emplace_back(std::make_shared<RigidBodyComponent>(shared_from_this(), nullptr));
+	std::dynamic_pointer_cast<RigidBodyComponent>(m_componentVector[0])->setMass(42.0f);
 }
-
-
-
-/*template<typename T>
-	std::shared_ptr<T> getComponentType()
-	{
-		for (auto &c : m_componentVector)
-		{
-			if (typeid(T) == typeid(*c))
-			{
-				return c;
-			}
-		}
-		return nullptr;
-	}*/

@@ -1,12 +1,21 @@
 #pragma once
 #include "Component.h"
 
-class RigidBodyComponent : Component
+class RigidBodyComponent : public Component
 {
-public:
-	RigidBodyComponent(std::shared_ptr<GameObject> gameObject);
-
 private:
-	float mass = 54;
+	float m_mass = 1;
+	float m_gravity = 10;
+	float m_force[3] = { 0,0,0 };
+	float m_velocity[3] = { 0,0,0 };
+	float m_acceleration[3] = { 0,0,0 };
+	
+
+
+public:
+	RigidBodyComponent(std::shared_ptr<GameObject> gameObject, std::shared_ptr<Transform> transform);
+	void setMass(float mass);
+	float getMass() const;
+
 };
 
