@@ -12,5 +12,15 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 
 void ForwardRenderStrategy::render()
 {
-	m_renderer->clearScreen(0.0, 0.0, 0.0);
+	auto dxDev = m_renderer->getDXDevice();
+
+	dxDev->clearScreen();
+
+	// Do lots of rendering stuff with the help of Renderer and various Binder/Technique abstractions in mind! etc.
+
+
+
+
+
+	dxDev->present();
 }

@@ -11,15 +11,27 @@ Adds (Assembles them with DXResources), removes, manages existing
 - Models
 - Meshes
 - Material
+- ShaderProgram
 
 */
 class GfxResourceDevice
 {
 private:
+	std::shared_ptr<DXDevice> m_dxDev;
 
+	std::unique_ptr<GfxResourceManager> m_resourceManager;
 
 public:
-	GfxResourceDevice();
+	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
 	~GfxResourceDevice();
+
+	/*
+	Create Mesh
+	Create Model
+	Create Material
+	Create ShaderProgram
+	Create ShadingPackage --> ShaderProgram + Material?
+	
+	*/
 };
 

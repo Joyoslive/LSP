@@ -4,7 +4,9 @@
 
 /*
 
-Works as an interface to be able to change between different rendering modes should different implementations be done (e.g forward or deferred)
+Works as an interface to be able to select different rendering implementations (e.g forward or deferred)
+- Render Strategies create and use specific graphics resources in order to implement techniques.
+- The meat of graphics techniques lies in a Render Strategy
 
 */
 class IRenderStrategy

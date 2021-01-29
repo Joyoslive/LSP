@@ -15,6 +15,7 @@ class GfxResourceManager
 {
 private:
 
+
 public:
 	GfxResourceManager();
 	~GfxResourceManager();

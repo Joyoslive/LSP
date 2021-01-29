@@ -10,8 +10,7 @@ GfxRenderer::~GfxRenderer()
 {
 }
 
-void GfxRenderer::clearScreen(float r, float g, float b)
+DXDevice* const GfxRenderer::getDXDevice()
 {
-	m_dxDev->clearScreen(r, g, b);
-	
+	return m_dxDev.get();
 }

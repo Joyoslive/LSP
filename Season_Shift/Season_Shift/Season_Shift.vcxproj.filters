@@ -12,6 +12,8 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="GfxResourceDevice.cpp" />
+    <ClCompile Include="DXBuffer.cpp" />
+    <ClCompile Include="DXTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -65,5 +67,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="DXBuffer.h" />
+    <ClInclude Include="DXTexture.h" />
   </ItemGroup>
 </Project>
