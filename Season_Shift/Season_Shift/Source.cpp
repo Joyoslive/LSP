@@ -1,7 +1,9 @@
-#include <d3d11.h>
+#include <Windows.h>
 
-int main()
+#define UNICODE
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInst, LPWSTR cmdLine, int cmdShow)
 {
-
+	
 	return 0;
 }
