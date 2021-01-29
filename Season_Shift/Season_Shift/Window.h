@@ -3,6 +3,7 @@
 #include <string>
 #include <assert.h>
 
+
 class Window
 {
 private:
@@ -20,7 +21,7 @@ public:
 	Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight);
 	~Window();
 
-	HWND getHWND() const;
+	HWND& getHWND();
 	float getAspectRatio() const;
 	UINT getClientWidth() const;
 	UINT getClientHeight() const;

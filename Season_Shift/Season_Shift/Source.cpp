@@ -1,11 +1,12 @@
 #include "Window.h"
+#include "Graphics.h"
+
 
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
-	// Game game();
-	// while(game.run());
-
 	Window win(inst, L"first win", 1280, 720);	
+
+	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
 	MSG msg = { };
 	while (!win.isClosed())
@@ -17,9 +18,11 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		// Do stuff
-
+		gph.render();
 
 	}
+
+
 
 
 	return 0;
