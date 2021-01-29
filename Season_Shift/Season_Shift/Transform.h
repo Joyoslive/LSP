@@ -8,16 +8,20 @@ private:
 	DirectX::XMFLOAT3 m_scale;
 	DirectX::XMFLOAT3 m_rotation;
 
-	//DirectX::XMFLOAT4X4 m_worldMatrix;
 	DirectX::XMMATRIX m_rotationMatrix;
 	DirectX::XMMATRIX m_positionMatrix;
 	DirectX::XMMATRIX m_scaleMatrix;
+
+	const float m_RADTODEG = 180.0f / DirectX::XM_PI;
+	const float m_DEGTORAD = DirectX::XM_PI / 180.0f;
 	
 private:
 	void setMatrixs();
 	void setPositionMatrix();
 	void setScaleMatrix();
 	void setRotationMatrix();
+	DirectX::XMFLOAT3 getRotationToRadians() const;
+	DirectX::XMFLOAT3 getRotationToDegrees() const;
 public:
 	Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation);
 	Transform();
