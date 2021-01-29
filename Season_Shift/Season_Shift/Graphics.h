@@ -1,22 +1,36 @@
 #pragma once
-#include <vector>
+#include "DXDevice.h"
+#include "DXResourceManager.h"
 #include "GfxRenderer.h"
+#include "GfxResourceManager.h"
 #include "ForwardRenderStrategy.h"
 
-class RenderData;
+#include <vector>
 
+
+/*
+
+Works as the single interface to Graphics.
+- Takes in data to be rendered
+- Offers creational interface
+..
+
+*/
 class Graphics
 {
 private:
 
-	// Specific API
+	// Specific API (Used for dependency injection)
 	std::shared_ptr<DXDevice> m_dxDev;
+	
+	// Creational components
+	std::shared_ptr<DXResourceManager> m_dxResourceManager;
+	std::unique_ptr<GfxResourceManager> m_resourceManager;
 
-	// Works with dependency injection (DXDevice)
-	std::shared_ptr<GfxRenderer> m_renderer;
-	std::unique_ptr<IRenderStrategy> m_renderStrat;
+	// Rendering components
+	std::shared_ptr<GfxRenderer> m_renderer;						
+	std::unique_ptr<IRenderStrategy> m_renderStrat;		
 
-	// Game Resource Creators (Mesh, Model, Material)
 
 public:
 	Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight);

@@ -2,6 +2,11 @@
 #include "GfxRenderer.h"
 #include <vector>
 
+/*
+
+Works as an interface to be able to change between different rendering modes should different implementations be done (e.g forward or deferred)
+
+*/
 class IRenderStrategy
 {
 protected:

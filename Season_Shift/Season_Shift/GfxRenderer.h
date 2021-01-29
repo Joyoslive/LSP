@@ -1,6 +1,13 @@
 #pragma once
-#include "GfxCore.h"
+#include "DXDevice.h"
 
+/*
+
+Works as an high-level graphics "Context"
+- Draws
+- SetPipelines
+- SetCamera
+*/ 
 class GfxRenderer
 {
 private:

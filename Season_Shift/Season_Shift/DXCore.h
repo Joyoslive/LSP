@@ -10,6 +10,11 @@ static void HRCHECK(HRESULT hr)
 	assert(SUCCEEDED(hr));
 }
 
+/*
+
+Works as a thin wrapper around DirectX 11 and important core initialization
+
+*/
 
 class DXCore
 {

@@ -149,8 +149,9 @@
   <ItemGroup>
     <ClCompile Include="DXCore.cpp" />
     <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXResourceManager.cpp" />
     <ClCompile Include="ForwardRenderStrategy.cpp" />
-    <ClCompile Include="GfxCore.cpp" />
+    <ClCompile Include="GfxResourceManager.cpp" />
     <ClCompile Include="GfxRenderer.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IRenderStrategy.cpp" />
@@ -160,8 +161,9 @@
   <ItemGroup>
     <ClInclude Include="DXCore.h" />
     <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="DXResourceManager.h" />
     <ClInclude Include="ForwardRenderStrategy.h" />
-    <ClInclude Include="GfxCore.h" />
+    <ClInclude Include="GfxResourceManager.h" />
     <ClInclude Include="GfxRenderer.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IRenderStrategy.h" />
