@@ -4,9 +4,6 @@
 
 class ForwardRenderStrategy : public IRenderStrategy
 {
-private:
-	std::shared_ptr<GfxRenderer> m_renderer;
-
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();

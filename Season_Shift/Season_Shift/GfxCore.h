@@ -7,7 +7,7 @@ private:
 	std::shared_ptr<DXDevice> m_dxDev;
 
 public:
-	GfxCore(HWND& hwnd, UINT clientWidth, UINT clientHeight);
+	GfxCore(std::shared_ptr<DXDevice> dev);
 	~GfxCore();
 
 	void clearScreen(float r, float g, float b);

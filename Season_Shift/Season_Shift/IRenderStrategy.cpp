@@ -1,6 +1,7 @@
 #include "IRenderStrategy.h"
 
-IRenderStrategy::IRenderStrategy()
+IRenderStrategy::IRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
+	m_renderer(renderer)
 {
 }
 

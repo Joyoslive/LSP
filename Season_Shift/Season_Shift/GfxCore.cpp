@@ -1,9 +1,9 @@
 #include "GfxCore.h"
 
-GfxCore::GfxCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
-	m_dxDev(nullptr)
+GfxCore::GfxCore(std::shared_ptr<DXDevice> dev) :
+	m_dxDev(dev)
 {
-	m_dxDev = std::make_shared<DXDevice>(hwnd, clientWidth, clientHeight);
+
 }
 
 GfxCore::~GfxCore()

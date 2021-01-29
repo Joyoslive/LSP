@@ -1,7 +1,7 @@
 #include "ForwardRenderStrategy.h"
 
 ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
-	m_renderer(renderer)
+	IRenderStrategy(renderer)
 {
 	OutputDebugStringW(L"Using forward render.\n");
 }

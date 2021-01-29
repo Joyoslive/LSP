@@ -1,9 +1,9 @@
 #include "GfxRenderer.h"
 
-GfxRenderer::GfxRenderer(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
-	m_gfxCore(nullptr)
+GfxRenderer::GfxRenderer(std::shared_ptr<DXDevice> dev) :
+	m_dxDev(dev)
 {
-	m_gfxCore = std::make_shared<GfxCore>(hwnd, clientWidth, clientHeight);
+
 }
 
 GfxRenderer::~GfxRenderer()
@@ -12,6 +12,6 @@ GfxRenderer::~GfxRenderer()
 
 void GfxRenderer::clearScreen(float r, float g, float b)
 {
-	m_gfxCore->clearScreen(r, g, b);
+	m_dxDev->clearScreen(r, g, b);
 	
 }

@@ -4,12 +4,11 @@
 class GfxRenderer
 {
 private:
-	std::shared_ptr<GfxCore> m_gfxCore;
+	std::shared_ptr<DXDevice> m_dxDev;
 
 public:
-	GfxRenderer(HWND& hwnd, UINT clientWidth, UINT clientHeight);
+	GfxRenderer(std::shared_ptr<DXDevice> dev);
 	~GfxRenderer();
-
 
 	void clearScreen(float r, float g, float b);	// [0, 1]
 
