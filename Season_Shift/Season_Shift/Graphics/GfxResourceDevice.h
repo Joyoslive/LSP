@@ -26,11 +26,12 @@ public:
 	~GfxResourceDevice();
 
 	/*
+
 	Create Mesh
 	Create Model
 	Create Material
 	Create ShaderProgram
-	Create ShadingPackage --> ShaderProgram + Material?
+	Create ShadingPackage --> ShaderProgram + Material? (Simplify for this project development)
 	
 	*/
 };

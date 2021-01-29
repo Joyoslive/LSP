@@ -4,6 +4,12 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	IRenderStrategy(renderer)
 {
 	OutputDebugStringW(L"Using forward render.\n");
+
+	/*
+	
+	Tech classes?
+	
+	*/
 }
 
 ForwardRenderStrategy::~ForwardRenderStrategy()

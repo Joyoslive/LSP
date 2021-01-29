@@ -40,15 +40,18 @@ public:
 	DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~DXCore();
 
-	Microsoft::WRL::ComPtr<IDXGISwapChain> getSwapChain();
-	Microsoft::WRL::ComPtr<ID3D11Device> getDevice();
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> getImmediateContext();
+	const Microsoft::WRL::ComPtr<IDXGISwapChain>& getSwapChain();
+	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
+	const Microsoft::WRL::ComPtr<ID3D11DeviceContext>& getImmediateContext();
 
-	Microsoft::WRL::ComPtr<ID3D11Debug> getDebug();
+	const Microsoft::WRL::ComPtr<ID3D11Debug>& getDebug();
 
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> getBackbufferRTV();
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> getBackbufferSRV();
+	const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& getBackbufferRTV();
+	const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& getBackbufferSRV();
 
+	/*
+	Pointer for ease-of-access when binding viewports
+	*/
 	D3D11_VIEWPORT* getBackBufferViewport();
 
 	UINT getClientWidth();

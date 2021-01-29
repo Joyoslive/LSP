@@ -19,7 +19,7 @@ private:
 
 	/*
 	
-	map
+	some persistent storage
 	
 	*/
 

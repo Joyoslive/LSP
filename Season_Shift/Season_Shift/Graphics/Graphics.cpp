@@ -21,6 +21,7 @@ Graphics::~Graphics()
 void Graphics::render()
 {
 	m_currRenderStrat->render();
+
 }
 
 GfxResourceDevice* const Graphics::getResourceDevice()

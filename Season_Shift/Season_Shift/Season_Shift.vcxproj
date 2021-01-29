@@ -147,32 +147,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DXBuffer.cpp" />
-    <ClCompile Include="DXTexture.cpp" />
-    <ClCompile Include="GfxResourceDevice.cpp" />
-    <ClCompile Include="DXCore.cpp" />
-    <ClCompile Include="DXDevice.cpp" />
-    <ClCompile Include="DXResourceManager.cpp" />
-    <ClCompile Include="ForwardRenderStrategy.cpp" />
-    <ClCompile Include="GfxResourceManager.cpp" />
-    <ClCompile Include="GfxRenderer.cpp" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="IRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\DXBuffer.cpp" />
+    <ClCompile Include="Graphics\DXTexture.cpp" />
+    <ClCompile Include="Graphics\GfxResourceDevice.cpp" />
+    <ClCompile Include="Graphics\DXCore.cpp" />
+    <ClCompile Include="Graphics\DXDevice.cpp" />
+    <ClCompile Include="Graphics\DXResourceManager.cpp" />
+    <ClCompile Include="Graphics\ForwardRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\GfxResourceManager.cpp" />
+    <ClCompile Include="Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
+    <ClCompile Include="Graphics\IRenderStrategy.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DXBuffer.h" />
-    <ClInclude Include="DXTexture.h" />
-    <ClInclude Include="GfxResourceDevice.h" />
-    <ClInclude Include="DXCore.h" />
-    <ClInclude Include="DXDevice.h" />
-    <ClInclude Include="DXResourceManager.h" />
-    <ClInclude Include="ForwardRenderStrategy.h" />
-    <ClInclude Include="GfxResourceManager.h" />
-    <ClInclude Include="GfxRenderer.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="IRenderStrategy.h" />
+    <ClInclude Include="Graphics\DXBuffer.h" />
+    <ClInclude Include="Graphics\DXTexture.h" />
+    <ClInclude Include="Graphics\GfxResourceDevice.h" />
+    <ClInclude Include="Graphics\DXCore.h" />
+    <ClInclude Include="Graphics\DXDevice.h" />
+    <ClInclude Include="Graphics\DXResourceManager.h" />
+    <ClInclude Include="Graphics\ForwardRenderStrategy.h" />
+    <ClInclude Include="Graphics\GfxResourceManager.h" />
+    <ClInclude Include="Graphics\GfxRenderer.h" />
+    <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Graphics\IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
