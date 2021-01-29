@@ -13,7 +13,7 @@ private:
 
 
 public:
-	RigidBodyComponent(std::shared_ptr<GameObject> gameObject, std::shared_ptr<Transform> transform);
+	RigidBodyComponent(Ref<GameObject> gameObject, Ref<Transform> transform);
 	void setMass(float mass);
 	float getMass() const;
 

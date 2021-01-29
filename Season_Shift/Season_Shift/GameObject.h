@@ -7,15 +7,15 @@
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 private:
-	std::vector<std::shared_ptr<Component>> m_componentVector;
-	std::vector<std::shared_ptr<RigidBodyComponent>> m_v;
+	std::vector<Ref<Component>> m_componentVector;
+	std::vector<Ref<RigidBodyComponent>> m_v;
 
 public:
 	GameObject();
 	~GameObject();
 
 	template<typename T>
-	std::shared_ptr<T> getComponentType()
+	Ref<T> getComponentType()
 	{
 		for (auto &c : m_componentVector)
 		{

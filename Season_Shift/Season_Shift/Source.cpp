@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "GameObject.h"
 
+
 bool b = true;
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {

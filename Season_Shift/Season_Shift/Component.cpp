@@ -1,8 +1,6 @@
 #include "Component.h"
 
-using std::shared_ptr;
-
-Component::Component(shared_ptr<GameObject> gameObject, shared_ptr<Transform> transform)
+Component::Component(Ref<GameObject> gameObject, Ref<Transform> transform)
 {
 	m_gameObject = gameObject;
 }

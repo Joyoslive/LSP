@@ -1,9 +1,7 @@
 #include "RigidBodyComponent.h"
 
 
-using std::shared_ptr;
-
-RigidBodyComponent::RigidBodyComponent(shared_ptr<GameObject> gameObject, shared_ptr<Transform> transform) : Component(gameObject, transform)
+RigidBodyComponent::RigidBodyComponent(Ref<GameObject> gameObject, Ref<Transform> transform) : Component(gameObject, transform)
 {
 
 }

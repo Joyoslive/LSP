@@ -5,15 +5,18 @@
 class GameObject;
 class Transform;
 
+template<typename T>
+using Ref = std::shared_ptr<T>;
+
 class Component
 {
 public:
-	Component(std::shared_ptr<GameObject> gameObject, std::shared_ptr<Transform> transform);
+	Component(Ref<GameObject> gameObject, Ref<Transform> transform);
 	virtual ~Component() = default;
 
 protected:
 
-	std::shared_ptr<Transform> m_transform;
-	std::shared_ptr<GameObject> m_gameObject;
+	Ref<Transform> m_transform;
+	Ref<GameObject> m_gameObject;
 };
 
