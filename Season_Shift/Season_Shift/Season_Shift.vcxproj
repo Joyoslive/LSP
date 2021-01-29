@@ -147,10 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GfxResourceDevice.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="DXCore.cpp" />
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="DXResourceManager.cpp" />
@@ -163,10 +160,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GfxResourceDevice.h" />
-    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="DXCore.h" />
     <ClInclude Include="DXDevice.h" />
     <ClInclude Include="DXResourceManager.h" />
