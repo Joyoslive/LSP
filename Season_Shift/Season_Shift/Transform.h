@@ -1,7 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
+#include "Component.h"
 
-class Transform
+class Transform : public Component
 {
 private:
 	DirectX::XMFLOAT3 m_position;
@@ -20,11 +21,11 @@ private:
 	void setPositionMatrix();
 	void setScaleMatrix();
 	void setRotationMatrix();
-	DirectX::XMFLOAT3 getRotationToRadians() const;
-	DirectX::XMFLOAT3 getRotationToDegrees() const;
+	DirectX::XMFLOAT3 getRotationToRadians(DirectX::XMFLOAT3 degreesRotation) const;
+	DirectX::XMFLOAT3 getRotationToDegrees(DirectX::XMFLOAT3 radiansRotation) const;
 public:
-	Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation);
-	Transform();
+	Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation, std::shared_ptr<GameObject> gameObject);
+	Transform(std::shared_ptr<GameObject> gameObject);
 
 	~Transform();
 

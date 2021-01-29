@@ -1,6 +1,7 @@
 #include "Transform.h"
 
-Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation)
+Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation, 
+	std::shared_ptr<GameObject> gameObject) : Component(gameObject)
 {
 	m_position = position;
 	m_scale = scale;
@@ -8,7 +9,7 @@ Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, Direct
 	setMatrixs();
 }
 
-Transform::Transform()
+Transform::Transform(std::shared_ptr<GameObject> gameObject) : Component(gameObject)
 {
 	m_position = DirectX::XMFLOAT3(0, 0, 0);
 	m_scale = DirectX::XMFLOAT3(1, 1, 1);
@@ -43,14 +44,14 @@ void Transform::setRotationMatrix()
 	m_rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
 }
 
-DirectX::XMFLOAT3 Transform::getRotationToDegrees() const
+DirectX::XMFLOAT3 Transform::getRotationToDegrees(DirectX::XMFLOAT3 radiansRotation) const
 {
-	return DirectX::XMFLOAT3(m_rotation.x * m_RADTODEG, m_rotation.y * m_RADTODEG, m_rotation.z * m_RADTODEG);
+	return DirectX::XMFLOAT3(radiansRotation.x * m_RADTODEG, radiansRotation.y * m_RADTODEG, radiansRotation.z * m_RADTODEG);
 }
 
-DirectX::XMFLOAT3 Transform::getRotationToRadians() const
+DirectX::XMFLOAT3 Transform::getRotationToRadians(DirectX::XMFLOAT3 degreesRotation) const
 {
-	return DirectX::XMFLOAT3(m_rotation.x * m_DEGTORAD, m_rotation.y * m_DEGTORAD, m_rotation.z * m_DEGTORAD);
+	return DirectX::XMFLOAT3(degreesRotation.x * m_DEGTORAD, degreesRotation.y * m_DEGTORAD, degreesRotation.z * m_DEGTORAD);
 }
 
 void Transform::setPosition(DirectX::XMFLOAT3 position)
@@ -67,7 +68,7 @@ void Transform::setScale(DirectX::XMFLOAT3 scale)
 
 void Transform::setRotation(DirectX::XMFLOAT3 rotation)
 {
-	m_rotation = rotation;
+	m_rotation = getRotationToRadians(rotation);
 	setRotationMatrix();
 }
 
@@ -83,7 +84,7 @@ DirectX::XMFLOAT3 Transform::getScale() const
 
 DirectX::XMFLOAT3 Transform::getRotation() const
 {
-	return getRotationToDegrees();
+	return getRotationToDegrees(m_rotation);
 }
 
 DirectX::XMMATRIX Transform::getWorldMatrix() const
