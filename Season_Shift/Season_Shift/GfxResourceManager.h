@@ -5,7 +5,7 @@
 
 Works as a manager for high level graphics resources. Holds repositories for currently loaded graphics resources.
 
-Creates (Assembles them with DXResources), Destroys and Manages
+Adds (Assembles them with DXResources), removes, manages existing
 - Models
 - Meshes
 - Material
@@ -14,11 +14,18 @@ Creates (Assembles them with DXResources), Destroys and Manages
 class GfxResourceManager
 {
 private:
-	std::shared_ptr<DXResourceManager> m_dxResourceManager;
 
 public:
-	GfxResourceManager(std::shared_ptr<DXResourceManager> resourceManager);
+	GfxResourceManager();
 	~GfxResourceManager();
+
+	/*
+	
+	createMesh()
+	createModel()
+	createMaterial()
+	
+	*/
 
 };
 

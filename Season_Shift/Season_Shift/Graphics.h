@@ -3,6 +3,7 @@
 #include "DXResourceManager.h"
 #include "GfxRenderer.h"
 #include "GfxResourceManager.h"
+#include "GfxResourceDevice.h"
 #include "ForwardRenderStrategy.h"
 
 #include <vector>
@@ -23,7 +24,10 @@ private:
 	// Specific API (Used for dependency injection)
 	std::shared_ptr<DXDevice> m_dxDev;
 	
-	// Creational components
+	// High Level Graphics Resource Creator
+	std::shared_ptr<GfxResourceDevice> m_gfxDevice;
+
+	// Repositories
 	std::shared_ptr<DXResourceManager> m_dxResourceManager;
 	std::unique_ptr<GfxResourceManager> m_resourceManager;
 

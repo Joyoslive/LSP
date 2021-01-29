@@ -2,6 +2,10 @@
 #include "DXCore.h"
 #include <memory>
 
+class DXBuffer;
+class DXTexture;
+class DXShader;
+
 /*
 
 Works as an abstract 'Device' for low-level graphics resource creations and as a 'Device Context' for low level binds
@@ -10,11 +14,6 @@ Works as an abstract 'Device' for low-level graphics resource creations and as a
 - etc.
 
 */
-
-class DXBuffer;
-class DXTexture;
-class DXShader;
-
 class DXDevice
 {
 private:
