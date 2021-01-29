@@ -76,6 +76,16 @@ float Window::getAspectRatio() const
     return (float)m_clientWidth / (float)m_clientHeight;
 }
 
+UINT Window::getClientWidth() const
+{
+    return m_clientWidth;
+}
+
+UINT Window::getClientHeight() const
+{
+    return m_clientHeight;
+}
+
 bool Window::isClosed() const
 {
     return m_isClosed;

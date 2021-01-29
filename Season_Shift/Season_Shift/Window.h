@@ -22,6 +22,8 @@ public:
 
 	HWND getHWND() const;
 	float getAspectRatio() const;
+	UINT getClientWidth() const;
+	UINT getClientHeight() const;
 	
 	bool isClosed() const;
 
