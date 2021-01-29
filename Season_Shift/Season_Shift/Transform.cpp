@@ -3,30 +3,21 @@
 Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation, 
 	std::shared_ptr<GameObject> gameObject) : Component(gameObject)
 {
-	m_position = position;
-	m_scale = scale;
-	m_rotation = rotation;
-	setMatrixs();
+	setPosition(position);
+	setPosition(scale);
+	setPosition(rotation);
 }
 
 Transform::Transform(std::shared_ptr<GameObject> gameObject) : Component(gameObject)
 {
-	m_position = DirectX::XMFLOAT3(0, 0, 0);
-	m_scale = DirectX::XMFLOAT3(1, 1, 1);
-	m_rotation = DirectX::XMFLOAT3(0, 0, 0);
-	setMatrixs();
+	setPosition(DirectX::XMFLOAT3(0, 0, 0));
+	setPosition(DirectX::XMFLOAT3(1, 1, 1));
+	setPosition(DirectX::XMFLOAT3(0, 0, 0));
 }
 
 Transform::~Transform()
 {
 	
-}
-
-void Transform::setMatrixs()
-{
-	setPositionMatrix();
-	setScaleMatrix();
-	setRotationMatrix();
 }
 
 void Transform::setPositionMatrix()

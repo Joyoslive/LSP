@@ -17,7 +17,6 @@ private:
 	const float m_DEGTORAD = DirectX::XM_PI / 180.0f;
 	
 private:
-	void setMatrixs();
 	void setPositionMatrix();
 	void setScaleMatrix();
 	void setRotationMatrix();
