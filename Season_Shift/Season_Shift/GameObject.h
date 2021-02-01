@@ -19,20 +19,26 @@ public:
 	template<typename T>
 	Ref<T> getComponentType()
 	{
-		for (auto &c : m_componentVector)
+		if (typeid(T) == typeid(Transform))
 		{
-			if (typeid(T) == typeid(*c))
-			{
-				return std::dynamic_pointer_cast<T>(c);
-			}
+			return m_transform;
 		}
-		return nullptr;
+		else
+		{
+			for (auto& c : m_componentVector)
+			{
+				if (typeid(T) == typeid(*c))
+				{
+					return std::dynamic_pointer_cast<T>(c);
+				}
+			}
+			return nullptr;
+		}
 	}
 
 	void start();
 	void update();
 
-	void testAdd();
 	int AddComponent(Ref<Component> component);
 	Ref<Transform> getTransform();
 };
