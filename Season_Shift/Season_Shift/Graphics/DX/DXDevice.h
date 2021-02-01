@@ -65,12 +65,19 @@ public:
 	DXDevice(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~DXDevice();
 
+
+
 	/*
-	
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
 
 	// These two below are most important as they are closely tied to specific game assets (VBs, IBs and Material for mesh) --> May require std::hash string to std::size_t in GfxResourceDevice
 	std::shared_ptr<DXBuffer>				createBuffer(id, desc)
+
+	std::shared_ptr<Buffer> createVertexBuffer(const std::string& name, unsigned int elementSize, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<Buffer> createIndexBuffer(const std::string& name, unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<Buffer> createConstantBuffer(const std::string& name, unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
+	std::shared_ptr<Buffer> createStructuredBuffer(const std::string& name, unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
+
 	std::shared_ptr<DXTexture>				createTexture(id, desc);				// Dont forget about mip levels! (e.g Generate Mips)
 
 	ComPtr<ID3D11InputLayout>				createInputLayout(desc);				// We can let this live in PipelineState
