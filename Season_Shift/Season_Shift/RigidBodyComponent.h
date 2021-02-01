@@ -19,6 +19,7 @@ public:
 	RigidBodyComponent(float mass = 1);
 	void setMass(float mass);
 	float getMass() const;
-
+	void addForce(DirectX::SimpleMath::Vector3 force);
+	void stop();
 };
 
