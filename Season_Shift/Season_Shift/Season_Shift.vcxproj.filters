@@ -18,6 +18,8 @@
     <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
+    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -36,6 +38,8 @@
     <ClInclude Include="Graphics\IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
+    <ClInclude Include="Graphics\Mesh.h" />
+    <ClInclude Include="Material.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

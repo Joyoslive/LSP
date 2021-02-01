@@ -57,9 +57,6 @@ private:
 	// Model Loader --> Mesh, Amb, Diff, Spec, Nor
 	// AssimpLoader
 
-	// TextureFileReader -- we can just make function
-	// Reads textures and converts to raw data: JPG/PNG + others through STB Image
-
 	// Rendering components
 	std::shared_ptr<GfxRenderer> m_renderer;
 	std::unique_ptr<IRenderStrategy> m_currRenderStrat;
