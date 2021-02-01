@@ -4,19 +4,25 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
-#include <codecvt>
-#include <locale>
+#include <fstream>
 #include <Windows.h>
+#include <stdexcept>
 
 Logger* Logger::instance = nullptr;
 
-Logger::Logger() {}
+Logger::Logger() 
+{
+	m_logFile = "logs.txt";
+}
 
 Logger::~Logger() 
 {
-	Log destructorLog = {};
-	m_bufferedLogs.emplace(m_bufferedLogs.begin(), destructorLog);
-	dumpLogs();
+	if (m_bufferedLogs.size() > 0)
+	{
+		Log destructorLog = {"-- DUMPLOGS CALLED BY DESTRUCTOR --"};
+		m_bufferedLogs.emplace(m_bufferedLogs.begin(), destructorLog);
+		dumpLogs();
+	}
 }
 
 Logger& Logger::getLogger()
@@ -29,7 +35,12 @@ Logger& Logger::getLogger()
 	return *instance;
 }
 
-void Logger::addLog(std::string log, std::string filePath)
+void Logger::setFile(std::string filepath)
+{
+	m_logFile = filepath;
+}
+
+void Logger::addLog(std::string log)
 {
 	auto timeStamp = std::chrono::system_clock::now();
 	time_t timetTime = std::chrono::system_clock::to_time_t(timeStamp);
@@ -38,7 +49,7 @@ void Logger::addLog(std::string log, std::string filePath)
 	localtime_s(&date, &timetTime);
 	ss << std::put_time(&date, "%F %T");
 	Log newLog = {
-		log, ss.str(), filePath
+		log, ss.str(),
 	};
 	m_bufferedLogs.emplace_back(newLog);
 }
@@ -58,5 +69,23 @@ void Logger::debugLog(std::string log)
 
 void Logger::dumpLogs()
 {
-
+	if (m_bufferedLogs.size() > 0)
+	{
+		std::ofstream file(m_logFile);
+		if (!file)
+		{
+			debugLog("Error: The file specified for the logger does not exist! \nLogs are dumped to logs.txt");
+			file.open("logs.txt");
+		}
+		for (auto& l : m_bufferedLogs)
+		{
+			if (l.timeStamp != "") 
+			{ 
+				file << l.timeStamp;
+				file << " | "; 
+			}
+			file << l.message << "\n";
+		}
+		m_bufferedLogs.clear();
+	}
 }

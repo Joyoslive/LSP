@@ -10,11 +10,11 @@ private:
 	{
 		std::string message;
 		std::string timeStamp;
-		std::string filePath;
 	};
 private:
 	static Logger* instance;
 	std::vector<Log> m_bufferedLogs;
+	std::string m_logFile;
 	
 private:
 	Logger();
@@ -22,7 +22,8 @@ public:
 	~Logger();
 
 	static Logger& getLogger();
-	void addLog(std::string log, std::string filePath);
+	void setFile(std::string filepath);
+	void addLog(std::string log);
 	void debugLog(std::string message);
 	void dumpLogs();
 };
