@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="DXCore.cpp" />
     <ClCompile Include="DXDevice.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Logic.h" />
     <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="DXCore.h" />
     <ClInclude Include="DXDevice.h" />
