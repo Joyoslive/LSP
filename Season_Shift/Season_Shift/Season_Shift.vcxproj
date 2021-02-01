@@ -89,11 +89,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\stbi;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\imgui;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\DirectXTK;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;DirectXTK.lib;DirectXTex.lib;assimp-vc142-mt.lib;d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,13 +107,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\stbi;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\imgui;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\DirectXTK;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;DirectXTK.lib;DirectXTex.lib;assimp-vc142-mt.lib;d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,11 +125,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\stbi;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\imgui;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\DirectXTK;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;DirectXTK.lib;DirectXTex.lib;assimp-vc142-mt.lib;d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,26 +143,50 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\stbi;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\imgui;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\DirectXTK;E:\Github\LSP\Season_Shift\Season_Shift\Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;DirectXTK.lib;DirectXTex.lib;assimp-vc142-mt.lib;d3d11.lib;dxgi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Github\LSP\Season_Shift\Season_Shift\Libraries\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Graphics\DX\DXShader.cpp" />
+    <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
+    <ClCompile Include="Graphics\DX\DXTexture.cpp" />
+    <ClCompile Include="Graphics\GfxResourceDevice.cpp" />
+    <ClCompile Include="Graphics\DX\DXCore.cpp" />
+    <ClCompile Include="Graphics\DX\DXDevice.cpp" />
+    <ClCompile Include="Graphics\ForwardRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
+    <ClCompile Include="Graphics\IRenderStrategy.cpp" />
     <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="RigidBodyComponent.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Graphics\DX\DXShader.h" />
+    <ClInclude Include="Graphics\DX\DXBuffer.h" />
+    <ClInclude Include="Graphics\DX\DXTexture.h" />
+    <ClInclude Include="Graphics\GfxResourceDevice.h" />
+    <ClInclude Include="Graphics\DX\DXCore.h" />
+    <ClInclude Include="Graphics\DX\DXDevice.h" />
+    <ClInclude Include="Graphics\ForwardRenderStrategy.h" />
+    <ClInclude Include="Graphics\GfxRenderer.h" />
+    <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Graphics\IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
