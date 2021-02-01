@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="RigidBodyComponent.cpp" />
+    <ClCompile Include="DXCore.cpp" />
+    <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXResourceManager.cpp" />
+    <ClCompile Include="ForwardRenderStrategy.cpp" />
+    <ClCompile Include="GfxResourceManager.cpp" />
+    <ClCompile Include="GfxRenderer.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="IRenderStrategy.cpp" />
+    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Graphics\DX\DXShader.cpp" />
     <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
     <ClCompile Include="Graphics\DX\DXTexture.cpp" />
@@ -25,6 +40,17 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="RigidBodyComponent.h" />
+    <ClInclude Include="DXCore.h" />
+    <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="DXResourceManager.h" />
+    <ClInclude Include="ForwardRenderStrategy.h" />
+    <ClInclude Include="GfxResourceManager.h" />
+    <ClInclude Include="GfxRenderer.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="IRenderStrategy.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="Logic.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Graphics\DX\DXShader.h" />
     <ClInclude Include="Graphics\DX\DXBuffer.h" />
