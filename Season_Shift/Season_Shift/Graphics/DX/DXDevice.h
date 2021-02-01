@@ -94,6 +94,7 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
+
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
 
 	// Bind resource for shader
@@ -135,7 +136,7 @@ public:
 
 	// No scissors for now
 
-	const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& getBackbufferRTV();
+	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
@@ -231,4 +232,3 @@ public:
 
 
 };
-

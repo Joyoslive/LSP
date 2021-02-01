@@ -465,7 +465,15 @@ void DXDevice::present()
 	m_core.getSwapChain()->Present(0, 0);
 }
 
-const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& DXDevice::getBackbufferRTV()
+void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget)
 {
-	return m_core.getBackbufferRTV();
+
+	if (depthTarget != nullptr) 
+		m_core.getImmediateContext()->OMSetRenderTargets(1, m_core.getBackbufferRTV().GetAddressOf(), depthTarget->getDSV().Get());
+	else
+		m_core.getImmediateContext()->OMSetRenderTargets(1, m_core.getBackbufferRTV().GetAddressOf(), nullptr);
+
+	m_core.getImmediateContext()->RSSetViewports(1, m_core.getBackBufferViewport());
+
+
 }

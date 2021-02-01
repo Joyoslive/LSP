@@ -11,9 +11,9 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Load triangle
 	std::vector<Vertex> verts;
-	verts.push_back({ Vector3(-1.0, 0.0, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(-1.0, -1.0, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
 	verts.push_back({ Vector3(0.0, 1.0, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
-	verts.push_back({ Vector3(1.0, 0.0, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(1.0, -1.0, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
 
 	D3D11_SUBRESOURCE_DATA subres; 
 	ZeroMemory(&subres, sizeof(D3D11_SUBRESOURCE_DATA));
@@ -30,16 +30,16 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	ilDesc.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0 });
 	il = dev->createInputLayout(ilDesc, vs->getShaderData());
 
+
+	// Binds
 	dev->bindDrawBuffer(vb);
 
 	dev->bindInputLayout(il);
 	dev->bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// Bind shaders	
 	dev->bindShader(vs, DXShader::Type::VS);
 	dev->bindShader(ps, DXShader::Type::PS);
 
-	//dev->bindRenderTargets({ dev->getBackbufferRTV().Get() }, )
 
 	/*
 	
@@ -75,6 +75,9 @@ void ForwardRenderStrategy::render()
 
 	// Do lots of rendering stuff with the help of Renderer and various Binder/Technique abstractions in mind! etc.
 	
+	dev->bindBackBufferAsTarget();
+
+
 	dev->Draw(3);
 
 
