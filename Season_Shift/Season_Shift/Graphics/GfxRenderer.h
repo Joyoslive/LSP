@@ -1,5 +1,5 @@
 #pragma once
-#include "DXDevice.h"
+#include "DX/DXDevice.h"
 
 /*
 
@@ -18,8 +18,7 @@ private:
 
 public:
 	/*
-	
-	Optimally, the GfxRenderer 
+
 	
 	*/
 
@@ -29,7 +28,7 @@ public:
 	/*
 	
 	setCamera
-	setPipeline
+	setPipeline(DXPipelineState)
 	drawMesh(mesh, material);
 	drawMeshInstanced(mesh, material, instanceData)
 

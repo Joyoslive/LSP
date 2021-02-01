@@ -12,10 +12,10 @@ static void HRCHECK(HRESULT hr)
 
 /*
 
-Works as a thin wrapper around DirectX 11 and important core initialization
+Works as a 'thin wrapper' around DirectX 11 and important core initialization.
+User of this class is expected to use the getters to directly make use of the internal device/device context
 
 */
-
 class DXCore
 {
 private:
@@ -56,5 +56,7 @@ public:
 
 	UINT getClientWidth();
 	UINT getClientHeight();
+	
+	void changeResolution(unsigned int clientWidth, unsigned int clientHeight);
 };
 

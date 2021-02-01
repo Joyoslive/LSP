@@ -6,7 +6,7 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 	m_dxDev = std::make_shared<DXDevice>(hwnd, clientWidth, clientHeight);
 	
 	/* 
-	Utilize the DirectX API in various components through Dependency Injection
+	Utilize the DirectX API in various components
 	*/
 	m_renderer = std::make_shared<GfxRenderer>(m_dxDev);
 	m_currRenderStrat = std::make_unique<ForwardRenderStrategy>(m_renderer);
@@ -18,13 +18,10 @@ Graphics::~Graphics()
 
 }
 
-void Graphics::render()
+void Graphics::render()		
 {
+	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
+	
 	m_currRenderStrat->render();
 
-}
-
-GfxResourceDevice* const Graphics::getResourceDevice()
-{
-	return m_gfxDevice.get();
 }

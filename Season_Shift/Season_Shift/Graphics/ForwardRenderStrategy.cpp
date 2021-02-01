@@ -7,8 +7,23 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	/*
 	
-	Tech classes?
-	
+	Create the neccessary pipeline state, buffers and textures to allow for basic flat-shaded rendering of different meshes.
+
+	MeshCBuffer
+		wm
+		vm
+		pj
+
+	PointSampler
+
+	VS, PS
+
+	InputLayout
+
+	DSV
+
+	Default Texture
+
 	*/
 }
 
@@ -23,8 +38,21 @@ void ForwardRenderStrategy::render()
 	dxDev->clearScreen();
 
 	// Do lots of rendering stuff with the help of Renderer and various Binder/Technique abstractions in mind! etc.
+	
+	/*
 
+	m_renderer->setPipelineState(defaultForward);
+	
+	for (auto& go : gameObjects)
+	{
+		auto& mesh = go.mesh;			--> vb, ib
+		auto& material = go.material;	--> ps textures + shader
 
+		m_renderer->drawMesh(mesh, material);
+		
+	}
+	
+	*/
 
 
 

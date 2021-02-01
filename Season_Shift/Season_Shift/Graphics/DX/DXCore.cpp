@@ -128,3 +128,10 @@ UINT DXCore::getClientHeight()
     return m_clientHeight;
 }
 
+void DXCore::changeResolution(unsigned int clientWidth, unsigned int clientHeight)
+{
+	/*
+	To implement
+	*/
+}
+

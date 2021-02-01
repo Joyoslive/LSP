@@ -3,17 +3,16 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Graphics\DXBuffer.cpp" />
-    <ClCompile Include="Graphics\DXCore.cpp" />
-    <ClCompile Include="Graphics\DXDevice.cpp" />
-    <ClCompile Include="Graphics\DXResourceManager.cpp" />
-    <ClCompile Include="Graphics\DXTexture.cpp" />
     <ClCompile Include="Graphics\ForwardRenderStrategy.cpp" />
     <ClCompile Include="Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Graphics\GfxResourceDevice.cpp" />
-    <ClCompile Include="Graphics\GfxResourceManager.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
+    <ClCompile Include="Graphics\DX\DXCore.cpp" />
+    <ClCompile Include="Graphics\DX\DXDevice.cpp" />
+    <ClCompile Include="Graphics\DX\DXShader.cpp" />
+    <ClCompile Include="Graphics\DX\DXTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -22,52 +21,19 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DXCore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DXDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GfxRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IRenderStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ForwardRenderStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GfxResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DXResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DXCore.h" />
-    <ClInclude Include="DXDevice.h" />
-    <ClInclude Include="DXResourceManager.h" />
-    <ClInclude Include="ForwardRenderStrategy.h" />
-    <ClInclude Include="GfxResourceManager.h" />
-    <ClInclude Include="GfxRenderer.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="Graphics\DXBuffer.h" />
-    <ClInclude Include="Graphics\DXCore.h" />
-    <ClInclude Include="Graphics\DXDevice.h" />
-    <ClInclude Include="Graphics\DXResourceManager.h" />
-    <ClInclude Include="Graphics\DXTexture.h" />
     <ClInclude Include="Graphics\ForwardRenderStrategy.h" />
     <ClInclude Include="Graphics\GfxRenderer.h" />
     <ClInclude Include="Graphics\GfxResourceDevice.h" />
-    <ClInclude Include="Graphics\GfxResourceManager.h" />
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\IRenderStrategy.h" />
+    <ClInclude Include="Graphics\DX\DXBuffer.h" />
+    <ClInclude Include="Graphics\DX\DXCore.h" />
+    <ClInclude Include="Graphics\DX\DXDevice.h" />
+    <ClInclude Include="Graphics\DX\DXShader.h" />
+    <ClInclude Include="Graphics\DX\DXTexture.h" />
   </ItemGroup>
 </Project>
