@@ -1,8 +1,8 @@
 #include "Component.h"
 
-Component::Component(Ref<GameObject> gameObject, Ref<Transform> transform)
+Component::Component()
 {
-	m_gameObject = gameObject;
+
 }
 
 void Component::setTransform(Ref<Transform> transform)

@@ -1,7 +1,7 @@
 #include "RigidBodyComponent.h"
 
 
-RigidBodyComponent::RigidBodyComponent(Ref<GameObject> gameObject, Ref<Transform> transform) : Component(gameObject, transform)
+RigidBodyComponent::RigidBodyComponent()
 {
 
 }

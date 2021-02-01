@@ -13,7 +13,7 @@ private:
 
 
 public:
-	RigidBodyComponent(Ref<GameObject> gameObject, Ref<Transform> transform);
+	RigidBodyComponent();
 	void setMass(float mass);
 	float getMass() const;
 

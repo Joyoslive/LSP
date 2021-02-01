@@ -1,14 +1,13 @@
 #include "Transform.h"
 
-Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation, 
-	std::shared_ptr<GameObject> gameObject) : Component(gameObject)
+Transform::Transform(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 scale, DirectX::XMFLOAT3 rotation)
 {
 	setPosition(position);
 	setPosition(scale);
 	setPosition(rotation);
 }
 
-Transform::Transform(std::shared_ptr<GameObject> gameObject) : Component(gameObject)
+Transform::Transform()
 {
 	setPosition(DirectX::XMFLOAT3(0, 0, 0));
 	setPosition(DirectX::XMFLOAT3(1, 1, 1));

@@ -12,7 +12,7 @@ class Component
 {
 	friend GameObject;
 public:
-	Component(Ref<GameObject> gameObject, Ref<Transform> transform);
+	Component();
 	virtual ~Component() = default;
 
 protected:
