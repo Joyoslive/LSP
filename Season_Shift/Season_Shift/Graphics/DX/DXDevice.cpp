@@ -16,7 +16,7 @@ DXDevice::~DXDevice()
 
 std::shared_ptr<DXShader> DXDevice::createShader(const std::string& fileName, DXShader::Type shaderType)
 {
-	std::string shaderData = loadCompiledShader("CompiledShaders/" + fileName);
+	std::string shaderData = loadCompiledShader(COMPILED_SHADERS_DIRECTORY + fileName);
 
 	ComPtr<ID3D11VertexShader> vs = nullptr;
 	ComPtr<ID3D11HullShader> hs = nullptr;
@@ -242,6 +242,35 @@ ComPtr<ID3D11InputLayout> DXDevice::createInputLayout(const std::vector<D3D11_IN
 	return inputLayout;
 }
 
+void DXDevice::bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage)
+{
+
+	switch (stage)
+	{
+	case DXShader::Type::VS:
+		m_core.getImmediateContext()->VSSetShader(shader->getShader<ID3D11VertexShader>(), 0, 0);
+		break;
+	case DXShader::Type::HS:
+		m_core.getImmediateContext()->HSSetShader(shader->getShader<ID3D11HullShader>(), 0, 0);
+		break;
+	case DXShader::Type::DS:
+		m_core.getImmediateContext()->DSSetShader(shader->getShader<ID3D11DomainShader>(), 0, 0);
+		break;
+	case DXShader::Type::GS:
+		m_core.getImmediateContext()->GSSetShader(shader->getShader<ID3D11GeometryShader>(), 0, 0);
+		break;
+	case DXShader::Type::PS:
+		m_core.getImmediateContext()->PSSetShader(shader->getShader<ID3D11PixelShader>(), 0, 0);
+		break;
+	case DXShader::Type::CS:
+		m_core.getImmediateContext()->CSSetShader(shader->getShader<ID3D11ComputeShader>(), 0, 0);
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
 void DXDevice::bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res)
 {
 	if (!(res->getDesc().BindFlags & D3D11_BIND_CONSTANT_BUFFER)) assert(false);
@@ -434,4 +463,9 @@ void DXDevice::clearScreen()
 void DXDevice::present()
 {
 	m_core.getSwapChain()->Present(0, 0);
+}
+
+const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& DXDevice::getBackbufferRTV()
+{
+	return m_core.getBackbufferRTV();
 }

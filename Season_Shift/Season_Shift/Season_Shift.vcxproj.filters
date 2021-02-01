@@ -37,4 +37,8 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
+  </ItemGroup>
 </Project>

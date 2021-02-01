@@ -29,18 +29,20 @@ public:
 	~DXShader();
 
 	template<typename T>
-	const Microsoft::WRL::ComPtr<T>& getShader() const;
+	T* getShader() const;
+	const Type& getType() const;
+
+	const std::string& getShaderData() const;
 
 };
 
 template<typename T>
-inline const Microsoft::WRL::ComPtr<T>& DXShader::getShader() const
+inline T* DXShader::getShader() const
 {
-	Microsoft::WRL::ComPtr<T> toRet = nullptr;
-
 	try
 	{
-		return std::any_cast<Microsoft::WRL::ComPtr<T>>(m_shader);
+		Microsoft::WRL::ComPtr<T> tmp = std::any_cast<Microsoft::WRL::ComPtr<T>>(m_shader);
+		return tmp.Get();
 	}
 	catch (const std::bad_any_cast& e)
 	{
@@ -48,4 +50,5 @@ inline const Microsoft::WRL::ComPtr<T>& DXShader::getShader() const
 		// --> Wrong type of shader! (Wrong T!)
 		assert(false);
 	}
+	return nullptr;
 }

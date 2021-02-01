@@ -1,6 +1,5 @@
 #pragma once
 #include "GfxRenderer.h"
-#include <vector>
 
 /*
 

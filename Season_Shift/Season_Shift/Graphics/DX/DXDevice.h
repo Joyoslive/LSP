@@ -8,7 +8,11 @@
 #include "DXBuffer.h"
 #include "DXTexture.h"
 #include "DXShader.h"
+#include <SimpleMath.h>
 
+
+
+#define COMPILED_SHADERS_DIRECTORY "Graphics/CompiledShaders/"
 
 struct PipelineState
 {
@@ -30,6 +34,13 @@ struct RenderPass
 	std::vector<DXTexture> textureOutputs = {};			// RTV
 	std::vector<D3D11_RECT> scissorRects = {};
 	std::vector<DXTexture> textureOutputsUAV = {};		// UAV
+};
+
+struct Vertex
+{
+	DirectX::SimpleMath::Vector3 pos;
+	DirectX::SimpleMath::Vector2 uv;
+	DirectX::SimpleMath::Vector3 normal;
 };
 
 
@@ -83,6 +94,8 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
+	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
+
 	// Bind resource for shader
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
 	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
@@ -121,6 +134,8 @@ public:
 	void present();
 
 	// No scissors for now
+
+	const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& getBackbufferRTV();
 
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
