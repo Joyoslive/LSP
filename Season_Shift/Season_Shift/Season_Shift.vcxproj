@@ -159,6 +159,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IRenderStrategy.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +174,7 @@
     <ClInclude Include="GfxRenderer.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="IRenderStrategy.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
