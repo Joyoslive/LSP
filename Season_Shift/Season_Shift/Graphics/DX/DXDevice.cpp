@@ -449,8 +449,6 @@ void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const 
 	m_core.getImmediateContext()->IASetIndexBuffer(ib->getBuffer().Get(), DXGI_FORMAT_R32_UINT, ibOffset);
 }
 
-
-
 void DXDevice::clearScreen()
 {
 	FLOAT color[] = { 0.0, 0.0, 0.0, 1.0 };
@@ -473,4 +471,17 @@ void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTar
 	m_core.getImmediateContext()->RSSetViewports(1, m_core.getBackBufferViewport());
 
 
+}
+
+void DXDevice::MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx, unsigned int mapFlag)
+{
+	if (resource == nullptr)	assert(false);
+
+	D3D11_MAPPED_SUBRESOURCE subres;
+
+	HRCHECK(m_core.getImmediateContext()->Map(resource.Get(), subresIdx, mapType, mapFlag, &subres));
+
+	std::memcpy(subres.pData, data, dataSize);		// memcpy?.. maybe it costs a lot?
+
+	m_core.getImmediateContext()->Unmap(resource.Get(), 0);
 }

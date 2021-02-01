@@ -94,6 +94,12 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
+	/*
+	createPipelineState
+	createRenderPass
+
+	*/
+
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
 	// Bind resource for shader
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
@@ -136,7 +142,7 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-
+	void MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx = 0, unsigned int mapFlag = 0);
 
 
 
