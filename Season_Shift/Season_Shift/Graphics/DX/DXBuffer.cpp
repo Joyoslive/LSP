@@ -1,9 +1,10 @@
 
 #include "DXBuffer.h"
 
-DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc) :
+DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type) :
     m_buffer(buffer),
     m_desc(desc),
+    m_type(type),
     m_srv(nullptr),
     m_uav(nullptr)
 {
@@ -11,6 +12,11 @@ DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFF
 
 DXBuffer::~DXBuffer()
 {
+}
+
+const DXBuffer::Type DXBuffer::getType() const
+{
+    return m_type;
 }
 
 const D3D11_BUFFER_DESC& DXBuffer::getDesc() const

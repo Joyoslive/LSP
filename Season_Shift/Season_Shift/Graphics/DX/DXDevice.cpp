@@ -315,11 +315,61 @@ void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const 
 	}
 }
 
+void DXDevice::bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& il)
+{
+	m_core.getImmediateContext()->IASetInputLayout(il.Get());
+}
+
+void DXDevice::bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
+{
+	m_core.getImmediateContext()->IASetPrimitiveTopology(topology);
+}
+
+void DXDevice::bindDepthStencilState(const Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& dss, unsigned int stencilRef)
+{
+	m_core.getImmediateContext()->OMSetDepthStencilState(dss.Get(), stencilRef);
+
+}
+
+void DXDevice::bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac, unsigned int sampleMask)
+{
+	m_core.getImmediateContext()->OMSetBlendState(bs.Get(), blendFac.data(), sampleMask);
+}
+
+void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss)
+{
+	m_core.getImmediateContext()->RSSetState(rss.Get());
+}
+
+
+void DXDevice::bindRenderTargets(const std::array<const std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget)
+{
+	if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
+
+	for (auto& target : targets)
+	{
+		if (target->getDesc().type != DXTexture::Type::TEX2D || target->getRTV() == nullptr) assert(false);
+	}
+	for (unsigned int i = 0; i < targets.size(); ++i)
+	{
+		m_currTargetBind[i] = targets[i]->getRTV().Get();
+	}
+
+	m_core.getImmediateContext()->OMSetRenderTargets(targets.size(), m_currTargetBind.data(), depthTarget->getDSV().Get());
+
+}
+
+void DXDevice::bindDrawBuffers(std::vector<std::pair<const std::shared_ptr<DXBuffer&>, const std::shared_ptr<DXBuffer&>>> vbIbs)
+{
+
+	// todo
+}
+
 ComPtr<ID3D11InputLayout> DXDevice::createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData)
 {
 	ComPtr<ID3D11InputLayout> inputLayout = nullptr;
 
-	HRCHECK(m_core.getDevice()->CreateInputLayout(elements.data(), elements.size(), shaderData.data(), shaderData.size(), inputLayout.GetAddressOf()));
+	HRCHECK(m_core.getDevice()->CreateInputLayout(elements.data(), static_cast<unsigned int>(elements.size()), shaderData.data(), static_cast<unsigned int>(shaderData.size()), inputLayout.GetAddressOf()));
 
 	return inputLayout;
 }
