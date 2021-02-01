@@ -1,12 +1,15 @@
 
 #include "DXBuffer.h"
 
-DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type) :
+DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type, unsigned int elementCount, unsigned int elementStride) :
     m_buffer(buffer),
     m_desc(desc),
     m_type(type),
     m_srv(nullptr),
-    m_uav(nullptr)
+    m_uav(nullptr),
+    m_elementCount(elementCount),
+    m_elementStride(elementStride),
+    m_totalSize(elementCount * elementStride)
 {
 }
 
@@ -22,6 +25,21 @@ const DXBuffer::Type DXBuffer::getType() const
 const D3D11_BUFFER_DESC& DXBuffer::getDesc() const
 {
     return m_desc;
+}
+
+const unsigned int& DXBuffer::getElementCount() const
+{
+    return m_elementCount;
+}
+
+const unsigned int& DXBuffer::getElementStride() const
+{
+    return m_elementStride;
+}
+
+const unsigned int& DXBuffer::getTotalSize() const
+{
+    return m_totalSize;
 }
 
 const Microsoft::WRL::ComPtr<ID3D11Buffer>& DXBuffer::getBuffer() const

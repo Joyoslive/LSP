@@ -48,6 +48,8 @@ private:
 
 	// Used to bind
 	std::array<ID3D11RenderTargetView*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> m_currTargetBind;
+	unsigned int m_vOffsetBind;
+
 
 	/*
 	
@@ -74,7 +76,7 @@ public:
 	std::shared_ptr<DXShader> createShader(const std::string& fileName, DXShader::Type shaderType);
 	std::shared_ptr<DXTexture> createTexture(const DXTexture::Desc& desc, D3D11_SUBRESOURCE_DATA* subres);
 
-	std::shared_ptr<DXBuffer> createVertexBuffer(unsigned int elementSize, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createVertexBuffer(unsigned int elementCount, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
 	std::shared_ptr<DXBuffer> createIndexBuffer(unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
 	std::shared_ptr<DXBuffer> createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
 	std::shared_ptr<DXBuffer> createStructuredBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
@@ -92,10 +94,33 @@ public:
 	void bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac = { 1.0, 1.0, 1.0, 1.0 }, unsigned int sampleMask = 0xffffffff);
 	void bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss);		
 
-	void bindRenderTargets(const std::array<const std::shared_ptr<DXTexture>&, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget);				// RTV/DSV pair
+	void bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget);				// RTV/DSV pair
 	// UnorderedAccess OM target bind not implemented for now.
 
-	void bindDrawBuffers(std::vector<std::pair<const std::shared_ptr<DXBuffer&>, const std::shared_ptr<DXBuffer&>>> vbIbs);
+	// Assumes single VB/IB pair per Draw or single VB per Draw! (Can be changed later if needed)
+	void bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset);
+	void bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb);
+
+	void bindViewports(const std::vector<D3D11_VIEWPORT> vps);
+
+	void Draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
+	void DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
+	void DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
+
+	void clearRenderTarget(const std::shared_ptr<DXTexture> target, float color[4]);
+	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 0.0, float stencil = 0.0);
+
+	/*
+	Defaults to clearing to black
+	*/
+	void clearScreen();
+
+	/*
+	Currently no vsync options
+	*/
+	void present();
+
+	// No scissors for now
 
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
@@ -189,15 +214,6 @@ public:
 	*/
 
 
-	/*
-	Defaults to clearing to black
-	*/
-	void clearScreen();
-
-	/*
-	Currently no vsync options
-	*/
-	void present();
 
 };
 
