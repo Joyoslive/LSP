@@ -35,7 +35,6 @@ void Camera::resetCamera()
 {
 	auto f = XMFLOAT3(0, 0, 0);
 	m_position = XMLoadFloat3(&f);
-	m_rotation = XMLoadFloat3(&f);
 
 	f.y = 1;
 	m_globalUp = XMLoadFloat3(&f);
@@ -82,6 +81,17 @@ void Camera::calculateOrthographicMatrix()
 	m_orthographicMatrix = XMMatrixOrthographicLH((float)width, (float)height, m_nearPlane, m_farPlane);
 }
 
+void Camera::rotateAroundAxis(DirectX::XMVECTOR axis, float angle)
+{
+	auto rotationMatrix = XMMatrixRotationAxis(axis, angle);
+
+	m_up = XMVector3Transform(m_up, rotationMatrix);
+	m_right = XMVector3Transform(m_right, rotationMatrix);
+	m_direction = XMVector3Transform(m_direction, rotationMatrix);
+
+	calculateViewMatrix();
+}
+
 void Camera::setPosition(float x, float y, float z)
 {
 	auto pos = XMFLOAT3(x, y, z);
@@ -108,6 +118,31 @@ void Camera::setRotation(float roll, float pitch, float yaw)
 	m_direction = XMVector3Transform(m_direction, rotationMatrix);
 
 	calculateViewMatrix();
+}
+
+void Camera::rotateAroundAxis(XMFLOAT3 axis, float angle)
+{
+	auto axisVector = XMLoadFloat3(&axis);
+	rotateAroundAxis(axisVector, angle);
+}
+
+void Camera::rotateAroundSetAxis(Axis axis, float angle)
+{
+	XMVECTOR axisVector = {};
+	switch (axis)
+	{
+		case UP:
+			axisVector = m_up;
+			break;
+		case RIGHT:
+			axisVector = m_right;
+			break;
+		case FORWARD:
+			axisVector = m_direction;
+			break;
+	}
+
+	rotateAroundAxis(axisVector, angle);
 }
 
 DirectX::XMMATRIX Camera::getViewMatrix()
