@@ -66,6 +66,9 @@ public:
 	~DXDevice();
 
 
+	std::shared_ptr<DXBuffer> createVertexBuffer(unsigned int elementSize, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
+
+
 
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
