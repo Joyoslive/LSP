@@ -109,3 +109,18 @@ void Camera::setRotation(float roll, float pitch, float yaw)
 
 	calculateViewMatrix();
 }
+
+DirectX::XMMATRIX Camera::getViewMatrix()
+{
+	return m_viewMatrix;
+}
+
+DirectX::XMMATRIX Camera::getProjectionMatrix()
+{
+	return m_projectionMatrix;
+}
+
+DirectX::XMMATRIX Camera::getOrthographicMatrix()
+{
+	return m_orthographicMatrix;
+}
