@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "RigidBodyComponent.h"
 #include "Transform.h"
+#include "Logic.h"
 #include <vector>
 #include <memory>
 
@@ -22,7 +23,7 @@ public:
 	{
 		if (typeid(T) == typeid(Transform))
 		{
-			return m_transform;
+			return std::dynamic_pointer_cast<T>(m_transform);
 		}
 		else
 		{
@@ -35,6 +36,21 @@ public:
 			}
 			return nullptr;
 		}
+	}
+
+	template<typename T>
+	std::vector<Ref<T>> getMultipleComponentType()
+	{	
+		std::vector<Ref<T>> vec;
+		for (auto& c : m_componentVector)
+		{
+			if (typeid(T) == typeid(*c))
+			{
+				vec.push_back(std::dynamic_pointer_cast<T>(c));
+			}
+		}
+		return vec;
+		
 	}
 
 	void start();

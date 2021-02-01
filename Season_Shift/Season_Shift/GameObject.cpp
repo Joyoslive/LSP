@@ -15,6 +15,10 @@ GameObject::~GameObject()
 
 void GameObject::start()
 {
+	for (auto& logic : getMultipleComponentType<Logic>())
+	{
+		logic->start();
+	}
 }
 
 void GameObject::update()
@@ -41,10 +45,8 @@ int GameObject::AddComponent(Ref<Component> component)
 			return -1; // only one transform is allowed
 		}
 	}
-	else
-	{
-		m_componentVector.push_back(component);
-	}
+	m_componentVector.push_back(component);
+	
 	component->setGameObject(shared_from_this());
 	component->setTransform(m_transform);
 	return 0;
