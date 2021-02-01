@@ -4,11 +4,13 @@
 #include <vector>
 #include <memory>
 
+class Transform;
+
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
 private:
 	std::vector<Ref<Component>> m_componentVector;
-	std::vector<Ref<RigidBodyComponent>> m_v;
+	Ref<Transform> m_transform;
 
 public:
 	GameObject();
@@ -31,5 +33,7 @@ public:
 	void update();
 
 	void testAdd();
+	int AddComponent(Ref<Component> component);
+	Ref<Transform> getTransform();
 };
 
