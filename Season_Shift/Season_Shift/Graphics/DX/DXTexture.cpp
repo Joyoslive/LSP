@@ -1,10 +1,17 @@
 #include "DXTexture.h"
 
+const DXTexture::Desc& DXTexture::getDesc()
+{
+    return m_desc;
+}
+
 DXTexture::DXTexture(Microsoft::WRL::ComPtr<ID3D11Resource> texture, const DXTexture::Desc& desc) :
-	m_texture(nullptr),
+	m_texture(texture),
+    m_desc(desc),
 	m_srv(nullptr),
 	m_uav(nullptr),
-	m_rtv(nullptr)
+	m_rtv(nullptr),
+    m_dsv(nullptr)
 {
 }
 
@@ -25,6 +32,11 @@ const Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>& DXTexture::getUAV()
 const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& DXTexture::getRTV()
 {
     return m_rtv;
+}
+
+const Microsoft::WRL::ComPtr<ID3D11DepthStencilView>& DXTexture::getDSV()
+{
+    return m_dsv;
 }
 
 void DXTexture::setSRV(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv)

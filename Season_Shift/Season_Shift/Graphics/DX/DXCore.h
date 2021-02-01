@@ -5,7 +5,7 @@
 #include <wrl/client.h>
 
 
-static void HRCHECK(HRESULT hr)
+static inline void HRCHECK(HRESULT hr)
 {
 	assert(SUCCEEDED(hr));
 }
