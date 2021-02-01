@@ -3,6 +3,7 @@
 #include "RigidBodyComponent.h"
 #include "Transform.h"
 #include "Logic.h"
+#include "Collider.h"
 #include <vector>
 #include <memory>
 #include <string>
