@@ -1,6 +1,6 @@
 #include "Logic.h"
 
-Logic::Logic(std::shared_ptr<GameObject> gameObject) : Component(gameObject)
+Logic::Logic()
 {
 
 }

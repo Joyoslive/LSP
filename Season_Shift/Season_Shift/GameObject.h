@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "RigidBodyComponent.h"
+#include "Transform.h"
 #include <vector>
 #include <memory>
 

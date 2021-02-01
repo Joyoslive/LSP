@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include <typeinfo>
-#include "RigidBodyComponent.h"
-#include "Transform.h"
+
 
 GameObject::GameObject()
 {
@@ -24,11 +23,18 @@ void GameObject::update()
 
 int GameObject::AddComponent(Ref<Component> component)
 {
-	if (typeid(component) == typeid(m_transform))
+	if (typeid(*component) == typeid(Transform))
 	{
 		if (m_transform == nullptr)
 		{
 			m_transform = std::dynamic_pointer_cast<Transform>(component);
+			if (m_componentVector.size() < 0)
+			{
+				for (auto &c : m_componentVector)
+				{
+					c->setTransform(m_transform);
+				}
+			}
 		}
 		else
 		{

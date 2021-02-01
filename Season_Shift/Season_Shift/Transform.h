@@ -25,8 +25,8 @@ private:
 	DirectX::SimpleMath::Vector3 getRotationToRadians(DirectX::SimpleMath::Vector3 degreesRotation) const;
 	DirectX::SimpleMath::Vector3 getRotationToDegrees(DirectX::SimpleMath::Vector3 radiansRotation) const;
 public:
-	Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rotation, std::shared_ptr<GameObject> gameObject);
-	Transform(std::shared_ptr<GameObject> gameObject);
+	Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rotation);
+	Transform();
 
 	~Transform();
 

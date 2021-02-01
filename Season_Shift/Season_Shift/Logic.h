@@ -5,7 +5,7 @@ class Logic : public Component
 {
 
 public:
-	Logic(std::shared_ptr<GameObject> gameObject);
+	Logic();
 	~Logic();
 	virtual void start();
 	virtual void update();

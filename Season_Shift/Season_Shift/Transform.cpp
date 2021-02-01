@@ -1,7 +1,6 @@
 #include "Transform.h"
 
-Transform::Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rotation,
-	std::shared_ptr<GameObject> gameObject) : Component(gameObject)
+Transform::Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rotation)
 {
 	setPosition(position);
 	setPosition(scale);
