@@ -12,7 +12,7 @@ public:
 	virtual void onCollision();
 };
 
-class Test : public Logic
+/*class Test : public Logic
 {
 public:
 	Test(std::shared_ptr<GameObject> gameObject) : Logic(gameObject)
@@ -24,5 +24,5 @@ public:
 	{
 		//OutputDebugStringW(L"Hello");
 	};
-};
+};*/
 
