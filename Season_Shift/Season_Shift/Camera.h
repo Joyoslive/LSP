@@ -8,6 +8,7 @@ private:
 	DirectX::XMVECTOR m_rotation; // Quaternion
 
 	DirectX::XMMATRIX m_viewMatrix;
+	DirectX::XMVECTOR m_direction;
 	DirectX::XMVECTOR m_lookAt;
 	DirectX::XMVECTOR m_right;
 	DirectX::XMVECTOR m_up;
@@ -20,6 +21,7 @@ private:
 
 	DirectX::XMMATRIX m_orthographicMatrix;
 private:
+	void resetCamera();			// Reset the camera to (0,0,0) pos and rotation 
 	void calculateViewMatrix();
 	void calculateProjectionMatrix();
 	void calculateOrthographicMatrix();
