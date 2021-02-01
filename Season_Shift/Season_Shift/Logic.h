@@ -20,9 +20,9 @@ public:
 
 	};
 
-	virtual void update()
+	void update() override 
 	{
-		OutputDebugStringW(L"Hello");
+		//OutputDebugStringW(L"Hello");
 	};
 };
 
