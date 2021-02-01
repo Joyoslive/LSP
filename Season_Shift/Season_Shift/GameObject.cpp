@@ -30,6 +30,10 @@ void GameObject::start()
 
 void GameObject::update()
 {
+	for (auto& logic : getMultipleComponentType<Logic>())
+	{
+		logic->update();
+	}
 }
 
 int GameObject::AddComponent(Ref<Component> component)
