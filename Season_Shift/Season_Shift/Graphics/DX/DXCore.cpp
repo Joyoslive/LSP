@@ -20,9 +20,8 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	// Get backbuffer texture
 	HRCHECK(m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_backbufferTexture.GetAddressOf()));
 
-	// Create SRV/RTV for backbuffer
+	// Create RTV for backbuffer
 	HRCHECK(m_device->CreateRenderTargetView(m_backbufferTexture.Get(), NULL, m_backbufferRTV.GetAddressOf()));
-	//HRCHECK(m_device->CreateShaderResourceView(m_backbufferTexture.Get(), NULL, m_backbufferSRV.GetAddressOf()));
 
 
 #if _DEBUG
@@ -84,32 +83,32 @@ void DXCore::createDeviceAndSwapChain()
 	));
 }
 
-Microsoft::WRL::ComPtr<IDXGISwapChain> DXCore::getSwapChain()
+const Microsoft::WRL::ComPtr<IDXGISwapChain>& DXCore::getSwapChain()
 {
     return m_swapChain;
 }
 
-Microsoft::WRL::ComPtr<ID3D11Device> DXCore::getDevice()
+const Microsoft::WRL::ComPtr<ID3D11Device>& DXCore::getDevice()
 {
     return m_device;
 }
 
-Microsoft::WRL::ComPtr<ID3D11DeviceContext> DXCore::getImmediateContext()
+const Microsoft::WRL::ComPtr<ID3D11DeviceContext>& DXCore::getImmediateContext()
 {
     return m_immediateContext;
 }
 
-Microsoft::WRL::ComPtr<ID3D11Debug> DXCore::getDebug()
+const Microsoft::WRL::ComPtr<ID3D11Debug>& DXCore::getDebug()
 {
     return m_debug;
 }
 
-Microsoft::WRL::ComPtr<ID3D11RenderTargetView> DXCore::getBackbufferRTV()
+const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& DXCore::getBackbufferRTV()
 {
     return m_backbufferRTV;
 }
 
-Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> DXCore::getBackbufferSRV()
+const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& DXCore::getBackbufferSRV()
 {
     return m_backbufferSRV;
 }
@@ -127,5 +126,12 @@ UINT DXCore::getClientWidth()
 UINT DXCore::getClientHeight()
 {
     return m_clientHeight;
+}
+
+void DXCore::changeResolution(unsigned int clientWidth, unsigned int clientHeight)
+{
+	/*
+	To implement
+	*/
 }
 

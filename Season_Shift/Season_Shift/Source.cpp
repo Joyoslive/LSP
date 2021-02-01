@@ -1,12 +1,14 @@
 #include "Window.h"
-#include "Graphics.h"
+#include "Graphics/Graphics.h"
+#include <string>
 
 
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
-	Window win(inst, L"first win", 1280, 720);	
+	Window win(inst, L"Season Shift", 1280, 720);	
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
+
 
 	MSG msg = { };
 	while (!win.isClosed())

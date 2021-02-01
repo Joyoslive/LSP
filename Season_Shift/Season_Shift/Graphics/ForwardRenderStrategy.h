@@ -2,11 +2,14 @@
 #include "IRenderStrategy.h"
 #include "GfxRenderer.h"
 
-class ForwardRenderStrategy : public IRenderStrategy
+class ForwardRenderStrategy final : public IRenderStrategy
 {
+private:
+
+
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();
-	void render();
+	void render() override;
 };
 
