@@ -16,6 +16,22 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="Graphics\DX\DXShader.cpp" />
+    <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
+    <ClCompile Include="Graphics\DX\DXTexture.cpp" />
+    <ClCompile Include="Graphics\GfxResourceDevice.cpp" />
+    <ClCompile Include="Graphics\DX\DXCore.cpp" />
+    <ClCompile Include="Graphics\DX\DXDevice.cpp" />
+    <ClCompile Include="Graphics\ForwardRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
+    <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="RigidBodyComponent.cpp" />
+    <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -32,5 +48,17 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Graphics\DX\DXShader.h" />
+    <ClInclude Include="Graphics\DX\DXBuffer.h" />
+    <ClInclude Include="Graphics\DX\DXTexture.h" />
+    <ClInclude Include="Graphics\GfxResourceDevice.h" />
+    <ClInclude Include="Graphics\DX\DXCore.h" />
+    <ClInclude Include="Graphics\DX\DXDevice.h" />
+    <ClInclude Include="Graphics\ForwardRenderStrategy.h" />
+    <ClInclude Include="Graphics\GfxRenderer.h" />
+    <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Graphics\IRenderStrategy.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
 </Project>
