@@ -33,7 +33,7 @@ public:
 	~Camera();
 
 	void setPosition(float x, float y, float z);
-	void setRotation(float xAngle, float yAngle, float zAngle);
+	void setRotation(float roll, float pitch, float yaw);
 
 	DirectX::XMMATRIX getViewMatrix();
 	DirectX::XMMATRIX getProjectionMatrix();

@@ -59,6 +59,7 @@ void Camera::resetCamera()
 
 void Camera::calculateViewMatrix()
 {
+	calculateLookAt();
 	m_viewMatrix = XMMatrixLookAtLH(m_position, m_lookAt, m_up);
 }
 
@@ -67,6 +68,11 @@ void Camera::calculateViewMatrix()
 void Camera::calculateProjectionMatrix()
 {
 	m_projectionMatrix = XMMatrixPerspectiveFovLH(m_fieldOfView, m_aspectRatio, m_nearPlane, m_farPlane);
+}
+
+void Camera::calculateLookAt()
+{
+	m_lookAt = XMVectorAdd(m_position, m_direction);
 }
 
 void Camera::calculateOrthographicMatrix()
@@ -80,4 +86,26 @@ void Camera::setPosition(float x, float y, float z)
 {
 	auto pos = XMFLOAT3(x, y, z);
 	m_position = XMLoadFloat3(&pos);
+	
+	calculateViewMatrix();
+}
+
+void Camera::setRotation(float roll, float pitch, float yaw)
+{
+	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+
+	auto baseUp = XMFLOAT3(0, 1, 0);
+	m_up = XMLoadFloat3(&baseUp);
+
+	auto baseRight = XMFLOAT3(-1, 0, 0);
+	m_right = XMLoadFloat3(&baseRight);
+
+	auto baseDirection = XMFLOAT3(0, 0, 1);
+	m_direction = XMLoadFloat3(&baseDirection);
+
+	m_up = XMVector3Transform(m_up, rotationMatrix);
+	m_right = XMVector3Transform(m_right, rotationMatrix);
+	m_direction = XMVector3Transform(m_direction, rotationMatrix);
+
+	calculateViewMatrix();
 }
