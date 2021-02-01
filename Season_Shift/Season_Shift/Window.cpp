@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Input.h"
 
 Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight) : 
     m_hInst(hInst),
@@ -36,7 +37,7 @@ Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT
     m_isClosed = false;
 
     //mouse_.getXTMouse()->SetWindow(m_hwnd);
-
+    
     resizeToWindowToFitClient();
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 };
@@ -112,32 +113,32 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
     }
 
-    //case WM_ACTIVATEAPP:
-    //    DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
-    //    DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
-    //    break;
+    case WM_ACTIVATEAPP:
+       DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
+       DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
+       break;
 
-    //case WM_KEYDOWN:
-    //case WM_SYSKEYDOWN:
-    //case WM_KEYUP:
-    //case WM_SYSKEYUP:
-    //    DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
-    //    break;
+    case WM_KEYDOWN:
+    case WM_SYSKEYDOWN:
+    case WM_KEYUP:
+    case WM_SYSKEYUP:
+        DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
+        break;
 
-    //case WM_INPUT:
-    //case WM_MOUSEMOVE:
-    //case WM_LBUTTONDOWN:
-    //case WM_LBUTTONUP:
-    //case WM_RBUTTONDOWN:
-    //case WM_RBUTTONUP:
-    //case WM_MBUTTONDOWN:
-    //case WM_MBUTTONUP:
-    //case WM_MOUSEWHEEL:
-    //case WM_XBUTTONDOWN:
-    //case WM_XBUTTONUP:
-    //case WM_MOUSEHOVER:
-    //    DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
-    //    break;
+    case WM_INPUT:
+    case WM_MOUSEMOVE:
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONUP:
+    case WM_MOUSEWHEEL:
+    case WM_XBUTTONDOWN:
+    case WM_XBUTTONUP:
+    case WM_MOUSEHOVER:
+        DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
+       break;
 
     }
     return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
