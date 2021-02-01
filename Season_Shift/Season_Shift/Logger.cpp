@@ -87,5 +87,6 @@ void Logger::dumpLogs()
 			file << l.message << "\n";
 		}
 		m_bufferedLogs.clear();
+		file.close();
 	}
 }
