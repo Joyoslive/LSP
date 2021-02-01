@@ -8,7 +8,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 	Input input(win.getHWND());
-
+	unsigned int esc = 27;
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -21,6 +21,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		gph.render();
 		input.InputUpdate();
+
+
 	}
 
 
