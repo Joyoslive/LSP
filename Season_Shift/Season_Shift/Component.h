@@ -14,6 +14,7 @@ class Component
 public:
 	Component();
 	virtual ~Component() = default;
+	Ref<GameObject> getGameObject() const;
 
 protected:
 

@@ -2,12 +2,19 @@
 #include <typeinfo>
 
 
-GameObject::GameObject()
+GameObject::GameObject(std::string name)
 {
+	m_name = name;
 }
 
 GameObject::~GameObject()
 {
+}
+
+
+std::string GameObject::getName() const
+{
+	return m_name;
 }
 
 

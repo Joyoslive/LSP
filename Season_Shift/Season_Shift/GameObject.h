@@ -5,6 +5,7 @@
 #include "Logic.h"
 #include <vector>
 #include <memory>
+#include <string>
 
 class Transform;
 
@@ -13,10 +14,13 @@ class GameObject : public std::enable_shared_from_this<GameObject>
 private:
 	std::vector<Ref<Component>> m_componentVector;
 	Ref<Transform> m_transform;
+	std::string m_name;
 
 public:
-	GameObject();
+	GameObject(std::string name = "");
 	~GameObject();
+
+	std::string getName() const;
 
 	template<typename T>
 	Ref<T> getComponentType()
