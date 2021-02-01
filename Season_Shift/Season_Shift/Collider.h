@@ -8,13 +8,13 @@
 class Collider : public Component
 {
 private:
-	DirectX::BoundingSphere m_sphere;
+
 
 public:
-	Collider(DirectX::SimpleMath::Vector3 position);
-	~Collider();
+	Collider();
+	virtual ~Collider();
 
-	DirectX::BoundingSphere getCollider();
-	void update();
+	virtual void update() = 0;
+	virtual void collide() = 0;
 };
 

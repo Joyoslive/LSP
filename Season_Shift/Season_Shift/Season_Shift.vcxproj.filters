@@ -26,6 +26,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -48,5 +50,7 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
 </Project>
