@@ -451,9 +451,6 @@ void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const 
 
 
 
-
-
-
 void DXDevice::clearScreen()
 {
 	FLOAT color[] = { 0.0, 0.0, 0.0, 1.0 };
