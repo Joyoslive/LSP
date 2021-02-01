@@ -94,9 +94,7 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
-
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
-
 	// Bind resource for shader
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
 	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
@@ -138,6 +136,10 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
+
+
+
+
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);
 
@@ -153,6 +155,7 @@ public:
 
 	ComPtr<ID3D11InputLayout>				createInputLayout(desc);				// We can let this live in PipelineState
 
+	// NO NEED FOR THESE 4 TO BE MADE
 	ComPtr<ID3D11BlendState>				createBlendState(desc);					--> If previous objects has been created with same state -> Previous instance returned by D3D11 instead of duplicate! (remarks on MSDN)
 	ComPtr<ID3D11RasterizerState>			createRasterizerState(desc);			--> Same as above (remarks on MSDN)
 	ComPtr<ID3D11DepthStencilState>			createDepthStencilState(desc);			--> Same as above

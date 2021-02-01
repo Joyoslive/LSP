@@ -11,14 +11,23 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Load triangle
 	std::vector<Vertex> verts;
-	verts.push_back({ Vector3(-1.0, -1.0, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
-	verts.push_back({ Vector3(0.0, 1.0, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
-	verts.push_back({ Vector3(1.0, -1.0, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(-0.75, 0.75, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(0.75, 0.75, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(0.75, -0.75, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(-0.75, -0.75, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
 
 	D3D11_SUBRESOURCE_DATA subres; 
 	ZeroMemory(&subres, sizeof(D3D11_SUBRESOURCE_DATA));
 	subres.pSysMem = verts.data();
 	vb = dev->createVertexBuffer(verts.size(), sizeof(Vertex), false, false, false, &subres);
+
+	std::vector<uint32_t> vertIndices = { 
+		0, 1, 2, 
+		0, 2, 3 
+	};
+		
+	subres.pSysMem = vertIndices.data();
+	ib = dev->createIndexBuffer(vertIndices.size() * sizeof(uint32_t), false, &subres);
 
 	// Load shaders
 	vs = dev->createShader("DefaultVS.cso", DXShader::Type::VS);
@@ -32,7 +41,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 
 	// Binds
-	dev->bindDrawBuffer(vb);
+	//dev->bindDrawBuffer(vb);
+	dev->bindDrawIndexedBuffer(vb, ib, 0, 0);
 
 	dev->bindInputLayout(il);
 	dev->bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -78,7 +88,7 @@ void ForwardRenderStrategy::render()
 	dev->bindBackBufferAsTarget();
 
 
-	dev->Draw(3);
+	dev->DrawIndexed(6, 0, 0);
 
 
 	/*

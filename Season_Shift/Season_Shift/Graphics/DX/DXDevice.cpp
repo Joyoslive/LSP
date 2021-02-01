@@ -420,7 +420,7 @@ void DXDevice::Draw(unsigned int vtxCount, unsigned int vbStartIdx)
 
 void DXDevice::DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
 {
-	m_core.getImmediateContext()->DrawIndexed(0, ibStartIdx, vbStartIdx);
+	m_core.getImmediateContext()->DrawIndexed(idxCount, ibStartIdx, vbStartIdx);
 }
 
 void DXDevice::DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)

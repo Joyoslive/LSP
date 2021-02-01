@@ -1,8 +1,8 @@
 #pragma once
 #include "DX/DXDevice.h"
+#include "Mesh.h"
 
 class Model;
-class Mesh;
 class Material;
 class ShaderSet;
 
@@ -29,6 +29,10 @@ private:
 public:
 	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
 	~GfxResourceDevice();
+
+	//std::shared_ptr<Mesh> createMesh();
+
+
 
 	/*
 
