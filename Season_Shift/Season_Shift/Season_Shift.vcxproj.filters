@@ -17,6 +17,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -34,5 +35,6 @@
     <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="Graphics\IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
   </ItemGroup>
 </Project>

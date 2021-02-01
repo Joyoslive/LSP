@@ -160,6 +160,7 @@
     <ClCompile Include="Graphics\DX\DXShader.cpp" />
     <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
     <ClCompile Include="Graphics\DX\DXTexture.cpp" />
+    <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
     <ClCompile Include="Graphics\GfxResourceDevice.cpp" />
     <ClCompile Include="Graphics\DX\DXCore.cpp" />
     <ClCompile Include="Graphics\DX\DXDevice.cpp" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Graphics\DX\DXShader.h" />

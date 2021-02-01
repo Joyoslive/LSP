@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include "GraphicsUtils.h"
 #include "DXCore.h"
 #include "DXBuffer.h"
 #include "DXTexture.h"
@@ -65,10 +66,21 @@ public:
 	DXDevice(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~DXDevice();
 
+	// Helpers
+	std::shared_ptr<DXShader> createShader(const std::string& fileName, DXShader::Type shaderType);
+	std::shared_ptr<DXTexture> createTexture(const DXTexture::Desc& desc, D3D11_SUBRESOURCE_DATA* subres);
 
 	std::shared_ptr<DXBuffer> createVertexBuffer(unsigned int elementSize, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createIndexBuffer(unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
+	std::shared_ptr<DXBuffer> createStructuredBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
 
+	// Bind resource for shader
+	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
+	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
+	void bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res);
 
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);	
 
 	/*
 	std::shared_ptr<DXShader>				createShader(id, shaderstage);

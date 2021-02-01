@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <any>
+#include <string>
 #include "DXCore.h"
 
 
@@ -21,9 +22,10 @@ public:
 private:
 	std::any m_shader;
 	Type m_type;
+	std::string m_shaderData;
 
 public:
-	DXShader(std::any shader);
+	DXShader(std::any shader, Type type, std::string shaderData);
 	~DXShader();
 
 	template<typename T>

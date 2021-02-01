@@ -4,14 +4,17 @@
 class DXTexture
 {
 public:
+	enum class Type
+	{
+		TEX1D,
+		TEX2D,
+		TEX3D
+	};
+
+
 	struct Desc
 	{
-		enum class Type
-		{
-			TEX1D,
-			TEX2D,
-			TEX3D
-		} type = Type::TEX2D;
+		Type type;
 
 		union
 		{
