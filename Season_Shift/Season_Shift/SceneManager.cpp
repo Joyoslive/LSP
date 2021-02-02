@@ -26,6 +26,8 @@ void SceneManager::setActiveScene(Ref<Scene> newActiveScene)
 {
 	m_activeScene = newActiveScene;
 	m_activeScene->setUpScene();
+	//Call start on all GameObjects in Scene
+	m_activeScene->start();
 }
 
 void SceneManager::addScene(Ref<Scene> newScene)
@@ -47,8 +49,6 @@ void SceneManager::changeScene(const int& sceneIndex)
 	m_activeScene->emptyScene();
 
 	setActiveScene(newActiveScene);
-	//Call start on all GameObjects in Scene
-	newActiveScene->start();
 }
 
 void SceneManager::updateActiveScene() const
