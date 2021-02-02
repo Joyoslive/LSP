@@ -1,6 +1,7 @@
 #pragma once
 #include "DX/DXDevice.h"
 #include "Mesh.h"
+#include "Material.h"
 
 class Model;
 class Material;
@@ -25,7 +26,8 @@ private:
 	//ResourceRepository<std::size_t, Mesh> m_meshRepo;
 	//ResourceRepository<std::size_t, Material> m_materialRepo;		// --> sort by vs/ps first 
 	//ResourceRepository<std::size_t, Model> m_modelRepo;
-
+private:
+	std::shared_ptr<DXTexture> loadTexture(std::string filepath);
 public:
 	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
 	~GfxResourceDevice();
@@ -34,7 +36,7 @@ public:
 	Manually assemble a mesh from code
 	*/
 	std::shared_ptr<Mesh> createMesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices);
-
+	std::shared_ptr<Material> createMaterial(std::string& ambPath, std::string& difPath, std::string& specPath, std::string& normPath);
 
 
 

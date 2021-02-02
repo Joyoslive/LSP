@@ -116,6 +116,14 @@ public:
 
 
 	*/
-
+public:
+	struct MapPaths
+	{
+		std::string ambient;
+		std::string diffuse;
+		std::string specular;
+		std::string normal;
+	};
+	std::shared_ptr<Material> createMaterial(MapPaths& filePaths);
 };
 

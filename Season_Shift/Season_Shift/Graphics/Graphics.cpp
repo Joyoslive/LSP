@@ -25,3 +25,10 @@ void Graphics::render()
 	m_currRenderStrat->render();
 
 }
+
+std::shared_ptr<Material> Graphics::createMaterial(MapPaths& filePaths)
+{
+	m_gfxDevice->createMaterial(filePaths.ambient, filePaths.diffuse, filePaths.specular, filePaths.normal);
+	throw std::runtime_error("Not implemented exception");
+	return std::shared_ptr<Material>();
+}
