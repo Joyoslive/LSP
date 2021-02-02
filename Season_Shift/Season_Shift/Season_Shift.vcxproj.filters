@@ -26,6 +26,12 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
+    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -48,5 +54,15 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
+    <ClInclude Include="Graphics\Mesh.h" />
+    <ClInclude Include="Material.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
   </ItemGroup>
 </Project>
