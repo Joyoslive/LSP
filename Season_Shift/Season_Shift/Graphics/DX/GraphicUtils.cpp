@@ -34,6 +34,7 @@ TextureData loadFileToTexture(const std::string& filePath)
 	TextureData textData = { };
 	textData.data = stbi_load(filePath.c_str(), &textData.width, &textData.height, &textData.channels, STBI_rgb_alpha);
 
+
 	return textData;
 }
 

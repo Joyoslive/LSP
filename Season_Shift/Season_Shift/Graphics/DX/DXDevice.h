@@ -144,6 +144,7 @@ public:
 
 	void MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx = 0, unsigned int mapFlag = 0);
 
+	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
 
 
 	/*

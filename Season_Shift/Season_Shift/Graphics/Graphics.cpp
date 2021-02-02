@@ -5,6 +5,8 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 	// API
 	m_dxDev = std::make_shared<DXDevice>(hwnd, clientWidth, clientHeight);
 	
+	m_gfxDevice = std::make_shared<GfxResourceDevice>(m_dxDev);
+
 	/* 
 	Utilize the DirectX API in various components
 	*/
@@ -18,32 +20,15 @@ Graphics::~Graphics()
 
 }
 
-void Graphics::render()		
+void Graphics::render(const std::vector<std::shared_ptr<Model>>& models)
 {
 	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
 	
-	m_currRenderStrat->render();
+	m_currRenderStrat->render(models);
 
 }
 
-std::shared_ptr<Material> Graphics::createMaterial(MapPaths& filePaths)
+const std::shared_ptr<GfxResourceDevice>& Graphics::getResourceDevice()
 {
-	return m_gfxDevice->createMaterial(filePaths.ambient, filePaths.diffuse, filePaths.specular, filePaths.normal);
-}
-
-std::shared_ptr<Mesh> Graphics::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
-{
-	return m_gfxDevice->createMesh(meshID, vertices, indices);
-}
-
-std::shared_ptr<Model> Graphics::assembleModel(const std::string& meshID, std::shared_ptr<Material> material)
-{
-	// create mesh from vertices and indices
-	//auto mesh = m_gfxDevice->createMesh(vertices, indices);
-
-	// here we can check if model already exists somehow before creating..
-	//std::shared_ptr<Model> mod = std::make_shared<Model>(mesh, material);
-
-	//return mod;
-	return nullptr;
+	return m_gfxDevice;
 }

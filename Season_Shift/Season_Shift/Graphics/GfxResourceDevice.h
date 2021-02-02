@@ -3,10 +3,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "ResourceRepository.h"
-
-class Model;
-class Material;
-class ShaderSet;
+#include "Model.h"
 
 /*
 
@@ -22,22 +19,29 @@ class GfxResourceDevice
 private:
 	std::shared_ptr<DXDevice> m_dxDev;
 
+	ResourceRepository<std::size_t, Material::ShaderSet> m_shaderSetRepo;
+	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;			
+	ResourceRepository<std::string, std::shared_ptr<Mesh>> m_meshRepo;
+
 	
 private:
 	std::shared_ptr<DXTexture> loadTexture(std::string filepath);
-	//ResourceRepository<std::size_t, Material> m_materialRepo;			// key --> hash of amb, dif, spec, nor filepath put together!
-	//ResourceRepository<std::size_t, Mesh> m_materialRepo;			// key --> hash of amb, dif, spec, nor filepath put together!
+
 
 public:
 	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
 	~GfxResourceDevice();
 
-	/*
-	Manually assemble a mesh from code
-	*/
-	std::shared_ptr<Material> createMaterial(std::string& ambPath, std::string& difPath, std::string& specPath, std::string& normPath);
+	std::shared_ptr<Material> createMaterial(const std::string& vsFileName, const std::string& psFileName, const std::string& ambPath, const std::string& difPath, const std::string& specPath, const std::string& normPath);
 
 	std::shared_ptr<Mesh> createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
+
+	/*
+	Assumes you have created a mesh prior
+	*/
+	std::shared_ptr<Model> assembleModel(const std::string& meshID, std::shared_ptr<Material> material);
+
+
 
 
 

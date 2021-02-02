@@ -15,6 +15,8 @@ public:
 	void remove(T1 key);
 	bool exists(T1 key);
 
+	const T2& find(T1 key);
+
 };
 
 template<typename T1, typename T2>
@@ -58,5 +60,14 @@ inline void ResourceRepository<T1, T2>::remove(T1 key)
 template<typename T1, typename T2>
 inline bool ResourceRepository<T1, T2>::exists(T1 key)
 {
-	return m_repo.contains(key);		
+	return m_repo.count(key);		
+}
+
+template<typename T1, typename T2>
+inline const T2& ResourceRepository<T1, T2>::find(T1 key)
+{
+	auto it = m_repo.find(key);
+	if (it != m_repo.cend())
+		return it->second;
+	return NULL;
 }

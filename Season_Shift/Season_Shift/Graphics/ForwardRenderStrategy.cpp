@@ -7,6 +7,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 {
 	OutputDebugStringW(L"Using forward render.\n");
 
+
 	auto dev = renderer->getDXDevice();
 
 	// Load triangle
@@ -30,8 +31,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	ib = dev->createIndexBuffer(vertIndices.size() * sizeof(uint32_t), false, &subres);
 
 	// Load shaders
-	vs = dev->createShader("DefaultVS.cso", DXShader::Type::VS);
-	ps = dev->createShader("DefaultPS.cso", DXShader::Type::PS);
+	vs = dev->createShader("DefaultVS.cso", DXShader::Type::VS);		// temp
+	//ps = dev->createShader("DefaultPS.cso", DXShader::Type::PS);
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> ilDesc;
 	ilDesc.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA , 0 });
@@ -42,16 +43,35 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	il = dev->createInputLayout(ilDesc, vs->getShaderData());
 
+	// Create some sampler
+
+	D3D11_SAMPLER_DESC sDesc = { };
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.MipLODBias = 0;
+	sDesc.MaxAnisotropy = 1;	// not used
+	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sDesc.MinLOD = 0;
+	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	HRCHECK(m_renderer->getDXDevice()->getDevice()->CreateSamplerState(&sDesc, m_sampler.GetAddressOf()));
+
+
+
 
 	// Binds
 	//dev->bindDrawBuffer(vb);
-	dev->bindDrawIndexedBuffer(vb, ib, 0, 0);
+	//dev->bindDrawIndexedBuffer(vb, ib, 0, 0);
 
 	dev->bindInputLayout(il);
 	dev->bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	dev->bindShader(vs, DXShader::Type::VS);
-	dev->bindShader(ps, DXShader::Type::PS);
+	dev->bindShaderSampler(DXShader::Type::PS, 0, m_sampler);
+
+	//dev->bindShader(vs, DXShader::Type::VS);
+	//dev->bindShader(ps, DXShader::Type::PS);
 
 
 	/*
@@ -80,7 +100,7 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 {
 }
 
-void ForwardRenderStrategy::render()
+void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models)
 {
 	auto dev = m_renderer->getDXDevice();
 
@@ -90,24 +110,16 @@ void ForwardRenderStrategy::render()
 	
 	dev->bindBackBufferAsTarget();
 
-
-	dev->drawIndexed(6, 0, 0);
-
-
-	/*
-
-	m_renderer->setPipelineState(defaultForward);
-	
-	for (auto& go : gameObjects)
+	for (auto& mod : models)
 	{
-		auto& mesh = go.mesh;			--> vb, ib
-		auto& material = go.material;	--> ps textures + shader
+		mod->getMaterial()->bindShader(m_renderer->getDXDevice());
+		mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
 
-		m_renderer->drawMesh(mesh, material);
-		
+		dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+		dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
+
 	}
-	
-	*/
+
 
 
 

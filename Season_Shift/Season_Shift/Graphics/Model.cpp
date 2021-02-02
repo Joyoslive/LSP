@@ -5,6 +5,8 @@ Model::Model(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material) :
     m_material(material),
     m_renderID({ 0, 0 })
 {
+    m_renderID.shdId = material->m_shaderHash;
+    m_renderID.matId = material->m_textureHash;
 }
 
 Model::~Model()

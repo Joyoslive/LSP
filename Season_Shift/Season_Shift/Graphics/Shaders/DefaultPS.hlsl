@@ -6,7 +6,21 @@ struct VS_OUT
     
 };
 
+SamplerState g_defSamp : register(s0);
+
+Texture2D g_ambTex : register(t0);
+Texture2D g_difTex : register(t1);
+Texture2D g_specTex : register(t2);
+Texture2D g_norTex : register(t3);
+
 float4 main(VS_OUT input) : SV_TARGET
 {
-	return float4(input.uv, 0.0f, 1.0f);
+    float4 finalColor = float4(0.0, 0.0, 0.0, 0.0);
+    
+	//return float4(input.uv, 0.0f, 1.0f);
+    finalColor = g_difTex.Sample(g_defSamp, input.uv);
+    
+    finalColor = pow(finalColor, float4(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f, 1.f));
+    
+    return finalColor;
 }

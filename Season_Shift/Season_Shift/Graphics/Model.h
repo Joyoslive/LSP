@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Mesh.h"
+#include "Material.h"
 
 class Material;
 

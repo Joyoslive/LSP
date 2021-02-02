@@ -59,15 +59,12 @@ public:
 	/*
 	To-add: Data to be rendered! (Mesh, Material, Shader) (Assumes all the data is to be rendered, meaning culling has already been done prior to passing it for rendering)
 	*/
-	void render();  
+	void render(const std::vector<std::shared_ptr<Model>>& models);
 
-	
-	std::shared_ptr<Mesh> createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
-	std::shared_ptr<Model> assembleModel(const std::string& meshID, std::shared_ptr<Material> material);
-
-
-
-
+	/*
+	Expose creational interface for graphics resources (mesh, material and model)
+	*/
+	const std::shared_ptr<GfxResourceDevice>& getResourceDevice();
 
 
 
@@ -133,14 +130,5 @@ public:
 
 
 	*/
-public:
-	struct MapPaths
-	{
-		std::string ambient;
-		std::string diffuse;
-		std::string specular;
-		std::string normal;
-	};
-	std::shared_ptr<Material> createMaterial(MapPaths& filePaths);
 };
 
