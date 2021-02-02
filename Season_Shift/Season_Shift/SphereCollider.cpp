@@ -3,6 +3,9 @@
 
 SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius)
 {
+	/*m_boundingVolume.m_sphere.Center = pos;
+	m_boundingVolume.m_sphere.Radius = radius;*/
+
 	m_sphere.Center = pos;
 	m_sphere.Radius = radius;
 

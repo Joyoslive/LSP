@@ -17,7 +17,7 @@ public:
 	DirectX::BoundingSphere getInternalCollider();
 
 
-public:
+private:
 	template<typename T>
 	bool internalCollide(Ref<T> collider) //ugly function to solve problem that i can't solve
 	{
