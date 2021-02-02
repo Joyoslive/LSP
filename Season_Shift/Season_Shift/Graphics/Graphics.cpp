@@ -25,3 +25,20 @@ void Graphics::render()
 	m_currRenderStrat->render();
 
 }
+
+std::shared_ptr<Mesh> Graphics::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
+{
+	return m_gfxDevice->createMesh(meshID, vertices, indices);
+}
+
+std::shared_ptr<Model> Graphics::assembleModel(const std::string& meshID, std::shared_ptr<Material> material)
+{
+	// create mesh from vertices and indices
+	//auto mesh = m_gfxDevice->createMesh(vertices, indices);
+
+	// here we can check if model already exists somehow before creating..
+	//std::shared_ptr<Model> mod = std::make_shared<Model>(mesh, material);
+
+	//return mod;
+	return nullptr;
+}

@@ -10,7 +10,7 @@ GfxResourceDevice::~GfxResourceDevice()
 {
 }
 
-std::shared_ptr<Mesh> GfxResourceDevice::createMesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
+std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
 	D3D11_SUBRESOURCE_DATA subres;
 	ZeroMemory(&subres, sizeof(D3D11_SUBRESOURCE_DATA));

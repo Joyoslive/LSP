@@ -1,7 +1,7 @@
 #include "Window.h"
 #include "Graphics/Graphics.h"
 #include <string>
-
+#include <functional>
 
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
@@ -23,7 +23,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		gph.render();
 
 	}
-
 
 
 

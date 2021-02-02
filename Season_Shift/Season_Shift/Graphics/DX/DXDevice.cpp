@@ -408,27 +408,27 @@ void DXDevice::bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb)
 
 }
 
-void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT> vps)
+void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 {
 	m_core.getImmediateContext()->RSSetViewports(vps.size(), vps.data());
 }
 
-void DXDevice::Draw(unsigned int vtxCount, unsigned int vbStartIdx)
+void DXDevice::draw(unsigned int vtxCount, unsigned int vbStartIdx)
 {
 	m_core.getImmediateContext()->Draw(vtxCount, vbStartIdx);
 }
 
-void DXDevice::DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
+void DXDevice::drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
 {
 	m_core.getImmediateContext()->DrawIndexed(idxCount, ibStartIdx, vbStartIdx);
 }
 
-void DXDevice::DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
+void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
 {
 	m_core.getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
 }
 
-void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture> target, float color[4])
+void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4])
 {
 	if (target->getRTV() == nullptr) assert(false);
 

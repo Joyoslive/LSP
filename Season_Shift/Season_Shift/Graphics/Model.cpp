@@ -1,0 +1,40 @@
+#include "Model.h"
+
+Model::Model(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material) :
+    m_mesh(mesh),
+    m_material(material),
+    m_renderID({ 0, 0 })
+{
+}
+
+Model::~Model()
+{
+}
+
+const std::shared_ptr<Mesh> Model::getMesh() const
+{ 
+    return m_mesh;
+}
+
+const std::shared_ptr<Material> Model::getMaterial() const
+{
+    return m_material;
+}
+
+rid128_t Model::getRenderID() const
+{
+    return m_renderID;
+}
+
+bool rid_cmp(const Model& lhs, const Model& rhs)
+{
+    if (lhs.getRenderID().shdId < rhs.getRenderID().shdId) return true;
+    if (rhs.getRenderID().shdId < lhs.getRenderID().shdId) return false;
+
+    // Checks this is same shdId
+    if (lhs.getRenderID().matId < rhs.getRenderID().matId) return true;
+    if (rhs.getRenderID().matId < lhs.getRenderID().matId) return false;
+
+    return false;
+ 
+}

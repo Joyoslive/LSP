@@ -3,10 +3,12 @@
 #include "GfxRenderer.h"
 #include "GfxResourceDevice.h"
 #include "ForwardRenderStrategy.h"
+#include "Model.h"
 
 #include <vector>
 
 
+class Material;
 
 /*
 
@@ -17,8 +19,6 @@ Works as the single interface to Graphics.
 To-do --> Also expose 'GfxResourceManager' to flush/ask for/remove existing resources
 
 */
-
-// boo
 class Graphics
 {
 public:
@@ -28,15 +28,6 @@ public:
 		DEFERRED	= 1			// Primary rendering setup to develop techniques in
 	};
 
-	/*
-	
-	enum class GameShaders
-	{
-		...
-		...
-	}
-	
-	*/
 
 private:
 	/*
@@ -68,7 +59,17 @@ public:
 	/*
 	To-add: Data to be rendered! (Mesh, Material, Shader) (Assumes all the data is to be rendered, meaning culling has already been done prior to passing it for rendering)
 	*/
-	void render();   //
+	void render();  
+
+	
+	std::shared_ptr<Mesh> createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
+	std::shared_ptr<Model> assembleModel(const std::string& meshID, std::shared_ptr<Material> material);
+
+
+
+
+
+
 
 	/*
 	
@@ -86,14 +87,30 @@ public:
 	*/
 	/*
 	
+	
+	Model
+	{
+		Mesh (vb, ib)
+		Material (tex, cbs)
+		DrawSubset (mappning mellan geometry och tex)
+	}
+
+	
+	// Assemblera egen Model
 	Create Mesh (vbDat, ibDat)							--> Create mesh manually
 	Load Material (vector<fileName>, shaderENUM)		--> Load material manually
 	Assemble Model (mesh, material)						--> Assemble custom model from custom mesh and material
 
+	// fil
 	Load Model (fileName, shaderENUM)					--> Model file		--> Mesh (VB, IB) + Material (Assumes VS/PS combo + Textures and CBs held with std::pair)		--> Requires ModelLoader
 		
 
 	*/
+
+
+
+
+
 
 	// Expose shader data upload MAYBE???		--> Remember that we don't want to be uploading to GPU Buffer unless we KNOW that we will use it to render!
 	//											--> Above is best alleviated with data living in Material..

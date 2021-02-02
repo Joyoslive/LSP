@@ -1,11 +1,11 @@
 #pragma once
 #include "DX/DXDevice.h"
 #include "Mesh.h"
+#include "ResourceRepository.h"
 
 class Model;
 class Material;
 class ShaderSet;
-
 
 /*
 
@@ -21,21 +21,14 @@ class GfxResourceDevice
 private:
 	std::shared_ptr<DXDevice> m_dxDev;
 
-	//ResourceRepository<std::size_t, ShaderSet> m_shaderSetRepo;
-	//ResourceRepository<std::size_t, Mesh> m_meshRepo;
-	//ResourceRepository<std::size_t, Material> m_materialRepo;		// --> sort by vs/ps first 
-	//ResourceRepository<std::size_t, Model> m_modelRepo;
+	//ResourceRepository<std::size_t, Material> m_materialRepo;			// key --> hash of amb, dif, spec, nor filepath put together!
+	//ResourceRepository<std::size_t, Mesh> m_materialRepo;			// key --> hash of amb, dif, spec, nor filepath put together!
 
 public:
 	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
 	~GfxResourceDevice();
 
-	/*
-	Manually assemble a mesh from code
-	*/
-	std::shared_ptr<Mesh> createMesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices);
-
-
+	std::shared_ptr<Mesh> createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 
 
 
