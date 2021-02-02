@@ -24,6 +24,21 @@ void Scene::setUpScene()
 	//destroyGameObject(gObj);
 }
 
+void Scene::resetScene()
+{
+	emptyScene();
+	setUpScene();
+}
+
+void Scene::emptyScene()
+{
+	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+	{
+		destroyGameObject(m_sceneGameObjects[i]);
+		--i;
+	}
+}
+
 void Scene::start()
 {
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)

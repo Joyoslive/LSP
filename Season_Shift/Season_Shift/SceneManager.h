@@ -3,12 +3,19 @@
 class SceneManager
 {
 private:
-	std::vector<Ref<Scene>> scenes;
+	std::vector<Ref<Scene>> m_scenes;
+	Ref<Scene> m_activeScene;
+
+private:
+	void createScenes();
+	void addScene(Ref<Scene> newScene);
+	void setActiveScene(Ref<Scene> newActiveScene);
+
 public:
 	SceneManager();
 	~SceneManager();
 
-	void addScene();
-	Ref<Scene> getScene() const;
+	Ref<Scene> getActiveScene() const;
+	void changeScene(const int& sceneIndex);
 };
 

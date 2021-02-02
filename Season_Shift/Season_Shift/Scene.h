@@ -13,6 +13,8 @@ public:
 	Scene();
 	~Scene();
 	void setUpScene();
+	void resetScene();
+	void emptyScene();
 	void start();
 	void update();
 	Ref<GameObject> createGameObject(std::string gameObjectName = "", DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(0, 0, 0)
