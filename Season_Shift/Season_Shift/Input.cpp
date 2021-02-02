@@ -11,13 +11,76 @@ Input::~Input() {
 
 }
 
-bool Input::KeyBeingPressed(DirectX::Keyboard::Keys key) {
+bool Input::KeyBeingPressed(Keys key) {
 	auto kb = m_keyboard->GetState();
-	return kb.IsKeyDown(key);
+	DirectX::Keyboard::Keys dxkey;
+	dxkey = (DirectX::Keyboard::Keys)key;
+	return kb.IsKeyDown(dxkey);
 }
 
-bool Input::KeyPressed(DirectX::Keyboard::Keys key) {
+bool Input::KeyPressed(Keys key) {
 	auto kb = m_keyboard->GetState();
 	m_keys.Update(kb);
-	return m_keys.IsKeyPressed(key);
+	DirectX::Keyboard::Keys dxkey;
+	dxkey = (DirectX::Keyboard::Keys)key;
+	return m_keys.IsKeyPressed(dxkey);
+}
+
+DirectX::SimpleMath::Vector2 Input::MousePos() {
+	auto mouse = m_mouse->GetState();
+	DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y));
+	return delta;
+
+}
+
+bool Input::MouseBeingPressed(MouseKeys key) {
+	auto mouse = m_mouse->GetState();
+	m_mouseButtons.Update(mouse);
+	switch (key)
+	{
+	case Input::LeftButton:
+		if (m_mouseButtons.leftButton == DirectX::Mouse::ButtonStateTracker::HELD) {
+			return true;
+		}
+		break;
+	case Input::RightButton:
+		if (m_mouseButtons.rightButton == DirectX::Mouse::ButtonStateTracker::HELD) {
+			return true;
+		}
+		break;
+	case Input::MiddleButton:
+		if (m_mouseButtons.middleButton == DirectX::Mouse::ButtonStateTracker::HELD) {
+			return true;
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}
+
+bool Input::MousePressed(MouseKeys key) {
+	auto mouse = m_mouse->GetState();
+	m_mouseButtons.Update(mouse);
+	switch (key)
+	{
+	case Input::LeftButton:
+		if (m_mouseButtons.leftButton == DirectX::Mouse::ButtonStateTracker::PRESSED) {
+			return true;
+		}
+		break;
+	case Input::RightButton:
+		if (m_mouseButtons.rightButton == DirectX::Mouse::ButtonStateTracker::PRESSED) {
+			return true;
+		}
+		break;
+	case Input::MiddleButton:
+		if (m_mouseButtons.middleButton == DirectX::Mouse::ButtonStateTracker::PRESSED) {
+			return true;
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
 }

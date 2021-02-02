@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <d3d11.h>
+#include <SimpleMath.h>
 
 class Input
 {
@@ -17,12 +19,20 @@ public:
 		F5 = DirectX::Keyboard::Keys::F5, F6 = DirectX::Keyboard::Keys::F6, F7 = DirectX::Keyboard::Keys::F7, F8 = DirectX::Keyboard::Keys::F8, F9 = DirectX::Keyboard::Keys::F9, F10 = DirectX::Keyboard::Keys::F10,
 		F11 = DirectX::Keyboard::Keys::F11, F12 = DirectX::Keyboard::Keys::F12
 	};
+
+	enum MouseKeys {
+		LeftButton = 1, RightButton, MiddleButton
+	};
+
 	Input(HWND wndHandle);
 	~Input();
-	bool KeyBeingPressed(DirectX::Keyboard::Keys key);
-	bool KeyPressed(DirectX::Keyboard::Keys key);
-	//bool MouseBeingPressed(DirectX::Keyboard::Keys key);
-	//bool MousePressed(DirectX::Keyboard::Keys key);
+
+	DirectX::SimpleMath::Vector2 MousePos();
+	bool KeyBeingPressed(Keys key);
+	bool KeyPressed(Keys key);
+	bool MouseBeingPressed(MouseKeys key);
+	bool MousePressed(MouseKeys key);
+
 private:
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
