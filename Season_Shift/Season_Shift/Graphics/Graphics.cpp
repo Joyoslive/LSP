@@ -28,9 +28,9 @@ void Graphics::render()
 
 std::shared_ptr<Material> Graphics::createMaterial(MapPaths& filePaths)
 {
-	m_gfxDevice->createMaterial(filePaths.ambient, filePaths.diffuse, filePaths.specular, filePaths.normal);
-	throw std::runtime_error("Not implemented exception");
-	return std::shared_ptr<Material>();
+	return m_gfxDevice->createMaterial(filePaths.ambient, filePaths.diffuse, filePaths.specular, filePaths.normal);
+}
+
 std::shared_ptr<Mesh> Graphics::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
 	return m_gfxDevice->createMesh(meshID, vertices, indices);
