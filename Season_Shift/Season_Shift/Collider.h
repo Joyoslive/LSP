@@ -9,12 +9,13 @@ class Collider : public Component
 {
 private:
 
+protected:
+	
 
 public:
 	Collider();
 	virtual ~Collider();
 
-	virtual void update() = 0;
-	virtual void collide() = 0;
+	virtual bool collide(Ref<Collider> collider) = 0;
 };
 
