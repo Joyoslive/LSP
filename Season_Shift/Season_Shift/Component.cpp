@@ -1,8 +1,8 @@
 #include "Component.h"
 
+
 Component::Component()
 {
-
 }
 
 Ref<GameObject> Component::getGameObject() const

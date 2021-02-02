@@ -5,7 +5,7 @@ using namespace DirectX;
 
 Collider::Collider()
 {
-
+	m_componentType = ComponentEnum::Collider;
 }
 
 Collider::~Collider()

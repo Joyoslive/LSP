@@ -2,6 +2,7 @@
 #include "Graphics/Graphics.h"
 #include <string>
 #include "GameObject.h"
+#include "PhysicsEngine.h"
 
 
 
@@ -12,7 +13,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
-	
+	PhysicsEngine pe = PhysicsEngine();
 
 
 	MSG msg = { };
