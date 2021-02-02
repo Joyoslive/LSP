@@ -39,7 +39,7 @@ public:
 	Component();
 	virtual ~Component() = default;
 	Ref<GameObject> getGameObject() const;
-
+	ComponentEnum getType() const;
 	
 
 protected:

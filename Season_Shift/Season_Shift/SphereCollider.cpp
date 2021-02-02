@@ -1,11 +1,9 @@
 #include "SphereCollider.h"
+#include "OrientedBoxCollider.h"
 
 
 SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius)
 {
-	/*m_boundingVolume.m_sphere.Center = pos;
-	m_boundingVolume.m_sphere.Radius = radius;*/
-
 	m_sphere.Center = pos;
 	m_sphere.Radius = radius;
 
@@ -19,20 +17,16 @@ SphereCollider::~SphereCollider()
 
 bool SphereCollider::collide(Ref<Collider> collider)
 {
-
-	//auto var = typeid(collider);
-	if (typeid(*collider) == typeid(SphereCollider))
+	if ((collider->getType() & ComponentEnum::SPHERE_COLLIDER) == ComponentEnum::SPHERE_COLLIDER)
 	{
-		if (internalCollide<SphereCollider>(std::dynamic_pointer_cast<SphereCollider>(collider)))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return internalCollide<SphereCollider>(std::dynamic_pointer_cast<SphereCollider>(collider));
 	}
-	
+	else if ((collider->getType() & ComponentEnum::ORIENTED_BOX_COLLIDER) == ComponentEnum::ORIENTED_BOX_COLLIDER)
+	{
+		return internalCollide<OrientedBoxCollider>(std::dynamic_pointer_cast<OrientedBoxCollider>(collider));
+	}
+
+
 	return 0;
 }
 

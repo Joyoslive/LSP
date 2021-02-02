@@ -37,9 +37,3 @@ PhysicsEngine::PhysicsEngine()
 PhysicsEngine::~PhysicsEngine()
 {
 }
-
-Ref<Collider> PhysicsEngine::Collide(Ref<Collider> collider)
-{
-	
-	return Ref<Collider>();
-}
