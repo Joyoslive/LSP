@@ -14,11 +14,11 @@ class Component
 public:
 	enum class ComponentEnum
 	{
-		Transform = 1,
-		Logic = 2,
-		RigidBody = 4,
-		Collider = 8,
-		SphereCollider = 16,
+		TRANSFORM = 1,
+		LOGIC = 2,
+		RIGID_BODY = 4,
+		COLLIDER = 8,
+		SPHERE_COLLIDER = 16,
 	};
 
 	friend inline ComponentEnum operator &(ComponentEnum l, ComponentEnum r)
