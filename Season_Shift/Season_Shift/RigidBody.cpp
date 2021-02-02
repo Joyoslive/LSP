@@ -1,8 +1,8 @@
-#include "RigidBodyComponent.h"
+#include "RigidBody.h"
 #include <assert.h>
 
 
-RigidBodyComponent::RigidBodyComponent(float mass)
+RigidBody::RigidBody(float mass)
 {
 	m_mass = mass;
 	assert(m_mass > 0);
@@ -21,23 +21,23 @@ RigidBodyComponent::RigidBodyComponent(float mass)
 
 }
 
-void RigidBodyComponent::setMass(float mass)
+void RigidBody::setMass(float mass)
 {
 	m_mass = mass;
 	assert(m_mass > 0);
 }
 
-float RigidBodyComponent::getMass() const
+float RigidBody::getMass() const
 {
 	return m_mass;
 }
 
-void RigidBodyComponent::addForce(DirectX::SimpleMath::Vector3 force)
+void RigidBody::addForce(DirectX::SimpleMath::Vector3 force)
 {
 	m_force += force;
 }
 
-void RigidBodyComponent::stop()
+void RigidBody::stop()
 {
 	m_force.x = 0;
 	m_force.y = 0;

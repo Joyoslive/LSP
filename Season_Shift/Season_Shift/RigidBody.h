@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 
-class RigidBodyComponent : public Component
+class RigidBody : public Component
 {
 private:
 	float m_mass = 1;
@@ -16,7 +16,7 @@ private:
 
 
 public:
-	RigidBodyComponent(float mass = 1);
+	RigidBody(float mass = 1);
 	void setMass(float mass);
 	float getMass() const;
 	void addForce(DirectX::SimpleMath::Vector3 force);

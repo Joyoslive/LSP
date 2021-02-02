@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -31,11 +30,11 @@
     <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Logic.h" />
@@ -58,6 +57,7 @@
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
