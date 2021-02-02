@@ -1,12 +1,18 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <array>
 #include <string>
+#include "GraphicsUtils.h"
 #include "DXCore.h"
 #include "DXBuffer.h"
 #include "DXTexture.h"
 #include "DXShader.h"
+#include <SimpleMath.h>
 
+
+
+#define COMPILED_SHADERS_DIRECTORY "Graphics/CompiledShaders/"
 
 struct PipelineState
 {
@@ -30,6 +36,13 @@ struct RenderPass
 	std::vector<DXTexture> textureOutputsUAV = {};		// UAV
 };
 
+struct Vertex
+{
+	DirectX::SimpleMath::Vector3 pos;
+	DirectX::SimpleMath::Vector2 uv;
+	DirectX::SimpleMath::Vector3 normal;
+};
+
 
 /*
 
@@ -44,6 +57,9 @@ class DXDevice
 private:
 	DXCore m_core;
 
+	// Used to bind
+	std::array<ID3D11RenderTargetView*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> m_currTargetBind;
+	unsigned int m_vOffsetBind;
 
 
 	/*
@@ -57,13 +73,76 @@ private:
 		--> Depends on functionality and what it needs to be used for
 
 	- This layer helps us keep a shadow-state for binding purposes so re-binds of the same resource do not occur!
-	--> For example, by using this class when binding, we can identify nullptrs and avoid any Graphics API calls.
+	--> For example, by using this class when binding, we can identify nullptrs and avoid any unneccessary Graphics API calls.
 	
 	*/
+
+
 
 public:
 	DXDevice(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~DXDevice();
+
+	// Helpers
+	std::shared_ptr<DXShader> createShader(const std::string& fileName, DXShader::Type shaderType);
+	std::shared_ptr<DXTexture> createTexture(const DXTexture::Desc& desc, D3D11_SUBRESOURCE_DATA* subres);
+
+	std::shared_ptr<DXBuffer> createVertexBuffer(unsigned int elementCount, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createIndexBuffer(unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
+	std::shared_ptr<DXBuffer> createStructuredBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
+
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
+
+	/*
+	createPipelineState
+	createRenderPass
+
+	*/
+
+	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
+	// Bind resource for shader
+	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
+	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
+	void bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res);
+
+	void bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& il);
+	void bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void bindDepthStencilState(const Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& dss, unsigned int stencilRef = 0);
+	void bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac = { 1.0, 1.0, 1.0, 1.0 }, unsigned int sampleMask = 0xffffffff);
+	void bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss);		
+
+	void bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget);				// RTV/DSV pair
+	// UnorderedAccess OM target bind not implemented for now.
+
+	// Assumes single VB/IB pair per Draw or single VB per Draw! (Can be changed later if needed)
+	void bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset);
+	void bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb);
+
+	void bindViewports(const std::vector<D3D11_VIEWPORT> vps);
+
+	void Draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
+	void DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
+	void DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
+
+	void clearRenderTarget(const std::shared_ptr<DXTexture> target, float color[4]);
+	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 0.0, float stencil = 0.0);
+
+	/*
+	Defaults to clearing to black
+	*/
+	void clearScreen();
+
+	/*
+	Currently no vsync options
+	*/
+	void present();
+
+	// No scissors for now
+
+	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
+
+	void MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx = 0, unsigned int mapFlag = 0);
 
 
 
@@ -82,6 +161,7 @@ public:
 
 	ComPtr<ID3D11InputLayout>				createInputLayout(desc);				// We can let this live in PipelineState
 
+	// NO NEED FOR THESE 4 TO BE MADE
 	ComPtr<ID3D11BlendState>				createBlendState(desc);					--> If previous objects has been created with same state -> Previous instance returned by D3D11 instead of duplicate! (remarks on MSDN)
 	ComPtr<ID3D11RasterizerState>			createRasterizerState(desc);			--> Same as above (remarks on MSDN)
 	ComPtr<ID3D11DepthStencilState>			createDepthStencilState(desc);			--> Same as above
@@ -159,15 +239,5 @@ public:
 	*/
 
 
-	/*
-	Defaults to clearing to black
-	*/
-	void clearScreen();
-
-	/*
-	Currently no vsync options
-	*/
-	void present();
 
 };
-
