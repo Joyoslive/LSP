@@ -22,7 +22,7 @@ std::string GameObject::getName() const
 
 void GameObject::start()
 {
-	for (auto& logic : getMultipleComponentType<Logic>())
+	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::Logic))
 	{
 		logic->start();
 	}
@@ -30,7 +30,7 @@ void GameObject::start()
 
 void GameObject::update()
 {
-	for (auto& logic : getMultipleComponentType<Logic>())
+	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::Logic))
 	{
 		logic->update();
 	}

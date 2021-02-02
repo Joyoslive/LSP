@@ -44,12 +44,12 @@ public:
 	}
 
 	template<typename T>
-	std::vector<Ref<T>> getMultipleComponentType()
+	std::vector<Ref<T>> getMultipleComponentType(Component::ComponentEnum componentType)
 	{	
 		std::vector<Ref<T>> vec;
 		for (auto& c : m_componentVector)
 		{
-			if (typeid(T) == typeid(*c))
+			if ((int)(componentType & c->m_componentType))
 			{
 				vec.push_back(std::dynamic_pointer_cast<T>(c));
 			}
