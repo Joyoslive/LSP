@@ -19,9 +19,9 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 		DXTexture::Type::TEX2D,
 	};
 	desc.desc2D = {
-		texData.width,
-		texData.height,
-		0,
+		static_cast<UINT>(texData.width),
+		static_cast<UINT>(texData.height),
+		1,
 		1,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		{1, 0},
