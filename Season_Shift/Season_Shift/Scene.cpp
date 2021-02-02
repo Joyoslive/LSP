@@ -18,8 +18,9 @@ void Scene::setUpScene()
 	createGameObject("GameObject1");
 	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
 	gObj->AddComponent(std::make_shared<RigidBodyComponent>());
-	Ref<Logic> test = std::make_shared<Test>();
+	Ref<Test> test = std::make_shared<Test>();
 	gObj->AddComponent(test);
+	Ref<Logic> logic = gObj->getComponentType<Logic>();
 	//destroyGameObject(gObj);
 }
 

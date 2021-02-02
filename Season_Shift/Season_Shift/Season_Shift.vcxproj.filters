@@ -32,6 +32,7 @@
     <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
