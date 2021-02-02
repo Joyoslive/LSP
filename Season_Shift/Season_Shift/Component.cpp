@@ -3,6 +3,7 @@
 
 Component::Component()
 {
+	m_componentType = (ComponentEnum)0;
 }
 
 Ref<GameObject> Component::getGameObject() const

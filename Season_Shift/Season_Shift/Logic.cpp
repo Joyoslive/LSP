@@ -2,7 +2,7 @@
 
 Logic::Logic()
 {
-	m_componentType = ComponentEnum::Logic;
+	m_componentType = ComponentEnum::LOGIC;
 }
 
 Logic::~Logic()

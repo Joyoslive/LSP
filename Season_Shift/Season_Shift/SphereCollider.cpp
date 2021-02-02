@@ -6,7 +6,7 @@ SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius)
 	m_sphere.Center = pos;
 	m_sphere.Radius = radius;
 
-	m_componentType = ComponentEnum::SphereCollider | ComponentEnum::Collider;
+	m_componentType = ComponentEnum::SPHERE_COLLIDER | ComponentEnum::COLLIDER;
 }
 
 SphereCollider::~SphereCollider()

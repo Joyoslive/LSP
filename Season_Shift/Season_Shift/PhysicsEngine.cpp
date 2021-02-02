@@ -21,8 +21,8 @@ PhysicsEngine::PhysicsEngine()
 
 	int hej = 0;
 
-	Ref<Collider> co1 = go1->getComponentType<Collider>(Component::ComponentEnum::SphereCollider);
-	Ref<Collider> co2 = go2->getComponentType<Collider>(Component::ComponentEnum::Collider);
+	Ref<Collider> co1 = go1->getComponentType<Collider>(Component::ComponentEnum::SPHERE_COLLIDER);
+	Ref<Collider> co2 = go2->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
 
 	if (co1 == nullptr || co2 == nullptr)
 	{
