@@ -11,6 +11,11 @@ Ref<GameObject> Component::getGameObject() const
 	return m_gameObject;
 }
 
+Component::ComponentEnum Component::getType() const
+{
+	return m_componentType;
+}
+
 void Component::setTransform(Ref<Transform> transform)
 {
 	m_transform = transform;

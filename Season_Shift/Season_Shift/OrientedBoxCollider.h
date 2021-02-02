@@ -1,20 +1,20 @@
 #pragma once
+
 #include "Collider.h"
-#include <typeinfo>
-class SphereCollider : public Collider
+class OrientedBoxCollider : public Collider
 {
 private:
-	DirectX::BoundingSphere m_sphere;
+	DirectX::BoundingOrientedBox m_obb;
 
 	
 
 public:
-	SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius);
-	~SphereCollider();
+	OrientedBoxCollider();
+	~OrientedBoxCollider();
 
 	bool collide(Ref<Collider> collider) override;
 
-	DirectX::BoundingSphere getInternalCollider();
+	DirectX::BoundingOrientedBox getInternalCollider();
 
 
 private:
@@ -24,3 +24,4 @@ private:
 		return this->getInternalCollider().Intersects(collider->getInternalCollider());
 	}
 };
+

@@ -171,6 +171,7 @@
     <ClCompile Include="Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="OrientedBoxCollider.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />

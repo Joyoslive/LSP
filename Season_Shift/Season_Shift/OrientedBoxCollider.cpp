@@ -1,21 +1,16 @@
-#include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
+#include "SphereCollider.h"
 
-
-SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius)
+OrientedBoxCollider::OrientedBoxCollider()
 {
-	m_sphere.Center = pos;
-	m_sphere.Radius = radius;
-
-	m_componentType = ComponentEnum::SPHERE_COLLIDER | ComponentEnum::COLLIDER;
+	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }
 
-SphereCollider::~SphereCollider()
+OrientedBoxCollider::~OrientedBoxCollider()
 {
-	
 }
 
-bool SphereCollider::collide(Ref<Collider> collider)
+bool OrientedBoxCollider::collide(Ref<Collider> collider)
 {
 	if ((collider->getType() & ComponentEnum::SPHERE_COLLIDER) == ComponentEnum::SPHERE_COLLIDER)
 	{
@@ -30,8 +25,7 @@ bool SphereCollider::collide(Ref<Collider> collider)
 	return 0;
 }
 
-DirectX::BoundingSphere SphereCollider::getInternalCollider()
+DirectX::BoundingOrientedBox OrientedBoxCollider::getInternalCollider()
 {
-	return m_sphere;
+	return m_obb;
 }
-
