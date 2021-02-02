@@ -18,6 +18,9 @@ void Scene::setUpScene()
 	createGameObject("GameObject1");
 	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
 	gObj->AddComponent(std::make_shared<RigidBodyComponent>());
+	Ref<Logic> test = std::make_shared<Test>();
+	gObj->AddComponent(test);
+	//destroyGameObject(gObj);
 }
 
 void Scene::start()
@@ -70,6 +73,6 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 
 void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
-	
-	//removeGameObject();
+	removeGameObject(destroyGameObject);
+	destroyGameObject->~GameObject();
 }
