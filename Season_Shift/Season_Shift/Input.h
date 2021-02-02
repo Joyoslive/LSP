@@ -6,18 +6,26 @@
 class Input
 {
 public:
-	enum Buttons
+	enum Keys
 	{
-		A = 65, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, Esc = 27, Space = 32, Shift = 16, F1 = 112, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12
+		A = DirectX::Keyboard::Keys::A,  B = DirectX::Keyboard::Keys::B, C = DirectX::Keyboard::Keys::C, D = DirectX::Keyboard::Keys::D, E = DirectX::Keyboard::Keys::E, F = DirectX::Keyboard::Keys::F,
+		G = DirectX::Keyboard::Keys::G, H = DirectX::Keyboard::Keys::H, I = DirectX::Keyboard::Keys::I, J = DirectX::Keyboard::Keys::J, K = DirectX::Keyboard::Keys::K, L = DirectX::Keyboard::Keys::L,
+		M = DirectX::Keyboard::Keys::M, N = DirectX::Keyboard::Keys::N, O = DirectX::Keyboard::Keys::O, P = DirectX::Keyboard::Keys::P, Q = DirectX::Keyboard::Keys::Q, 
+		R = DirectX::Keyboard::Keys::R, S = DirectX::Keyboard::Keys::S, T = DirectX::Keyboard::Keys::T, U = DirectX::Keyboard::Keys::U, V = DirectX::Keyboard::Keys::V, W = DirectX::Keyboard::Keys::W,
+		X = DirectX::Keyboard::Keys::X, Y = DirectX::Keyboard::Keys::Y, Z = DirectX::Keyboard::Keys::Z, Esc = DirectX::Keyboard::Keys::Escape, Space = DirectX::Keyboard::Keys::Space, 
+		Shift = DirectX::Keyboard::Keys::LeftShift, F1 = DirectX::Keyboard::Keys::F1, F2 = DirectX::Keyboard::Keys::F2, F3 = DirectX::Keyboard::Keys::F3, F4 = DirectX::Keyboard::Keys::F4, 
+		F5 = DirectX::Keyboard::Keys::F5, F6 = DirectX::Keyboard::Keys::F6, F7 = DirectX::Keyboard::Keys::F7, F8 = DirectX::Keyboard::Keys::F8, F9 = DirectX::Keyboard::Keys::F9, F10 = DirectX::Keyboard::Keys::F10,
+		F11 = DirectX::Keyboard::Keys::F11, F12 = DirectX::Keyboard::Keys::F12
 	};
 	Input(HWND wndHandle);
 	~Input();
-	void InputUpdate();
-	bool KeyBeingPressed(unsigned int key);
-	bool KeyPressed(unsigned int key);
+	bool KeyBeingPressed(DirectX::Keyboard::Keys key);
+	bool KeyPressed(DirectX::Keyboard::Keys key);
+	//bool MouseBeingPressed(DirectX::Keyboard::Keys key);
+	//bool MousePressed(DirectX::Keyboard::Keys key);
 private:
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
-	bool keyboardCurrent[256];
-	bool keyboardPrevious[256];
+	DirectX::Keyboard::KeyboardStateTracker m_keys;
+	DirectX::Mouse::ButtonStateTracker m_mouseButtons;
 };
