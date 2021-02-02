@@ -1,12 +1,11 @@
 #pragma once
 
 #include <string>
-#include "Graphics/DX/DXTexture.h"
-#include "Graphics/DX/DXDevice.h"
+#include "DX/DXDevice.h"
 
 class Material
 {
-private:
+public:
 	struct PhongMaps
 	{
 		std::shared_ptr<DXTexture> ambient;
@@ -17,17 +16,9 @@ private:
 private:
 	std::shared_ptr<DXShader> m_vertexShader,  m_pixelShader;
 	PhongMaps m_textures;
-
+	size_t m_hash;
 public:
-	struct MapPaths
-	{
-		std::string ambient;
-		std::string diffuse;
-		std::string specular;
-		std::string normal;
-	};
-public:
-	Material(MapPaths maps);
+	explicit Material(PhongMaps maps, size_t hash);
 	~Material();
 
 	void bindShader(std::shared_ptr<DXDevice> device);

@@ -1,12 +1,11 @@
 #include "Material.h"
 
-Material::Material(MapPaths maps)
+Material::Material(PhongMaps maps, size_t hash)
 {
 	m_vertexShader = nullptr;
 	m_pixelShader = nullptr;
-	m_textures = {nullptr, nullptr, nullptr, nullptr};
-
-	// TODO: Set textures
+	m_textures = {maps.ambient, maps.diffuse, maps.specular, maps.normal};
+	m_hash = hash;
 }
 
 Material::~Material()
