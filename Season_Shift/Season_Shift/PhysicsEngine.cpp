@@ -19,8 +19,16 @@ PhysicsEngine::PhysicsEngine()
 	m_tempScene.push_back(go1);
 	m_tempScene.push_back(go2);
 
-	int hej = 4;
-	if (go1->getComponentType<SphereCollider>()->collide(go2->getComponentType<SphereCollider>()))
+	int hej = 0;
+
+	Ref<Collider> co1 = go1->getComponentType<SphereCollider>();
+	Ref<Collider> co2 = go2->getComponentType<SphereCollider>();
+
+	if (co1 == nullptr || co2 == nullptr)
+	{
+		hej = -1;
+	}
+	else if (co1->collide(co2))
 	{
 		hej = 10;
 	}
