@@ -174,7 +174,6 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
@@ -193,7 +192,6 @@
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />

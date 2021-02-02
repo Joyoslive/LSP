@@ -61,6 +61,8 @@ public:
 	void start();
 	void update();
 
+	void clearGameObject();
+
 	int AddComponent(Ref<Component> component);
 	Ref<Transform> getTransform();
 };

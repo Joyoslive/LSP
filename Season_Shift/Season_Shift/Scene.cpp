@@ -17,10 +17,10 @@ void Scene::setUpScene()
 	createGameObject();
 	createGameObject("GameObject1");
 	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
-	gObj->AddComponent(std::make_shared<RigidBodyComponent>());
+	gObj->AddComponent(std::make_shared<RigidBody>());
 	Ref<Test> test = std::make_shared<Test>();
 	gObj->AddComponent(test);
-	Ref<Logic> logic = gObj->getComponentType<Logic>();
+	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
 }
 
@@ -30,6 +30,7 @@ void Scene::resetScene()
 	setUpScene();
 }
 
+//Removes all GameObjects from the Scene
 void Scene::emptyScene()
 {
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
@@ -37,6 +38,7 @@ void Scene::emptyScene()
 		destroyGameObject(m_sceneGameObjects[i]);
 		--i;
 	}
+	//m_sceneGameObjects.
 }
 
 void Scene::start()
@@ -90,5 +92,5 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
 	removeGameObject(destroyGameObject);
-	destroyGameObject->~GameObject();
+	destroyGameObject->clearGameObject();
 }

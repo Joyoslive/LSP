@@ -21,7 +21,6 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Scene.cpp" />

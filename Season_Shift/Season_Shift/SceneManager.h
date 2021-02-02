@@ -17,5 +17,6 @@ public:
 
 	Ref<Scene> getActiveScene() const;
 	void changeScene(const int& sceneIndex);
+	void updateActiveScene() const;
 };
 
