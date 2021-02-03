@@ -21,7 +21,6 @@ Graphics::~Graphics()
 void Graphics::render()		
 {
 	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
-	
 	m_currRenderStrat->render();
 
 }
