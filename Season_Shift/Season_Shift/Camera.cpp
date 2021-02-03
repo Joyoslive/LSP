@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <stdexcept>
+
 using namespace DirectX;
 
 Camera::Camera()
@@ -143,6 +145,23 @@ void Camera::rotateAroundSetAxis(Axis axis, float angle)
 	}
 
 	rotateAroundAxis(axisVector, angle);
+}
+
+void Camera::attachTo(std::shared_ptr<GameObject> gameObject, float offsetX, float offsetY, float offsetZ)
+{
+	if (!gameObject->getTransform())
+		throw std::runtime_error("Game Object does not have a valid transform component");
+
+	m_attachedTo = gameObject;
+	m_attachedOffset = XMFLOAT3(offsetX, offsetY, offsetZ);
+}
+
+void Camera::updatePosition()
+{
+	if (!m_attachedTo)
+		return;
+	auto pos_f = m_attachedTo->getTransform()->getPosition() + m_attachedOffset;
+	setPosition(pos_f.x, pos_f.y, pos_f.z);
 }
 
 DirectX::XMMATRIX Camera::getViewMatrix()
