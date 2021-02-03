@@ -510,7 +510,7 @@ void DXDevice::updateResourcesMapUnmap(ID3D11Resource* resource, void* data, uns
 	m_core.getImmediateContext()->Unmap(resource, 0);
 }
 
-void DXDevice::updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx, D3D11_BOX* box = nullptr, unsigned int srcRowPitch, unsigned int srcDepthPitch)
+void DXDevice::updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx, D3D11_BOX* box, unsigned int srcRowPitch, unsigned int srcDepthPitch)
 {
 	if (resource == nullptr)    assert(false);
 
