@@ -6,8 +6,6 @@
 OrientedBoxCollider::OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions)
 {
 	m_obb.Extents = dimensions / 2;
-	m_obb.Center = m_transform->getPosition();
-	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getWorldMatrix()));
 	
 	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }

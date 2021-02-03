@@ -3,8 +3,8 @@
 Transform::Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Vector3 rotation)
 {
 	setPosition(position);
-	setPosition(scale);
-	setPosition(rotation);
+	setScale(scale);
+	setRotation(rotation);
 
 	m_componentType = ComponentEnum::TRANSFORM;
 }
