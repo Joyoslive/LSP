@@ -33,6 +33,8 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
+    <ClCompile Include="Graphics\Model.cpp" />
+    <ClCompile Include="Graphics\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -63,6 +65,9 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
+    <ClInclude Include="Graphics\Model.h" />
+    <ClInclude Include="Graphics\ResourceRepository.h" />
+    <ClInclude Include="Graphics\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

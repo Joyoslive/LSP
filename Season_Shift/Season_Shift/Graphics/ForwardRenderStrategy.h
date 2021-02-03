@@ -10,9 +10,11 @@ private:
 	std::shared_ptr<DXBuffer> vb, ib;
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
 
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_sampler;
+
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();
-	void render() override;
+	void render(const std::vector<std::shared_ptr<Model>>& models) override;
 };
 
