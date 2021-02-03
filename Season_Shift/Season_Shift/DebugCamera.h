@@ -4,8 +4,12 @@
 
 class DebugCamera {
 private:
-	Camera camera
+	Camera camera;
 public:
+	DebugCamera();
+	~DebugCamera();
+
+
 	void Move();
 	void Rotate();
 };
