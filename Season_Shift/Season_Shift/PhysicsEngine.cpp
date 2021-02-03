@@ -37,3 +37,7 @@ PhysicsEngine::PhysicsEngine()
 PhysicsEngine::~PhysicsEngine()
 {
 }
+
+void PhysicsEngine::addScene(Ref<Scene> scene)
+{
+}
