@@ -1,3 +1,10 @@
+cbuffer MatrixBuffer : register(b0)
+{
+    matrix worldMatrix;
+    matrix viewMatrix;
+    matrix projectionMatrix;
+};
+
 struct VS_IN
 {
     float3 pos : POSITION;

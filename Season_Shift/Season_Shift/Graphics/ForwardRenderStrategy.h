@@ -11,6 +11,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
 
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_sampler;
+	std::shared_ptr<DXBuffer> matrixBuffer;
 
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
