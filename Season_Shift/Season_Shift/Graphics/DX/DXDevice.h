@@ -119,13 +119,13 @@ public:
 	void bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset);
 	void bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb);
 
-	void bindViewports(const std::vector<D3D11_VIEWPORT> vps);
+	void bindViewports(const std::vector<D3D11_VIEWPORT>& vps);
 
-	void Draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
-	void DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
-	void DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
+	void draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
+	void drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
+	void drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
 
-	void clearRenderTarget(const std::shared_ptr<DXTexture> target, float color[4]);
+	void clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4]);
 	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 0.0, float stencil = 0.0);
 
 	/*
@@ -144,6 +144,7 @@ public:
 
 	void MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx = 0, unsigned int mapFlag = 0);
 
+	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
 
 
 	/*

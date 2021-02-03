@@ -1,5 +1,6 @@
 #pragma once
 #include "GfxRenderer.h"
+#include "Model.h"
 
 /*
 
@@ -16,6 +17,6 @@ protected:
 public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	virtual ~IRenderStrategy();
-	virtual void render() = 0;
+	virtual void render(const std::vector<std::shared_ptr<Model>>& models) = 0;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+
 #include <vector>
 
 class PhysicsEngine
@@ -13,10 +14,7 @@ public:
 	PhysicsEngine();
 	~PhysicsEngine();
 
-	Ref<Collider> Collide(Ref<Collider> collider);
-
 	
-
 	std::vector<Ref<GameObject>> m_tempScene;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "RigidBodyComponent.h"
+#include "RigidBody.h"
 #include "Transform.h"
 #include "Logic.h"
 #include "Collider.h"
@@ -24,7 +24,7 @@ public:
 	std::string getName() const;
 
 	template<typename T>
-	Ref<T> getComponentType()
+	Ref<T> getComponentType(Component::ComponentEnum componentType)
 	{
 		if (typeid(T) == typeid(Transform))
 		{
@@ -34,7 +34,7 @@ public:
 		{
 			for (auto& c : m_componentVector)
 			{
-				if (typeid(T) == typeid(*c))
+				if ((int)(componentType & c->m_componentType))
 				{
 					return std::dynamic_pointer_cast<T>(c);
 				}
@@ -44,12 +44,12 @@ public:
 	}
 
 	template<typename T>
-	std::vector<Ref<T>> getMultipleComponentType()
+	std::vector<Ref<T>> getMultipleComponentType(Component::ComponentEnum componentType)
 	{	
 		std::vector<Ref<T>> vec;
 		for (auto& c : m_componentVector)
 		{
-			if (typeid(T) == typeid(*c))
+			if ((int)(componentType & c->m_componentType))
 			{
 				vec.push_back(std::dynamic_pointer_cast<T>(c));
 			}
@@ -60,6 +60,8 @@ public:
 
 	void start();
 	void update();
+
+	void clearGameObject();
 
 	int AddComponent(Ref<Component> component);
 	Ref<Transform> getTransform();

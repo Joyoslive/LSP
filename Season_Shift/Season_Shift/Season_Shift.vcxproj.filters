@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -22,9 +21,9 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -42,11 +41,15 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="OrientedBoxCollider.cpp" />
+    <ClCompile Include="Graphics\Model.cpp" />
+    <ClCompile Include="Graphics\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Logic.h" />
@@ -63,12 +66,19 @@
     <ClInclude Include="Graphics\IRenderStrategy.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="OrientedBoxCollider.h" />
+    <ClInclude Include="Graphics\Model.h" />
+    <ClInclude Include="Graphics\ResourceRepository.h" />
+    <ClInclude Include="Graphics\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

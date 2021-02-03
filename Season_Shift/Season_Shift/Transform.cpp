@@ -5,6 +5,8 @@ Transform::Transform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath:
 	setPosition(position);
 	setPosition(scale);
 	setPosition(rotation);
+
+	m_componentType = ComponentEnum::TRANSFORM;
 }
 
 Transform::Transform()
@@ -12,6 +14,8 @@ Transform::Transform()
 	setPosition(DirectX::SimpleMath::Vector3(0, 0, 0));
 	setScale(DirectX::SimpleMath::Vector3(1, 1, 1));
 	setRotation(DirectX::SimpleMath::Vector3(0, 0, 0));
+
+	m_componentType = ComponentEnum::TRANSFORM;
 }
 
 Transform::~Transform()
