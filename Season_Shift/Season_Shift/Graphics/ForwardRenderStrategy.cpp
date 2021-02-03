@@ -102,7 +102,7 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 {
 }
 
-void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models)
+void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, std::shared_ptr<Camera> mainCamera)
 {
 	auto dev = m_renderer->getDXDevice();
 
@@ -112,11 +112,18 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	
 	dev->bindBackBufferAsTarget();
 
+	DirectX::XMMATRIX matrices[3] = {{}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix()};
+
 	for (auto& mod : models)
 	{
 		mod->getMaterial()->bindShader(m_renderer->getDXDevice());
 		mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
 
+		matrices[0] = DirectX::XMMatrixIdentity();
+
+		dev->updateResourcesMapUnmap(matrixBuffer->getBuffer().Get(), matrices, sizeof(matrices));
+
+		m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
 		dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 		dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
 
