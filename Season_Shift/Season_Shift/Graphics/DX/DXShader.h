@@ -41,7 +41,7 @@ inline T* DXShader::getShader() const
 {
 	try
 	{
-		Microsoft::WRL::ComPtr<T> tmp = std::any_cast<Microsoft::WRL::ComPtr<T>>(m_shader);
+		Microsoft::WRL::ComPtr<T> tmp = std::any_cast<Microsoft::WRL::ComPtr<T>>(m_shader);		// this assignment costs.. (reference count)	perhaps we can keep a naked COM for the Shaders instead of using ComPtr
 		return tmp.Get();
 	}
 	catch (const std::bad_any_cast& e)

@@ -221,6 +221,23 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 		ComPtr<ID3D11Texture2D> t = nullptr;
 		HRCHECK(m_core.getDevice()->CreateTexture2D(&desc.desc2D, subres, t.GetAddressOf()));
 		tex = std::make_shared<DXTexture>(t, desc);
+
+		/*
+		Temporary below! We should be able to branch to SRV, DSV, RTV and UAV
+		*/
+
+		// SRV
+		ComPtr<ID3D11ShaderResourceView> srv;
+		D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
+		mtSRV.Format = desc.desc2D.Format;
+		mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		mtSRV.Texture2D.MostDetailedMip = 0;
+		mtSRV.Texture2D.MipLevels = 1;		// temporary for now
+
+		HRCHECK(m_core.getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
+
+		tex->setSRV(srv);
+
 	}
 	// TEX3D
 	else
@@ -229,6 +246,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 		HRCHECK(m_core.getDevice()->CreateTexture3D(&desc.desc3D, subres, t.GetAddressOf()));
 		tex = std::make_shared<DXTexture>(t, desc);
 	}
+
 	
 	return tex;
 }
@@ -331,6 +349,12 @@ void DXDevice::bindShaderSampler(DXShader::Type stage, unsigned int slot, const 
 
 void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res)
 {
+	if (!res)
+		return;
+
+	if (!res->getSRV())
+		return;
+
 	switch (stage)
 	{
 	case DXShader::Type::VS:
@@ -408,27 +432,27 @@ void DXDevice::bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb)
 
 }
 
-void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT> vps)
+void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 {
 	m_core.getImmediateContext()->RSSetViewports(vps.size(), vps.data());
 }
 
-void DXDevice::Draw(unsigned int vtxCount, unsigned int vbStartIdx)
+void DXDevice::draw(unsigned int vtxCount, unsigned int vbStartIdx)
 {
 	m_core.getImmediateContext()->Draw(vtxCount, vbStartIdx);
 }
 
-void DXDevice::DrawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
+void DXDevice::drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
 {
 	m_core.getImmediateContext()->DrawIndexed(idxCount, ibStartIdx, vbStartIdx);
 }
 
-void DXDevice::DrawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
+void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
 {
 	m_core.getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
 }
 
-void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture> target, float color[4])
+void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4])
 {
 	if (target->getRTV() == nullptr) assert(false);
 
@@ -484,4 +508,9 @@ void DXDevice::MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource,
 	std::memcpy(subres.pData, data, dataSize);		// memcpy?.. maybe it costs a lot?
 
 	m_core.getImmediateContext()->Unmap(resource.Get(), 0);
+}
+
+const Microsoft::WRL::ComPtr<ID3D11Device>& DXDevice::getDevice()
+{
+	return m_core.getDevice();
 }

@@ -19,10 +19,20 @@ std::string GameObject::getName() const
 
 
 
+void GameObject::clearGameObject()
+{
+	for (int i = 0; i < m_componentVector.size(); ++i)
+	{
+		m_componentVector[i]->setGameObject(nullptr);
+		m_componentVector[i]->setTransform(nullptr);
+	}
+	m_componentVector.clear();
+	m_transform = nullptr;
+}
 
 void GameObject::start()
 {
-	for (auto& logic : getMultipleComponentType<Logic>())
+	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::LOGIC))
 	{
 		logic->start();
 	}
@@ -30,7 +40,7 @@ void GameObject::start()
 
 void GameObject::update()
 {
-	for (auto& logic : getMultipleComponentType<Logic>())
+	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::LOGIC))
 	{
 		logic->update();
 	}

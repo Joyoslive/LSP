@@ -13,3 +13,11 @@ public:
 	virtual void onCollision();
 };
 
+class Test : public Logic
+{
+public:
+	void start() override;
+	void update() override;
+	void onCollision() override;
+};
+
