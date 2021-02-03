@@ -58,8 +58,10 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	HRCHECK(m_renderer->getDXDevice()->getDevice()->CreateSamplerState(&sDesc, m_sampler.GetAddressOf()));
 
+	
+	// Create a matrix buffer
 
-
+	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 
 	// Binds
 	//dev->bindDrawBuffer(vb);
