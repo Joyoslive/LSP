@@ -8,10 +8,9 @@ struct VS_OUT
 
 SamplerState g_defSamp : register(s0);
 
-Texture2D g_ambTex : register(t0);
 Texture2D g_difTex : register(t1);
-Texture2D g_specTex : register(t2);
-Texture2D g_norTex : register(t3);
+Texture2D g_specTex : register(t1);
+Texture2D g_norTex : register(t2);
 
 float4 main(VS_OUT input) : SV_TARGET
 {

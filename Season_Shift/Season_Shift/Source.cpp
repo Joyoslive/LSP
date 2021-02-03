@@ -12,8 +12,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
 	// Material
-	auto mat1 = gph.getResourceDevice()->createMaterial("DefaultVS.cso", "DefaultPS.cso",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
+	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
@@ -32,8 +31,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	verts.push_back({ Vector3(-0.75, -0.75, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
 
 	std::vector<uint32_t> indices = {
-	0, 1, 2,
-	0, 2, 3
+		0, 1, 2,
+		0, 2, 3
 	};
 
 	// Create mesh with id!

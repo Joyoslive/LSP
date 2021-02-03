@@ -12,7 +12,6 @@ public:
 
 	struct PhongMaps
 	{
-		std::shared_ptr<DXTexture> ambient;
 		std::shared_ptr<DXTexture> diffuse;
 		std::shared_ptr<DXTexture> specular;
 		std::shared_ptr<DXTexture> normal;

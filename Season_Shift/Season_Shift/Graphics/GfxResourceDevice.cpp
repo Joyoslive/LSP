@@ -45,6 +45,8 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	return tex;
 }
 
+
+
 std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
 	if (m_meshRepo.exists(meshID)) assert(false);		// Mesh with same ID already exists!
@@ -75,42 +77,64 @@ std::shared_ptr<Model> GfxResourceDevice::assembleModel(const std::string& meshI
 
 }
 
-std::shared_ptr<Material> GfxResourceDevice::createMaterial(const std::string& vsFileName, const std::string& psFileName, const std::string& ambPath, const std::string& difPath, const std::string& specPath, const std::string& normPath)
+std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxShader shader)
 {
+	std::string vsFileName, psFileName;
 
-	// Load shaders
+	switch (shader)
+	{
+	case GfxShader::DEFAULT:
+		vsFileName = "DefaultVS.cso";
+		psFileName = "DefaultPS.cso";
+		break;
 
-	// Check hash first if this shaderset is already loaded!
+	default:
+		assert(false);
+
+	}
+
 	std::string shdPathToHash = vsFileName + psFileName;
 	size_t shdHash = std::hash<std::string>{}(shdPathToHash);
 
 	Material::ShaderSet shaders;
 	if (!m_shaderSetRepo.exists(shdHash))
 	{
+
+		// Here we should ASK DXDevice for the Shaders rather than create them! 
+		// --> We assume that all shaders are loaded into the program at start time!
+
 		auto vs = m_dxDev->createShader(vsFileName, DXShader::Type::VS);
 		auto ps = m_dxDev->createShader(psFileName, DXShader::Type::PS);
 
 		shaders = { vs, ps };
 	};
-	
+
 	shaders = m_shaderSetRepo.add(shdHash, shaders);  // If hash already exists, the existing shader will be returned and old one will be discarded.
+
+	return { shdHash, shaders };
+}
+
+std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath)
+{
+	// Load shaders
+
+	auto hashAndShaders = loadShader(shader);
 
 	// Load textures
 	Material::PhongMaps maps;
 
 	// Check hash first before loading texture!
-	std::string texPathToHash = ambPath + difPath + specPath + normPath;
+	std::string texPathToHash = difPath + specPath + normPath;
 	size_t texHash = std::hash<std::string>{}(texPathToHash);
 
 	std::shared_ptr<Material> matToAdd = nullptr;
 	if (!m_materialRepo.exists(texHash))
 	{
-		maps.ambient = loadTexture(ambPath);
 		maps.diffuse = loadTexture(difPath);
 		maps.specular = loadTexture(specPath);
 		maps.normal = loadTexture(normPath);
 
-		matToAdd = std::make_shared<Material>(shaders, maps, texHash, shdHash);
+		matToAdd = std::make_shared<Material>(hashAndShaders.second, maps, texHash, hashAndShaders.first);
 	}
 
 	std::shared_ptr<Material> mat = m_materialRepo.add(texHash, matToAdd);			// If hash already exists, the existing mat will be returned and matToAdd will be discarded
