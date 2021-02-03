@@ -38,6 +38,7 @@ public:
 		UP,
 		RIGHT,
 		FORWARD,
+		GLOBAL_UP,
 	};
 
 public:

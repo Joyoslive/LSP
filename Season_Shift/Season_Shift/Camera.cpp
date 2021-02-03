@@ -142,6 +142,9 @@ void Camera::rotateAroundSetAxis(Axis axis, float angle)
 		case FORWARD:
 			axisVector = m_direction;
 			break;
+		case GLOBAL_UP:
+			axisVector = m_globalUp;
+			break;
 	}
 
 	rotateAroundAxis(axisVector, angle);
