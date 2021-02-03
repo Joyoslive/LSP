@@ -12,6 +12,7 @@ private:
 public:
 	Collider();
 	virtual ~Collider();
+	virtual void update() = 0;
 	virtual bool collide(Ref<Collider> collider) = 0;	
 };
 

@@ -13,6 +13,7 @@ public:
 	~SphereCollider();
 
 	bool collide(Ref<Collider> collider) override;
+	void update() override;
 
 	DirectX::BoundingSphere getInternalCollider();
 
