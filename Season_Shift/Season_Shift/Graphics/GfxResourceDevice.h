@@ -5,6 +5,7 @@
 #include "Material.h"
 #include "ResourceRepository.h"
 #include "Model.h"
+#include "AssimpLoader.h"
 
 /*
 
@@ -27,6 +28,7 @@ class GfxResourceDevice
 {
 private:
 	std::shared_ptr<DXDevice> m_dxDev;
+	std::unique_ptr<AssimpLoader> m_assimpLoader;
 
 	ResourceRepository<std::size_t, Material::ShaderSet> m_shaderSetRepo;
 	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;			
@@ -57,6 +59,10 @@ public:
 	*/
 	std::shared_ptr<Model> assembleModel(const std::string& meshID, std::shared_ptr<Material> material);
 
+	/*
+	Create single model (one mesh) from file
+	*/
+	std::shared_ptr<Model> createModel(const std::string& fileName);
 
 
 };

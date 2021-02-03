@@ -4,7 +4,8 @@
 GfxResourceDevice::GfxResourceDevice(std::shared_ptr<DXDevice> dev) :
 	m_dxDev(dev)
 {
-	
+	m_assimpLoader = std::make_unique<AssimpLoader>();
+
 }
 
 GfxResourceDevice::~GfxResourceDevice()
@@ -75,6 +76,26 @@ std::shared_ptr<Model> GfxResourceDevice::assembleModel(const std::string& meshI
 
 	return modToAdd;			// NO REPO FOR NOW FOR MODELS!
 
+}
+
+std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& fileName)
+{
+	EngineMeshData modelData = m_assimpLoader->loadStaticModel("Models/" + fileName);
+
+	// Load model in one mesh
+	D3D11_SUBRESOURCE_DATA subresData;
+	ZeroMemory(&subresData, sizeof(D3D11_SUBRESOURCE_DATA));
+	auto mesh = createMesh(fileName, modelData.vertices, modelData.indices);
+
+	// Load material (To-do: Add subsets to Model)
+	for (auto& subsetInfo : modelData.subsetsInfo)
+	{
+
+
+
+	}
+
+	return nullptr;
 }
 
 std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxShader shader)
