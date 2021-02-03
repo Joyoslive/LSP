@@ -4,6 +4,8 @@
 #include "Transform.h"
 #include "Logic.h"
 #include "Collider.h"
+#include "SphereCollider.h"
+#include "OrientedBoxCollider.h"
 #include <vector>
 #include <memory>
 #include <string>

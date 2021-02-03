@@ -9,11 +9,12 @@ private:
 	
 
 public:
-	SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius);
+	SphereCollider(float radius);
 	~SphereCollider();
 
 	bool collide(Ref<Collider> collider) override;
 	void update() override;
+	void initialize() override;
 
 	DirectX::BoundingSphere getInternalCollider();
 

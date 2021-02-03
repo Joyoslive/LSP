@@ -47,6 +47,7 @@ protected:
 	Ref<Transform> m_transform;
 	Ref<GameObject> m_gameObject;
 	ComponentEnum m_componentType;
+	virtual void initialize();
 
 private:
 	void setTransform(Ref<Transform> transform);

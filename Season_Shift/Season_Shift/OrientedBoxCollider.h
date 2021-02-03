@@ -13,6 +13,9 @@ public:
 	~OrientedBoxCollider();
 
 	bool collide(Ref<Collider> collider) override;
+	void update() override;
+
+	void initialize() override;
 
 	DirectX::BoundingOrientedBox getInternalCollider();
 

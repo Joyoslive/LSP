@@ -3,6 +3,7 @@
 #include <string>
 #include "GameObject.h"
 #include "PhysicsEngine.h"
+#include "SceneManager.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -12,7 +13,24 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
+
+	SceneManager sceneManager = SceneManager();
+
 	PhysicsEngine pe = PhysicsEngine();
+	pe.addScene(sceneManager.getActiveScene());
+
+	Ref<GameObject> go1 = std::make_shared<GameObject>();
+	go1->AddComponent(std::make_shared<Transform>());
+	go1->getTransform()->setPosition(DirectX::XMFLOAT3(-3, 0, 0));
+	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
+
+	std::vector<Ref<Collider>> testVec = pe.checkCollide(go1->getComponentType<Collider>(Component::ComponentEnum::COLLIDER));
+	if (testVec.size() > 0)
+	{
+		std::wstring outPut = L"det fungerar";
+		OutputDebugString(outPut.c_str());
+	}
+
 	// Material
 	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
@@ -55,6 +73,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+
+		sceneManager.updateActiveScene();
 
 		// Do stuff
 		gph.render(models);

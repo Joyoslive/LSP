@@ -8,7 +8,7 @@
 class PhysicsEngine
 {
 private:
-	//Ref<Scene> = 
+	Ref<Scene> m_scene;
 
 
 public:
@@ -16,6 +16,6 @@ public:
 	~PhysicsEngine();
 
 	void addScene(Ref<Scene> scene);
-	std::vector<Ref<GameObject>> m_tempScene;
+	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 };
 

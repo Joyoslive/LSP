@@ -16,6 +16,10 @@ Component::ComponentEnum Component::getType() const
 	return m_componentType;
 }
 
+void Component::initialize()
+{
+}
+
 void Component::setTransform(Ref<Transform> transform)
 {
 	m_transform = transform;

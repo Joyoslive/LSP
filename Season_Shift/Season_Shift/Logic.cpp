@@ -1,5 +1,6 @@
 #include "Logic.h"
 
+
 Logic::Logic()
 {
 	m_componentType = ComponentEnum::LOGIC;
@@ -20,7 +21,7 @@ void Logic::update()
 
 }
 
-void Logic::onCollision()
+void Logic::onCollision(Ref<Collider> collider)
 {
 
 }
@@ -37,7 +38,7 @@ void Test::update()
 	m_transform->setPosition(pos);
 }
 
-void Test::onCollision()
+void Test::onCollision(Ref<Collider> collider)
 {
 
 }

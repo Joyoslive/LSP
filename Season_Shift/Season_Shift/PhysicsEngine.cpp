@@ -6,7 +6,7 @@ using namespace DirectX;
 
 PhysicsEngine::PhysicsEngine()
 {
-	Ref<GameObject> go1 = std::make_shared<GameObject>();
+	/*Ref<GameObject> go1 = std::make_shared<GameObject>();
 	go1->AddComponent(std::make_shared<Transform>());
 	go1->getTransform()->setPosition(DirectX::XMFLOAT3(0, 0, 0));
 	go1->AddComponent(std::make_shared<SphereCollider>(go1->getTransform()->getPosition(), 2.0f));
@@ -32,7 +32,7 @@ PhysicsEngine::PhysicsEngine()
 	{
 		hej = 10;
 	}
-	hej = 1;
+	hej = 1;*/
 }
 PhysicsEngine::~PhysicsEngine()
 {
@@ -40,4 +40,32 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::addScene(Ref<Scene> scene)
 {
+	m_scene = scene;
+}
+
+std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat
+{
+	std::vector<Ref<Collider>> colliderVec;
+	for (auto& go : m_scene->getSceneGameObjects())
+	{
+		Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
+		if (other != nullptr)
+		{
+			if (collider->collide(other))
+			{
+				Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+				if (logic != nullptr)
+				{
+					logic->onCollision(collider);
+				}
+				logic = collider->getGameObject()->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+				if (logic != nullptr)
+				{
+					logic->onCollision(other);
+				}
+				colliderVec.push_back(other);
+			}
+		}
+	}
+	return colliderVec;
 }

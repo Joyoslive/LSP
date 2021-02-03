@@ -1,5 +1,6 @@
 #include "Scene.h"
 
+
 using namespace DirectX::SimpleMath;
 
 Scene::Scene()
@@ -22,6 +23,16 @@ void Scene::setUpScene()
 	gObj->AddComponent(test);
 	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
+
+	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(5,0,0));
+	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
+
+	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));
+	go2->AddComponent(std::make_shared<SphereCollider>(2.0f));*/
+
+
+	
+
 }
 
 void Scene::resetScene()
@@ -93,4 +104,9 @@ void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
 	removeGameObject(destroyGameObject);
 	destroyGameObject->clearGameObject();
+}
+
+std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()
+{
+	return m_sceneGameObjects;
 }

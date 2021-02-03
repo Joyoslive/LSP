@@ -70,6 +70,8 @@ int GameObject::AddComponent(Ref<Component> component)
 	
 	component->setGameObject(shared_from_this());
 	component->setTransform(m_transform);
+
+	component->initialize();
 	return 0;
 }
 
