@@ -20,6 +20,7 @@ public:
 		COLLIDER = 8,
 		SPHERE_COLLIDER = 16,
 		ORIENTED_BOX_COLLIDER = 32,
+		MODEL = 64
 	};
 
 	friend inline ComponentEnum operator &(ComponentEnum l, ComponentEnum r)

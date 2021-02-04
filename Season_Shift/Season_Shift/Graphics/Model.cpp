@@ -7,6 +7,7 @@ Model::Model(std::shared_ptr<Mesh> mesh, std::vector<SubsetMaterial> materials) 
 {
     //m_renderID.shdId = material->m_shaderHash;
     //m_renderID.matId = material->m_textureHash;
+    m_componentType = Component::ComponentEnum::MODEL;
 }
 
 Model::~Model()

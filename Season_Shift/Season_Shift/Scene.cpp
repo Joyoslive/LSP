@@ -3,9 +3,9 @@
 
 using namespace DirectX::SimpleMath;
 
-Scene::Scene()
+Scene::Scene(Graphics *graphics)
 {
-
+	m_graphics = graphics;
 }
 
 Scene::~Scene()
@@ -15,6 +15,9 @@ Scene::~Scene()
 
 void Scene::setUpScene()
 {
+	Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	//vector.pushback(model);
+
 	createGameObject();
 	createGameObject("GameObject1");
 	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
@@ -26,6 +29,7 @@ void Scene::setUpScene()
 
 	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(5,0,0));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
+	go1->AddComponent(model);
 
 	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));
 	go2->AddComponent(std::make_shared<SphereCollider>(2.0f));*/
@@ -104,6 +108,12 @@ void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
 	removeGameObject(destroyGameObject);
 	destroyGameObject->clearGameObject();
+}
+
+Ref<std::vector<Ref<Model>>>& Scene::getSceneModels()
+{
+	Ref<std::vector<Ref<Model>>> modelVector = std::make_shared<std::vector<Ref<Model>>>();
+	return modelVector;
 }
 
 std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()
