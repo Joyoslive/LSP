@@ -111,7 +111,7 @@ void Camera::setPosition(DirectX::CXMVECTOR position)
 
 void Camera::setRotation(float roll, float pitch, float yaw)
 {
-	resetCamera(true, false);
+	resetCamera(false, false);
 	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
 	auto baseUp = XMFLOAT3(0, 1, 0);

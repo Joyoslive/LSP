@@ -44,14 +44,14 @@ void Input::MouseMovment(float &m_pitch, float &m_yaw) {
 		DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y))
 			* 0.0004f;
 
-		m_pitch -= delta.y;
-		m_yaw -= delta.x;
+		m_pitch += delta.y;
+		m_yaw += delta.x;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
 		float limit = DirectX::XM_PI / 2.0f - 0.01f;
-		m_pitch = max(-limit, m_pitch);
-		m_pitch = min(+limit, m_pitch);
+		m_pitch = std::max(-limit, m_pitch);
+		m_pitch = std::min(+limit, m_pitch);
 
 		// keep longitude in sane range by wrapping
 		if (m_yaw > DirectX::XM_PI)

@@ -15,7 +15,7 @@ DebugCamera::DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera)
 	input.Init(wndHandle);
 
 	camera = incomingCamera;
-	camera->setPosition(DirectX::XMVectorGetX(position), DirectX::XMVectorGetY(position), DirectX::XMVectorGetZ(position));
+	camera->setPosition(position);
 	camera->setRotation(pitch, roll, yaw);
 
 }
@@ -49,7 +49,7 @@ void DebugCamera::Move() {
 	if (input.KeyBeingPressed(Input::Space)) {
 		position += speed * up;
 	}
-	camera->setPosition(DirectX::XMVectorGetX(position), DirectX::XMVectorGetY(position), DirectX::XMVectorGetZ(position));
+	camera->setPosition(position);
 }
 
 void DebugCamera::Rotate() {
