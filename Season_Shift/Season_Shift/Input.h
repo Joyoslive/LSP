@@ -29,7 +29,7 @@ public:
 	~Input();
 
 	DirectX::SimpleMath::Vector2 MousePos();
-	void MouseMovment(float &m_pitch, float &m_yaw);
+	void MouseMovement(float &m_pitch, float &m_yaw);
 	bool KeyBeingPressed(Keys key);
 	bool KeyPressed(Keys key);
 	bool MouseBeingPressed(MouseKeys key);
