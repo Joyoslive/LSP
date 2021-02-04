@@ -6,6 +6,7 @@
 #include "ResourceRepository.h"
 #include "Model.h"
 #include "AssimpLoader.h"
+#include <set>
 
 /*
 
@@ -33,6 +34,7 @@ private:
 	ResourceRepository<std::size_t, Material::ShaderSet> m_shaderSetRepo;
 	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;
 	ResourceRepository<std::string, std::shared_ptr<Mesh>> m_meshRepo;
+	ResourceRepository<std::size_t, EngineMeshData> m_modelRepo;
 
 	
 private:

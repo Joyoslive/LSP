@@ -3,9 +3,9 @@
 
 using namespace DirectX::SimpleMath;
 
-Scene::Scene()
+Scene::Scene(Graphics *graphics)
 {
-
+	m_graphics = graphics;
 }
 
 Scene::~Scene()
@@ -15,6 +15,12 @@ Scene::~Scene()
 
 void Scene::setUpScene()
 {
+	Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	addModel(model);
+
+	Ref<Model> model2 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	addModel(model2);
+
 	createGameObject();
 	createGameObject("GameObject1");
 	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
@@ -24,8 +30,12 @@ void Scene::setUpScene()
 	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
 
-	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(5,0,0));
+	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(1,0,4), Vector3(0.2f, 0.2f, 0.2f));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
+	go1->AddComponent(model);
+
+	Ref<GameObject> go2 = createGameObject("colliderTest2", Vector3(-2.0, 0, 2), Vector3(0.2f, 0.2f, 0.2f));
+	go2->AddComponent(model2);
 
 
 
@@ -51,6 +61,7 @@ void Scene::emptyScene()
 		destroyGameObject(m_sceneGameObjects[i]);
 		--i;
 	}
+	clearModels();
 	//m_sceneGameObjects.
 }
 
@@ -87,6 +98,16 @@ void Scene::removeGameObject(Ref<GameObject> gameObject)
 	}
 }
 
+void Scene::addModel(Ref<Model> model)
+{
+	m_sceneModels.push_back(model);
+}
+
+void Scene::clearModels()
+{
+	m_sceneModels.clear();
+}
+
 Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 position, Vector3 scale, Vector3 rotation)
 {
 	if (gameObjectName == "")
@@ -106,6 +127,20 @@ void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
 	removeGameObject(destroyGameObject);
 	destroyGameObject->clearGameObject();
+}
+
+std::vector<Ref<Model>> Scene::getModels()
+{
+	std::vector<Ref<Model>> modelVector; 
+	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+	{
+		Ref<Model> tempModel = m_sceneGameObjects[i]->getComponentType<Model>(Component::ComponentEnum::MODEL);
+		if (tempModel != nullptr)
+		{
+			modelVector.push_back(tempModel);
+		}
+	}
+	return modelVector;
 }
 
 std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()

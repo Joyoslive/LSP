@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
+#include "Graphics/Model.h"
 #include "Scene.h"
 #include <vector>
 #include <memory>
