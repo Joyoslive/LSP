@@ -89,7 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +107,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,7 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
