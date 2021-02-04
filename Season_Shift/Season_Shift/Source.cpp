@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "PhysicsEngine.h"
 #include "SceneManager.h"
+#include "DebugCamera.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -13,6 +14,12 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
+	PhysicsEngine pe = PhysicsEngine();
+	// Material
+	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
 
 	SceneManager sceneManager = SceneManager();
 	Ref<Scene> scene = sceneManager.getActiveScene();
@@ -57,6 +64,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
 
+	DebugCamera debugCamerea(win.getHWND(), cam);
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -71,6 +79,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
+		debugCamerea.Move();
+		debugCamerea.Rotate();
 		gph.render(models, cam);
 
 	}

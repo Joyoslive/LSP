@@ -29,6 +29,9 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Graphics\DX\GraphicUtils.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
+    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
@@ -77,6 +80,11 @@
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="Input.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
     <ClInclude Include="Logger.h" />
   </ItemGroup>
 </Project>
