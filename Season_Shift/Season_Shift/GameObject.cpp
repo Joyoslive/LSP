@@ -46,9 +46,10 @@ void GameObject::start()
 
 void GameObject::update()
 {
-	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::LOGIC))
+	std::dynamic_pointer_cast<Component>(m_transform)->update();
+	for (auto& component : m_componentVector)
 	{
-		logic->update();
+		component->update();
 	}
 }
 
