@@ -73,6 +73,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	//dev->bindShader(vs, DXShader::Type::VS);
 	//dev->bindShader(ps, DXShader::Type::PS);
 
+	m_tmpBuf = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
+
 
 	/*
 	
@@ -110,6 +112,22 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	
 	dev->bindBackBufferAsTarget();
 
+
+	DirectX::XMMATRIX worldMat = DirectX::XMMatrixScaling(0.2, 0.2, 0.2);
+	worldMat *= DirectX::XMMatrixTranslation(0.0, -.0, 2.0);;
+
+	DirectX::XMVECTOR eye, focus, up;
+	eye = DirectX::XMVectorSet(0.0, 0.0, 0.0, 1.0);
+	focus = DirectX::XMVectorSet(0.0, 0.0, 1.0, 1.0);
+	up = DirectX::XMVectorSet(0.0, 1.0, 0.0, 1.0);
+
+	DirectX::XMMATRIX viewMat = DirectX::XMMatrixLookAtLH(eye, focus, up);
+
+	DirectX::XMMATRIX projMat = DirectX::XMMatrixPerspectiveFovLH(90.0 * (3.1415 / 180.0), 16.0 / 9.0, 0.1, 100.0);
+
+	DirectX::XMMATRIX matrices[3] = { worldMat, viewMat, projMat };
+
+
 	for (auto& mod : models)
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
@@ -117,6 +135,9 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
+
+			dev->MapUpdate(m_tmpBuf->getBuffer(), &matrices, sizeof(matrices), D3D11_MAP_WRITE_DISCARD);
+			dev->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_tmpBuf);
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
@@ -127,11 +148,6 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 			//dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 			//dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
 		}
-
-
-
-
-
 	}
 
 
