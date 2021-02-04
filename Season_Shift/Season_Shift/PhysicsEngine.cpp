@@ -20,9 +20,9 @@ PhysicsEngine::~PhysicsEngine()
 
 }
 
-void PhysicsEngine::addScene(Ref<Scene> scene)
+void PhysicsEngine::updateScene(Ref<Scene> activeScene)
 {
-	m_scene = scene;
+	m_scene = activeScene;
 }
 
 std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat

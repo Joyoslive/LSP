@@ -17,7 +17,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	SceneManager sceneManager = SceneManager();
 
 	PhysicsEngine pe = PhysicsEngine();
-	pe.addScene(sceneManager.getActiveScene());
+	sceneManager.addObserver((Ref<PhysicsEngine>)&pe);
 
 
 	// Material

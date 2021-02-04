@@ -3,9 +3,10 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
+#include "SceneManagerObserver.h"
 #include <vector>
 
-class PhysicsEngine
+class PhysicsEngine : public SceneManagerObserver
 {
 private:
 	Ref<Scene> m_scene;
@@ -19,7 +20,7 @@ public:
 	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
 	~PhysicsEngine();
 
-	void addScene(Ref<Scene> scene);
+	void updateScene(Ref<Scene> activeScene) override;
 	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 	
 	void simulate(Ref<RigidBody> rigidBody);
