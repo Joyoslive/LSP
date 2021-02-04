@@ -161,6 +161,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics\Material.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Graphics\DX\DXShader.cpp" />
     <ClCompile Include="Graphics\DX\DXBuffer.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="PhysicsEngine.h" />
