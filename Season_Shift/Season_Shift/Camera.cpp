@@ -33,7 +33,7 @@ Camera::Camera(float x, float y, float z)
 
 Camera::~Camera() {}
 
-void Camera::resetCamera(bool pos = true, bool rot = true)
+void Camera::resetCamera(bool pos, bool rot)
 {
 	auto f = XMFLOAT3(0, 0, 0);
 	if (pos) {
