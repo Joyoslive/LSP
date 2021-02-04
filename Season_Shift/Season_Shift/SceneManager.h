@@ -23,5 +23,6 @@ public:
 	void changeScene(const int& sceneIndex);
 	void updateActiveScene() const;
 	void addObserver(Ref<SceneManagerObserver> observer);
+	void removeObserver(Ref<SceneManagerObserver> observer);
 };
 

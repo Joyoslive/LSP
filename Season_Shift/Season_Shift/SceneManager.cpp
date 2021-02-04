@@ -63,6 +63,18 @@ void SceneManager::addObserver(Ref<SceneManagerObserver> observer)
 	m_observers.push_back(observer);
 }
 
+void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
+{
+	for (int i = 0; i < m_observers.size(); ++i)
+	{
+		if (observer == m_observers[i])
+		{
+			m_observers.erase(m_observers.begin() + i);
+			break;
+		}
+	}
+}
+
 void SceneManager::updateObservers()
 {
 	for (int i = 0; i < m_observers.size(); ++i)
