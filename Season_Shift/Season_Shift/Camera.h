@@ -26,7 +26,7 @@ private:
 	std::shared_ptr<GameObject> m_attachedTo;
 	DirectX::XMFLOAT3 m_attachedOffset;
 private:
-	void resetCamera();			// Reset the camera to (0,0,0) pos and rotation 
+	void resetCamera(bool pos=true, bool rot=true);			// Reset the camera to (0,0,0) pos and rotation 
 	void calculateViewMatrix();
 	void calculateProjectionMatrix();
 	void calculateOrthographicMatrix();
@@ -47,6 +47,7 @@ public:
 	~Camera();
 
 	void setPosition(float x, float y, float z);
+	void setPosition(DirectX::CXMVECTOR position);
 	void setRotation(float roll, float pitch, float yaw);
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Axis axis, float angle);

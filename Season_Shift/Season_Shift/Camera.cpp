@@ -33,7 +33,7 @@ Camera::Camera(float x, float y, float z)
 
 Camera::~Camera() {}
 
-void Camera::resetCamera()
+void Camera::resetCamera(bool pos = true, bool rot = true)
 {
 	auto f = XMFLOAT3(0, 0, 0);
 	m_position = XMLoadFloat3(&f);
@@ -100,6 +100,11 @@ void Camera::setPosition(float x, float y, float z)
 	m_position = XMLoadFloat3(&pos);
 	
 	calculateViewMatrix();
+}
+
+void Camera::setPosition(DirectX::CXMVECTOR position)
+{
+	m_position = position;
 }
 
 void Camera::setRotation(float roll, float pitch, float yaw)
