@@ -1,8 +1,12 @@
 #pragma once
 
 #include "Collider.h"
+
+class PhysicsEngine;
+
 class OrientedBoxCollider : public Collider
 {
+	friend PhysicsEngine;
 private:
 	DirectX::BoundingOrientedBox m_obb;
 

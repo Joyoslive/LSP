@@ -30,6 +30,7 @@ public:
 
 	~Transform();
 
+	DirectX::SimpleMath::Matrix getRotationMatrix() const;
 	void setPosition(DirectX::SimpleMath::Vector3 position);
 	void setScale(DirectX::SimpleMath::Vector3 scale);
 	void setRotation(DirectX::SimpleMath::Vector3 rotation);
