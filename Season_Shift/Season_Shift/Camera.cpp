@@ -36,26 +36,29 @@ Camera::~Camera() {}
 void Camera::resetCamera(bool pos = true, bool rot = true)
 {
 	auto f = XMFLOAT3(0, 0, 0);
-	m_position = XMLoadFloat3(&f);
+	if (pos) {
+		m_position = XMLoadFloat3(&f);
+	}
+	if (rot) {
+		f.y = 1;
+		m_globalUp = XMLoadFloat3(&f);
+		m_up = XMLoadFloat3(&f);
 
-	f.y = 1;
-	m_globalUp = XMLoadFloat3(&f);
-	m_up = XMLoadFloat3(&f);
+		f.y = 0;
+		f.z = 1;
+		m_direction = XMLoadFloat3(&f);
+		m_lookAt = XMLoadFloat3(&f);
 
-	f.y = 0;
-	f.z = 1;
-	m_direction = XMLoadFloat3(&f);
-	m_lookAt = XMLoadFloat3(&f);
-
-	f.z = 0;
-	f.x = -1;
-	m_right = XMLoadFloat3(&f);
+		f.z = 0;
+		f.x = -1;
+		m_right = XMLoadFloat3(&f);
 
 
-	m_nearPlane = 0.1f;
-	m_farPlane = 1000.0f;
-	m_fieldOfView = XM_PI / 4;
-	m_aspectRatio = 1280 / 720;
+		m_nearPlane = 0.1f;
+		m_farPlane = 1000.0f;
+		m_fieldOfView = XM_PI / 4;
+		m_aspectRatio = 1280 / 720;
+	}
 }
 
 void Camera::calculateViewMatrix()
@@ -109,6 +112,7 @@ void Camera::setPosition(DirectX::CXMVECTOR position)
 
 void Camera::setRotation(float roll, float pitch, float yaw)
 {
+	resetCamera(true, false);
 	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
 	auto baseUp = XMFLOAT3(0, 1, 0);
