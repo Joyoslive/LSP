@@ -181,6 +181,7 @@
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="Graphics\ResourceRepository.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Graphics\DX\DXShader.h" />
     <ClInclude Include="Graphics\DX\DXBuffer.h" />

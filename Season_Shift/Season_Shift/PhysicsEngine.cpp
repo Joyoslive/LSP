@@ -1,41 +1,23 @@
 #include "PhysicsEngine.h"
 
 #include "SphereCollider.h"
+#include "OrientedBoxCollider.h"
+
+
 
 using namespace DirectX;
 
-PhysicsEngine::PhysicsEngine()
+
+
+PhysicsEngine::PhysicsEngine(long double timeStepSeconds)
 {
-	/*Ref<GameObject> go1 = std::make_shared<GameObject>();
-	go1->AddComponent(std::make_shared<Transform>());
-	go1->getTransform()->setPosition(DirectX::XMFLOAT3(0, 0, 0));
-	go1->AddComponent(std::make_shared<SphereCollider>(go1->getTransform()->getPosition(), 2.0f));
-
-	Ref<GameObject> go2 = std::make_shared<GameObject>();
-	go2->AddComponent(std::make_shared<Transform>());
-	go2->getTransform()->setPosition(DirectX::XMFLOAT3(3, 0, 0));
-	go2->AddComponent(std::make_shared<SphereCollider>(go2->getTransform()->getPosition(), 2.0f));
-
-	m_tempScene.push_back(go1);
-	m_tempScene.push_back(go2);
-
-	int hej = 0;
-
-	Ref<Collider> co1 = go1->getComponentType<Collider>(Component::ComponentEnum::SPHERE_COLLIDER);
-	Ref<Collider> co2 = go2->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
-
-	if (co1 == nullptr || co2 == nullptr)
-	{
-		hej = -1;
-	}
-	else if (co1->collide(co2))
-	{
-		hej = 10;
-	}
-	hej = 1;*/
+	m_timer.start();
+	m_timeStep = timeStepSeconds;
+	m_deltaTime = 0;
 }
 PhysicsEngine::~PhysicsEngine()
 {
+
 }
 
 void PhysicsEngine::addScene(Ref<Scene> scene)
@@ -68,4 +50,25 @@ std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) /
 		}
 	}
 	return colliderVec;
+}
+
+void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
+{
+	m_deltaTime += m_timer.dt();
+	while (m_timeStep <= m_deltaTime)
+	{
+		calcPos(rigidBody);
+		m_deltaTime -= m_timeStep;
+	}
+}
+
+
+void PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
+{
+	rigidBody->m_acceleration = rigidBody->m_force / rigidBody->m_mass;
+	rigidBody->m_acceleration.y -= rigidBody->m_gravity;
+
+	rigidBody->m_velocity += rigidBody->m_acceleration * (float)m_timeStep;
+
+	rigidBody->m_transform->setPosition(rigidBody->m_transform->getPosition() + rigidBody->m_velocity * (float)m_timeStep);
 }
