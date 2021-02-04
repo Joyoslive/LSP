@@ -54,7 +54,10 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 
 std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
-	if (m_meshRepo.exists(meshID)) assert(false);		// Mesh with same ID already exists!
+	if (m_meshRepo.exists(meshID))
+	{
+		return m_meshRepo.find(meshID);
+	}
 
 	D3D11_SUBRESOURCE_DATA subres;
 	ZeroMemory(&subres, sizeof(D3D11_SUBRESOURCE_DATA));
@@ -95,7 +98,17 @@ std::shared_ptr<Model> GfxResourceDevice::assembleModel(const std::string& meshI
 std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDirectory, const std::string& modelFileName, GfxShader shader)
 {
 
-	EngineMeshData modelData = m_assimpLoader->loadStaticModel(modelDirectory + modelFileName);
+	EngineMeshData modelData;
+	size_t modHash = std::hash<std::string>{}(modelDirectory + modelFileName);
+	if (m_modelRepo.exists(modHash))
+	{
+		modelData = m_modelRepo.find(modHash);
+	}
+	else
+	{
+		modelData = m_assimpLoader->loadStaticModel(modelDirectory + modelFileName);
+		m_modelRepo.add(modHash, modelData);
+	}
 
 	// Load model in one mesh
 	D3D11_SUBRESOURCE_DATA subresData;

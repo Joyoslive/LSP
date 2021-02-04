@@ -60,6 +60,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
 	models.push_back(nanosuitMod);
 
+	auto nanosuitMod2 = gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	models.push_back(nanosuitMod2);
+
 
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
