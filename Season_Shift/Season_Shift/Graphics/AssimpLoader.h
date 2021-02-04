@@ -2,9 +2,9 @@
 
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>     // Post processing flags
+#include <assimp/postprocess.h>		// Post processing flags
 
-#include <vector>
+#include <vector>	
 #include <string>
 
 #include "Mesh.h"
