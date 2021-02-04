@@ -61,6 +61,7 @@ void SceneManager::updateActiveScene() const
 void SceneManager::addObserver(Ref<SceneManagerObserver> observer)
 {
 	m_observers.push_back(observer);
+	observer->updateScene(m_activeScene);
 }
 
 void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
