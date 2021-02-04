@@ -15,13 +15,14 @@ private:
 	Timer m_timer;
 	long double m_timeStep;
 	long double m_deltaTime;
+	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 
 public:
 	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
 	~PhysicsEngine();
 
 	void updateScene(Ref<Scene> activeScene) override;
-	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
+	//std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 	
 	void simulate(Ref<RigidBody> rigidBody);
 };
