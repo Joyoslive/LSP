@@ -9,6 +9,8 @@ class Collider : public Component
 {
 private:
 
+
+
 public:
 	Collider();
 	virtual ~Collider();

@@ -1,12 +1,12 @@
 #include "Model.h"
 
-Model::Model(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material) :
+Model::Model(std::shared_ptr<Mesh> mesh, std::vector<SubsetMaterial> materials) :
     m_mesh(mesh),
-    m_material(material),
+    m_materials(materials),
     m_renderID({ 0, 0 })
 {
-    m_renderID.shdId = material->m_shaderHash;
-    m_renderID.matId = material->m_textureHash;
+    //m_renderID.shdId = material->m_shaderHash;
+    //m_renderID.matId = material->m_textureHash;
 }
 
 Model::~Model()
@@ -18,9 +18,9 @@ const std::shared_ptr<Mesh> Model::getMesh() const
     return m_mesh;
 }
 
-const std::shared_ptr<Material> Model::getMaterial() const
+const std::vector<SubsetMaterial>& Model::getSubsetsMaterial() const
 {
-    return m_material;
+    return m_materials;
 }
 
 rid128_t Model::getRenderID() const
