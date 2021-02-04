@@ -159,6 +159,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics\Material.cpp" />
     <ClCompile Include="Logic.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="Logic.h" />

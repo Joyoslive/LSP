@@ -24,15 +24,17 @@ public:
 		LeftButton = 1, RightButton, MiddleButton
 	};
 
-	Input(HWND wndHandle);
+	Input();
+	void Init(HWND wndHandle);
 	~Input();
 
 	DirectX::SimpleMath::Vector2 MousePos();
+	void MouseMovment(float &m_pitch, float &m_yaw);
 	bool KeyBeingPressed(Keys key);
 	bool KeyPressed(Keys key);
 	bool MouseBeingPressed(MouseKeys key);
 	bool MousePressed(MouseKeys key);
-
+	void LockMouse();
 private:
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
