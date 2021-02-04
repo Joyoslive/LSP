@@ -67,7 +67,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
 
-	DebugCamera debugCamerea(win.getHWND(), cam);
+	DebugCamera debugCamera(win.getHWND(), cam);
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -82,8 +82,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
-		debugCamerea.Move();
-		debugCamerea.Rotate();
+		debugCamera.Move();
+		debugCamera.Rotate();
 		gph.render(models, cam);
 
 	}
