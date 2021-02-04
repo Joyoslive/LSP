@@ -40,6 +40,7 @@
     <ClCompile Include="SceneManagerObserver.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Graphics\AssimpLoader.cpp" />
+    <ClCompile Include="Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -84,5 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <ClInclude Include="Logger.h" />
   </ItemGroup>
 </Project>
