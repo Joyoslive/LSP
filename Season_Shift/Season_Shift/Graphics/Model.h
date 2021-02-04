@@ -2,7 +2,8 @@
 #include <memory>
 #include "Mesh.h"
 #include "Material.h"
-#include "../Component.h"
+//#include "../Component.h"
+#include "../Transform.h"
 
 class Material;
 

@@ -124,7 +124,7 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
 
-			matrices[0] = DirectX::XMMatrixIdentity();
+			matrices[0] = mod->getTransform()->getWorldMatrix();//DirectX::XMMatrixIdentity();
 			dev->updateResourcesMapUnmap(matrixBuffer->getBuffer().Get(), matrices, sizeof(matrices));
 			m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
 

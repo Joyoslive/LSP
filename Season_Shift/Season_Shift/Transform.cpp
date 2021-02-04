@@ -25,19 +25,22 @@ Transform::~Transform()
 
 void Transform::setPositionMatrix()
 {
-	m_positionMatrix = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	m_positionMatrix = DirectX::XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+	//m_positionMatrix = DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 }
 
 void Transform::setScaleMatrix()
 {
-	m_scaleMatrix = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
+	m_scaleMatrix = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+	//m_scaleMatrix = DirectX::SimpleMath::Matrix::CreateScale(m_scale);
 }
 
 void Transform::setRotationMatrix()
 {
-	m_rotationMatrix = DirectX::SimpleMath::Matrix::CreateRotationX(m_rotation.x);
-	m_rotationMatrix *= DirectX::SimpleMath::Matrix::CreateRotationY(m_rotation.y);
-	m_rotationMatrix *= DirectX::SimpleMath::Matrix::CreateRotationZ(m_rotation.z);
+	m_rotationMatrix = DirectX::XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
+	//m_rotationMatrix = DirectX::SimpleMath::Matrix::CreateRotationX(m_rotation.x);
+	//m_rotationMatrix *= DirectX::SimpleMath::Matrix::CreateRotationY(m_rotation.y);
+	//m_rotationMatrix *= DirectX::SimpleMath::Matrix::CreateRotationZ(m_rotation.z);
 }
 
 DirectX::SimpleMath::Vector3 Transform::getRotationToDegrees(DirectX::SimpleMath::Vector3 radiansRotation) const

@@ -17,6 +17,8 @@ void Scene::setUpScene()
 {
 	Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	Ref<Model> model2 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	Ref<Model> model3 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	Ref<Model> model4 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 
 	createGameObject();
 	createGameObject("GameObject1");
@@ -27,13 +29,18 @@ void Scene::setUpScene()
 	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
 
-	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2,0,4));
+	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2,0,-40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
 	go1->AddComponent(model);
 
-	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, 4));
+	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 90, 0));
 	go2->AddComponent(model2);
 
+	Ref<GameObject> go3 = createGameObject("colliderTest1", Vector3(-6, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 270, 0));
+	go3->AddComponent(model3);
+
+	Ref<GameObject> go4 = createGameObject("colliderTest1", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
+	go4->AddComponent(model4);
 
 	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));
 	go2->AddComponent(std::make_shared<SphereCollider>(2.0f));*/
