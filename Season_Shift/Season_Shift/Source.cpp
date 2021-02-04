@@ -21,7 +21,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
 
-	SceneManager sceneManager = SceneManager(&gph);
+	SceneManager sceneManager = SceneManager();
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->createGameObject("player");
@@ -57,8 +57,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//models.push_back(quadMod2);
 
 
-	//auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
-	//models.push_back(nanosuitMod);
+	auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
+	models.push_back(nanosuitMod);
 
 
 
@@ -81,8 +81,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		debugCamerea.Move();
 		debugCamerea.Rotate();
-		//gph.render(models, cam);
-		gph.render(sceneManager.getActiveScene()->getModels(), cam);
+		gph.render(models, cam);
 
 	}
 

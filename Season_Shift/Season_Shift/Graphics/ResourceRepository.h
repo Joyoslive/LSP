@@ -15,7 +15,7 @@ public:
 	void remove(T1 key);
 	bool exists(T1 key);
 
-	T2 find(T1 key);
+	const T2& find(T1 key);
 
 };
 
@@ -64,10 +64,10 @@ inline bool ResourceRepository<T1, T2>::exists(T1 key)
 }
 
 template<typename T1, typename T2>
-inline T2 ResourceRepository<T1, T2>::find(T1 key)
+inline const T2& ResourceRepository<T1, T2>::find(T1 key)
 {
 	auto it = m_repo.find(key);
 	if (it != m_repo.cend())
 		return it->second;
-	return {};
+	return NULL;
 }

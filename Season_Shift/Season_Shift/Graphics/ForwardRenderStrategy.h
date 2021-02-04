@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "../Transform.h"
 #include "IRenderStrategy.h"
 #include "GfxRenderer.h"
 
