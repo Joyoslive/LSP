@@ -16,10 +16,6 @@ void Logic::start()
 
 }
 
-void Logic::update()
-{
-
-}
 
 void Logic::onCollision(Ref<Collider> collider)
 {
