@@ -5,6 +5,7 @@
 #include "PhysicsEngine.h"
 #include "SceneManager.h"
 #include "DebugCamera.h"
+#include "CameraComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -68,6 +69,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
 
 	DebugCamera debugCamera(win.getHWND(), cam);
+
 	MSG msg = { };
 	while (!win.isClosed())
 	{

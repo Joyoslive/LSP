@@ -41,6 +41,8 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Graphics\AssimpLoader.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -76,6 +78,8 @@
     <ClInclude Include="SceneManagerObserver.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Graphics\AssimpLoader.h" />
+    <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="CameraComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
