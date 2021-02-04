@@ -112,11 +112,25 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 
 	for (auto& mod : models)
 	{
-		mod->getMaterial()->bindShader(m_renderer->getDXDevice());
-		mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
+		for (auto& mat : mod->getSubsetsMaterial())
+		{
 
-		dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
-		dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
+			mat.material->bindShader(dev);
+			mat.material->bindTextures(dev);
+
+			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
+
+			//mod->getMaterial()->bindShader(m_renderer->getDXDevice());
+			//mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
+
+			//dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+			//dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
+		}
+
+
+
+
 
 	}
 

@@ -16,6 +16,10 @@ GfxResourceDevice::~GfxResourceDevice()
 std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 {
 	auto texData = loadFileToTexture(filepath);
+
+	if (texData.width == 0 || texData.height == 0)
+		return nullptr;
+
 	DXTexture::Desc desc{
 		DXTexture::Type::TEX2D,
 	};
@@ -70,32 +74,52 @@ std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, c
 std::shared_ptr<Model> GfxResourceDevice::assembleModel(const std::string& meshID, std::shared_ptr<Material> material)
 {
 	if (!m_meshRepo.exists(meshID)) assert(false);		// Mesh ID doesn't exist!
-	auto mesh = m_meshRepo.find(meshID);			// Get mesh
+	auto mesh = m_meshRepo.find(meshID);				// Get mesh
 
-	std::shared_ptr<Model> modToAdd = std::make_shared<Model>(mesh, material);
+	std::vector<SubsetMaterial> materials;
+	
+	SubsetMaterial mat;
+	mat.vertexStart = 0;
+	mat.vertexCount = mesh->getVB()->getElementCount();
+	mat.indexStart = 0;
+	mat.indexCount = mesh->getIB()->getElementCount();
+	mat.material = material;
+	materials.push_back(mat);
+
+	std::shared_ptr<Model> modToAdd = std::make_shared<Model>(mesh, materials);
 
 	return modToAdd;			// NO REPO FOR NOW FOR MODELS!
 
 }
 
-std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& fileName)
+std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDirectory, const std::string& modelFileName, GfxShader shader)
 {
-	EngineMeshData modelData = m_assimpLoader->loadStaticModel("Models/" + fileName);
+
+	EngineMeshData modelData = m_assimpLoader->loadStaticModel(modelDirectory + modelFileName);
 
 	// Load model in one mesh
 	D3D11_SUBRESOURCE_DATA subresData;
 	ZeroMemory(&subresData, sizeof(D3D11_SUBRESOURCE_DATA));
-	auto mesh = createMesh(fileName, modelData.vertices, modelData.indices);
+	auto mesh = createMesh(modelDirectory + modelFileName, modelData.vertices, modelData.indices);
+
+	std::vector<SubsetMaterial> materials;
 
 	// Load material (To-do: Add subsets to Model)
 	for (auto& subsetInfo : modelData.subsetsInfo)
 	{
+		SubsetMaterial mat;
+		mat.indexCount = subsetInfo.indexCount;
+		mat.indexStart = subsetInfo.indexStart;
+		mat.vertexCount = subsetInfo.vertexCount;
+		mat.vertexStart = subsetInfo.vertexStart;
+		mat.material = createMaterial(shader, modelDirectory + subsetInfo.diffuseFilePath, modelDirectory + subsetInfo.specularFilePath, modelDirectory + subsetInfo.normalFilePath);
 
-
-
+		materials.push_back(mat);
 	}
 
-	return nullptr;
+	std::shared_ptr<Model> modToAdd = std::make_shared<Model>(mesh, materials);
+
+	return modToAdd;
 }
 
 std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxShader shader)
@@ -138,7 +162,6 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath)
 {
 	// Load shaders
-
 	auto hashAndShaders = loadShader(shader);
 
 	// Load textures

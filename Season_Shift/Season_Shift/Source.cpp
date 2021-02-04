@@ -45,10 +45,12 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
 
 	std::vector<std::shared_ptr<Model>> models;
-	models.push_back(quadMod2);
+	//models.push_back(quadMod2);
 
 
-	gph.getResourceDevice()->createModel("nanosuit/nanosuit.obj");
+	auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
+	models.push_back(nanosuitMod);
+
 
 
 	MSG msg = { };

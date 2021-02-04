@@ -31,7 +31,7 @@ private:
 	std::unique_ptr<AssimpLoader> m_assimpLoader;
 
 	ResourceRepository<std::size_t, Material::ShaderSet> m_shaderSetRepo;
-	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;			
+	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;
 	ResourceRepository<std::string, std::shared_ptr<Mesh>> m_meshRepo;
 
 	
@@ -62,7 +62,7 @@ public:
 	/*
 	Create single model (one mesh) from file
 	*/
-	std::shared_ptr<Model> createModel(const std::string& fileName);
+	std::shared_ptr<Model> createModel(const std::string& modelDirectory, const std::string& modelFileName, GfxShader shader);
 
 
 };
