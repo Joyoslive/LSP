@@ -15,22 +15,17 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 	SceneManager sceneManager = SceneManager();
+	Ref<Scene> scene = sceneManager.getActiveScene();
 
-	PhysicsEngine pe = PhysicsEngine();
-	sceneManager.addObserver((Ref<PhysicsEngine>)&pe);
+	Ref<GameObject> player = scene->createGameObject("player");
+	player->AddComponent(std::make_shared<RigidBody>());
+	player->AddComponent(std::make_shared<SphereCollider>(2));
+
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
+	sceneManager.addObserver(physicsEng);
 
 
 	// Material
-	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
-
-	//auto mat2 = gph.getResourceDevice()->createMaterial("DefaultVS.cso", "DefaultPS.cso",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_normal.jpg");
 
 	// Geometry
 	std::vector<Vertex> verts;
@@ -48,8 +43,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto mesh = gph.getResourceDevice()->createMesh("quad", verts, indices);
 
 	// Assemble to model!
-	auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
-	auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
 
 	std::vector<std::shared_ptr<Model>> models;
 	//models.push_back(quadMod2);
@@ -70,6 +65,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		sceneManager.updateActiveScene();
+		Ref<RigidBody> temp = player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		physicsEng->simulate(temp);
 
 		// Do stuff
 		gph.render(models);

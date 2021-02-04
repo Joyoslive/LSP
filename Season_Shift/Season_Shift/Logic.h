@@ -11,7 +11,6 @@ public:
 	Logic();
 	~Logic();
 	virtual void start();
-	virtual void update();
 	virtual void onCollision(Ref<Collider> collider);
 };
 

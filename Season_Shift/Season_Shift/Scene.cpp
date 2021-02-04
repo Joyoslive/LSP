@@ -31,6 +31,8 @@ void Scene::setUpScene()
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
 	go1->AddComponent(model);
 
+
+
 	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));
 	go2->AddComponent(std::make_shared<SphereCollider>(2.0f));*/
 

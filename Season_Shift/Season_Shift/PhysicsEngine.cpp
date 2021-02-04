@@ -11,7 +11,6 @@ using namespace DirectX;
 
 PhysicsEngine::PhysicsEngine(long double timeStepSeconds)
 {
-	m_timer.start();
 	m_timeStep = timeStepSeconds;
 	m_deltaTime = 0;
 }
@@ -54,12 +53,14 @@ std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) /
 
 void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
 {
+	m_timer.start();
 	m_deltaTime += m_timer.dt();
 	while (m_timeStep <= m_deltaTime)
 	{
 		calcPos(rigidBody);
 		m_deltaTime -= m_timeStep;
 	}
+	m_timer.stop();
 }
 
 

@@ -20,6 +20,11 @@ void Component::initialize()
 {
 }
 
+void Component::update()
+{
+
+}
+
 void Component::setTransform(Ref<Transform> transform)
 {
 	m_transform = transform;

@@ -19,6 +19,8 @@ RigidBody::RigidBody(float mass)
 	m_velocity.y = 0;
 	m_velocity.z = 0;
 
+	m_componentType = ComponentEnum::RIGID_BODY;
+
 }
 
 void RigidBody::setMass(float mass)
