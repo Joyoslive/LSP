@@ -1,5 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
+#include <memory>
+
+#include "GameObject.h"
 
 class Camera
 {
@@ -19,6 +22,9 @@ private:
 	float m_aspectRatio;
 
 	DirectX::XMMATRIX m_orthographicMatrix;
+
+	std::shared_ptr<GameObject> m_attachedTo;
+	DirectX::XMFLOAT3 m_attachedOffset;
 private:
 	void resetCamera();			// Reset the camera to (0,0,0) pos and rotation 
 	void calculateViewMatrix();
@@ -32,6 +38,7 @@ public:
 		UP,
 		RIGHT,
 		FORWARD,
+		GLOBAL_UP,
 	};
 
 public:
@@ -43,6 +50,9 @@ public:
 	void setRotation(float roll, float pitch, float yaw);
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Axis axis, float angle);
+
+	void attachTo(std::shared_ptr<GameObject> gameObject, float offsetX=0, float offsetY=0, float offsetZ=0);
+	void updatePosition();
 
 	DirectX::XMMATRIX getViewMatrix();
 	DirectX::XMMATRIX getProjectionMatrix();

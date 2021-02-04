@@ -47,6 +47,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	std::vector<std::shared_ptr<Model>> models;
 	models.push_back(quadMod2);
 
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -5);
+
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -57,7 +59,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		// Do stuff
-		gph.render(models);
+		gph.render(models, cam);
 
 	}
 
