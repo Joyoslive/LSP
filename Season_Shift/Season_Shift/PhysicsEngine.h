@@ -15,9 +15,14 @@ private:
 	Timer m_timer;
 	long double m_timeStep;
 	long double m_deltaTime;
-	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
+	
 
 	std::vector<Ref<Collider>> rigidBodyCollide(Ref<RigidBody>& rigidBody);
+
+	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, Ref<OrientedBoxCollider> obb) const;
+
+	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
+	
 
 public:
 	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);

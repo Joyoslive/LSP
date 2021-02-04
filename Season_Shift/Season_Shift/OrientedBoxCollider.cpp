@@ -17,7 +17,7 @@ OrientedBoxCollider::~OrientedBoxCollider()
 void OrientedBoxCollider::initialize()
 {
 	m_obb.Center = m_transform->getPosition();
-	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getWorldMatrix()));
+	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
 bool OrientedBoxCollider::collide(Ref<Collider> collider)
@@ -38,7 +38,7 @@ bool OrientedBoxCollider::collide(Ref<Collider> collider)
 void OrientedBoxCollider::update()
 {
 	m_obb.Center = m_transform->getPosition();
-	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getWorldMatrix()));
+	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
 

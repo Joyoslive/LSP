@@ -53,6 +53,11 @@ DirectX::SimpleMath::Vector3 Transform::getRotationToRadians(DirectX::SimpleMath
 	return DirectX::SimpleMath::Vector3(degreesRotation.x * m_DEGTORAD, degreesRotation.y * m_DEGTORAD, degreesRotation.z * m_DEGTORAD);
 }
 
+DirectX::SimpleMath::Matrix Transform::getRotationMatrix() const
+{
+	return m_rotationMatrix;
+}
+
 void Transform::setPosition(DirectX::SimpleMath::Vector3 position)
 {
 	m_position = position;
