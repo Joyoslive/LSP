@@ -21,21 +21,11 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<SphereCollider>(2));
 
-	PhysicsEngine physicsEng = PhysicsEngine();
-	sceneManager.addObserver((Ref<PhysicsEngine>)&physicsEng);
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
+	sceneManager.addObserver(physicsEng);
 
 
 	// Material
-	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
-
-	//auto mat2 = gph.getResourceDevice()->createMaterial("DefaultVS.cso", "DefaultPS.cso",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_normal.jpg");
 
 	// Geometry
 	std::vector<Vertex> verts;
@@ -76,7 +66,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-		physicsEng.simulate(temp);
+		physicsEng->simulate(temp);
 
 		// Do stuff
 		gph.render(models);
