@@ -1,7 +1,9 @@
 #include "Input.h"
 
+Input::Input() {
+}
 
-Input::Input(HWND wndHandle) {
+void Input::Init(HWND wndHandle) {
 	m_keyboard = std::make_unique<DirectX::Keyboard>();
 	m_mouse = std::make_unique<DirectX::Mouse>();
 	m_mouse->SetWindow(wndHandle);
