@@ -15,9 +15,14 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 	SceneManager sceneManager = SceneManager();
+	Ref<Scene> scene = sceneManager.getActiveScene();
 
-	PhysicsEngine pe = PhysicsEngine();
-	sceneManager.addObserver((Ref<PhysicsEngine>)&pe);
+	Ref<GameObject> player = scene->createGameObject("player");
+	player->AddComponent(std::make_shared<RigidBody>());
+	player->AddComponent(std::make_shared<SphereCollider>(2));
+
+	PhysicsEngine physicsEng = PhysicsEngine();
+	sceneManager.addObserver((Ref<PhysicsEngine>)&physicsEng);
 
 
 	// Material
@@ -70,6 +75,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		sceneManager.updateActiveScene();
+		Ref<RigidBody> temp = player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		physicsEng.simulate(temp);
 
 		// Do stuff
 		gph.render(models);
