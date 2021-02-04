@@ -10,13 +10,13 @@ private:
 	std::vector<Ref<SceneManagerObserver>> m_observers;
 
 private:
-	void createScenes();
+	void createScenes();//(Graphics *graphics);
 	void addScene(Ref<Scene> newScene);
 	void setActiveScene(Ref<Scene> newActiveScene);
 	void updateObservers();
 
 public:
-	SceneManager();
+	SceneManager();//(Graphics *graphics);
 	~SceneManager();
 
 	Ref<Scene> getActiveScene() const;

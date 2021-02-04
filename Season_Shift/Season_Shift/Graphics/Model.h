@@ -2,6 +2,7 @@
 #include <memory>
 #include "Mesh.h"
 #include "Material.h"
+#include "../Component.h"
 
 class Material;
 
@@ -28,7 +29,7 @@ struct SubsetMaterial
     std::shared_ptr<Material> material;
 };
 
-class Model
+class Model : public Component
 {
 private:
 	std::shared_ptr<Mesh> m_mesh;

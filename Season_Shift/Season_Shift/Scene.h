@@ -1,15 +1,18 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
+//#include "Graphics/Graphics.h"
 
 class Scene : public std::enable_shared_from_this<Scene>
 {
 private:
 	std::vector<Ref<GameObject>> m_sceneGameObjects;
+	//Graphics* m_graphics;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
 public:
+	//Scene(Graphics *graphics);
 	Scene();
 	~Scene();
 	void setUpScene();
@@ -22,6 +25,7 @@ public:
 		, DirectX::SimpleMath::Vector3 rotation = DirectX::SimpleMath::Vector3(0, 0, 0));
 	void destroyGameObject(Ref<GameObject> destroyGameObject);
 
+	std::vector<Ref<Model>> getSceneModels();
 	std::vector<Ref<GameObject>>& getSceneGameObjects();
 };
 
