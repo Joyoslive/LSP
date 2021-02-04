@@ -57,3 +57,9 @@ void DXTexture::setRTV(Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv)
     if (m_rtv != nullptr) assert(false);
     m_rtv = rtv;
 }
+
+void DXTexture::setDSV(Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv)
+{
+    if (m_dsv != nullptr) assert(false);
+    m_dsv = dsv;
+}

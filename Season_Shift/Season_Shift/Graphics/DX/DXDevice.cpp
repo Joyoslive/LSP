@@ -227,16 +227,32 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 		*/
 
 		// SRV
-		ComPtr<ID3D11ShaderResourceView> srv;
-		D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
-		mtSRV.Format = desc.desc2D.Format;
-		mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		mtSRV.Texture2D.MostDetailedMip = 0;
-		mtSRV.Texture2D.MipLevels = 1;		// temporary for now
+		if (desc.desc2D.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+		{
+			ComPtr<ID3D11ShaderResourceView> srv;
+			D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
+			mtSRV.Format = desc.desc2D.Format;
+			mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			mtSRV.Texture2D.MostDetailedMip = 0;
+			mtSRV.Texture2D.MipLevels = 1;		// temporary for now
 
-		HRCHECK(m_core.getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
+			HRCHECK(m_core.getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
 
-		tex->setSRV(srv);
+			tex->setSRV(srv);
+		}
+		else if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+		{
+			ComPtr<ID3D11DepthStencilView> dsv;
+			D3D11_DEPTH_STENCIL_VIEW_DESC mtDSV = { };
+			mtDSV.Format = desc.desc2D.Format;
+			mtDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+			mtDSV.Texture2D.MipSlice = 0;
+
+			HRCHECK(m_core.getDevice()->CreateDepthStencilView(t.Get(), &mtDSV, dsv.GetAddressOf()));
+
+			tex->setDSV(dsv);
+		}
+
 
 	}
 	// TEX3D
@@ -520,4 +536,14 @@ void DXDevice::updateSubresource(ID3D11Resource* resource, void* data, unsigned 
 const Microsoft::WRL::ComPtr<ID3D11Device>& DXDevice::getDevice()
 {
 	return m_core.getDevice();
+}
+
+UINT DXDevice::getClientWidth()
+{
+	return m_core.getClientWidth();
+}
+
+UINT DXDevice::getClientHeight()
+{
+	return m_core.getClientHeight();
 }

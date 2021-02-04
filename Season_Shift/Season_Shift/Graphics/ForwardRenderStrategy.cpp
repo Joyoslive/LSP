@@ -77,6 +77,23 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	m_tmpBuf = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 
+	DXTexture::Desc depthDesc;
+	depthDesc.desc2D = CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_D24_UNORM_S8_UINT, dev->getClientWidth(), dev->getClientHeight(), 1, 1, D3D11_BIND_DEPTH_STENCIL);
+	depthDesc.type = DXTexture::Type::TEX2D;
+	m_depthTexture = dev->createTexture(depthDesc, nullptr);
+
+	//currDS_ = gphDev_->createTexture2D(
+	//	"DSText1",
+	//	CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_D24_UNORM_S8_UINT, gphDev_->getClientWidth(), gphDev_->getClientHeight(), 1, 1, D3D11_BIND_DEPTH_STENCIL),
+	//	nullptr
+	//);
+	//D3D11_DEPTH_STENCIL_VIEW_DESC dsDesc = { };
+	//dsDesc.Format = currDS_->getFormat();
+	//dsDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	//dsDesc.Flags = 0;
+	//dsDesc.Texture2D.MipSlice = 0;
+	//gphDev_->createDSV(currDS_, dsDesc);
+
 
 	/*
 	
@@ -112,7 +129,10 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 
 	// Do lots of rendering stuff with the help of Renderer and various Binder/Technique abstractions in mind! etc.
 	
-	dev->bindBackBufferAsTarget();
+	dev->clearDepthTarget(m_depthTexture);
+
+	dev->bindBackBufferAsTarget(m_depthTexture);
+
 
 	DirectX::XMMATRIX matrices[3] = {{}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix()};
 

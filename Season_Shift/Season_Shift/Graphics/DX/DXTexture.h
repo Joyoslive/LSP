@@ -49,5 +49,6 @@ public:
 	void setSRV(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv);
 	void setUAV(Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> uav);
 	void setRTV(Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv);
+	void setDSV(Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv);
 
 };

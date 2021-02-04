@@ -146,7 +146,7 @@ public:
 	void drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
 
 	void clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4]);
-	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 0.0, float stencil = 0.0);
+	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 1.0, float stencil = 0.0);
 
 	/*
 	Defaults to clearing to black
@@ -166,6 +166,9 @@ public:
     void updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx = 0, D3D11_BOX* box = nullptr, unsigned int srcRowPitch = 0, unsigned int srcDepthPitch = 0);
 	
 	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
+
+	UINT getClientWidth();
+	UINT getClientHeight();
 
 
 	/*

@@ -13,6 +13,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_sampler;
 	std::shared_ptr<DXBuffer> matrixBuffer;
 
+	std::shared_ptr<DXTexture> m_depthTexture;
+
 	std::shared_ptr<DXBuffer> m_tmpBuf;
 
 public:
