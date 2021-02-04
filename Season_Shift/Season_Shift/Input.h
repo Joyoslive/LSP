@@ -24,7 +24,8 @@ public:
 		LeftButton = 1, RightButton, MiddleButton
 	};
 
-	Input(HWND wndHandle);
+	Input();
+	void Init(HWND wndHandle);
 	~Input();
 
 	DirectX::SimpleMath::Vector2 MousePos();
