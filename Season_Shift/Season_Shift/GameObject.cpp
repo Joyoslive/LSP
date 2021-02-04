@@ -2,9 +2,12 @@
 #include <typeinfo>
 
 
-GameObject::GameObject(std::string name)
+GameObject::GameObject(std::string name, Ref<Scene> scene)
 {
 	m_name = name;
+	if (scene == nullptr)
+		assert(false);
+	m_myScene = scene;
 }
 
 GameObject::~GameObject()
@@ -17,7 +20,10 @@ std::string GameObject::getName() const
 	return m_name;
 }
 
-
+Ref<Scene> GameObject::getScene() const
+{
+	return m_myScene;
+}
 
 void GameObject::clearGameObject()
 {

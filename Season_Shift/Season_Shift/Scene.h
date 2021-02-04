@@ -2,7 +2,7 @@
 #include <vector>
 #include "GameObject.h"
 
-class Scene
+class Scene : public std::enable_shared_from_this<Scene>
 {
 private:
 	std::vector<Ref<GameObject>> m_sceneGameObjects;

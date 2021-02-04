@@ -90,7 +90,7 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 	if (gameObjectName == "")
 		gameObjectName = "Unnamed GameObject";
 
-	Ref<GameObject> gameObject = std::make_shared<GameObject>(gameObjectName);
+	Ref<GameObject> gameObject = std::make_shared<GameObject>(gameObjectName, shared_from_this());
 	Ref<Transform> transform = std::make_shared<Transform>(position, scale, rotation);
 	
 	gameObject->AddComponent(transform);
