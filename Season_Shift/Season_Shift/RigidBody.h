@@ -23,6 +23,7 @@ public:
 	void setMass(float mass);
 	float getMass() const;
 	void addForce(DirectX::SimpleMath::Vector3 force);
+	void removeForces();
 	void stop();
 };
 
