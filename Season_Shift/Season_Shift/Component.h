@@ -40,6 +40,7 @@ public:
 	Component();
 	virtual ~Component() = default;
 	Ref<GameObject> getGameObject() const;
+	Ref<Transform> getTransform() const;
 	ComponentEnum getType() const;
 	
 

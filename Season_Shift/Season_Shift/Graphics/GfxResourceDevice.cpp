@@ -54,7 +54,7 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 
 std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
-	if (m_meshRepo.exists(meshID)) assert(false);		// Mesh with same ID already exists!
+	//if (m_meshRepo.exists(meshID)) assert(false);		// Mesh with same ID already exists!
 
 	D3D11_SUBRESOURCE_DATA subres;
 	ZeroMemory(&subres, sizeof(D3D11_SUBRESOURCE_DATA));

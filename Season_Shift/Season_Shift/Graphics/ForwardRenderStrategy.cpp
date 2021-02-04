@@ -125,18 +125,19 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 
 	DirectX::XMMATRIX projMat = DirectX::XMMatrixPerspectiveFovLH(90.0 * (3.1415 / 180.0), 16.0 / 9.0, 0.1, 100.0);
 
-	DirectX::XMMATRIX matrices[3] = { worldMat, viewMat, projMat };
+	DirectX::XMMATRIX matrices[3] = { {}, viewMat, projMat };
 
 
 	for (auto& mod : models)
 	{
+		worldMat = mod->getTransform()->getWorldMatrix();
+		matrices[0] = worldMat;
+		dev->MapUpdate(m_tmpBuf->getBuffer(), &matrices, sizeof(matrices), D3D11_MAP_WRITE_DISCARD);
 		for (auto& mat : mod->getSubsetsMaterial())
 		{
-
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
 
-			dev->MapUpdate(m_tmpBuf->getBuffer(), &matrices, sizeof(matrices), D3D11_MAP_WRITE_DISCARD);
 			dev->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_tmpBuf);
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
