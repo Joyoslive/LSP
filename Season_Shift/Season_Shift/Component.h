@@ -20,7 +20,7 @@ public:
 		COLLIDER = 8,
 		SPHERE_COLLIDER = 16,
 		ORIENTED_BOX_COLLIDER = 32,
-		MODEL = 64
+		MODEL = 64,
 		CAMERA = 128,
 	};
 
