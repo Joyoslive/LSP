@@ -10,6 +10,7 @@ private:
 	DirectX::XMVECTOR m_position;
 	DirectX::XMMATRIX m_viewMatrix;
 	DirectX::XMVECTOR m_direction;
+	DirectX::XMVECTOR m_forward;
 	DirectX::XMVECTOR m_lookAt;
 	DirectX::XMVECTOR m_right;
 	DirectX::XMVECTOR m_up;
@@ -37,6 +38,7 @@ public:
 		UP,
 		RIGHT,
 		FORWARD,
+		LOOK_DIR,
 		GLOBAL_UP,
 	};
 
