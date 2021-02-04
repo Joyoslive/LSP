@@ -9,10 +9,13 @@ private:
 	
 
 public:
-	OrientedBoxCollider();
+	OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions);
 	~OrientedBoxCollider();
 
 	bool collide(Ref<Collider> collider) override;
+	void update() override;
+
+	void initialize() override;
 
 	DirectX::BoundingOrientedBox getInternalCollider();
 

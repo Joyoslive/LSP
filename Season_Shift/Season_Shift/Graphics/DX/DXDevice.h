@@ -43,6 +43,26 @@ struct Vertex
 	DirectX::SimpleMath::Vector3 normal;
 };
 
+struct EngineMeshSubset
+{
+	unsigned int vertexCount;
+	unsigned int vertexStart;
+
+	unsigned int indexStart;
+	unsigned int indexCount;
+
+	std::string diffuseFilePath;
+	std::string specularFilePath;
+	std::string normalFilePath;
+};
+
+struct EngineMeshData
+{
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;			// 32 bit!
+	std::vector<EngineMeshSubset> subsetsInfo;
+};
+
 
 /*
 
@@ -142,8 +162,9 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-	void MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx = 0, unsigned int mapFlag = 0);
-
+	void updateResourcesMapUnmap(ID3D11Resource* resource, void* data, unsigned int dataSize, D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD);
+    void updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx = 0, D3D11_BOX* box = nullptr, unsigned int srcRowPitch = 0, unsigned int srcDepthPitch = 0);
+	
 	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
 
 

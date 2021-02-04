@@ -19,6 +19,8 @@ RigidBody::RigidBody(float mass)
 	m_velocity.y = 0;
 	m_velocity.z = 0;
 
+	m_componentType = ComponentEnum::RIGID_BODY;
+
 }
 
 void RigidBody::setMass(float mass)
@@ -35,6 +37,13 @@ float RigidBody::getMass() const
 void RigidBody::addForce(DirectX::SimpleMath::Vector3 force)
 {
 	m_force += force;
+}
+
+void RigidBody::removeForces()
+{
+	m_force.x = 0;
+	m_force.y = 0;
+	m_force.z = 0;
 }
 
 void RigidBody::stop()

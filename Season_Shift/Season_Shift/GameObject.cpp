@@ -2,9 +2,12 @@
 #include <typeinfo>
 
 
-GameObject::GameObject(std::string name)
+GameObject::GameObject(std::string name, Ref<Scene> scene)
 {
 	m_name = name;
+	if (scene == nullptr)
+		assert(false);
+	m_myScene = scene;
 }
 
 GameObject::~GameObject()
@@ -17,7 +20,10 @@ std::string GameObject::getName() const
 	return m_name;
 }
 
-
+Ref<Scene> GameObject::getScene() const
+{
+	return m_myScene;
+}
 
 void GameObject::clearGameObject()
 {
@@ -40,9 +46,10 @@ void GameObject::start()
 
 void GameObject::update()
 {
-	for (auto& logic : getMultipleComponentType<Logic>(Component::ComponentEnum::LOGIC))
+	std::dynamic_pointer_cast<Component>(m_transform)->update();
+	for (auto& component : m_componentVector)
 	{
-		logic->update();
+		component->update();
 	}
 }
 
@@ -70,6 +77,8 @@ int GameObject::AddComponent(Ref<Component> component)
 	
 	component->setGameObject(shared_from_this());
 	component->setTransform(m_transform);
+
+	component->initialize();
 	return 0;
 }
 

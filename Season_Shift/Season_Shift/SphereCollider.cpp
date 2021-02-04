@@ -1,18 +1,23 @@
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
+#include "GameObject.h"
 
 
-SphereCollider::SphereCollider(DirectX::SimpleMath::Vector3 pos, float radius)
+SphereCollider::SphereCollider(float radius)
 {
-	m_sphere.Center = pos;
+	
 	m_sphere.Radius = radius;
-
 	m_componentType = ComponentEnum::SPHERE_COLLIDER | ComponentEnum::COLLIDER;
 }
 
 SphereCollider::~SphereCollider()
 {
 	
+}
+
+void SphereCollider::initialize()
+{
+	m_sphere.Center = m_transform->getPosition();
 }
 
 bool SphereCollider::collide(Ref<Collider> collider)
@@ -29,6 +34,13 @@ bool SphereCollider::collide(Ref<Collider> collider)
 
 	return 0;
 }
+
+void SphereCollider::update()
+{
+	m_sphere.Center = m_transform->getPosition();
+}
+
+
 
 DirectX::BoundingSphere SphereCollider::getInternalCollider()
 {

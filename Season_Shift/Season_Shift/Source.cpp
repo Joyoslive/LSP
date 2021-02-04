@@ -3,6 +3,7 @@
 #include <string>
 #include "GameObject.h"
 #include "PhysicsEngine.h"
+#include "SceneManager.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -12,18 +13,19 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
-	PhysicsEngine pe = PhysicsEngine();
-	// Material
-	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
 
-	//auto mat2 = gph.getResourceDevice()->createMaterial("DefaultVS.cso", "DefaultPS.cso",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_basecolor.jpg",
-	//	"Textures/Stylized_02_Stone_Ground/Stylized_02_Stone_Ground_normal.jpg");
+	SceneManager sceneManager = SceneManager();
+	Ref<Scene> scene = sceneManager.getActiveScene();
+
+	Ref<GameObject> player = scene->createGameObject("player");
+	player->AddComponent(std::make_shared<RigidBody>());
+	player->AddComponent(std::make_shared<SphereCollider>(2));
+
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
+	sceneManager.addObserver(physicsEng);
+
+
+	// Material
 
 	// Geometry
 	std::vector<Vertex> verts;
@@ -41,11 +43,19 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto mesh = gph.getResourceDevice()->createMesh("quad", verts, indices);
 
 	// Assemble to model!
-	auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
-	auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
 
 	std::vector<std::shared_ptr<Model>> models;
-	models.push_back(quadMod2);
+	//models.push_back(quadMod2);
+
+
+	auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
+	models.push_back(nanosuitMod);
+
+
+
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
 
 	MSG msg = { };
 	while (!win.isClosed())
@@ -56,8 +66,12 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			DispatchMessage(&msg);
 		}
 
+		sceneManager.updateActiveScene();
+		Ref<RigidBody> temp = player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		physicsEng->simulate(temp);
+
 		// Do stuff
-		gph.render(models);
+		gph.render(models, cam);
 
 	}
 

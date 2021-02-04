@@ -26,6 +26,10 @@ void SceneManager::setActiveScene(Ref<Scene> newActiveScene)
 {
 	m_activeScene = newActiveScene;
 	m_activeScene->setUpScene();
+	//Call start on all GameObjects in Scene
+	m_activeScene->start();
+
+	updateObservers();
 }
 
 void SceneManager::addScene(Ref<Scene> newScene)
@@ -47,11 +51,35 @@ void SceneManager::changeScene(const int& sceneIndex)
 	m_activeScene->emptyScene();
 
 	setActiveScene(newActiveScene);
-	//Call start on all GameObjects in Scene
-	newActiveScene->start();
 }
 
 void SceneManager::updateActiveScene() const
 {
 	m_activeScene->update();
+}
+
+void SceneManager::addObserver(Ref<SceneManagerObserver> observer)
+{
+	m_observers.push_back(observer);
+	observer->updateScene(m_activeScene);
+}
+
+void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
+{
+	for (int i = 0; i < m_observers.size(); ++i)
+	{
+		if (observer == m_observers[i])
+		{
+			m_observers.erase(m_observers.begin() + i);
+			break;
+		}
+	}
+}
+
+void SceneManager::updateObservers()
+{
+	for (int i = 0; i < m_observers.size(); ++i)
+	{
+		m_observers[i]->updateScene(m_activeScene);
+	}
 }

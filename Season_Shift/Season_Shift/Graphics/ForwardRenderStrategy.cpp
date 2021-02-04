@@ -58,8 +58,10 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	HRCHECK(m_renderer->getDXDevice()->getDevice()->CreateSamplerState(&sDesc, m_sampler.GetAddressOf()));
 
+	
+	// Create a matrix buffer
 
-
+	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 
 	// Binds
 	//dev->bindDrawBuffer(vb);
@@ -72,6 +74,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	//dev->bindShader(vs, DXShader::Type::VS);
 	//dev->bindShader(ps, DXShader::Type::PS);
+
+	m_tmpBuf = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 
 
 	/*
@@ -100,7 +104,7 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 {
 }
 
-void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models)
+void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, std::shared_ptr<Camera> mainCamera)
 {
 	auto dev = m_renderer->getDXDevice();
 
@@ -110,14 +114,29 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	
 	dev->bindBackBufferAsTarget();
 
+	DirectX::XMMATRIX matrices[3] = {{}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix()};
+
 	for (auto& mod : models)
 	{
-		mod->getMaterial()->bindShader(m_renderer->getDXDevice());
-		mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
+		for (auto& mat : mod->getSubsetsMaterial())
+		{
 
-		dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
-		dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
+			mat.material->bindShader(dev);
+			mat.material->bindTextures(dev);
 
+			matrices[0] = DirectX::XMMatrixIdentity();
+			dev->updateResourcesMapUnmap(matrixBuffer->getBuffer().Get(), matrices, sizeof(matrices));
+			m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
+
+			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
+
+			//mod->getMaterial()->bindShader(m_renderer->getDXDevice());
+			//mod->getMaterial()->bindTextures(m_renderer->getDXDevice());
+
+			//dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+			//dev->drawIndexed(mod->getMesh()->getIB()->getElementCount(), 0, 0);
+		}
 	}
 
 

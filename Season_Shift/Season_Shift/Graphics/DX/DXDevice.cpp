@@ -497,17 +497,24 @@ void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTar
 
 }
 
-void DXDevice::MapUpdate(const Microsoft::WRL::ComPtr<ID3D11Resource>& resource, void* data, unsigned int dataSize, D3D11_MAP mapType, unsigned int subresIdx, unsigned int mapFlag)
+void DXDevice::updateResourcesMapUnmap(ID3D11Resource* resource, void* data, unsigned int dataSize, D3D11_MAP mapType)
 {
-	if (resource == nullptr)	assert(false);
+	if (resource == nullptr)    assert(false);
 
 	D3D11_MAPPED_SUBRESOURCE subres;
 
-	HRCHECK(m_core.getImmediateContext()->Map(resource.Get(), subresIdx, mapType, mapFlag, &subres));
+	HRCHECK(m_core.getImmediateContext()->Map(resource, 0, mapType, 0, &subres));
 
-	std::memcpy(subres.pData, data, dataSize);		// memcpy?.. maybe it costs a lot?
+	std::memcpy(subres.pData, data, dataSize);
 
-	m_core.getImmediateContext()->Unmap(resource.Get(), 0);
+	m_core.getImmediateContext()->Unmap(resource, 0);
+}
+
+void DXDevice::updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx, D3D11_BOX* box, unsigned int srcRowPitch, unsigned int srcDepthPitch)
+{
+	if (resource == nullptr)    assert(false);
+
+	m_core.getImmediateContext()->UpdateSubresource(resource, dstSubresIdx, box, data, srcRowPitch, srcDepthPitch);
 }
 
 const Microsoft::WRL::ComPtr<ID3D11Device>& DXDevice::getDevice()

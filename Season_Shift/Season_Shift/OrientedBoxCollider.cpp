@@ -1,13 +1,23 @@
 #include "OrientedBoxCollider.h"
 #include "SphereCollider.h"
+#include "GameObject.h"
 
-OrientedBoxCollider::OrientedBoxCollider()
+
+OrientedBoxCollider::OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions)
 {
+	m_obb.Extents = dimensions / 2;
+	
 	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }
 
 OrientedBoxCollider::~OrientedBoxCollider()
 {
+}
+
+void OrientedBoxCollider::initialize()
+{
+	m_obb.Center = m_transform->getPosition();
+	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getWorldMatrix()));
 }
 
 bool OrientedBoxCollider::collide(Ref<Collider> collider)
@@ -24,6 +34,14 @@ bool OrientedBoxCollider::collide(Ref<Collider> collider)
 
 	return 0;
 }
+
+void OrientedBoxCollider::update()
+{
+	m_obb.Center = m_transform->getPosition();
+	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getWorldMatrix()));
+}
+
+
 
 DirectX::BoundingOrientedBox OrientedBoxCollider::getInternalCollider()
 {

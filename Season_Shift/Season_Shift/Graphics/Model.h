@@ -17,19 +17,34 @@ typedef union
 
 } rid128_t;
 
+struct SubsetMaterial
+{
+    unsigned int vertexCount;
+    unsigned int vertexStart;
+
+    unsigned int indexStart;
+    unsigned int indexCount;
+
+    std::shared_ptr<Material> material;
+};
+
 class Model
 {
 private:
 	std::shared_ptr<Mesh> m_mesh;
-	std::shared_ptr<Material> m_material;
+	
+    std::vector<SubsetMaterial> m_materials;
+
     rid128_t m_renderID;
 
 public:
-    Model(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);     // renderID set with material!
+    Model(std::shared_ptr<Mesh> mesh, std::vector<SubsetMaterial> material);     // renderID set with material!
     ~Model();
 
     const std::shared_ptr<Mesh> getMesh() const;
-    const std::shared_ptr<Material> getMaterial() const;
+    
+    const std::vector<SubsetMaterial>& getSubsetsMaterial() const;
+
     rid128_t getRenderID() const;
 
 };

@@ -4,11 +4,15 @@
 #include "Transform.h"
 #include "Logic.h"
 #include "Collider.h"
+#include "SphereCollider.h"
+#include "OrientedBoxCollider.h"
+#include "Scene.h"
 #include <vector>
 #include <memory>
 #include <string>
 
 class Transform;
+class Scene;
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
@@ -16,12 +20,14 @@ private:
 	std::vector<Ref<Component>> m_componentVector;
 	Ref<Transform> m_transform;
 	std::string m_name;
+	Ref<Scene> m_myScene;
 
 public:
-	GameObject(std::string name = "");
+	GameObject(std::string name = "", Ref<Scene> scene = nullptr);
 	~GameObject();
 
 	std::string getName() const;
+	Ref<Scene> getScene() const;
 
 	template<typename T>
 	Ref<T> getComponentType(Component::ComponentEnum componentType)

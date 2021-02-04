@@ -4,8 +4,11 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 
+class PhysicsEngine;
+
 class RigidBody : public Component
 {
+	friend PhysicsEngine;
 private:
 	float m_mass = 1;
 	float m_gravity = 10;
@@ -20,6 +23,7 @@ public:
 	void setMass(float mass);
 	float getMass() const;
 	void addForce(DirectX::SimpleMath::Vector3 force);
+	void removeForces();
 	void stop();
 };
 

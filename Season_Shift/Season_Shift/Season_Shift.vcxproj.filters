@@ -46,6 +46,9 @@
     <ClCompile Include="OrientedBoxCollider.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="Graphics\Material.cpp" />
+    <ClCompile Include="SceneManagerObserver.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Graphics\AssimpLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -72,13 +75,15 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />
-    <ClInclude Include="Material.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="Graphics\ResourceRepository.h" />
     <ClInclude Include="Graphics\Material.h" />
+    <ClInclude Include="SceneManagerObserver.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Graphics\AssimpLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
