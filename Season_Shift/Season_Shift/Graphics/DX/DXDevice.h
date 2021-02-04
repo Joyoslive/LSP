@@ -43,6 +43,26 @@ struct Vertex
 	DirectX::SimpleMath::Vector3 normal;
 };
 
+struct EngineMeshSubset
+{
+	unsigned int vertexCount;
+	unsigned int vertexStart;
+
+	unsigned int indexStart;
+	unsigned int indexCount;
+
+	std::string diffuseFilePath;
+	std::string specularFilePath;
+	std::string normalFilePath;
+};
+
+struct EngineMeshData
+{
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;			// 32 bit!
+	std::vector<EngineMeshSubset> subsetsInfo;
+};
+
 
 /*
 

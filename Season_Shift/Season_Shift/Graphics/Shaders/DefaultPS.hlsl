@@ -6,9 +6,11 @@ struct VS_OUT
     
 };
 
+
+
 SamplerState g_defSamp : register(s0);
 
-Texture2D g_difTex : register(t1);
+Texture2D g_difTex : register(t0);
 Texture2D g_specTex : register(t1);
 Texture2D g_norTex : register(t2);
 

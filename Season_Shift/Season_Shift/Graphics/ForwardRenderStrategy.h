@@ -12,6 +12,8 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_sampler;
 
+	std::shared_ptr<DXBuffer> m_tmpBuf;
+
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();
