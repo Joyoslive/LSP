@@ -5,7 +5,8 @@
 
 class DebugCamera {
 private:
-	Camera camera;
+	std::shared_ptr<Camera> camera;
+	//Camera camera;
 	Input input;
 	DirectX::XMVECTOR position;
 	DirectX::XMVECTOR forward;
@@ -15,7 +16,7 @@ private:
 	float speed;
 	float pitch, yaw, roll;
 public:
-	DebugCamera(HWND wndHandle);
+	DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera);
 	~DebugCamera();
 
 

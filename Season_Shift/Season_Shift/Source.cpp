@@ -12,7 +12,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Window win(inst, L"Season Shift", 1280, 720);	
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
-	DebugCamera debugCamerea(win.getHWND());
+	
 	PhysicsEngine pe = PhysicsEngine();
 	// Material
 	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
@@ -49,7 +49,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	models.push_back(quadMod2);
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -5);
-
+	DebugCamera debugCamerea(win.getHWND(), cam);
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -60,6 +60,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		// Do stuff
+		debugCamerea.Move();
+		//debugCamerea.Rotate();
 		gph.render(models, cam);
 
 	}
