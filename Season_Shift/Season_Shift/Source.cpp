@@ -43,8 +43,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto mesh = gph.getResourceDevice()->createMesh("quad", verts, indices);
 
 	// Assemble to model!
-	auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
-	auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
+	//auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
 
 	std::vector<std::shared_ptr<Model>> models;
 	//models.push_back(quadMod2);
