@@ -55,6 +55,6 @@ void DebugCamera::Move() {
 
 void DebugCamera::Rotate() {
 	//Get the Mouse Coordinate
-	input.MouseMovment(pitch, yaw);
+	input.MouseMovement(pitch, yaw);
 	camera->setRotation(roll, pitch, yaw);
 }

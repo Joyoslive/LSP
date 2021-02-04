@@ -37,7 +37,7 @@ DirectX::SimpleMath::Vector2 Input::MousePos() {
 
 }
 
-void Input::MouseMovment(float &m_pitch, float &m_yaw) {
+void Input::MouseMovement(float &m_pitch, float &m_yaw) {
 	auto mouse = m_mouse->GetState();
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
