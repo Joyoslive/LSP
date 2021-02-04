@@ -33,10 +33,10 @@ void DebugCamera::Move() {
 		position -= speed * forward;
 	}
 	if (input.KeyBeingPressed(Input::A)) {
-		position -= speed * right;
+		position += speed * right;
 	}
 	if (input.KeyBeingPressed(Input::D)) {
-		position += speed * right;
+		position -= speed * right;
 	}
 	if (input.KeyBeingPressed(Input::R)) {
 		position = { 0.0f, 0.0f, -5.0f, 0.0f };
