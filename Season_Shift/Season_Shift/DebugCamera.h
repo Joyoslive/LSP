@@ -9,8 +9,6 @@ private:
 	//Camera camera;
 	Input input;
 	DirectX::XMVECTOR position;
-	DirectX::XMVECTOR forward;
-	DirectX::XMVECTOR right;
 	DirectX::XMVECTOR up;
 	DirectX::SimpleMath::Vector2 mousePos;
 	float speed;

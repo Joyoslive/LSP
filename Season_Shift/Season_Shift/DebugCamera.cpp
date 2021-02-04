@@ -4,8 +4,6 @@ using namespace DirectX; // For multiplying speed
 
 DebugCamera::DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera) {
 	mousePos = { 0.0f, 0.0f };
-	forward = { 0.0f, 0.0f, 1.0f, 0.0f };
-	right = { 1.0f, 0.0f, 0.0f, 0.0f };
 	up = { 0.0f, 1.0f, 0.0f, 0.0f };
 	speed = 0.005f;
 	position = incomingCamera->getPosition();
@@ -25,6 +23,9 @@ DebugCamera::~DebugCamera() {
 }
 
 void DebugCamera::Move() {
+	auto forward = camera->getForward();
+	auto right = camera->getRight();
+
 	if (input.KeyBeingPressed(Input::W)) {
 		position += speed * forward;
 	}
@@ -56,16 +57,4 @@ void DebugCamera::Rotate() {
 	//Get the Mouse Coordinate
 	input.MouseMovment(pitch, yaw);
 	camera->setRotation(roll, pitch, yaw);
-
-
-	DirectX::XMVECTOR defaultForward = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-	DirectX::XMVECTOR defaultRight = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-	DirectX::XMMATRIX rotMatrixY;
-
-	// sets the rotation matrix
-	rotMatrixY = DirectX::XMMatrixRotationY(yaw);
-
-	//update camera based on rotation
-	right = DirectX::XMVector3TransformCoord(defaultRight, rotMatrixY);
-	forward = DirectX::XMVector3TransformCoord(defaultForward, rotMatrixY);
 }
