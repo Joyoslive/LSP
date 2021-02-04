@@ -47,6 +47,7 @@ void Camera::resetCamera(bool pos, bool rot)
 		f.z = 1;
 		m_direction = XMLoadFloat3(&f);
 		m_lookAt = XMLoadFloat3(&f);
+		m_forward = XMLoadFloat3(&f);
 
 		f.z = 0;
 		f.x = -1;
@@ -92,6 +93,7 @@ void Camera::rotateAroundAxis(DirectX::XMVECTOR axis, float angle)
 	m_up = XMVector3Transform(m_up, rotationMatrix);
 	m_right = XMVector3Transform(m_right, rotationMatrix);
 	m_direction = XMVector3Transform(m_direction, rotationMatrix);
+	m_forward = XMVector3Normalize(XMVectorSetY(m_direction, 0));
 
 	calculateViewMatrix();
 }
@@ -107,6 +109,7 @@ void Camera::setPosition(float x, float y, float z)
 void Camera::setPosition(DirectX::CXMVECTOR position)
 {
 	m_position = position;
+	calculateViewMatrix();
 }
 
 void Camera::setRotation(float roll, float pitch, float yaw)
@@ -117,6 +120,7 @@ void Camera::setRotation(float roll, float pitch, float yaw)
 	m_up = XMVector3Transform(m_up, rotationMatrix);
 	m_right = XMVector3Transform(m_right, rotationMatrix);
 	m_direction = XMVector3Transform(m_direction, rotationMatrix);
+	m_forward = XMVector3Normalize(XMVectorSetY(m_direction, 0));
 
 	calculateViewMatrix();
 }
@@ -139,6 +143,9 @@ void Camera::rotateAroundSetAxis(Axis axis, float angle)
 			axisVector = m_right;
 			break;
 		case FORWARD:
+			axisVector = m_forward;
+			break;
+		case LOOK_DIR:
 			axisVector = m_direction;
 			break;
 		case GLOBAL_UP:
@@ -166,21 +173,45 @@ void Camera::updatePosition()
 	setPosition(pos_f.x, pos_f.y, pos_f.z);
 }
 
-DirectX::XMVECTOR Camera::getPosition() {
+FXMVECTOR Camera::getPosition() {
 	return m_position;
 }
 
-DirectX::XMMATRIX Camera::getViewMatrix()
+FXMVECTOR Camera::getUp()
+{
+	return m_up;
+}
+
+FXMVECTOR Camera::getRight()
+{
+	return m_right;
+}
+
+FXMVECTOR Camera::getForward()
+{
+	return m_forward;
+}
+FXMVECTOR Camera::getLookDirection()
+{
+	return m_direction;
+}
+
+FXMVECTOR Camera::getGlobalUp()
+{
+	return m_globalUp;
+}
+
+XMMATRIX Camera::getViewMatrix()
 {
 	return m_viewMatrix;
 }
 
-DirectX::XMMATRIX Camera::getProjectionMatrix()
+XMMATRIX Camera::getProjectionMatrix()
 {
 	return m_projectionMatrix;
 }
 
-DirectX::XMMATRIX Camera::getOrthographicMatrix()
+XMMATRIX Camera::getOrthographicMatrix()
 {
 	return m_orthographicMatrix;
 }

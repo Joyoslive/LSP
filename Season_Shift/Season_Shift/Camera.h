@@ -61,6 +61,11 @@ public:
 	DirectX::XMMATRIX getViewMatrix();
 	DirectX::XMMATRIX getProjectionMatrix();
 	DirectX::XMMATRIX getOrthographicMatrix();
-	DirectX::XMVECTOR getPosition();
+	DirectX::FXMVECTOR getPosition();
+	DirectX::FXMVECTOR getUp();
+	DirectX::FXMVECTOR getRight();
+	DirectX::FXMVECTOR getForward();
+	DirectX::FXMVECTOR getLookDirection();
+	DirectX::FXMVECTOR getGlobalUp();
 };
 
