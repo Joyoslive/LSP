@@ -12,7 +12,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Window win(inst, L"Season Shift", 1280, 720);	
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
-	
 	PhysicsEngine pe = PhysicsEngine();
 	// Material
 	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
@@ -61,7 +60,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 		// Do stuff
 		debugCamerea.Move();
-		//debugCamerea.Rotate();
+		debugCamerea.Rotate();
 		gph.render(models, cam);
 
 	}

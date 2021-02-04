@@ -21,7 +21,6 @@ Camera::Camera(float x, float y, float z)
 {
 	resetCamera();
 	setPosition(x, y, z);
-
 	m_viewMatrix = {};
 	m_projectionMatrix = {};
 	m_orthographicMatrix = {};
@@ -165,6 +164,10 @@ void Camera::updatePosition()
 		return;
 	auto pos_f = m_attachedTo->getTransform()->getPosition() + m_attachedOffset;
 	setPosition(pos_f.x, pos_f.y, pos_f.z);
+}
+
+DirectX::XMVECTOR Camera::getPosition() {
+	return m_position;
 }
 
 DirectX::XMMATRIX Camera::getViewMatrix()

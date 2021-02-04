@@ -8,7 +8,6 @@ class Camera
 {
 private:
 	DirectX::XMVECTOR m_position;
-
 	DirectX::XMMATRIX m_viewMatrix;
 	DirectX::XMVECTOR m_direction;
 	DirectX::XMVECTOR m_lookAt;
@@ -46,6 +45,8 @@ public:
 	Camera(float x, float y, float z);
 	~Camera();
 
+	
+
 	void setPosition(float x, float y, float z);
 	void setRotation(float roll, float pitch, float yaw);
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
@@ -57,5 +58,6 @@ public:
 	DirectX::XMMATRIX getViewMatrix();
 	DirectX::XMMATRIX getProjectionMatrix();
 	DirectX::XMMATRIX getOrthographicMatrix();
+	DirectX::XMVECTOR getPosition();
 };
 
