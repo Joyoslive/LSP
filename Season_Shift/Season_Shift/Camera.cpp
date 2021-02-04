@@ -165,6 +165,11 @@ void Camera::attachTo(std::shared_ptr<GameObject> gameObject, float offsetX, flo
 	m_attachedOffset = XMFLOAT3(offsetX, offsetY, offsetZ);
 }
 
+void Camera::setOffset(float x, float y, float z)
+{
+	m_attachedOffset = XMFLOAT3(x, y, z);
+}
+
 void Camera::updatePosition()
 {
 	if (!m_attachedTo)

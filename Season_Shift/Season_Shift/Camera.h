@@ -56,6 +56,7 @@ public:
 	void rotateAroundSetAxis(Axis axis, float angle);
 
 	void attachTo(std::shared_ptr<GameObject> gameObject, float offsetX=0, float offsetY=0, float offsetZ=0);
+	void setOffset(float x, float y, float z);
 	void updatePosition();
 
 	DirectX::XMMATRIX getViewMatrix();

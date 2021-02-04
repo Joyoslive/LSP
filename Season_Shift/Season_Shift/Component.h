@@ -21,6 +21,7 @@ public:
 		SPHERE_COLLIDER = 16,
 		ORIENTED_BOX_COLLIDER = 32,
 		MODEL = 64
+		CAMERA = 128,
 	};
 
 	friend inline ComponentEnum operator &(ComponentEnum l, ComponentEnum r)
