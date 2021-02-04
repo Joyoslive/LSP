@@ -1,15 +1,11 @@
 #include "Scene.h"
-
+#include "Graphics/Graphics.h"
 
 using namespace DirectX::SimpleMath;
 
-/*Scene::Scene(Graphics *graphics)
+Scene::Scene(Graphics *graphics)
 {
 	m_graphics = graphics;
-}*/
-Scene::Scene()
-{
-
 }
 
 Scene::~Scene()
@@ -19,7 +15,8 @@ Scene::~Scene()
 
 void Scene::setUpScene()
 {
-	//Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	Ref<Model> model2 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 
 	createGameObject();
 	createGameObject("GameObject1");
@@ -30,9 +27,12 @@ void Scene::setUpScene()
 	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
 
-	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(5,0,0));
+	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2,0,4));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
-	//go1->AddComponent(model);
+	go1->AddComponent(model);
+
+	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, 4));
+	go2->AddComponent(model2);
 
 
 	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));

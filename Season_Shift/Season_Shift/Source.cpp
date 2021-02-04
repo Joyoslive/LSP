@@ -21,7 +21,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
 		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
 
-	SceneManager sceneManager = SceneManager();
+	SceneManager sceneManager = SceneManager(&gph);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->createGameObject("player");
@@ -84,7 +84,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		debugCamera.Move();
 		debugCamera.Rotate();
-		gph.render(models, cam);
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
 
 	}
 

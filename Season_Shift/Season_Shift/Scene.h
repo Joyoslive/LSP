@@ -1,19 +1,19 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
-//#include "Graphics/Graphics.h"
+
+class Graphics;
 
 class Scene : public std::enable_shared_from_this<Scene>
 {
 private:
 	std::vector<Ref<GameObject>> m_sceneGameObjects;
-	//Graphics* m_graphics;
+	Graphics* m_graphics;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
 public:
-	//Scene(Graphics *graphics);
-	Scene();
+	Scene(Graphics *graphics);
 	~Scene();
 	void setUpScene();
 	void resetScene();
