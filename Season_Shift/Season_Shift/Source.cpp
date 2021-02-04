@@ -14,7 +14,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
 
-	SceneManager sceneManager = SceneManager();
+	SceneManager sceneManager = SceneManager(&gph);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->createGameObject("player");
@@ -50,8 +50,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//models.push_back(quadMod2);
 
 
-	auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
-	models.push_back(nanosuitMod);
+	//auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
+	//models.push_back(nanosuitMod);
 
 
 
@@ -69,7 +69,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
-		gph.render(models);
+		gph.render(sceneManager.getActiveScene()->getModels());
 
 	}
 

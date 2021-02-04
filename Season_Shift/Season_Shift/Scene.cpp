@@ -16,7 +16,7 @@ Scene::~Scene()
 void Scene::setUpScene()
 {
 	Ref<Model> model = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
-	//vector.pushback(model);
+	addModel(model);
 
 	createGameObject();
 	createGameObject("GameObject1");
@@ -55,6 +55,7 @@ void Scene::emptyScene()
 		destroyGameObject(m_sceneGameObjects[i]);
 		--i;
 	}
+	clearModels();
 	//m_sceneGameObjects.
 }
 
@@ -91,6 +92,16 @@ void Scene::removeGameObject(Ref<GameObject> gameObject)
 	}
 }
 
+void Scene::addModel(Ref<Model> model)
+{
+	m_sceneModels.push_back(model);
+}
+
+void Scene::clearModels()
+{
+	m_sceneModels.clear();
+}
+
 Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 position, Vector3 scale, Vector3 rotation)
 {
 	if (gameObjectName == "")
@@ -112,9 +123,17 @@ void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 	destroyGameObject->clearGameObject();
 }
 
-Ref<std::vector<Ref<Model>>>& Scene::getSceneModels()
+std::vector<Ref<Model>> Scene::getModels()
 {
-	Ref<std::vector<Ref<Model>>> modelVector = std::make_shared<std::vector<Ref<Model>>>();
+	std::vector<Ref<Model>> modelVector; 
+	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+	{
+		Ref<Model> tempModel = m_sceneGameObjects[i]->getComponentType<Model>(Component::ComponentEnum::MODEL);
+		if (tempModel != nullptr)
+		{
+			modelVector.push_back(tempModel);
+		}
+	}
 	return modelVector;
 }
 
