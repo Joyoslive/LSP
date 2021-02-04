@@ -19,7 +19,7 @@ private:
 
 	std::vector<Ref<Collider>> rigidBodyCollide(Ref<RigidBody>& rigidBody);
 
-	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, Ref<OrientedBoxCollider> obb) const;
+	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, Ref<OrientedBoxCollider> obb, DirectX::SimpleMath::Vector3& returnNormal) const;
 
 	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 	

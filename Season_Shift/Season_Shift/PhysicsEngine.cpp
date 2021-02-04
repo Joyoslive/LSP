@@ -103,7 +103,7 @@ Vector3 PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
 }
 
 
-Vector3 PhysicsEngine::closestPointOnObb(Vector3 point, Ref<OrientedBoxCollider> obb) const
+Vector3 PhysicsEngine::closestPointOnObb(Vector3 point, Ref<OrientedBoxCollider> obb, Vector3& returnNormal) const
 {
 	//från boken
 	//Real time collision detection av Christer Ericson
@@ -144,10 +144,70 @@ Vector3 PhysicsEngine::closestPointOnObb(Vector3 point, Ref<OrientedBoxCollider>
 	if (distance.z > obb->m_obb.Extents.z) distance.z = obb->m_obb.Extents.z;
 	if (distance.z < -obb->m_obb.Extents.z) distance.z = -obb->m_obb.Extents.z;
 
-	Vector3 ClosestPoint = obb->m_obb.Center;
-	ClosestPoint += distance.x * unitX;
-	ClosestPoint += distance.y * unitY;
-	ClosestPoint += distance.z * unitZ;
+	//if point is inside obb move to boundery
+	
+	if (distance.x < obb->m_obb.Extents.x && distance.x > -obb->m_obb.Extents.x
+		&& distance.y < obb->m_obb.Extents.y && distance.y > -obb->m_obb.Extents.y
+		&& distance.z < obb->m_obb.Extents.z && distance.z > -obb->m_obb.Extents.z)
+	{
+		float xDiff = 0.0, yDiff = 0.0, zDiff = 0.0;
 
-	return ClosestPoint;
+		if (distance.x > 0)
+			xDiff = obb->m_obb.Extents.x - distance.x;
+		else
+			xDiff = obb->m_obb.Extents.x + distance.x;
+
+		if (distance.y > 0)
+			yDiff = obb->m_obb.Extents.y - distance.y;
+		else
+			yDiff = obb->m_obb.Extents.y + distance.y;
+
+		if (distance.z > 0)
+			zDiff = obb->m_obb.Extents.z - distance.z;
+		else
+			zDiff = obb->m_obb.Extents.z + distance.z;
+
+
+		if (xDiff <= yDiff && xDiff <= zDiff)
+		{
+			if (distance.x < 0)
+				distance.x = -obb->m_obb.Extents.x;
+			else
+				distance.x = obb->m_obb.Extents.x;
+		}
+		else if(zDiff <= yDiff)
+		{
+			if (distance.z < 0)
+				distance.z = -obb->m_obb.Extents.z;
+			else
+				distance.z = obb->m_obb.Extents.z;
+		}
+		else
+		{
+			if (distance.y < 0)
+				distance.y = -obb->m_obb.Extents.y;
+			else
+				distance.y = obb->m_obb.Extents.y;
+		}
+
+	}
+
+	Vector3 closestPoint = obb->m_obb.Center;
+	closestPoint += distance.x * unitX;
+	closestPoint += distance.y * unitY;
+	closestPoint += distance.z * unitZ;
+
+	//get the normal
+	// denna kod är typ baserad på kod från raytracing uppgiften i 3d-prog och jag har ingen aning om det fungerar
+	float epsilon = 0.001f;
+
+	if (abs(unitX.Dot(closestPoint - (obb->m_obb.Center + unitX * obb->m_obb.Extents.x))) < epsilon) returnNormal = unitX;
+	if (abs(unitX.Dot(closestPoint - (obb->m_obb.Center - unitX * obb->m_obb.Extents.x))) < epsilon) returnNormal = unitX * -1;
+	if (abs(unitY.Dot(closestPoint - (obb->m_obb.Center + unitY * obb->m_obb.Extents.y))) < epsilon) returnNormal = unitY;
+	if (abs(unitY.Dot(closestPoint - (obb->m_obb.Center - unitY * obb->m_obb.Extents.y))) < epsilon) returnNormal = unitY * -1;
+	if (abs(unitZ.Dot(closestPoint - (obb->m_obb.Center + unitZ * obb->m_obb.Extents.z))) < epsilon) returnNormal = unitZ;
+	if (abs(unitZ.Dot(closestPoint - (obb->m_obb.Center - unitZ * obb->m_obb.Extents.z))) < epsilon) returnNormal = unitZ * -1;
+
+
+	return closestPoint;
 }
