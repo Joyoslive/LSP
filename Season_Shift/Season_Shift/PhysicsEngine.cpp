@@ -6,6 +6,8 @@
 
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
+using namespace std;
 
 
 
@@ -24,9 +26,10 @@ void PhysicsEngine::updateScene(Ref<Scene> activeScene)
 	m_scene = activeScene;
 }
 
-std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat
+vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat
 {
-	std::vector<Ref<Collider>> colliderVec;
+	// kollar bara en collider per gameobject
+	vector<Ref<Collider>> colliderVec;
 	for (auto& go : m_scene->getSceneGameObjects())
 	{
 		Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
@@ -51,25 +54,49 @@ std::vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) /
 	return colliderVec;
 }
 
+vector<Ref<Collider>> PhysicsEngine::rigidBodyCollide(Ref<RigidBody>& rigidBody)
+{
+
+	vector<Ref<Collider>> otherColliders;
+
+	vector<Ref<Collider>> rigidBodyColliders = rigidBody->getGameObject()->getMultipleComponentType<Collider>(Component::ComponentEnum::COLLIDER);
+	assert(rigidBodyColliders.size() < 2); //vi supportar inte flera colliders just nu
+
+	if (rigidBodyColliders.size() == 1)
+	{
+		otherColliders = checkCollide(rigidBodyColliders[0]);
+	}
+	return otherColliders;
+}
+
 void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
 {
 	m_timer.start();
 	m_deltaTime += m_timer.dt();
 	while (m_timeStep <= m_deltaTime)
 	{
+		
+
+		/*vector<Ref<Collider>> otherColliders = rigidBodyCollide(rigidBody);
+		for (auto& other : otherColliders)
+		{
+			rigidBody->m_transform->getPosition();
+		}*/
+
 		calcPos(rigidBody);
+
 		m_deltaTime -= m_timeStep;
 	}
 	m_timer.stop();
 }
 
 
-void PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
+ Vector3 PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
 {
 	rigidBody->m_acceleration = rigidBody->m_force / rigidBody->m_mass;
 	rigidBody->m_acceleration.y -= rigidBody->m_gravity;
 
 	rigidBody->m_velocity += rigidBody->m_acceleration * (float)m_timeStep;
 
-	rigidBody->m_transform->setPosition(rigidBody->m_transform->getPosition() + rigidBody->m_velocity * (float)m_timeStep);
+	return rigidBody->m_transform->getPosition() + rigidBody->m_velocity * (float)m_timeStep;
 }
