@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <stdexcept>
+
 using namespace DirectX;
 
 Camera::Camera()
@@ -31,29 +33,32 @@ Camera::Camera(float x, float y, float z)
 
 Camera::~Camera() {}
 
-void Camera::resetCamera()
+void Camera::resetCamera(bool pos = true, bool rot = true)
 {
 	auto f = XMFLOAT3(0, 0, 0);
-	m_position = XMLoadFloat3(&f);
+	if (pos) {
+		m_position = XMLoadFloat3(&f);
+	}
+	if (rot) {
+		f.y = 1;
+		m_globalUp = XMLoadFloat3(&f);
+		m_up = XMLoadFloat3(&f);
 
-	f.y = 1;
-	m_globalUp = XMLoadFloat3(&f);
-	m_up = XMLoadFloat3(&f);
+		f.y = 0;
+		f.z = 1;
+		m_direction = XMLoadFloat3(&f);
+		m_lookAt = XMLoadFloat3(&f);
 
-	f.y = 0;
-	f.z = 1;
-	m_direction = XMLoadFloat3(&f);
-	m_lookAt = XMLoadFloat3(&f);
-
-	f.z = 0;
-	f.x = -1;
-	m_right = XMLoadFloat3(&f);
+		f.z = 0;
+		f.x = -1;
+		m_right = XMLoadFloat3(&f);
 
 
-	m_nearPlane = 0.1f;
-	m_farPlane = 1000.0f;
-	m_fieldOfView = XM_PI / 4;
-	m_aspectRatio = 1280 / 720;
+		m_nearPlane = 0.1f;
+		m_farPlane = 1000.0f;
+		m_fieldOfView = XM_PI / 4;
+		m_aspectRatio = 1280 / 720;
+	}
 }
 
 void Camera::calculateViewMatrix()
@@ -100,8 +105,14 @@ void Camera::setPosition(float x, float y, float z)
 	calculateViewMatrix();
 }
 
+void Camera::setPosition(DirectX::CXMVECTOR position)
+{
+	m_position = position;
+}
+
 void Camera::setRotation(float roll, float pitch, float yaw)
 {
+	resetCamera(true, false);
 	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
 	auto baseUp = XMFLOAT3(0, 1, 0);
@@ -140,9 +151,29 @@ void Camera::rotateAroundSetAxis(Axis axis, float angle)
 		case FORWARD:
 			axisVector = m_direction;
 			break;
+		case GLOBAL_UP:
+			axisVector = m_globalUp;
+			break;
 	}
 
 	rotateAroundAxis(axisVector, angle);
+}
+
+void Camera::attachTo(std::shared_ptr<GameObject> gameObject, float offsetX, float offsetY, float offsetZ)
+{
+	if (!gameObject->getTransform())
+		throw std::runtime_error("Game Object does not have a valid transform component");
+
+	m_attachedTo = gameObject;
+	m_attachedOffset = XMFLOAT3(offsetX, offsetY, offsetZ);
+}
+
+void Camera::updatePosition()
+{
+	if (!m_attachedTo)
+		return;
+	auto pos_f = m_attachedTo->getTransform()->getPosition() + m_attachedOffset;
+	setPosition(pos_f.x, pos_f.y, pos_f.z);
 }
 
 DirectX::XMMATRIX Camera::getViewMatrix()

@@ -55,6 +55,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -5);
+
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -69,7 +71,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
-		gph.render(models);
+		gph.render(models, cam);
 
 	}
 
