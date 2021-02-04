@@ -55,7 +55,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 
-	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -5);
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
 
 	MSG msg = { };
 	while (!win.isClosed())

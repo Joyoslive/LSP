@@ -54,10 +54,10 @@ void Camera::resetCamera(bool pos, bool rot)
 		m_right = XMLoadFloat3(&f);
 
 
-		m_nearPlane = 0.1f;
-		m_farPlane = 1000.0f;
-		m_fieldOfView = XM_PI / 4;
-		m_aspectRatio = 1280 / 720;
+		m_nearPlane = 0.1;
+		m_farPlane = 1000.0;
+		m_fieldOfView = XM_PI / 4.0;
+		m_aspectRatio = (float)1280 / (float)720;
 	}
 }
 
