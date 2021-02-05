@@ -57,8 +57,7 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //note
 
 void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
 {
-	m_timer.start();
-	m_deltaTime += 1.0 / 3000.0; // m_timer.dt();
+	m_deltaTime += dt;
 	while (m_timeStep < m_deltaTime)
 	{
 		
@@ -90,7 +89,6 @@ void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
 
 		m_deltaTime -= m_timeStep;
 	}
-	m_timer.stop();
 }
 
 
