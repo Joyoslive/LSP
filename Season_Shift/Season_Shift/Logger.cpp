@@ -8,6 +8,8 @@
 #include <Windows.h>
 #include <stdexcept>
 
+Logger Logger::instance = Logger();
+
 Logger::Logger() 
 {
 	m_logFile = "logs.txt";
