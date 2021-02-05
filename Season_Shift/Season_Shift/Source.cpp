@@ -33,8 +33,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
 	sceneManager.addObserver(physicsEng);
 
-	Logger::getLogger().debugLog("Log me daddy!");
-
 	// Material
 
 	// Geometry
@@ -68,7 +66,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 
-	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
 
 	DebugCamera debugCamera(win.getHWND(), cam);
 
@@ -88,8 +86,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
-		debugCamera.Move();
 		debugCamera.Rotate();
+		debugCamera.Move();
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
 
 	}

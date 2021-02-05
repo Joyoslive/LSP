@@ -28,7 +28,7 @@ public:
 	void destroyGameObject(Ref<GameObject> destroyGameObject);
 
 	Ref<GameObject> getGameObject(const std::string& gameObjectName);
-	std::vector<Ref<Model>> getSceneModels();
+	std::vector<Ref<Model>>& getSceneModels();
 	std::vector<Ref<GameObject>>& getSceneGameObjects();
 };
 

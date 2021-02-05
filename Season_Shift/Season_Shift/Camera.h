@@ -19,6 +19,7 @@ private:
 	DirectX::XMMATRIX m_projectionMatrix;
 	float m_nearPlane, m_farPlane;
 	float m_fieldOfView;
+	int m_width, m_height;
 	float m_aspectRatio;
 
 	DirectX::XMMATRIX m_orthographicMatrix;
@@ -26,7 +27,7 @@ private:
 	std::shared_ptr<GameObject> m_attachedTo;
 	DirectX::XMFLOAT3 m_attachedOffset;
 private:
-	void resetCamera(bool pos=true, bool rot=true);			// Reset the camera to (0,0,0) pos and rotation 
+	void resetCamera(bool pos=true, bool rot=true, bool proj=true);			// Reset the camera to (0,0,0) pos and rotation 
 	void calculateViewMatrix();
 	void calculateProjectionMatrix();
 	void calculateOrthographicMatrix();
@@ -43,8 +44,7 @@ public:
 	};
 
 public:
-	Camera();
-	Camera(float x, float y, float z);
+	Camera(float x=0, float y=0, float z=0, int width=1280, int height=720, float nearPlane=0.1, float farPlane=1000);
 	~Camera();
 
 	
@@ -52,6 +52,7 @@ public:
 	void setPosition(float x, float y, float z);
 	void setPosition(DirectX::CXMVECTOR position);
 	void setRotation(float roll, float pitch, float yaw);
+	void setRotationFree(float roll, float pitch, float yaw);
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Axis axis, float angle);
 
@@ -59,9 +60,9 @@ public:
 	void setOffset(float x, float y, float z);
 	void updatePosition();
 
-	DirectX::XMMATRIX getViewMatrix();
-	DirectX::XMMATRIX getProjectionMatrix();
-	DirectX::XMMATRIX getOrthographicMatrix();
+	DirectX::CXMMATRIX getViewMatrix() const;
+	DirectX::CXMMATRIX getProjectionMatrix() const;
+	DirectX::CXMMATRIX getOrthographicMatrix() const;
 	DirectX::FXMVECTOR getPosition();
 	DirectX::FXMVECTOR getUp();
 	DirectX::FXMVECTOR getRight();

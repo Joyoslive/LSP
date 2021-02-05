@@ -48,17 +48,17 @@ void CameraComponent::rotateAroundSetAxis(Camera::Axis axis, float angle)
 	m_camera.rotateAroundSetAxis(axis, angle);
 }
 
-DirectX::XMMATRIX CameraComponent::getViewMatrix()
+DirectX::CXMMATRIX CameraComponent::getViewMatrix()
 {
 	return m_camera.getViewMatrix();
 }
 
-DirectX::XMMATRIX CameraComponent::getProjectionMatrix()
+DirectX::CXMMATRIX CameraComponent::getProjectionMatrix()
 {
 	return m_camera.getProjectionMatrix();
 }
 
-DirectX::XMMATRIX CameraComponent::getOrthographicMatrix()
+DirectX::CXMMATRIX CameraComponent::getOrthographicMatrix()
 {
 	return m_camera.getOrthographicMatrix();
 }

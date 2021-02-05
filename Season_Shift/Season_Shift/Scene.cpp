@@ -160,7 +160,7 @@ Ref<GameObject> Scene::getGameObject(const std::string& gameObjectName)
 	return nullptr;
 }
 
-std::vector<Ref<Model>> Scene::getSceneModels()
+std::vector<Ref<Model>>& Scene::getSceneModels()
 {
 	updateSceneModels();
 	return m_sceneModels;
