@@ -35,6 +35,7 @@ public:
 	bool MouseBeingPressed(MouseKeys key);
 	bool MousePressed(MouseKeys key);
 	void LockMouse();
+	void Update();
 private:
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;

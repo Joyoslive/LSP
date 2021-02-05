@@ -54,20 +54,6 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //note
 	return colliderVec;
 }
 
-vector<Ref<Collider>> PhysicsEngine::rigidBodyCollide(Ref<RigidBody>& rigidBody)
-{
-
-	vector<Ref<Collider>> otherColliders;
-
-	vector<Ref<Collider>> rigidBodyColliders = rigidBody->getGameObject()->getMultipleComponentType<Collider>(Component::ComponentEnum::COLLIDER);
-	assert(rigidBodyColliders.size() < 2); //vi supportar inte flera colliders just nu
-
-	if (rigidBodyColliders.size() == 1)
-	{
-		otherColliders = checkCollide(rigidBodyColliders[0]);
-	}
-	return otherColliders;
-}
 
 void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
 {
@@ -76,14 +62,31 @@ void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
 	while (m_timeStep <= m_deltaTime)
 	{
 		
+		rigidBody->m_transform->setPosition(calcPos(rigidBody));
 
-		/*vector<Ref<Collider>> otherColliders = rigidBodyCollide(rigidBody);
-		for (auto& other : otherColliders)
+		Ref<Collider> rigidBodyCollider = rigidBody->getGameObject()->getComponentType<SphereCollider>(Component::ComponentEnum::COLLIDER);
+		if (rigidBodyCollider != nullptr)
 		{
-			rigidBody->m_transform->getPosition();
-		}*/
+			vector<Ref<Collider>> otherColliders = checkCollide(rigidBodyCollider);
 
-		calcPos(rigidBody);
+			//sphere vs obb collision
+			if ((rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER) == Component::ComponentEnum::SPHERE_COLLIDER)
+			{
+				for (auto& other : otherColliders)
+				{
+					if ((other->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) == Component::ComponentEnum::ORIENTED_BOX_COLLIDER)
+					{
+
+						Vector3 normal = SphereCollideObb(rigidBodyCollider, other);
+						//DirectX::
+						rigidBody->stop();
+					}
+
+
+				}
+			}
+		}
+		
 
 		m_deltaTime -= m_timeStep;
 	}
@@ -103,111 +106,18 @@ Vector3 PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
 }
 
 
-Vector3 PhysicsEngine::closestPointOnObb(Vector3 point, Ref<OrientedBoxCollider> obb, Vector3& returnNormal) const
+Vector3 PhysicsEngine::SphereCollideObb(Ref<Collider>& sphere, Ref<Collider>& obb)
 {
-	//från boken
-	//Real time collision detection av Christer Ericson
+	assert(obb->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY) == nullptr); //sånt hanteras inte
 
 
-	//obb unit vectors, fan att DirectXCollision.h bara har en quaternion i sin obb
-	Vector3 unitX;
-	unitX.x	= obb->m_transform->getWorldMatrix().m[0][0];
-	unitX.y	= obb->m_transform->getWorldMatrix().m[0][1];
-	unitX.z	= obb->m_transform->getWorldMatrix().m[0][2];
-	unitX.Normalize();
-	
-	Vector3 unitY;
-	unitY.x = obb->m_transform->getWorldMatrix().m[1][0];
-	unitY.y = obb->m_transform->getWorldMatrix().m[1][1];
-	unitY.z = obb->m_transform->getWorldMatrix().m[1][2];
-	unitY.Normalize();
-
-	Vector3 unitZ;
-	unitZ.x = obb->m_transform->getWorldMatrix().m[2][0];
-	unitZ.y = obb->m_transform->getWorldMatrix().m[2][1];
-	unitZ.z = obb->m_transform->getWorldMatrix().m[2][2];
-	unitZ.Normalize();
-
-	Vector3 d = point - obb->m_obb.Center;
-	
-	Vector3 distance;
-	distance.x = unitX.Dot(d);
-	distance.y = unitY.Dot(d);
-	distance.z = unitZ.Dot(d);
-
-	if (distance.x > obb->m_obb.Extents.x) distance.x = obb->m_obb.Extents.x;
-	if (distance.x < -obb->m_obb.Extents.x) distance.x = -obb->m_obb.Extents.x;
-
-	if (distance.y > obb->m_obb.Extents.y) distance.y = obb->m_obb.Extents.y;
-	if (distance.y < -obb->m_obb.Extents.y) distance.y = -obb->m_obb.Extents.y;
-
-	if (distance.z > obb->m_obb.Extents.z) distance.z = obb->m_obb.Extents.z;
-	if (distance.z < -obb->m_obb.Extents.z) distance.z = -obb->m_obb.Extents.z;
-
-	//if point is inside obb move to boundery
-	
-	if (distance.x < obb->m_obb.Extents.x && distance.x > -obb->m_obb.Extents.x
-		&& distance.y < obb->m_obb.Extents.y && distance.y > -obb->m_obb.Extents.y
-		&& distance.z < obb->m_obb.Extents.z && distance.z > -obb->m_obb.Extents.z)
-	{
-		float xDiff = 0.0, yDiff = 0.0, zDiff = 0.0;
-
-		if (distance.x > 0)
-			xDiff = obb->m_obb.Extents.x - distance.x;
-		else
-			xDiff = obb->m_obb.Extents.x + distance.x;
-
-		if (distance.y > 0)
-			yDiff = obb->m_obb.Extents.y - distance.y;
-		else
-			yDiff = obb->m_obb.Extents.y + distance.y;
-
-		if (distance.z > 0)
-			zDiff = obb->m_obb.Extents.z - distance.z;
-		else
-			zDiff = obb->m_obb.Extents.z + distance.z;
+	Vector3 normal = Vector3(0, 1, 0);
+	Vector3 position = std::dynamic_pointer_cast<OrientedBoxCollider>(obb)->closestPointOnObb(
+		std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Center, normal);
 
 
-		if (xDiff <= yDiff && xDiff <= zDiff)
-		{
-			if (distance.x < 0)
-				distance.x = -obb->m_obb.Extents.x;
-			else
-				distance.x = obb->m_obb.Extents.x;
-		}
-		else if(zDiff <= yDiff)
-		{
-			if (distance.z < 0)
-				distance.z = -obb->m_obb.Extents.z;
-			else
-				distance.z = obb->m_obb.Extents.z;
-		}
-		else
-		{
-			if (distance.y < 0)
-				distance.y = -obb->m_obb.Extents.y;
-			else
-				distance.y = obb->m_obb.Extents.y;
-		}
 
-	}
-
-	Vector3 closestPoint = obb->m_obb.Center;
-	closestPoint += distance.x * unitX;
-	closestPoint += distance.y * unitY;
-	closestPoint += distance.z * unitZ;
-
-	//get the normal
-	// denna kod är typ baserad på kod från raytracing uppgiften i 3d-prog och jag har ingen aning om det fungerar
-	float epsilon = 0.001f;
-
-	if (abs(unitX.Dot(closestPoint - (obb->m_obb.Center + unitX * obb->m_obb.Extents.x))) < epsilon) returnNormal = unitX;
-	if (abs(unitX.Dot(closestPoint - (obb->m_obb.Center - unitX * obb->m_obb.Extents.x))) < epsilon) returnNormal = unitX * -1;
-	if (abs(unitY.Dot(closestPoint - (obb->m_obb.Center + unitY * obb->m_obb.Extents.y))) < epsilon) returnNormal = unitY;
-	if (abs(unitY.Dot(closestPoint - (obb->m_obb.Center - unitY * obb->m_obb.Extents.y))) < epsilon) returnNormal = unitY * -1;
-	if (abs(unitZ.Dot(closestPoint - (obb->m_obb.Center + unitZ * obb->m_obb.Extents.z))) < epsilon) returnNormal = unitZ;
-	if (abs(unitZ.Dot(closestPoint - (obb->m_obb.Center - unitZ * obb->m_obb.Extents.z))) < epsilon) returnNormal = unitZ * -1;
-
-
-	return closestPoint;
+	sphere->getTransform()->setPosition((position + normal * std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Radius));
+	sphere->update();
+	return normal;
 }

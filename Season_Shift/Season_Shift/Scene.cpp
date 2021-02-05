@@ -32,6 +32,7 @@ void Scene::setUpScene()
 	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2,0,-40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
 	go1->AddComponent(model);
+	go1->AddComponent(std::make_shared<Test>());
 
 	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 90, 0));
 	go2->AddComponent(model2);
@@ -39,15 +40,8 @@ void Scene::setUpScene()
 	Ref<GameObject> go3 = createGameObject("colliderTest1", Vector3(-6, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 270, 0));
 	go3->AddComponent(model3);
 
-	Ref<GameObject> go4 = createGameObject("colliderTest1", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
+	Ref<GameObject> go4 = createGameObject("Model4", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
 	go4->AddComponent(model4);
-
-	/*Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(3, 0, 0));
-	go2->AddComponent(std::make_shared<SphereCollider>(2.0f));*/
-
-
-	
-
 }
 
 void Scene::resetScene()
@@ -101,6 +95,39 @@ void Scene::removeGameObject(Ref<GameObject> gameObject)
 	}
 }
 
+void Scene::updateSceneModels()
+{
+	int modelSize = m_sceneModels.size();
+	int gameObjectSize = m_sceneGameObjects.size();
+	int modelIndex = 0;
+	//Check every gameObject to check if it has an model
+	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+	{
+		Ref<Model> model = m_sceneGameObjects[i]->getComponentType<Model>(Component::ComponentEnum::MODEL);
+		//Need to find model and GameObject needs to be visible
+		if (model != nullptr && m_sceneGameObjects[i]->getIsVisible())
+		{
+			//Just replace old model with new and if the vector is too small than we need to push the model to the model vector
+			modelSize = m_sceneModels.size();
+			if (modelSize - 1 >= modelIndex)
+			{
+				m_sceneModels[modelIndex] = model;
+			}
+			else if (modelSize - 1 < modelIndex)
+			{
+				m_sceneModels.push_back(model);
+			}
+			++modelIndex;
+		}
+	}
+	modelSize = m_sceneModels.size();
+	//Removes models in the model vector if the model vector is too big
+	for (int i = 0; i < modelSize - modelIndex; ++i)
+	{
+		m_sceneModels.pop_back();
+	}
+}
+
 Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 position, Vector3 scale, Vector3 rotation)
 {
 	if (gameObjectName == "")
@@ -122,18 +149,22 @@ void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 	destroyGameObject->clearGameObject();
 }
 
-std::vector<Ref<Model>> Scene::getSceneModels()
+Ref<GameObject> Scene::getGameObject(const std::string& gameObjectName)
 {
-	std::vector<Ref<Model>> models;
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
 	{
-		Ref<Model> model = m_sceneGameObjects[i]->getComponentType<Model>(Component::ComponentEnum::MODEL);
-		if (model != nullptr)
+		if (m_sceneGameObjects[i]->getName() == gameObjectName)
 		{
-			models.push_back(model);
+			return m_sceneGameObjects[i];
 		}
 	}
-	return models;
+	return nullptr;
+}
+
+std::vector<Ref<Model>>& Scene::getSceneModels()
+{
+	updateSceneModels();
+	return m_sceneModels;
 }
 
 std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()

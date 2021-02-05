@@ -22,6 +22,7 @@ private:
 	Ref<Transform> m_transform;
 	std::string m_name;
 	Ref<Scene> m_myScene;
+	bool m_isVisible;
 
 public:
 	GameObject(std::string name = "", Ref<Scene> scene = nullptr);
@@ -69,6 +70,8 @@ public:
 	void update();
 
 	void clearGameObject();
+	void setIsVisible(bool isVisible);
+	bool getIsVisible();
 
 	int AddComponent(Ref<Component> component);
 	Ref<Transform> getTransform();

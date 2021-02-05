@@ -8,6 +8,7 @@ GameObject::GameObject(std::string name, Ref<Scene> scene)
 	if (scene == nullptr)
 		assert(false);
 	m_myScene = scene;
+	setIsVisible(true);
 }
 
 GameObject::~GameObject()
@@ -34,6 +35,16 @@ void GameObject::clearGameObject()
 	}
 	m_componentVector.clear();
 	m_transform = nullptr;
+}
+
+void GameObject::setIsVisible(bool isVisible)
+{
+	m_isVisible = isVisible;
+}
+
+bool GameObject::getIsVisible()
+{
+	return m_isVisible;
 }
 
 void GameObject::start()

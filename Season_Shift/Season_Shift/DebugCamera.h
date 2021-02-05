@@ -8,11 +8,12 @@ private:
 	std::shared_ptr<Camera> camera;
 	//Camera camera;
 	Input input;
-	DirectX::XMVECTOR position;
-	DirectX::XMVECTOR up;
+	DirectX::XMVECTOR m_position;
+	DirectX::XMVECTOR m_up;
 	DirectX::SimpleMath::Vector2 mousePos;
-	float speed;
-	float pitch, yaw, roll;
+	float m_speed;
+	float m_pitch, m_yaw, m_roll;
+	bool m_freecamMode;
 public:
 	DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera);
 	~DebugCamera();

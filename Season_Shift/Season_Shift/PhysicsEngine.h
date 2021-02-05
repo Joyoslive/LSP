@@ -17,12 +17,9 @@ private:
 	long double m_deltaTime;
 	
 
-	std::vector<Ref<Collider>> rigidBodyCollide(Ref<RigidBody>& rigidBody);
-
-	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, Ref<OrientedBoxCollider> obb, DirectX::SimpleMath::Vector3& returnNormal) const;
-
 	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 	
+	DirectX::SimpleMath::Vector3 SphereCollideObb(Ref<Collider>& sphere, Ref<Collider>& obb);
 
 public:
 	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
