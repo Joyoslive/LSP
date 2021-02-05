@@ -88,8 +88,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		physicsEng->simulate(temp);
 
 		// Do stuff
-		debugCamera.Move();
 		debugCamera.Rotate();
+		debugCamera.Move();
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
 
 	}

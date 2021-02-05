@@ -23,8 +23,6 @@ bool Input::KeyBeingPressed(Keys key) {
 }
 
 bool Input::KeyPressed(Keys key) {
-	auto kb = m_keyboard->GetState();
-	m_keys.Update(kb);
 	DirectX::Keyboard::Keys dxkey;
 	dxkey = (DirectX::Keyboard::Keys)key;
 	return m_keys.IsKeyPressed(dxkey);
@@ -68,8 +66,6 @@ void Input::MouseMovement(float &m_pitch, float &m_yaw) {
 }
 
 bool Input::MouseBeingPressed(MouseKeys key) {
-	auto mouse = m_mouse->GetState();
-	m_mouseButtons.Update(mouse);
 	switch (key)
 	{
 	case Input::LeftButton:
@@ -94,8 +90,6 @@ bool Input::MouseBeingPressed(MouseKeys key) {
 }
 
 bool Input::MousePressed(MouseKeys key) {
-	auto mouse = m_mouse->GetState();
-	m_mouseButtons.Update(mouse);
 	switch (key)
 	{
 	case Input::LeftButton:
@@ -127,4 +121,11 @@ void Input::LockMouse() {
 	else {
 		m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 	}
+}
+
+void Input::Update() {
+	auto kb = m_keyboard->GetState();
+	auto mouse = m_mouse->GetState();
+	m_keys.Update(kb);
+	m_mouseButtons.Update(mouse);
 }

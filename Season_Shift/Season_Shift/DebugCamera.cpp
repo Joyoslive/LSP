@@ -1,20 +1,20 @@
 #include "DebugCamera.h"
 
-using namespace DirectX; // For multiplying speed
+using namespace DirectX; // For multiplying m_speed
 
 DebugCamera::DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera) {
 	mousePos = { 0.0f, 0.0f };
-	up = { 0.0f, 1.0f, 0.0f, 0.0f };
-	speed = 0.005f;
-	position = incomingCamera->getPosition();
-	yaw = 0.0f;
-	pitch = 0.0f;
-	roll = 0.0f;
+	m_up = { 0.0f, 1.0f, 0.0f, 0.0f };
+	m_speed = 0.005f;
+	m_position = incomingCamera->getPosition();
+	m_yaw = 0.0f;
+	m_pitch = 0.0f;
+	m_roll = 0.0f;
 	input.Init(wndHandle);
 
 	camera = incomingCamera;
-	camera->setPosition(position);
-	camera->setRotation(pitch, roll, yaw);
+	camera->setPosition(m_position);
+	camera->setRotation(m_pitch, m_roll, m_yaw);
 
 }
 
@@ -25,36 +25,44 @@ DebugCamera::~DebugCamera() {
 void DebugCamera::Move() {
 	auto forward = camera->getForward();
 	auto right = camera->getRight();
-
+	input.Update();
 	if (input.KeyBeingPressed(Input::W)) {
-		position += speed * forward;
+		m_position += m_speed * forward;
 	}
 	if (input.KeyBeingPressed(Input::S)) {
-		position -= speed * forward;
+		m_position -= m_speed * forward;
 	}
 	if (input.KeyBeingPressed(Input::A)) {
-		position -= speed * right;
+		m_position -= speed * right;
 	}
 	if (input.KeyBeingPressed(Input::D)) {
-		position += speed * right;
+		m_position += speed * right;
 	}
 	if (input.KeyBeingPressed(Input::R)) {
-		position = { 0.0f, 0.0f, -5.0f, 0.0f };
+		m_position = { 0.0f, 0.0f, -5.0f, 0.0f };
 	}
 	if (input.KeyPressed(Input::L)) {
 		input.LockMouse();
 	}
+	if (input.MousePressed(Input::LeftButton)) {
+		m_speed += 0.01f;
+	}
+	if (input.MousePressed(Input::RightButton)) {
+		if (m_speed -0.01f > 0.0f) {
+			m_speed -= 0.01f;
+		}
+	}
 	if (input.KeyBeingPressed(Input::Shift)) {
-		position -= speed * up;
+		m_position -= m_speed * m_up;
 	}
 	if (input.KeyBeingPressed(Input::Space)) {
-		position += speed * up;
+		m_position += m_speed * m_up;
 	}
-	camera->setPosition(position);
+	camera->setPosition(m_position);
 }
 
 void DebugCamera::Rotate() {
 	//Get the Mouse Coordinate
-	input.MouseMovement(pitch, yaw);
-	camera->setRotation(roll, pitch, yaw);
+	input.MouseMovement(m_pitch, m_yaw);
+	camera->setRotation(m_roll, m_pitch, m_yaw);
 }
