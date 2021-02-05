@@ -50,7 +50,7 @@ void Camera::resetCamera(bool pos, bool rot)
 		m_forward = XMLoadFloat3(&f);
 
 		f.z = 0;
-		f.x = -1;
+		f.x = 1;
 		m_right = XMLoadFloat3(&f);
 
 
