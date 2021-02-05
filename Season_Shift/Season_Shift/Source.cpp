@@ -70,6 +70,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	DebugCamera debugCamera(win.getHWND(), cam);
 
+	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
+
 	MSG msg = { };
 	while (!win.isClosed())
 	{
