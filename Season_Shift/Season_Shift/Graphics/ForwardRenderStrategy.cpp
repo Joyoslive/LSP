@@ -121,7 +121,7 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 {
 }
 
-void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, std::shared_ptr<Camera> mainCamera)
+void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
 {
 	auto dev = m_renderer->getDXDevice();
 

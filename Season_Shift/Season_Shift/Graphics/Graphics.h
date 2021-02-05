@@ -59,7 +59,7 @@ public:
 	/*
 	To-add: Data to be rendered! (Mesh, Material, Shader) (Assumes all the data is to be rendered, meaning culling has already been done prior to passing it for rendering)
 	*/
-	void render(const std::vector<std::shared_ptr<Model>>& models, std::shared_ptr<Camera> mainCamera);
+	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera);
 
 	/*
 	Expose creational interface for graphics resources (mesh, material and model)
