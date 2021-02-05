@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "DebugCamera.h"
 #include "CameraComponent.h"
+#include "Logger.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -32,6 +33,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
 	sceneManager.addObserver(physicsEng);
 
+	Logger::getLogger().debugLog("Log me daddy!");
 
 	// Material
 
@@ -66,9 +68,11 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 
 
-	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50);
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
 
 	DebugCamera debugCamera(win.getHWND(), cam);
+
+	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
 	MSG msg = { };
 	while (!win.isClosed())

@@ -117,7 +117,6 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 
 	std::vector<SubsetMaterial> materials;
 
-	// Load material (To-do: Add subsets to Model)
 	for (auto& subsetInfo : modelData.subsetsInfo)
 	{
 		SubsetMaterial mat;

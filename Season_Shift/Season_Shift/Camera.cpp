@@ -4,21 +4,13 @@
 
 using namespace DirectX;
 
-Camera::Camera()
+Camera::Camera(float x, float y, float z, int width, int height, float nearPlane, float farPlane)
 {
-	resetCamera();
-	
-	m_viewMatrix = {};
-	m_projectionMatrix = {};
-	m_orthographicMatrix = {};
-	calculateViewMatrix();
-	calculateProjectionMatrix();
-	calculateOrthographicMatrix();
-}
+	m_width = width;
+	m_height = height;
+	m_nearPlane = nearPlane;
+	m_farPlane = farPlane;
 
-
-Camera::Camera(float x, float y, float z)
-{
 	resetCamera();
 	setPosition(x, y, z);
 	m_viewMatrix = {};
@@ -32,7 +24,7 @@ Camera::Camera(float x, float y, float z)
 
 Camera::~Camera() {}
 
-void Camera::resetCamera(bool pos, bool rot)
+void Camera::resetCamera(bool pos, bool rot, bool proj)
 {
 	auto f = XMFLOAT3(0, 0, 0);
 	if (pos) {
@@ -50,14 +42,13 @@ void Camera::resetCamera(bool pos, bool rot)
 		m_forward = XMLoadFloat3(&f);
 
 		f.z = 0;
-		f.x = -1;
+		f.x = 1;
 		m_right = XMLoadFloat3(&f);
-
-
-		m_nearPlane = 0.1;
-		m_farPlane = 1000.0;
+	}
+	if (proj)
+	{
 		m_fieldOfView = XM_PI / 4.0;
-		m_aspectRatio = (float)1280 / (float)720;
+		m_aspectRatio = (float)m_width / (float)m_height;
 	}
 }
 
@@ -81,9 +72,7 @@ void Camera::calculateLookAt()
 
 void Camera::calculateOrthographicMatrix()
 {
-	int width = 1280;
-	int height = 720;
-	m_orthographicMatrix = XMMatrixOrthographicLH((float)width, (float)height, m_nearPlane, m_farPlane);
+	m_orthographicMatrix = XMMatrixOrthographicLH((float)m_width, (float)m_height, m_nearPlane, m_farPlane);
 }
 
 void Camera::rotateAroundAxis(DirectX::XMVECTOR axis, float angle)
@@ -114,7 +103,7 @@ void Camera::setPosition(DirectX::CXMVECTOR position)
 
 void Camera::setRotation(float roll, float pitch, float yaw)
 {
-	resetCamera(false, true);
+	resetCamera(false, true, false);
 	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
 	m_up = XMVector3Transform(m_up, rotationMatrix);

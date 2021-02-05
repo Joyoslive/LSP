@@ -12,7 +12,7 @@ private:
 		std::string timeStamp;
 	};
 private:
-	static Logger* instance;
+	static Logger instance;
 	std::vector<Log> m_bufferedLogs;
 	std::string m_logFile;
 	
