@@ -8,8 +8,6 @@
 #include <Windows.h>
 #include <stdexcept>
 
-Logger* Logger::instance = nullptr;
-
 Logger::Logger() 
 {
 	m_logFile = "logs.txt";
@@ -27,12 +25,7 @@ Logger::~Logger()
 
 Logger& Logger::getLogger()
 {
-	if (!instance)
-	{
-		instance = new Logger();
-	}
-
-	return *instance;
+	return instance;
 }
 
 void Logger::setFile(std::string filepath)
