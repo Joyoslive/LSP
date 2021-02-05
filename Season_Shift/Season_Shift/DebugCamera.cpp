@@ -44,7 +44,12 @@ void DebugCamera::Move() {
 		input.LockMouse();
 	}
 	if (input.KeyPressed(Input::F)) {
-		m_freecamMode = true;
+		if (m_freecamMode == false) {
+			m_freecamMode = true;
+		}
+		else {
+			m_freecamMode = false;
+		}
 	}
 	if (input.MousePressed(Input::LeftButton)) {
 		m_speed += 0.01f;
