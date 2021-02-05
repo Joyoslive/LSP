@@ -19,7 +19,7 @@ private:
 
 	std::vector<Ref<Collider>> checkCollide(Ref<Collider> collider);
 	
-	void SphereCollideObb(Ref<SphereCollider>& sphere, Ref<OrientedBoxCollider>& obb);
+	DirectX::SimpleMath::Vector3 SphereCollideObb(Ref<Collider>& sphere, Ref<Collider>& obb);
 
 public:
 	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
