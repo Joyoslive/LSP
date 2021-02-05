@@ -77,6 +77,7 @@ void Scene::start()
 
 void Scene::update()
 {
+	// We may have to order the update around! It may matter what order they are updated **********
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
 	{
 		m_sceneGameObjects[i]->update();

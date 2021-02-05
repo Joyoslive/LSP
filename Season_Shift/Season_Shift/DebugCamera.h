@@ -17,7 +17,6 @@ public:
 	DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera);
 	~DebugCamera();
 
-
 	void Move();
 	void Rotate();
 };
