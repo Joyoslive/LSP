@@ -59,9 +59,9 @@ public:
 	void setOffset(float x, float y, float z);
 	void updatePosition();
 
-	DirectX::XMMATRIX getViewMatrix();
-	DirectX::XMMATRIX getProjectionMatrix();
-	DirectX::XMMATRIX getOrthographicMatrix();
+	DirectX::CXMMATRIX getViewMatrix() const;
+	DirectX::CXMMATRIX getProjectionMatrix() const;
+	DirectX::CXMMATRIX getOrthographicMatrix() const;
 	DirectX::FXMVECTOR getPosition();
 	DirectX::FXMVECTOR getUp();
 	DirectX::FXMVECTOR getRight();
