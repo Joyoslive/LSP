@@ -94,11 +94,13 @@ Vector3 OrientedBoxCollider::closestPointOnObb(Vector3 point, Vector3& returnNor
 	if (distance.z < -m_obb.Extents.z) distance.z = -m_obb.Extents.z;
 
 	//if point is inside obb move to boundery
+	bool insideObb = false;
 
 	if (distance.x < m_obb.Extents.x && distance.x > -m_obb.Extents.x
 		&& distance.y < m_obb.Extents.y && distance.y > -m_obb.Extents.y
 		&& distance.z < m_obb.Extents.z && distance.z > -m_obb.Extents.z)
 	{
+		insideObb = true;
 		float xDiff = 0.0, yDiff = 0.0, zDiff = 0.0;
 
 		if (distance.x > 0)
@@ -146,17 +148,22 @@ Vector3 OrientedBoxCollider::closestPointOnObb(Vector3 point, Vector3& returnNor
 	closestPoint += distance.y * unitY;
 	closestPoint += distance.z * unitZ;
 
-	//get the normal
-	// denna kod är typ baserad på kod från raytracing uppgiften i 3d-prog och jag har ingen aning om det fungerar
-	const float epsilon = 0.001f;
-
-	if (abs(unitX.Dot(closestPoint - (m_obb.Center + unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX;
-	if (abs(unitX.Dot(closestPoint - (m_obb.Center - unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX * -1;
-	if (abs(unitY.Dot(closestPoint - (m_obb.Center + unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY;
-	if (abs(unitY.Dot(closestPoint - (m_obb.Center - unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY * -1;
-	if (abs(unitZ.Dot(closestPoint - (m_obb.Center + unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ;
-	if (abs(unitZ.Dot(closestPoint - (m_obb.Center - unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ * -1;
-
+	returnNormal = point - closestPoint;
+	if (insideObb) returnNormal *= -1;
+	returnNormal.Normalize();
 
 	return closestPoint;
+	////get the normal
+	//// denna kod är typ baserad på kod från raytracing uppgiften i 3d-prog och jag har ingen aning om det fungerar
+	//const float epsilon = 0.001f;
+
+	//if (abs(unitX.Dot(closestPoint - (m_obb.Center + unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX;
+	//if (abs(unitX.Dot(closestPoint - (m_obb.Center - unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX * -1;
+	//if (abs(unitY.Dot(closestPoint - (m_obb.Center + unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY;
+	//if (abs(unitY.Dot(closestPoint - (m_obb.Center - unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY * -1;
+	//if (abs(unitZ.Dot(closestPoint - (m_obb.Center + unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ;
+	//if (abs(unitZ.Dot(closestPoint - (m_obb.Center - unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ * -1;
+
+
+	
 }
