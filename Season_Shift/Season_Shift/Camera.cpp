@@ -195,17 +195,17 @@ FXMVECTOR Camera::getGlobalUp()
 	return m_globalUp;
 }
 
-XMMATRIX Camera::getViewMatrix()
+CXMMATRIX Camera::getViewMatrix() const
 {
 	return m_viewMatrix;
 }
 
-XMMATRIX Camera::getProjectionMatrix()
+CXMMATRIX Camera::getProjectionMatrix() const
 {
 	return m_projectionMatrix;
 }
 
-XMMATRIX Camera::getOrthographicMatrix()
+CXMMATRIX Camera::getOrthographicMatrix() const
 {
 	return m_orthographicMatrix;
 }

@@ -33,8 +33,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
 	sceneManager.addObserver(physicsEng);
 
-	Logger::getLogger().debugLog("Log me daddy!");
-
 	// Material
 
 	// Geometry
