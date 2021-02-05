@@ -52,6 +52,7 @@ public:
 	void setPosition(float x, float y, float z);
 	void setPosition(DirectX::CXMVECTOR position);
 	void setRotation(float roll, float pitch, float yaw);
+	void setRotationFree(float roll, float pitch, float yaw);
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Axis axis, float angle);
 

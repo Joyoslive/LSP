@@ -114,6 +114,20 @@ void Camera::setRotation(float roll, float pitch, float yaw)
 	calculateViewMatrix();
 }
 
+
+void Camera::setRotationFree(float roll, float pitch, float yaw)
+{
+	resetCamera(false, true, false);
+	auto rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+
+	m_up = XMVector3Transform(m_up, rotationMatrix);
+	m_right = XMVector3Transform(m_right, rotationMatrix);
+	m_direction = XMVector3Transform(m_direction, rotationMatrix);
+	m_forward = XMVector3Normalize(m_direction);
+
+	calculateViewMatrix();
+}
+
 void Camera::rotateAroundAxis(XMFLOAT3 axis, float angle)
 {
 	auto axisVector = XMLoadFloat3(&axis);

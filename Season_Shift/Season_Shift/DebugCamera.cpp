@@ -11,11 +11,10 @@ DebugCamera::DebugCamera(HWND wndHandle, std::shared_ptr<Camera> incomingCamera)
 	m_pitch = 0.0f;
 	m_roll = 0.0f;
 	input.Init(wndHandle);
-
 	camera = incomingCamera;
 	camera->setPosition(m_position);
 	camera->setRotation(m_pitch, m_roll, m_yaw);
-
+	m_freecamMode = false;
 }
 
 DebugCamera::~DebugCamera() {
@@ -44,6 +43,9 @@ void DebugCamera::Move() {
 	if (input.KeyPressed(Input::L)) {
 		input.LockMouse();
 	}
+	if (input.KeyPressed(Input::F)) {
+		m_freecamMode = true;
+	}
 	if (input.MousePressed(Input::LeftButton)) {
 		m_speed += 0.01f;
 	}
@@ -64,5 +66,10 @@ void DebugCamera::Move() {
 void DebugCamera::Rotate() {
 	//Get the Mouse Coordinate
 	input.MouseMovement(m_pitch, m_yaw);
-	camera->setRotation(m_roll, m_pitch, m_yaw);
+	if (m_freecamMode == false) {
+		camera->setRotation(m_roll, m_pitch, m_yaw);
+	}
+	else {
+		camera->setRotationFree(m_roll, m_pitch, m_yaw);
+	}
 }
