@@ -55,14 +55,14 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //note
 }
 
 
-void PhysicsEngine::simulate(Ref<RigidBody> rigidBody)
+void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
 {
 	m_timer.start();
-	m_deltaTime += m_timer.dt();
-	while (m_timeStep <= m_deltaTime)
+	m_deltaTime += 1.0 / 3000.0; // m_timer.dt();
+	while (m_timeStep < m_deltaTime)
 	{
 		
-		rigidBody->m_transform->setPosition(calcPos(rigidBody));
+		rigidBody->getTransform()->setPosition(calcPos(rigidBody));
 
 		Ref<Collider> rigidBodyCollider = rigidBody->getGameObject()->getComponentType<SphereCollider>(Component::ComponentEnum::COLLIDER);
 		if (rigidBodyCollider != nullptr)

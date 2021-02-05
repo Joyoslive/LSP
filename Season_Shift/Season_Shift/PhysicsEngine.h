@@ -26,6 +26,6 @@ public:
 	~PhysicsEngine();
 
 	void updateScene(Ref<Scene> activeScene) override;
-	void simulate(Ref<RigidBody> rigidBody);
+	void simulate(Ref<RigidBody> rigidBody, long double dt);
 };
 
