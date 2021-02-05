@@ -25,7 +25,7 @@ DebugCamera::~DebugCamera() {
 void DebugCamera::Move() {
 	auto forward = camera->getForward();
 	auto right = camera->getRight();
-
+	input.Update();
 	if (input.KeyBeingPressed(Input::W)) {
 		m_position += m_speed * forward;
 	}
@@ -44,11 +44,11 @@ void DebugCamera::Move() {
 	if (input.KeyPressed(Input::L)) {
 		input.LockMouse();
 	}
-	if (input.KeyPressed(Input::F)) {
+	if (input.MousePressed(Input::LeftButton)) {
 		m_speed += 0.01f;
 	}
-	if (input.KeyPressed(Input::G)) {
-		if (m_speed > 0.0f) {
+	if (input.MousePressed(Input::RightButton)) {
+		if (m_speed -0.01f > 0.0f) {
 			m_speed -= 0.01f;
 		}
 	}
