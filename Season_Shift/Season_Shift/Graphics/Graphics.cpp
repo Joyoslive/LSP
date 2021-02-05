@@ -20,7 +20,7 @@ Graphics::~Graphics()
 
 }
 
-void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, std::shared_ptr<Camera> mainCamera)
+void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
 {
 	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
 	
