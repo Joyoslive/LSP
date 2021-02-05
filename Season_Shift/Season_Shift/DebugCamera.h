@@ -5,9 +5,9 @@
 
 class DebugCamera {
 private:
-	std::shared_ptr<Camera> camera;
+	std::shared_ptr<Camera> m_camera;
 	//Camera camera;
-	Input input;
+	Input m_input;
 	DirectX::XMVECTOR m_position;
 	DirectX::XMVECTOR m_up;
 	DirectX::SimpleMath::Vector2 mousePos;
@@ -19,6 +19,6 @@ public:
 	~DebugCamera();
 
 
-	void Move();
-	void Rotate();
+	void move();
+	void rotate();
 };
