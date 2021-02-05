@@ -12,7 +12,7 @@ private:
 	Ref<Scene> m_scene;
 
 	DirectX::SimpleMath::Vector3 calcPos(Ref<RigidBody>& rigidBody);
-	Timer m_timer;
+	
 	long double m_timeStep;
 	long double m_deltaTime;
 	
@@ -26,6 +26,6 @@ public:
 	~PhysicsEngine();
 
 	void updateScene(Ref<Scene> activeScene) override;
-	void simulate(Ref<RigidBody> rigidBody);
+	void simulate(Ref<RigidBody> rigidBody, long double dt);
 };
 

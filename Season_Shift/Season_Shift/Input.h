@@ -28,14 +28,14 @@ public:
 	void Init(HWND wndHandle);
 	~Input();
 
-	DirectX::SimpleMath::Vector2 MousePos();
-	void MouseMovement(float &m_pitch, float &m_yaw);
-	bool KeyBeingPressed(Keys key);
-	bool KeyPressed(Keys key);
-	bool MouseBeingPressed(MouseKeys key);
-	bool MousePressed(MouseKeys key);
-	void LockMouse();
-	void Update();
+	DirectX::SimpleMath::Vector2 mousePos();
+	void mouseMovement(float &m_pitch, float &m_yaw);
+	bool keyBeingPressed(Keys key);
+	bool keyPressed(Keys key);
+	bool mouseBeingPressed(MouseKeys key);
+	bool mousePressed(MouseKeys key);
+	void lockMouse();
+	void update();
 private:
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
