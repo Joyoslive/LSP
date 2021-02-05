@@ -24,7 +24,7 @@ const std::vector<SubsetMaterial>& Model::getSubsetsMaterial() const
     return m_materials;
 }
 
-rid128_t Model::getRenderID() const
+const rid128_t& Model::getRenderID() const
 {
     return m_renderID;
 }
