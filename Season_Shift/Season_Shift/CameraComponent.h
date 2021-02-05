@@ -23,6 +23,10 @@ public:
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Camera::Axis axis, float angle);
 
+	DirectX::XMMATRIX getViewMatrix();
+	DirectX::XMMATRIX getProjectionMatrix();
+	DirectX::XMMATRIX getOrthographicMatrix();
+
 	DirectX::FXMVECTOR getUp();
 	DirectX::FXMVECTOR getRight();
 	DirectX::FXMVECTOR getForward();

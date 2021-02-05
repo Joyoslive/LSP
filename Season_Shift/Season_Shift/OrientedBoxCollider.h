@@ -22,7 +22,7 @@ public:
 	void initialize() override;
 
 	DirectX::BoundingOrientedBox getInternalCollider();
-
+	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, DirectX::SimpleMath::Vector3& returnNormal);
 
 private:
 	template<typename T>
