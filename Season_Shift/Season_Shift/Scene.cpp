@@ -103,7 +103,8 @@ void Scene::updateSceneModels()
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
 	{
 		Ref<Model> model = m_sceneGameObjects[i]->getComponentType<Model>(Component::ComponentEnum::MODEL);
-		if (model != nullptr)
+		//Need to find model and GameObject needs to be visible
+		if (model != nullptr && m_sceneGameObjects[i]->getIsVisible())
 		{
 			//Just replace old model with new and if the vector is too small than we need to push the model to the model vector
 			modelSize = m_sceneModels.size();
