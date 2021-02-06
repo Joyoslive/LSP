@@ -1,41 +1,47 @@
 #include "Input.h"
 #include <algorithm>
 
-Input::Input() {
+Input::Input() 
+{
 }
 
-void Input::Init(HWND wndHandle) {
+void Input::Init(HWND wndHandle) 
+{
 	m_keyboard = std::make_unique<DirectX::Keyboard>();
 	m_mouse = std::make_unique<DirectX::Mouse>();
 	m_mouse->SetWindow(wndHandle);
 	m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 }
 
-Input::~Input() {
-
+Input::~Input() 
+{
 }
 
-bool Input::keyBeingPressed(Keys key) {
+bool Input::keyBeingPressed(Keys key) 
+{
 	auto kb = m_keyboard->GetState();
 	DirectX::Keyboard::Keys dxkey;
 	dxkey = (DirectX::Keyboard::Keys)key;
 	return kb.IsKeyDown(dxkey);
 }
 
-bool Input::keyPressed(Keys key) {
+bool Input::keyPressed(Keys key) 
+{
 	DirectX::Keyboard::Keys dxkey;
 	dxkey = (DirectX::Keyboard::Keys)key;
 	return m_keys.IsKeyPressed(dxkey);
 }
 
-DirectX::SimpleMath::Vector2 Input::mousePos() {
+DirectX::SimpleMath::Vector2 Input::mousePos() 
+{
 	auto mouse = m_mouse->GetState();
 	DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y));
 	return delta;
 
 }
 
-void Input::mouseMovement(float &m_pitch, float &m_yaw) {
+void Input::mouseMovement(float &m_pitch, float &m_yaw) 
+{
 	auto mouse = m_mouse->GetState();
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
@@ -65,7 +71,8 @@ void Input::mouseMovement(float &m_pitch, float &m_yaw) {
 	
 }
 
-bool Input::mouseBeingPressed(MouseKeys key) {
+bool Input::mouseBeingPressed(MouseKeys key) 
+{
 	switch (key)
 	{
 	case Input::LeftButton:
@@ -89,7 +96,8 @@ bool Input::mouseBeingPressed(MouseKeys key) {
 	return false;
 }
 
-bool Input::mousePressed(MouseKeys key) {
+bool Input::mousePressed(MouseKeys key) 
+{
 	switch (key)
 	{
 	case Input::LeftButton:
@@ -113,7 +121,8 @@ bool Input::mousePressed(MouseKeys key) {
 	return false;
 }
 
-void Input::lockMouse() {
+void Input::lockMouse() 
+{
 	auto mouse = m_mouse->GetState();
 	if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE) {
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
@@ -123,7 +132,8 @@ void Input::lockMouse() {
 	}
 }
 
-void Input::update() {
+void Input::update() 
+{
 	auto kb = m_keyboard->GetState();
 	auto mouse = m_mouse->GetState();
 	m_keys.Update(kb);
