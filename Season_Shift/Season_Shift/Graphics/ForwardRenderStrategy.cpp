@@ -84,7 +84,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	//currDS_ = gphDev_->createTexture2D(
 	//	"DSText1",
-	//	CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_D24_UNORM_S8_UINT, gphDev_->getClientWidth(), gphDev_->getClientHeight(), 1, 1, D3D11_BIND_DEPTH_STENCIL),
+	//	§CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_D24_UNORM_S8_UINT, gphDev_->getClientWidth(), gphDev_->getClientHeight(), 1, 1, D3D11_BIND_DEPTH_STENCIL),
 	//	nullptr
 	//);
 	//D3D11_DEPTH_STENCIL_VIEW_DESC dsDesc = { };

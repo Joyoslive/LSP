@@ -20,6 +20,7 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	if (texData.width == 0 || texData.height == 0)
 		return nullptr;
 
+	// MIP Levels set to one for now!!!
 	DXTexture::Desc desc{
 		DXTexture::Type::TEX2D,
 	};

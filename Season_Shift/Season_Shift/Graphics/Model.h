@@ -47,7 +47,7 @@ public:
     
     const std::vector<SubsetMaterial>& getSubsetsMaterial() const;
 
-    rid128_t getRenderID() const;
+    const rid128_t& getRenderID() const;
 
 };
 

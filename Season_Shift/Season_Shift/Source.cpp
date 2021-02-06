@@ -64,7 +64,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	auto nanosuitMod2 = gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	models.push_back(nanosuitMod2);
 
-
+	Timer m_timer = Timer();
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
 
@@ -75,6 +75,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	MSG msg = { };
 	while (!win.isClosed())
 	{
+		m_timer.start();
 		while (PeekMessageW(&msg, win.getHWND(), 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -82,14 +83,14 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		sceneManager.updateActiveScene();
-		Ref<RigidBody> temp = player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-		physicsEng->simulate(temp);
+		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		physicsEng->simulate(temp, m_timer.dt());
 
 		// Do stuff
 		debugCamera.rotate();
 		debugCamera.move();
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
-
+		m_timer.stop();
 	}
 
 
