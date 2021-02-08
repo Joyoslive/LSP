@@ -42,7 +42,7 @@ void GameObject::setIsVisible(bool isVisible)
 	m_isVisible = isVisible;
 }
 
-bool GameObject::getIsVisible()
+bool GameObject::getIsVisible() const
 {
 	return m_isVisible;
 }
@@ -93,7 +93,7 @@ int GameObject::AddComponent(Ref<Component> component)
 	return 0;
 }
 
-const Ref<Transform>& GameObject::getTransform()
+const Ref<Transform>& GameObject::getTransform() const
 {
 	return m_transform;
 }
