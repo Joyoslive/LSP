@@ -20,13 +20,13 @@ void SphereCollider::initialize()
 	m_sphere.Center = m_transform->getPosition();
 }
 
-bool SphereCollider::collide(Ref<Collider> collider)
+bool SphereCollider::collide(const Ref<Collider>& collider)
 {
-	if ((collider->getType() & ComponentEnum::SPHERE_COLLIDER) == ComponentEnum::SPHERE_COLLIDER)
+	if ((int)(collider->getType() & ComponentEnum::SPHERE_COLLIDER) > 0)
 	{
 		return internalCollide<SphereCollider>(std::dynamic_pointer_cast<SphereCollider>(collider));
 	}
-	else if ((collider->getType() & ComponentEnum::ORIENTED_BOX_COLLIDER) == ComponentEnum::ORIENTED_BOX_COLLIDER)
+	else if ((int)(collider->getType() & ComponentEnum::ORIENTED_BOX_COLLIDER) > 0)
 	{
 		return internalCollide<OrientedBoxCollider>(std::dynamic_pointer_cast<OrientedBoxCollider>(collider));
 	}
@@ -42,7 +42,7 @@ void SphereCollider::update()
 
 
 
-DirectX::BoundingSphere SphereCollider::getInternalCollider()
+const DirectX::BoundingSphere& SphereCollider::getInternalCollider()
 {
 	return m_sphere;
 }

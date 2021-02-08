@@ -14,6 +14,6 @@ private:
 public:
 	Collider();
 	virtual ~Collider();
-	virtual bool collide(Ref<Collider> collider) = 0;	
+	virtual bool collide(const Ref<Collider>& collider) = 0;	
 };
 

@@ -16,17 +16,17 @@ public:
 	OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions);
 	~OrientedBoxCollider();
 
-	bool collide(Ref<Collider> collider) override;
+	bool collide(const Ref<Collider>& collider) override;
 	void update() override;
 
 	void initialize() override;
 
-	DirectX::BoundingOrientedBox getInternalCollider();
+	const DirectX::BoundingOrientedBox& getInternalCollider();
 	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, DirectX::SimpleMath::Vector3& returnNormal);
 
 private:
 	template<typename T>
-	bool internalCollide(Ref<T> collider) //ugly function to solve problem that i can't solve
+	bool internalCollide(const Ref<T>& collider) //ugly function to solve problem that i can't solve
 	{
 		return this->getInternalCollider().Intersects(collider->getInternalCollider());
 	}
