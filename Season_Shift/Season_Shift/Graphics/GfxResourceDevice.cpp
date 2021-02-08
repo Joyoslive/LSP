@@ -165,7 +165,7 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 		auto ps = m_dxDev->createShader(psFileName, DXShader::Type::PS);
 
 		shaders = { vs, ps };
-	};
+	}
 
 	shaders = m_shaderSetRepo.add(shdHash, shaders);  // If hash already exists, the existing shader will be returned and old one will be discarded.
 
