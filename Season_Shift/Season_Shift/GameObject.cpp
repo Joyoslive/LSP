@@ -21,7 +21,7 @@ const std::string& GameObject::getName() const
 	return m_name;
 }
 
-Ref<Scene> GameObject::getScene() const
+const Ref<Scene>& GameObject::getScene() const
 {
 	return m_myScene;
 }
@@ -93,7 +93,7 @@ int GameObject::AddComponent(Ref<Component> component)
 	return 0;
 }
 
-Ref<Transform> GameObject::getTransform()
+const Ref<Transform>& GameObject::getTransform()
 {
 	return m_transform;
 }
