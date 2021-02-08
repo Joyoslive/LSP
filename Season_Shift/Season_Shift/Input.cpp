@@ -66,7 +66,6 @@ void Input::mouseMovement(float &m_pitch, float &m_yaw)
 		{
 			m_yaw += DirectX::XM_PI * 2.0f;
 		}
-		DirectX::SimpleMath::Vector2 yawPitch = DirectX::SimpleMath::Vector2(m_pitch, m_yaw);
 	}
 	
 }
