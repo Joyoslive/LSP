@@ -16,7 +16,7 @@ GameObject::~GameObject()
 }
 
 
-std::string GameObject::getName() const
+const std::string& GameObject::getName() const
 {
 	return m_name;
 }

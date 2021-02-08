@@ -28,7 +28,7 @@ public:
 	GameObject(std::string name = "", Ref<Scene> scene = nullptr);
 	~GameObject();
 
-	std::string getName() const;
+	const std::string& getName() const;
 	Ref<Scene> getScene() const;
 
 	template<typename T>
