@@ -28,8 +28,7 @@ public:
 	GameObject(std::string name = "", Ref<Scene> scene = nullptr);
 	~GameObject();
 
-	const std::string& getName() const;
-	const Ref<Scene>& getScene() const;
+	
 
 	template<typename T>
 	Ref<T> getComponentType(Component::ComponentEnum componentType)
@@ -71,9 +70,11 @@ public:
 
 	void clearGameObject();
 	void setIsVisible(bool isVisible);
-	bool getIsVisible();
+	bool getIsVisible() const;
+	const Ref<Transform>& getTransform() const;
+	const std::string& getName() const;
+	const Ref<Scene>& getScene() const;
 
 	int AddComponent(Ref<Component> component);
-	const Ref<Transform>& getTransform();
 };
 
