@@ -25,17 +25,17 @@ void OrientedBoxCollider::initialize()
 
 bool OrientedBoxCollider::collide(Ref<Collider> collider)
 {
-	if ((collider->getType() & ComponentEnum::SPHERE_COLLIDER) == ComponentEnum::SPHERE_COLLIDER)
+	if ((int)(collider->getType() & ComponentEnum::SPHERE_COLLIDER) > 0)
 	{
 		return internalCollide<SphereCollider>(std::dynamic_pointer_cast<SphereCollider>(collider));
 	}
-	else if ((collider->getType() & ComponentEnum::ORIENTED_BOX_COLLIDER) == ComponentEnum::ORIENTED_BOX_COLLIDER)
+	else if ((int)(collider->getType() & ComponentEnum::ORIENTED_BOX_COLLIDER) > 0)
 	{
 		return internalCollide<OrientedBoxCollider>(std::dynamic_pointer_cast<OrientedBoxCollider>(collider));
 	}
 
 
-	return 0;
+	return false;
 }
 
 void OrientedBoxCollider::update()
@@ -153,17 +153,5 @@ Vector3 OrientedBoxCollider::closestPointOnObb(Vector3 point, Vector3& returnNor
 	returnNormal.Normalize();
 
 	return closestPoint;
-	////get the normal
-	//// denna kod är typ baserad på kod från raytracing uppgiften i 3d-prog och jag har ingen aning om det fungerar
-	//const float epsilon = 0.001f;
 
-	//if (abs(unitX.Dot(closestPoint - (m_obb.Center + unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX;
-	//if (abs(unitX.Dot(closestPoint - (m_obb.Center - unitX * m_obb.Extents.x))) < epsilon) returnNormal = unitX * -1;
-	//if (abs(unitY.Dot(closestPoint - (m_obb.Center + unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY;
-	//if (abs(unitY.Dot(closestPoint - (m_obb.Center - unitY * m_obb.Extents.y))) < epsilon) returnNormal = unitY * -1;
-	//if (abs(unitZ.Dot(closestPoint - (m_obb.Center + unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ;
-	//if (abs(unitZ.Dot(closestPoint - (m_obb.Center - unitZ * m_obb.Extents.z))) < epsilon) returnNormal = unitZ * -1;
-
-
-	
 }
