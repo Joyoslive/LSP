@@ -26,7 +26,7 @@ void PhysicsEngine::updateScene(Ref<Scene> activeScene)
 	m_scene = activeScene;
 }
 
-vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat
+vector<Ref<Collider>> PhysicsEngine::checkCollide(const Ref<Collider>& collider) //notera att denna funktion inte tar hänsyn till om objekten redan har kolliderat
 {
 	// kollar bara en collider per gameobject
 	vector<Ref<Collider>> colliderVec;
@@ -55,7 +55,7 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(Ref<Collider> collider) //note
 }
 
 
-void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
+void PhysicsEngine::simulate(const Ref<RigidBody>& rigidBody, long double dt)
 {
 	m_deltaTime += dt;
 	while (m_timeStep < m_deltaTime)
@@ -76,7 +76,7 @@ void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
 					if ((other->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) == Component::ComponentEnum::ORIENTED_BOX_COLLIDER)
 					{
 
-						Vector3 normal = SphereCollideObb(rigidBodyCollider, other);
+						Vector3 normal = sphereCollideObb(rigidBodyCollider, other);
 						//DirectX::
 						rigidBody->stop();
 					}
@@ -93,7 +93,7 @@ void PhysicsEngine::simulate(Ref<RigidBody> rigidBody, long double dt)
 
 
  
-Vector3 PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
+Vector3 PhysicsEngine::calcPos(const Ref<RigidBody>& rigidBody)
 {
 	rigidBody->m_acceleration = rigidBody->m_force / rigidBody->m_mass;
 	rigidBody->m_acceleration.y -= rigidBody->m_gravity;
@@ -104,7 +104,7 @@ Vector3 PhysicsEngine::calcPos(Ref<RigidBody>& rigidBody)
 }
 
 
-Vector3 PhysicsEngine::SphereCollideObb(Ref<Collider>& sphere, Ref<Collider>& obb)
+Vector3 PhysicsEngine::sphereCollideObb(const Ref<Collider>& sphere, const Ref<Collider>& obb)
 {
 	assert(obb->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY) == nullptr); //sånt hanteras inte
 
