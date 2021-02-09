@@ -148,7 +148,6 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 
 	default:
 		assert(false);
-
 	}
 
 	std::string shdPathToHash = vsFileName + psFileName;
@@ -171,6 +170,7 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 
 	return { shdHash, shaders };
 }
+
 
 std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath)
 {

@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include <vector>
 #include <array>
 #include <string>
@@ -75,7 +74,7 @@ Works as an abstract 'Device' for low-level graphics resource creations AND as a
 class DXDevice
 {
 private:
-	DXCore m_core;
+	std::shared_ptr<DXCore> m_core;
 
 	// Used to bind
 	std::array<ID3D11RenderTargetView*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> m_currTargetBind;

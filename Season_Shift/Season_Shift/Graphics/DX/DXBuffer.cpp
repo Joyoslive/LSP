@@ -1,8 +1,8 @@
 
 #include "DXBuffer.h"
 
-DXBuffer::DXBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type, unsigned int elementCount, unsigned int elementStride) :
-    m_buffer(buffer),
+DXBuffer::DXBuffer(std::shared_ptr<DXCore> core, Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type, unsigned int elementCount, unsigned int elementStride) :
+    DXResource(core, buffer),
     m_desc(desc),
     m_type(type),
     m_srv(nullptr),
@@ -40,32 +40,4 @@ const unsigned int& DXBuffer::getElementStride() const
 const unsigned int& DXBuffer::getTotalSize() const
 {
     return m_totalSize;
-}
-
-const Microsoft::WRL::ComPtr<ID3D11Buffer>& DXBuffer::getBuffer() const
-{
-    return m_buffer;
-}
-
-const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& DXBuffer::getSRV()
-{
-    return m_srv;
-}
-
-const Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>& DXBuffer::getUAV()
-{
-    return m_uav;
-}
-
-void DXBuffer::setSRV(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv)
-{
-    if (m_srv != nullptr) assert(false);
-    m_srv = srv;
-
-}
-
-void DXBuffer::setUAV(Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> uav)
-{
-    if (m_uav != nullptr) assert(false);
-    m_uav = uav;
 }
