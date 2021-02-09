@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
     <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
     <ClCompile Include="Graphics\DX\DXResource.cpp" />
