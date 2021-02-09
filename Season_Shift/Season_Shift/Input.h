@@ -24,8 +24,10 @@ public:
 		LeftButton = 1, RightButton, MiddleButton
 	};
 
-	Input(HWND wndHandle);
+	void operator=(Input const&) = delete;
 	~Input();
+	static Input &getInput();
+	static void initInput(HWND wndHandle);
 
 	DirectX::SimpleMath::Vector2 mousePos();
 	void mouseMovement(float &m_pitch, float &m_yaw);
@@ -36,8 +38,11 @@ public:
 	void lockMouse();
 	void update();
 private:
+	static Input instance;
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
 	DirectX::Keyboard::KeyboardStateTracker m_keys;
 	DirectX::Mouse::ButtonStateTracker m_mouseButtons;
+private:
+	Input();
 };

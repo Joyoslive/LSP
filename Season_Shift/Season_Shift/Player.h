@@ -6,12 +6,11 @@
 class Player : public Logic
 {
 private:
-	Ref<Input> m_input;
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	float m_pitch, m_yaw, m_roll;
 public:
-	Player(const Ref<Input>& input);
+	Player();
 	~Player();
 
 	void start() override;

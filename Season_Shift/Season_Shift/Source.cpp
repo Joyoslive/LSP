@@ -19,7 +19,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
 	//Input input = Input(win.getHWND());
-	Ref<Input> input = std::make_shared<Input>(win.getHWND());
+	//Ref<Input> input = std::make_shared<Input>(win.getHWND());
+	//Init singleton with window handler
+	Input::initInput(win.getHWND());
 
 	PhysicsEngine pe = PhysicsEngine();
 	// Material
@@ -35,7 +37,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<SphereCollider>(2));
 	player->AddComponent(std::make_shared<CameraComponent>());
-	player->AddComponent(std::make_shared<Player>(input));
+	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	
 	sceneManager.getActiveScene()->start();
@@ -78,7 +80,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
 	
-	DebugCamera debugCamera(input, cam);
+	DebugCamera debugCamera(cam);
 
 	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
@@ -92,15 +94,16 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			DispatchMessage(&msg);
 		}
 
+		Input::getInput().update();
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-		physicsEng->simulate(player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY), m_timer.dt());
+		physicsEng->simulate(player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY)/*temp*/, m_timer.dt());
 
 		// Do stuff
 		//input->update();
-		//debugCamera.rotate();
-		//debugCamera.move();
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
+		debugCamera.rotate();
+		debugCamera.move();
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
 		m_timer.stop();
 	}
 

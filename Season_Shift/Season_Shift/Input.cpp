@@ -1,16 +1,27 @@
 #include "Input.h"
 #include <algorithm>
 
- Input::Input(HWND wndHandle) 
+Input Input::instance = Input();
+
+Input::Input()
 {
-	m_keyboard = std::make_unique<DirectX::Keyboard>();
-	m_mouse = std::make_unique<DirectX::Mouse>();
-	m_mouse->SetWindow(wndHandle);
-	m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 }
 
 Input::~Input() 
 {
+}
+
+Input& Input::getInput()
+{
+	return instance;
+}
+
+void Input::initInput(HWND wndHandle)
+{
+	instance.m_keyboard = std::make_unique<DirectX::Keyboard>();
+	instance.m_mouse = std::make_unique<DirectX::Mouse>();
+	instance.m_mouse->SetWindow(wndHandle);
+	instance.m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 }
 
 bool Input::keyBeingPressed(Keys key) 
