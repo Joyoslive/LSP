@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "Input.h"
 #include "Player.h"
+#include "CameraSwitch.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -84,7 +85,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
-	bool m_cameraCheck = false;
+	CameraSwitch camSwitch;
+	camSwitch.Init(&debugCamera, player, cam, &sceneManager, &gph);
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -102,31 +104,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		Input::getInput().update();
 		// Do stuff
 		//input->update();
-		if (Input::getInput().keyPressed(Input::C)) 
-		{
-			if( m_cameraCheck == true)
-			{
-				m_cameraCheck = false;
-			}
-			else
-			{
-				m_cameraCheck = true;
-			}
-		}
-		if (m_cameraCheck == true)
-		{
-			debugCamera.rotate();
-			debugCamera.move();
-			gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
-		}
-		else
-		{
-			gph.render(sceneManager.getActiveScene()->getSceneModels(), player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
-		}
-			
-			
-		
-
+		camSwitch.update();
 		m_timer.stop();
 	}
 

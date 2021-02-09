@@ -43,6 +43,8 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="CameraSwitch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -80,6 +82,8 @@
     <ClInclude Include="Graphics\AssimpLoader.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="CameraSwitch.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

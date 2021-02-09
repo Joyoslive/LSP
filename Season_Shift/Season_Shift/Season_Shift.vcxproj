@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="Graphics\AssimpLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
+    <ClInclude Include="CameraSwitch.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
