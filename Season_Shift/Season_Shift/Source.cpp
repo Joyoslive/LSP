@@ -7,6 +7,8 @@
 #include "DebugCamera.h"
 #include "CameraComponent.h"
 #include "Logger.h"
+#include "Input.h"
+#include "Player.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -15,6 +17,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Window win(inst, L"Season Shift", 1280, 720);	
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
+
+	//Input input = Input(win.getHWND());
+	Ref<Input> input = std::make_shared<Input>(win.getHWND());
 
 	PhysicsEngine pe = PhysicsEngine();
 	// Material
@@ -26,9 +31,14 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	SceneManager sceneManager = SceneManager(&gph);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
-	Ref<GameObject> player = scene->createGameObject("player");
+	Ref<GameObject> player = scene->createGameObject("player",  Vector3(-2, 0, -20), Vector3(0.2f, 0.2f, 0.2f));
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<SphereCollider>(2));
+	player->AddComponent(std::make_shared<CameraComponent>());
+	player->AddComponent(std::make_shared<Player>(input));
+	player->AddComponent(gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+	
+	sceneManager.getActiveScene()->start();
 
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
 	sceneManager.addObserver(physicsEng);
@@ -67,8 +77,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Timer m_timer = Timer();
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
-
-	DebugCamera debugCamera(win.getHWND(), cam);
+	
+	DebugCamera debugCamera(input, cam);
 
 	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
@@ -84,12 +94,13 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-		physicsEng->simulate(temp, m_timer.dt());
+		physicsEng->simulate(player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY), m_timer.dt());
 
 		// Do stuff
-		debugCamera.rotate();
-		debugCamera.move();
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
+		//input->update();
+		//debugCamera.rotate();
+		//debugCamera.move();
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
 		m_timer.stop();
 	}
 
