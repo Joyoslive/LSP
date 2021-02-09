@@ -55,6 +55,7 @@ using namespace DirectX::SimpleMath;
 	}
 	if (Input::getInput().keyPressed(Input::Shift))
 	{
+		velocity -= Vector3(0, 50, 0);
 		//m_rb->addForce(Vector3(0, -50, 0));
 	}
 	if (Input::getInput().keyPressed(Input::L))
