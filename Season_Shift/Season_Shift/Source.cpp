@@ -94,7 +94,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			DispatchMessage(&msg);
 		}
 
-		Input::getInput().update();
+		
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		physicsEng->simulate(player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY)/*temp*/, m_timer.dt());
@@ -104,6 +104,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		debugCamera.rotate();
 		debugCamera.move();
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
+		Input::getInput().update();
 		m_timer.stop();
 	}
 
