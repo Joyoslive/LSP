@@ -9,9 +9,10 @@ class CameraSwitch
 {
 public:
 	CameraSwitch();
-	void Init(DebugCamera*, Ref<GameObject>, Ref<Camera>, SceneManager*, Graphics*);
+	void Init(DebugCamera* dc, Ref<GameObject> go, Ref<Camera> cam);
 	~CameraSwitch();
 	void update();
+	Ref<Camera> getCamera() const;
 private:
 	SceneManager* m_sceneManager;
 	DebugCamera* m_debugCamera;

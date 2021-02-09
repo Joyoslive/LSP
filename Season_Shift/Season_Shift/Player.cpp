@@ -64,12 +64,17 @@ using namespace DirectX::SimpleMath;
 		Input::getInput().lockMouse();
 	}
 	
-	if (velocity == m_rb->getVelocity())
+	Vector3 velocitySkipY = velocity;
+	velocitySkipY.y = 0;
+	if (velocitySkipY.Length() > 0.1f)
 	{
-
+		OutputDebugStringA("Hej");
+		Vector3 velocityNormal = velocitySkipY;
+		velocityNormal.Normalize();
+		velocitySkipY -= velocityNormal * 0.1f;
 	}
 
-	Vector3 velocitySkipY = velocity;
+	//velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 	if (velocitySkipY.Length() > 20.0f)
 	{

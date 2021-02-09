@@ -5,14 +5,12 @@ CameraSwitch::CameraSwitch()
 }
 
 
-void CameraSwitch::Init(DebugCamera* dc, Ref<GameObject> go, Ref<Camera> cam, SceneManager* sceneManager, Graphics* gph)
+void CameraSwitch::Init(DebugCamera* dc, Ref<GameObject> go, Ref<Camera> cam)
 {
 	m_debugCamera = dc;
 	gameObject = go; 
 	m_cameraCheck = false;
 	m_cam = cam;
-	m_sceneManager = sceneManager;
-	m_gph = gph;
 }
 
 CameraSwitch::~CameraSwitch()
@@ -37,10 +35,17 @@ void CameraSwitch::update()
 	{
 		m_debugCamera->rotate();
 		m_debugCamera->move();
-		m_gph->render(m_sceneManager->getActiveScene()->getSceneModels(), m_cam);
+	}
+}
+
+Ref<Camera> CameraSwitch::getCamera() const
+{
+	if (m_cameraCheck == true)
+	{
+		return m_cam;
 	}
 	else
 	{
-		m_gph->render(m_sceneManager->getActiveScene()->getSceneModels(), gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
+		return gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 	}
 }

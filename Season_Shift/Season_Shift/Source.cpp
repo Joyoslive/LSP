@@ -81,7 +81,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
 	CameraSwitch camSwitch;
-	camSwitch.Init(&debugCamera, player, cam, &sceneManager, &gph);
+	camSwitch.Init(&debugCamera, player, cam);
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -100,6 +100,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		//input->update();
 		camSwitch.update();
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
 		m_timer.stop();
 	}
 
