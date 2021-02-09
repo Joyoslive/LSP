@@ -48,9 +48,13 @@ void RigidBody::removeForces()
 
 void RigidBody::stop()
 {
+	/*m_force = Vector3(0, 0, 0);
+	m_acceleration = Vector3(0, 0, 0);
+	m_velocity = Vector3(0, 0, 0);*/
+
 	m_force = Vector3(0, 0, 0);
 	m_acceleration = Vector3(0, 0, 0);
-	m_velocity = Vector3(0, 0, 0);
+	m_velocity = Vector3(m_velocity.x, 0, m_velocity.z);
 }
 
 void RigidBody::update()

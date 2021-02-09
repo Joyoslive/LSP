@@ -64,8 +64,32 @@ void Scene::setUpScene()
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 
-	Ref<GameObject> coll = createGameObject("collider", Vector3(-2, -8, -20));
-	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10, 1, 10)));
+	Ref<GameObject> coll = createGameObject("collider", Vector3(-2, -8, -20), Vector3(100, 100, 100), Vector3(90, 0, 0));
+	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(100, 100, 1)));
+	std::vector<Vertex> verts;
+	verts.push_back({ Vector3(-0.75, 0.75, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(0.75, 0.75, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(0.75, -0.75, 0.0), Vector2(1.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+	verts.push_back({ Vector3(-0.75, -0.75, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+
+	std::vector<uint32_t> indices = {
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	// Create mesh with id!
+	auto mesh = m_graphics->getResourceDevice()->createMesh("quad", verts, indices);
+
+	auto mat1 = m_graphics->getResourceDevice()->createMaterial(GfxShader::DEFAULT,
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
+		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
+
+	// Assemble to model!
+	auto quadMod1 = m_graphics->getResourceDevice()->assembleModel("quad", mat1);
+
+	coll->AddComponent(quadMod1);
+	//coll->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
 }
 
 void Scene::resetScene()
