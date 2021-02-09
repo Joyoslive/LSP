@@ -46,9 +46,9 @@ public:
 	void bindBuffers(DXDevice* device);
 
 	template<typename T>
-	inline void updateBuffer(const T& bufferData, DXShader::Type shaderType)
+	inline void updateBuffer(T& bufferData, DXShader::Type shaderType)
 	{
-		const std::shared_ptr<DXBuffer>& buffer;
+		std::shared_ptr<DXBuffer> buffer;
 		switch (shaderType)
 		{
 			case DXShader::Type::VS:
