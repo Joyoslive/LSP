@@ -17,6 +17,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
+	 m_playerCamera->setOffset(0, 3.0f, -0.5);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
  }
