@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
     <ClCompile Include="Graphics\DX\DXResource.cpp" />
     <ClCompile Include="Graphics\AssimpLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="Graphics\DX\DXPipeline.h" />
     <ClInclude Include="Graphics\DX\DXResource.h" />
     <ClInclude Include="Graphics\AssimpLoader.h" />
     <ClInclude Include="Camera.h" />

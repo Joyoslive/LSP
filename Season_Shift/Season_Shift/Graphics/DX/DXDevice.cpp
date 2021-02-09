@@ -275,27 +275,86 @@ ComPtr<ID3D11InputLayout> DXDevice::createInputLayout(const std::vector<D3D11_IN
 	return inputLayout;
 }
 
+Microsoft::WRL::ComPtr<ID3D11SamplerState> DXDevice::createSamplerState(D3D11_SAMPLER_DESC desc)
+{
+	ComPtr<ID3D11SamplerState> sampler;
+
+	HRCHECK(m_core->getDevice()->CreateSamplerState(&desc, sampler.GetAddressOf()));
+	return sampler;
+}
+
+Microsoft::WRL::ComPtr<ID3D11RasterizerState> DXDevice::createRasterizerState(D3D11_RASTERIZER_DESC desc)
+{
+	ComPtr<ID3D11RasterizerState> rss;
+	HRCHECK(m_core->getDevice()->CreateRasterizerState(&desc, rss.GetAddressOf()));
+	return rss;
+}
+
+Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DXDevice::createDepthStencilState(D3D11_DEPTH_STENCIL_DESC desc)
+{
+	ComPtr<ID3D11DepthStencilState> dss;
+	HRCHECK(m_core->getDevice()->CreateDepthStencilState(&desc, dss.GetAddressOf()));
+	return dss;
+}
+
+Microsoft::WRL::ComPtr<ID3D11BlendState> DXDevice::createBlendState(D3D11_BLEND_DESC desc)
+{
+	ComPtr<ID3D11BlendState> bs;
+	HRCHECK(m_core->getDevice()->CreateBlendState(&desc, bs.GetAddressOf()));
+	return bs;
+}
+
 void DXDevice::bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage)
 {
 
 	switch (stage)
 	{
 	case DXShader::Type::VS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->VSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->VSSetShader(shader->getShader<ID3D11VertexShader>(), 0, 0);
 		break;
 	case DXShader::Type::HS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->HSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->HSSetShader(shader->getShader<ID3D11HullShader>(), 0, 0);
 		break;
 	case DXShader::Type::DS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->DSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->DSSetShader(shader->getShader<ID3D11DomainShader>(), 0, 0);
 		break;
 	case DXShader::Type::GS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->GSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->GSSetShader(shader->getShader<ID3D11GeometryShader>(), 0, 0);
 		break;
 	case DXShader::Type::PS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->PSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->PSSetShader(shader->getShader<ID3D11PixelShader>(), 0, 0);
 		break;
 	case DXShader::Type::CS:
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->CSSetShader(nullptr, 0, 0);
+			return;
+		}
 		m_core->getImmediateContext()->CSSetShader(shader->getShader<ID3D11ComputeShader>(), 0, 0);
 		break;
 	default:
@@ -408,21 +467,38 @@ void DXDevice::bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
 
 void DXDevice::bindDepthStencilState(const Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& dss, unsigned int stencilRef)
 {
+	if (dss == nullptr)
+	{
+		m_core->getImmediateContext()->OMSetDepthStencilState(nullptr, 0);
+		return;
+	}
 	m_core->getImmediateContext()->OMSetDepthStencilState(dss.Get(), stencilRef);
 
 }
 
 void DXDevice::bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac, unsigned int sampleMask)
 {
+	if (bs == nullptr)
+	{
+		m_core->getImmediateContext()->OMSetBlendState(nullptr, nullptr, 0);
+		return;
+	}
+
 	m_core->getImmediateContext()->OMSetBlendState(bs.Get(), blendFac.data(), sampleMask);
 }
 
 void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss)
 {
+	if (rss == nullptr)
+	{
+		m_core->getImmediateContext()->RSSetState(nullptr);
+		return;
+	}
+
 	m_core->getImmediateContext()->RSSetState(rss.Get());
 }
 
-void DXDevice::bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget)
+void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget)
 {
 	if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
 

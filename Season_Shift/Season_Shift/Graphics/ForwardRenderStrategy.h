@@ -17,6 +17,9 @@ private:
 
 	std::shared_ptr<DXBuffer> m_tmpBuf;
 
+
+	std::shared_ptr<DXPipeline> m_defaulltPipeline;
+
 public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();
