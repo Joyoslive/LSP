@@ -9,8 +9,6 @@
 #include "DXShader.h"
 #include <SimpleMath.h>
 
-
-
 #define COMPILED_SHADERS_DIRECTORY "Graphics/CompiledShaders/"
 
 struct PipelineState
@@ -161,9 +159,6 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-	void updateResourcesMapUnmap(ID3D11Resource* resource, void* data, unsigned int dataSize, D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD);
-    void updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx = 0, D3D11_BOX* box = nullptr, unsigned int srcRowPitch = 0, unsigned int srcDepthPitch = 0);
-	
 	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
 
 	UINT getClientWidth();

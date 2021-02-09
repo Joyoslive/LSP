@@ -140,7 +140,6 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
 		{
-
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
 
