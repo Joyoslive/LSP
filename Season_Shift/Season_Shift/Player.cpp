@@ -62,12 +62,21 @@ using namespace DirectX::SimpleMath;
 		Input::getInput().lockMouse();
 	}
 	
-	if (velocity.Length() > 4.0f)
+	if (velocity == m_rb->getVelocity())
 	{
-		Vector3 velocityNormal = velocity;
-		velocityNormal.Normalize();
-		velocity = velocityNormal * 4.0f;
+
 	}
+
+	Vector3 velocitySkipY = velocity;
+	velocitySkipY.y = 0;
+	if (velocitySkipY.Length() > 20.0f)
+	{
+		Vector3 velocityNormal = velocitySkipY;
+		velocityNormal.Normalize();
+		velocitySkipY = velocityNormal * 20.0f;
+	}
+	velocitySkipY.y = velocity.y;
+	velocity = velocitySkipY;
 
 	m_rb->setVelocity(velocity);
 	m_playerCamera->update();
