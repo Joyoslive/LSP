@@ -18,6 +18,17 @@ Adds (Assembles them with DXResources), removes, manages existing
 */
 
 
+struct alignas(16) DefaultShader_VSDATA
+{
+	int a, b;
+};
+
+struct alignas(16) DefaultShader_PSDATA
+{
+	int a, b, c, d, e, f;
+};
+
+
 // Put this under Graphics namespace!
 enum class GfxShader
 {
@@ -39,6 +50,7 @@ private:
 private:
 	std::shared_ptr<DXTexture> loadTexture(std::string filepath);
 	std::pair<std::size_t, Material::ShaderSet> loadShader(GfxShader shader);
+	std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> loadBuffers(GfxShader shader);
 
 
 public:

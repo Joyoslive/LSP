@@ -145,7 +145,6 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 		vsFileName = "DefaultVS.cso";
 		psFileName = "DefaultPS.cso";
 		break;
-
 	default:
 		assert(false);
 	}
@@ -156,7 +155,6 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 	Material::ShaderSet shaders;
 	if (!m_shaderSetRepo.exists(shdHash))
 	{
-
 		// Here we should ASK DXDevice for the Shaders rather than create them! 
 		// --> We assume that all shaders are loaded into the program at start time!
 
@@ -171,11 +169,35 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 	return { shdHash, shaders };
 }
 
+std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> GfxResourceDevice::loadBuffers(GfxShader shader)
+{
+	unsigned int vsDataSize = 0;
+	unsigned int psDataSize = 0;
+
+	switch (shader)
+	{
+	case GfxShader::DEFAULT:
+		vsDataSize = sizeof(DefaultShader_VSDATA);
+		psDataSize = sizeof(DefaultShader_PSDATA);
+		break;
+
+	default:
+		assert(false);
+	}
+
+	std::shared_ptr<DXBuffer> vsBuf = m_dxDev->createConstantBuffer(vsDataSize, true, true, nullptr);
+	std::shared_ptr<DXBuffer> psBuf = m_dxDev->createConstantBuffer(psDataSize, true, true, nullptr);
+
+	return { vsBuf, psBuf };
+}
 
 std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath)
 {
 	// Load shaders
 	auto hashAndShaders = loadShader(shader);
+
+	// Load buffers
+	auto vsPsBuffers = loadBuffers(shader);
 
 	// Load textures
 	Material::PhongMaps maps;
