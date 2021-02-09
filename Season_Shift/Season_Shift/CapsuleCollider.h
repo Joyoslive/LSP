@@ -13,10 +13,10 @@ class CapsuleCollider : public Collider
 {
 private:
 	Capsule m_capsule;
-
+	float m_length;
 
 public:
-	CapsuleCollider();
+	CapsuleCollider(float radius, float totalLength);
 	~CapsuleCollider();
 
 	bool collide(const Ref<Collider>& collider) override;

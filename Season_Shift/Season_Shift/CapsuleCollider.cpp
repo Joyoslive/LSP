@@ -1,8 +1,13 @@
 #include "CapsuleCollider.h"
+#include "GameObject.h"
 
-CapsuleCollider::CapsuleCollider()
+using namespace DirectX::SimpleMath;
+
+
+CapsuleCollider::CapsuleCollider(float radius, float totalLength)
 {
-    m_capsule.radius = 1.0f;
+    m_length = totalLength - 2 * radius;
+    m_capsule.radius = radius;
 }
 
 CapsuleCollider::~CapsuleCollider()
@@ -11,17 +16,37 @@ CapsuleCollider::~CapsuleCollider()
 
 
 
-void CapsuleCollider::update()
-{
-}
-
 void CapsuleCollider::initialize()
 {
+    Vector3 unitY;
+    unitY.x = m_transform->getWorldMatrix().m[1][0];
+    unitY.y = m_transform->getWorldMatrix().m[1][1];
+    unitY.z = m_transform->getWorldMatrix().m[1][2];
+    unitY.Normalize();
+
+    m_capsule.PointB = m_transform->getPosition();
+    m_capsule.PointA = m_transform->getPosition() + m_length * unitY;
 }
+
+void CapsuleCollider::update()
+{
+    Vector3 unitY;
+    unitY.x = m_transform->getWorldMatrix().m[1][0];
+    unitY.y = m_transform->getWorldMatrix().m[1][1];
+    unitY.z = m_transform->getWorldMatrix().m[1][2];
+    unitY.Normalize();
+
+    m_capsule.PointB = m_transform->getPosition();
+    m_capsule.PointA = m_transform->getPosition() + m_length * unitY;
+}
+
 
 bool CapsuleCollider::collide(const Ref<Collider>& collider)
 {
-    return false;
+    if (!((int)(collider->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0))    return false;   //only support collision vs obb
+
+
+
 }
 
 
