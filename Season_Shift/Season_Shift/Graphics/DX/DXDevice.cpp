@@ -3,11 +3,10 @@
 using Microsoft::WRL::ComPtr;
 
 DXDevice::DXDevice(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
-	m_core(DXCore(hwnd, clientWidth, clientHeight)),
 	m_vOffsetBind(0),
 	m_currTargetBind({ })
 {
-
+	m_core = std::make_shared<DXCore>(hwnd, clientWidth, clientHeight);
 }
 
 DXDevice::~DXDevice()
@@ -29,27 +28,27 @@ std::shared_ptr<DXShader> DXDevice::createShader(const std::string& fileName, DX
 	switch (shaderType)
 	{
 	case DXShader::Type::VS:
-		HRCHECK(m_core.getDevice()->CreateVertexShader(shaderData.data(), shaderData.size(), nullptr, vs.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreateVertexShader(shaderData.data(), shaderData.size(), nullptr, vs.GetAddressOf()));
 		shader = vs;
 		break;
 	case DXShader::Type::HS:
-		HRCHECK(m_core.getDevice()->CreateHullShader(shaderData.data(), shaderData.size(), nullptr, hs.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreateHullShader(shaderData.data(), shaderData.size(), nullptr, hs.GetAddressOf()));
 		shader = hs;
 		break;
 	case DXShader::Type::DS:
-		HRCHECK(m_core.getDevice()->CreateDomainShader(shaderData.data(), shaderData.size(), nullptr, ds.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreateDomainShader(shaderData.data(), shaderData.size(), nullptr, ds.GetAddressOf()));
 		shader = ds;
 		break;
 	case DXShader::Type::GS:
-		HRCHECK(m_core.getDevice()->CreateGeometryShader(shaderData.data(), shaderData.size(), nullptr, gs.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreateGeometryShader(shaderData.data(), shaderData.size(), nullptr, gs.GetAddressOf()));
 		shader = gs;
 		break;
 	case DXShader::Type::PS:
-		HRCHECK(m_core.getDevice()->CreatePixelShader(shaderData.data(), shaderData.size(), nullptr, ps.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreatePixelShader(shaderData.data(), shaderData.size(), nullptr, ps.GetAddressOf()));
 		shader = ps;
 		break;
 	case DXShader::Type::CS:
-		HRCHECK(m_core.getDevice()->CreateComputeShader(shaderData.data(), shaderData.size(), nullptr, cs.GetAddressOf()));
+		HRCHECK(m_core->getDevice()->CreateComputeShader(shaderData.data(), shaderData.size(), nullptr, cs.GetAddressOf()));
 		shader = cs;
 		break;
 	default:
@@ -92,10 +91,10 @@ std::shared_ptr<DXBuffer> DXDevice::createVertexBuffer(unsigned int elementCount
 	}
 
 	ComPtr<ID3D11Buffer> buf = nullptr;
-	HRCHECK(m_core.getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
 
 	// smart memory complaining at this? lol
-	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(buf, desc, DXBuffer::Type::Vertex, elementCount, elementStride);
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Vertex, elementCount, elementStride);
 	return toRet;
 
 }
@@ -124,9 +123,9 @@ std::shared_ptr<DXBuffer> DXDevice::createIndexBuffer(unsigned int size, bool dy
 	unsigned int elementCount = size / sizeof(std::uint32_t);
 
 	ComPtr<ID3D11Buffer> buf = nullptr;
-	HRCHECK(m_core.getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
 
-	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(buf, desc, DXBuffer::Type::Index, elementCount, sizeof(std::uint32_t));
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Index, elementCount, sizeof(std::uint32_t));
 	return toRet;
 }
 
@@ -160,9 +159,9 @@ std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool
 
 
 	ComPtr<ID3D11Buffer> buf = nullptr;
-	HRCHECK(m_core.getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
 
-	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(buf, desc, DXBuffer::Type::Constant, 1, size);
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Constant, 1, size);
 	return toRet;
 }
 
@@ -199,9 +198,9 @@ std::shared_ptr<DXBuffer> DXDevice::createStructuredBuffer(unsigned int count, u
 	}
 
 	ComPtr<ID3D11Buffer> buf = nullptr;
-	HRCHECK(m_core.getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
 
-	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(buf, desc, DXBuffer::Type::Structured, count, structSize);
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Structured, count, structSize);
 	return toRet;
 }
 
@@ -213,14 +212,14 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 	if (desc.type == DXTexture::Type::TEX1D)
 	{
 		ComPtr<ID3D11Texture1D> t = nullptr;
-		HRCHECK(m_core.getDevice()->CreateTexture1D(&desc.desc1D, subres, t.GetAddressOf()));
-		tex = std::make_shared<DXTexture>(t, desc);
+		HRCHECK(m_core->getDevice()->CreateTexture1D(&desc.desc1D, subres, t.GetAddressOf()));
+		tex = std::make_shared<DXTexture>(m_core, t, desc);
 	}
 	else if (desc.type == DXTexture::Type::TEX2D)
 	{
 		ComPtr<ID3D11Texture2D> t = nullptr;
-		HRCHECK(m_core.getDevice()->CreateTexture2D(&desc.desc2D, subres, t.GetAddressOf()));
-		tex = std::make_shared<DXTexture>(t, desc);
+		HRCHECK(m_core->getDevice()->CreateTexture2D(&desc.desc2D, subres, t.GetAddressOf()));
+		tex = std::make_shared<DXTexture>(m_core, t, desc);
 
 		/*
 		Temporary below! We should be able to branch to SRV, DSV, RTV and UAV
@@ -236,7 +235,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			mtSRV.Texture2D.MostDetailedMip = 0;
 			mtSRV.Texture2D.MipLevels = 1;		// temporary for now
 
-			HRCHECK(m_core.getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
+			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
 
 			tex->setSRV(srv);
 		}
@@ -248,7 +247,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			mtDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 			mtDSV.Texture2D.MipSlice = 0;
 
-			HRCHECK(m_core.getDevice()->CreateDepthStencilView(t.Get(), &mtDSV, dsv.GetAddressOf()));
+			HRCHECK(m_core->getDevice()->CreateDepthStencilView(t.Get(), &mtDSV, dsv.GetAddressOf()));
 
 			tex->setDSV(dsv);
 		}
@@ -259,8 +258,8 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 	else
 	{
 		ComPtr<ID3D11Texture3D> t = nullptr;
-		HRCHECK(m_core.getDevice()->CreateTexture3D(&desc.desc3D, subres, t.GetAddressOf()));
-		tex = std::make_shared<DXTexture>(t, desc);
+		HRCHECK(m_core->getDevice()->CreateTexture3D(&desc.desc3D, subres, t.GetAddressOf()));
+		tex = std::make_shared<DXTexture>(m_core, t, desc);
 	}
 
 	
@@ -271,9 +270,38 @@ ComPtr<ID3D11InputLayout> DXDevice::createInputLayout(const std::vector<D3D11_IN
 {
 	ComPtr<ID3D11InputLayout> inputLayout = nullptr;
 
-	HRCHECK(m_core.getDevice()->CreateInputLayout(elements.data(), static_cast<unsigned int>(elements.size()), shaderData.data(), static_cast<unsigned int>(shaderData.size()), inputLayout.GetAddressOf()));
+	HRCHECK(m_core->getDevice()->CreateInputLayout(elements.data(), static_cast<unsigned int>(elements.size()), shaderData.data(), static_cast<unsigned int>(shaderData.size()), inputLayout.GetAddressOf()));
 
 	return inputLayout;
+}
+
+Microsoft::WRL::ComPtr<ID3D11SamplerState> DXDevice::createSamplerState(D3D11_SAMPLER_DESC desc)
+{
+	ComPtr<ID3D11SamplerState> sampler;
+
+	HRCHECK(m_core->getDevice()->CreateSamplerState(&desc, sampler.GetAddressOf()));
+	return sampler;
+}
+
+Microsoft::WRL::ComPtr<ID3D11RasterizerState> DXDevice::createRasterizerState(D3D11_RASTERIZER_DESC desc)
+{
+	ComPtr<ID3D11RasterizerState> rss;
+	HRCHECK(m_core->getDevice()->CreateRasterizerState(&desc, rss.GetAddressOf()));
+	return rss;
+}
+
+Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DXDevice::createDepthStencilState(D3D11_DEPTH_STENCIL_DESC desc)
+{
+	ComPtr<ID3D11DepthStencilState> dss;
+	HRCHECK(m_core->getDevice()->CreateDepthStencilState(&desc, dss.GetAddressOf()));
+	return dss;
+}
+
+Microsoft::WRL::ComPtr<ID3D11BlendState> DXDevice::createBlendState(D3D11_BLEND_DESC desc)
+{
+	ComPtr<ID3D11BlendState> bs;
+	HRCHECK(m_core->getDevice()->CreateBlendState(&desc, bs.GetAddressOf()));
+	return bs;
 }
 
 void DXDevice::bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage)
@@ -282,22 +310,52 @@ void DXDevice::bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Typ
 	switch (stage)
 	{
 	case DXShader::Type::VS:
-		m_core.getImmediateContext()->VSSetShader(shader->getShader<ID3D11VertexShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->VSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->VSSetShader(shader->getShader<ID3D11VertexShader>(), 0, 0);
 		break;
 	case DXShader::Type::HS:
-		m_core.getImmediateContext()->HSSetShader(shader->getShader<ID3D11HullShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->HSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->HSSetShader(shader->getShader<ID3D11HullShader>(), 0, 0);
 		break;
 	case DXShader::Type::DS:
-		m_core.getImmediateContext()->DSSetShader(shader->getShader<ID3D11DomainShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->DSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->DSSetShader(shader->getShader<ID3D11DomainShader>(), 0, 0);
 		break;
 	case DXShader::Type::GS:
-		m_core.getImmediateContext()->GSSetShader(shader->getShader<ID3D11GeometryShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->GSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->GSSetShader(shader->getShader<ID3D11GeometryShader>(), 0, 0);
 		break;
 	case DXShader::Type::PS:
-		m_core.getImmediateContext()->PSSetShader(shader->getShader<ID3D11PixelShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->PSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->PSSetShader(shader->getShader<ID3D11PixelShader>(), 0, 0);
 		break;
 	case DXShader::Type::CS:
-		m_core.getImmediateContext()->CSSetShader(shader->getShader<ID3D11ComputeShader>(), 0, 0);
+		if (shader == nullptr)
+		{
+			m_core->getImmediateContext()->CSSetShader(nullptr, 0, 0);
+			return;
+		}
+		m_core->getImmediateContext()->CSSetShader(shader->getShader<ID3D11ComputeShader>(), 0, 0);
 		break;
 	default:
 		assert(false);
@@ -312,22 +370,22 @@ void DXDevice::bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot,
 	switch (stage)
 	{
 	case DXShader::Type::VS:
-		m_core.getImmediateContext()->VSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->VSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	case DXShader::Type::HS:
-		m_core.getImmediateContext()->HSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->HSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	case DXShader::Type::DS:
-		m_core.getImmediateContext()->DSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->DSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	case DXShader::Type::GS:
-		m_core.getImmediateContext()->GSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->GSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	case DXShader::Type::PS:
-		m_core.getImmediateContext()->PSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->PSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	case DXShader::Type::CS:
-		m_core.getImmediateContext()->CSSetConstantBuffers(slot, 1, res->getBuffer().GetAddressOf());
+		m_core->getImmediateContext()->CSSetConstantBuffers(slot, 1, (ID3D11Buffer**)res->getResource().GetAddressOf());
 		break;
 	default:
 		assert(false);
@@ -340,22 +398,22 @@ void DXDevice::bindShaderSampler(DXShader::Type stage, unsigned int slot, const 
 	switch (stage)
 	{
 	case DXShader::Type::VS:
-		m_core.getImmediateContext()->VSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->VSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	case DXShader::Type::HS:
-		m_core.getImmediateContext()->HSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->HSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	case DXShader::Type::DS:
-		m_core.getImmediateContext()->DSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->DSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	case DXShader::Type::GS:
-		m_core.getImmediateContext()->GSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->GSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	case DXShader::Type::PS:
-		m_core.getImmediateContext()->PSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->PSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	case DXShader::Type::CS:
-		m_core.getImmediateContext()->CSSetSamplers(slot, 1, res.GetAddressOf());
+		m_core->getImmediateContext()->CSSetSamplers(slot, 1, res.GetAddressOf());
 		break;
 	default:
 		assert(false);
@@ -374,22 +432,22 @@ void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const 
 	switch (stage)
 	{
 	case DXShader::Type::VS:
-		m_core.getImmediateContext()->VSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->VSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::HS:
-		m_core.getImmediateContext()->HSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->HSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::DS:
-		m_core.getImmediateContext()->DSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->DSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::GS:
-		m_core.getImmediateContext()->GSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->GSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::PS:
-		m_core.getImmediateContext()->PSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->PSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::CS:
-		m_core.getImmediateContext()->CSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		m_core->getImmediateContext()->CSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	default:
 		assert(false);
@@ -399,31 +457,48 @@ void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const 
 
 void DXDevice::bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& il)
 {
-	m_core.getImmediateContext()->IASetInputLayout(il.Get());
+	m_core->getImmediateContext()->IASetInputLayout(il.Get());
 }
 
 void DXDevice::bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
 {
-	m_core.getImmediateContext()->IASetPrimitiveTopology(topology);
+	m_core->getImmediateContext()->IASetPrimitiveTopology(topology);
 }
 
 void DXDevice::bindDepthStencilState(const Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& dss, unsigned int stencilRef)
 {
-	m_core.getImmediateContext()->OMSetDepthStencilState(dss.Get(), stencilRef);
+	if (dss == nullptr)
+	{
+		m_core->getImmediateContext()->OMSetDepthStencilState(nullptr, 0);
+		return;
+	}
+	m_core->getImmediateContext()->OMSetDepthStencilState(dss.Get(), stencilRef);
 
 }
 
 void DXDevice::bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac, unsigned int sampleMask)
 {
-	m_core.getImmediateContext()->OMSetBlendState(bs.Get(), blendFac.data(), sampleMask);
+	if (bs == nullptr)
+	{
+		m_core->getImmediateContext()->OMSetBlendState(nullptr, nullptr, 0);
+		return;
+	}
+
+	m_core->getImmediateContext()->OMSetBlendState(bs.Get(), blendFac.data(), sampleMask);
 }
 
 void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss)
 {
-	m_core.getImmediateContext()->RSSetState(rss.Get());
+	if (rss == nullptr)
+	{
+		m_core->getImmediateContext()->RSSetState(nullptr);
+		return;
+	}
+
+	m_core->getImmediateContext()->RSSetState(rss.Get());
 }
 
-void DXDevice::bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget)
+void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget)
 {
 	if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
 
@@ -436,7 +511,7 @@ void DXDevice::bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3
 		m_currTargetBind[i] = targets[i]->getRTV().Get();
 	}
 
-	m_core.getImmediateContext()->OMSetRenderTargets(static_cast<unsigned int>(targets.size()), m_currTargetBind.data(), depthTarget->getDSV().Get());
+	m_core->getImmediateContext()->OMSetRenderTargets(static_cast<unsigned int>(targets.size()), m_currTargetBind.data(), depthTarget->getDSV().Get());
 
 }
 
@@ -444,40 +519,40 @@ void DXDevice::bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb)
 {
 	if (vb->getType() != DXBuffer::Type::Vertex) assert(false);
 
-	m_core.getImmediateContext()->IASetVertexBuffers(0, 1, vb->getBuffer().GetAddressOf(), &vb->getElementStride(), &m_vOffsetBind);
+	m_core->getImmediateContext()->IASetVertexBuffers(0, 1, (ID3D11Buffer* const*)(vb->getResource().GetAddressOf()), &vb->getElementStride(), &m_vOffsetBind);
 
 }
 
 void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 {
-	m_core.getImmediateContext()->RSSetViewports(vps.size(), vps.data());
+	m_core->getImmediateContext()->RSSetViewports(vps.size(), vps.data());
 }
 
 void DXDevice::draw(unsigned int vtxCount, unsigned int vbStartIdx)
 {
-	m_core.getImmediateContext()->Draw(vtxCount, vbStartIdx);
+	m_core->getImmediateContext()->Draw(vtxCount, vbStartIdx);
 }
 
 void DXDevice::drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx)
 {
-	m_core.getImmediateContext()->DrawIndexed(idxCount, ibStartIdx, vbStartIdx);
+	m_core->getImmediateContext()->DrawIndexed(idxCount, ibStartIdx, vbStartIdx);
 }
 
 void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
 {
-	m_core.getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
+	m_core->getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
 }
 
 void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4])
 {
 	if (target->getRTV() == nullptr) assert(false);
 
-	m_core.getImmediateContext()->ClearRenderTargetView(target->getRTV().Get(), color);
+	m_core->getImmediateContext()->ClearRenderTargetView(target->getRTV().Get(), color);
 }
 
 void DXDevice::clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag, float depth, float stencil)
 {
-	m_core.getImmediateContext()->ClearDepthStencilView(depthTarget->getDSV().Get(), clearFlag, depth, stencil);
+	m_core->getImmediateContext()->ClearDepthStencilView(depthTarget->getDSV().Get(), clearFlag, depth, stencil);
 }
 
 void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset)
@@ -485,65 +560,45 @@ void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const 
 	if (vb->getType() != DXBuffer::Type::Vertex || ib->getType() != DXBuffer::Type::Index) assert(false);
 	m_vOffsetBind = vbOffset;
 
-	m_core.getImmediateContext()->IASetVertexBuffers(0, 1, vb->getBuffer().GetAddressOf(), &vb->getElementStride(), &m_vOffsetBind);
-	m_core.getImmediateContext()->IASetIndexBuffer(ib->getBuffer().Get(), DXGI_FORMAT_R32_UINT, ibOffset);
+	m_core->getImmediateContext()->IASetVertexBuffers(0, 1, (ID3D11Buffer* const*)vb->getResource().GetAddressOf(), &vb->getElementStride(), &m_vOffsetBind);
+	m_core->getImmediateContext()->IASetIndexBuffer((ID3D11Buffer*)ib->getResource().Get(), DXGI_FORMAT_R32_UINT, ibOffset);
 }
 
 void DXDevice::clearScreen()
 {
 	FLOAT color[] = { 0.0, 0.0, 0.0, 1.0 };
-	m_core.getImmediateContext()->ClearRenderTargetView(m_core.getBackbufferRTV().Get(), color);
+	m_core->getImmediateContext()->ClearRenderTargetView(m_core->getBackbufferRTV().Get(), color);
 }
 
 void DXDevice::present()
 {
-	m_core.getSwapChain()->Present(0, 0);
+	m_core->getSwapChain()->Present(0, 0);
 }
 
 void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget)
 {
 
 	if (depthTarget != nullptr) 
-		m_core.getImmediateContext()->OMSetRenderTargets(1, m_core.getBackbufferRTV().GetAddressOf(), depthTarget->getDSV().Get());
+		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), depthTarget->getDSV().Get());
 	else
-		m_core.getImmediateContext()->OMSetRenderTargets(1, m_core.getBackbufferRTV().GetAddressOf(), nullptr);
+		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), nullptr);
 
-	m_core.getImmediateContext()->RSSetViewports(1, m_core.getBackBufferViewport());
+	m_core->getImmediateContext()->RSSetViewports(1, m_core->getBackBufferViewport());
 
 
-}
-
-void DXDevice::updateResourcesMapUnmap(ID3D11Resource* resource, void* data, unsigned int dataSize, D3D11_MAP mapType)
-{
-	if (resource == nullptr)    assert(false);
-
-	D3D11_MAPPED_SUBRESOURCE subres;
-
-	HRCHECK(m_core.getImmediateContext()->Map(resource, 0, mapType, 0, &subres));
-
-	std::memcpy(subres.pData, data, dataSize);
-
-	m_core.getImmediateContext()->Unmap(resource, 0);
-}
-
-void DXDevice::updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx, D3D11_BOX* box, unsigned int srcRowPitch, unsigned int srcDepthPitch)
-{
-	if (resource == nullptr)    assert(false);
-
-	m_core.getImmediateContext()->UpdateSubresource(resource, dstSubresIdx, box, data, srcRowPitch, srcDepthPitch);
 }
 
 const Microsoft::WRL::ComPtr<ID3D11Device>& DXDevice::getDevice()
 {
-	return m_core.getDevice();
+	return m_core->getDevice();
 }
 
 UINT DXDevice::getClientWidth()
 {
-	return m_core.getClientWidth();
+	return m_core->getClientWidth();
 }
 
 UINT DXDevice::getClientHeight()
 {
-	return m_core.getClientHeight();
+	return m_core->getClientHeight();
 }

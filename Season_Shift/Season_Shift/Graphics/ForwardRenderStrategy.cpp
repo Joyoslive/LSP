@@ -82,6 +82,16 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	depthDesc.type = DXTexture::Type::TEX2D;
 	m_depthTexture = dev->createTexture(depthDesc, nullptr);
 
+
+
+
+
+
+
+
+
+
+
 	//currDS_ = gphDev_->createTexture2D(
 	//	"DSText1",
 	//	§CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_D24_UNORM_S8_UINT, gphDev_->getClientWidth(), gphDev_->getClientHeight(), 1, 1, D3D11_BIND_DEPTH_STENCIL),
@@ -140,12 +150,15 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
 		{
-
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
+			mat.material->bindBuffers(dev);
 
 			matrices[0] = mod->getTransform()->getWorldMatrix();//DirectX::XMMatrixIdentity();
-			dev->updateResourcesMapUnmap(matrixBuffer->getBuffer().Get(), matrices, sizeof(matrices));
+
+			//dev->updateResourcesMapUnmap(matrixBuffer->getResource().Get(), matrices, sizeof(matrices));
+			matrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
+
 			m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
