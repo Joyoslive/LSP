@@ -125,10 +125,18 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 		mat.indexStart = subsetInfo.indexStart;
 		mat.vertexCount = subsetInfo.vertexCount;
 		mat.vertexStart = subsetInfo.vertexStart;
-		mat.material = createMaterial(shader, modelDirectory + subsetInfo.diffuseFilePath, modelDirectory + subsetInfo.specularFilePath, modelDirectory + subsetInfo.normalFilePath);
-
+		if (subsetInfo.diffuseFilePath == "")
+		{
+			std::string defaultDir = "Textures/Default/";
+			mat.material = createMaterial(shader, defaultDir + "diffuse.png", defaultDir + "specular.png", defaultDir + "normal.png");
+		}
+		else
+		{
+			mat.material = createMaterial(shader, modelDirectory + subsetInfo.diffuseFilePath, modelDirectory + subsetInfo.specularFilePath, modelDirectory + subsetInfo.normalFilePath);
+		}
 		materials.push_back(mat);
 	}
+	
 
 	std::shared_ptr<Model> modToAdd = std::make_shared<Model>(mesh, materials);
 
@@ -215,8 +223,8 @@ std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, co
 
 		matToAdd = std::make_shared<Material>(hashAndShaders.second, maps, texHash, hashAndShaders.first);
 	}
-
 	std::shared_ptr<Material> mat = m_materialRepo.add(texHash, matToAdd);			// If hash already exists, the existing mat will be returned and matToAdd will be discarded
+	mat->setBuffers(vsPsBuffers.first, vsPsBuffers.second);
 
 	return mat;
 }

@@ -152,6 +152,7 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 		{
 			mat.material->bindShader(dev);
 			mat.material->bindTextures(dev);
+			mat.material->bindBuffers(dev);
 
 			matrices[0] = mod->getTransform()->getWorldMatrix();//DirectX::XMMatrixIdentity();
 

@@ -85,6 +85,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		debugCamera.rotate();
 		debugCamera.move();
+
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
 		m_timer.stop();
 	}
