@@ -24,9 +24,10 @@ using namespace DirectX::SimpleMath;
  void Player::update()
  {
 	lookAround();
+	//Vector3();
 	if (Input::getInput().keyPressed(Input::W))
 	{
-		m_rb->addForce(Vector3(0, 0, -50));
+		m_rb->addForce(Vector3(0, 0, -500));
 	}
 	if (Input::getInput().keyPressed(Input::S))
 	{
@@ -34,7 +35,8 @@ using namespace DirectX::SimpleMath;
 	}
 	if (Input::getInput().keyPressed(Input::Space))
 	{
-		m_rb->addForce(Vector3(0, 50, 0));
+		m_rb->setVelocity(Vector3(0,10.0f,0));
+		//m_rb->addForce(Vector3(0, 500, 0));
 	}
 	if (Input::getInput().keyPressed(Input::Shift))
 	{

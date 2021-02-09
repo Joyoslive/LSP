@@ -126,7 +126,7 @@ Vector3 PhysicsEngine::sphereCollideObb(const Ref<Collider>& sphere, const Ref<C
 
 
 
-	sphere->getTransform()->setPosition((position + normal * std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Radius));
+	sphere->getTransform()->setPosition((position + normal * 1.001f * std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Radius));
 	sphere->update();
 	return normal;
 }
