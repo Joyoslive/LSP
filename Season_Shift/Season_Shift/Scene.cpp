@@ -54,6 +54,9 @@ void Scene::setUpScene()
 
 	Ref<GameObject> go4 = createGameObject("Model4", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
 	go4->AddComponent(model4);
+
+	Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
+	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT));
 }
 
 void Scene::resetScene()

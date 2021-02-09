@@ -48,6 +48,8 @@ EngineMeshData AssimpLoader::loadStaticModel(std::string filePath)
 	m_indices.clear();
 	m_vertices.clear();
 	m_subsets.clear();
+	m_meshVertexCount = 0;
+	m_meshIndexCount = 0;
 	return data;
 }
 
