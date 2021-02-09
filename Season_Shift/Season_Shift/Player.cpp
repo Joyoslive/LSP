@@ -55,6 +55,7 @@ using namespace DirectX::SimpleMath;
 	}
 	if (Input::getInput().keyPressed(Input::Shift))
 	{
+		velocity -= Vector3(0, 50, 0);
 		//m_rb->addForce(Vector3(0, -50, 0));
 	}
 	if (Input::getInput().keyPressed(Input::L))
@@ -62,7 +63,7 @@ using namespace DirectX::SimpleMath;
 		Input::getInput().lockMouse();
 	}
 	
-	if (velocity.Length() > 4.0f)
+	if (velocity.Length() > 160.0f)
 	{
 		Vector3 velocityNormal = velocity;
 		velocityNormal.Normalize();
