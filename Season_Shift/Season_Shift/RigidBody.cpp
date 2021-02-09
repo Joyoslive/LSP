@@ -31,6 +31,16 @@ void RigidBody::addForce(DirectX::SimpleMath::Vector3 force)
 	m_force += force;
 }
 
+void RigidBody::setVelocity(const DirectX::SimpleMath::Vector3& velocity)
+{
+	m_velocity = velocity;
+}
+
+const DirectX::SimpleMath::Vector3& RigidBody::getVelocity() const
+{
+	return m_velocity;
+}
+
 void RigidBody::removeForces()
 {
 	m_force = Vector3(0, 0, 0);
@@ -41,4 +51,9 @@ void RigidBody::stop()
 	m_force = Vector3(0, 0, 0);
 	m_acceleration = Vector3(0, 0, 0);
 	m_velocity = Vector3(0, 0, 0);
+}
+
+void RigidBody::update()
+{
+	m_force = Vector3(0, 0, 0);
 }
