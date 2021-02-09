@@ -17,7 +17,7 @@ private:
 	long double m_deltaTime;
 	
 
-	
+	void internalSimulate(const Ref<RigidBody>& rigidBody, long double dt);
 
 
 private:
@@ -30,6 +30,6 @@ public:
 	~PhysicsEngine();
 
 	void updateScene(Ref<Scene> activeScene) override;
-	void simulate(const Ref<RigidBody>& rigidBody, long double dt);
+	void simulate(long double dt);
 };
 
