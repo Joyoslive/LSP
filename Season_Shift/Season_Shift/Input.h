@@ -45,6 +45,8 @@ private:
 	std::unique_ptr<DirectX::Mouse> m_mouse;
 	DirectX::Keyboard::KeyboardStateTracker m_keys;
 	DirectX::Mouse::ButtonStateTracker m_mouseButtons;
+	bool m_mouseMode;
+	DirectX::Mouse::State mouse;
 private:
 	Input();
 };

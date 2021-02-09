@@ -24,6 +24,7 @@ void Input::initInput(HWND wndHandle)
 	instance.m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 	instance.m_mouseX = 0.0f;
 	instance.m_mouseY = 0.0f;
+	instance.mouse = instance.m_mouse->GetState();
 }
 
 bool Input::keyBeingPressed(Keys key) 
@@ -43,7 +44,7 @@ bool Input::keyPressed(Keys key)
 
 DirectX::SimpleMath::Vector2 Input::mousePos() 
 {
-	auto mouse = m_mouse->GetState();
+	mouse = m_mouse->GetState();
 	DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y));
 	return delta;
 
@@ -51,7 +52,7 @@ DirectX::SimpleMath::Vector2 Input::mousePos()
 
 void Input::mouseMovement(float &m_pitch, float &m_yaw) 
 {
-	if (m_mouse->MODE_RELATIVE == DirectX::Mouse::MODE_RELATIVE)
+	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 
 		m_pitch += m_mouseY *0.0004;
@@ -128,7 +129,6 @@ bool Input::mousePressed(MouseKeys key)
 
 void Input::lockMouse() 
 {
-	auto mouse = m_mouse->GetState();
 	if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE) {
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 	}
@@ -140,7 +140,7 @@ void Input::lockMouse()
 void Input::update() 
 {
 	auto kb = m_keyboard->GetState();
-	auto mouse = m_mouse->GetState();
+	mouse = m_mouse->GetState();
 	m_mouseY = mouse.y;
 	m_mouseX = mouse.x;
 	m_keys.Update(kb);
