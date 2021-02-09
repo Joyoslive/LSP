@@ -46,7 +46,11 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     if (!((int)(collider->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0))    return false;   //only support collision vs obb
 
 
+    Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
+    //obb->closestPointOnObb()
+
+    //printa ut obb hörnen så att du ser hur du kan göra 12 trianglar av dem
 }
 
 
