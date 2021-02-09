@@ -65,7 +65,7 @@ void Scene::setUpScene()
 	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 
 	Ref<GameObject> coll = createGameObject("collider", Vector3(-2, -8, -20), Vector3(100, 100, 100), Vector3(90, 0, 0));
-	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(100, 100, 1)));
+	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(120, 120, 1)));
 	std::vector<Vertex> verts;
 	verts.push_back({ Vector3(-0.75, 0.75, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
 	verts.push_back({ Vector3(0.75, 0.75, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
