@@ -24,28 +24,40 @@ using namespace DirectX::SimpleMath;
  void Player::update()
  {
 	lookAround();
-	//Vector3();
-	if (Input::getInput().keyPressed(Input::W))
+	Vector3 velocity = m_rb->getVelocity();
+	if (Input::getInput().keyBeingPressed(Input::W))
 	{
-		m_rb->addForce(Vector3(0, 0, -500));
+		velocity += Vector3(0, 0, -2);
+		//m_rb->addForce(Vector3(0, 0, -500));
 	}
-	if (Input::getInput().keyPressed(Input::S))
+	if (Input::getInput().keyBeingPressed(Input::S))
 	{
-		m_rb->addForce(Vector3(0, 0, 50));
+		velocity += Vector3(0, 0, 2);
+		//m_rb->addForce(Vector3(0, 0, 50));
 	}
 	if (Input::getInput().keyPressed(Input::Space))
 	{
-		m_rb->setVelocity(Vector3(0,10.0f,0));
+		velocity += Vector3(0, 10, 0);
+		//m_rb->setVelocity(Vector3(0,10.0f,0));
 		//m_rb->addForce(Vector3(0, 500, 0));
 	}
 	if (Input::getInput().keyPressed(Input::Shift))
 	{
-		m_rb->addForce(Vector3(0, -50, 0));
+		//m_rb->addForce(Vector3(0, -50, 0));
 	}
 	if (Input::getInput().keyPressed(Input::L))
 	{
 		Input::getInput().lockMouse();
 	}
+	if (velocity.x > 4)
+		velocity.x = 4;
+	if (velocity.x < -4)
+		velocity.x = -4;
+	if (velocity.z > 4)
+		velocity.z = 4;
+	if (velocity.z < -4)
+		velocity.z = -4;
+	m_rb->setVelocity(velocity);
 	m_playerCamera->update();
  }
 
