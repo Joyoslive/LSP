@@ -22,6 +22,8 @@ void Input::initInput(HWND wndHandle)
 	instance.m_mouse = std::make_unique<DirectX::Mouse>();
 	instance.m_mouse->SetWindow(wndHandle);
 	instance.m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
+	instance.m_mouseX = 0.0f;
+	instance.m_mouseY = 0.0f;
 }
 
 bool Input::keyBeingPressed(Keys key) 
@@ -49,14 +51,11 @@ DirectX::SimpleMath::Vector2 Input::mousePos()
 
 void Input::mouseMovement(float &m_pitch, float &m_yaw) 
 {
-	auto mouse = m_mouse->GetState();
-	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
+	if (m_mouse->MODE_RELATIVE == DirectX::Mouse::MODE_RELATIVE)
 	{
-		DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y))
-			* 0.0004f;
 
-		m_pitch += delta.y;
-		m_yaw += delta.x;
+		m_pitch += m_mouseY *0.0004;
+		m_yaw += m_mouseX*0.0004;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
@@ -142,6 +141,8 @@ void Input::update()
 {
 	auto kb = m_keyboard->GetState();
 	auto mouse = m_mouse->GetState();
+	m_mouseY = mouse.y;
+	m_mouseX = mouse.x;
 	m_keys.Update(kb);
 	m_mouseButtons.Update(mouse);
 }

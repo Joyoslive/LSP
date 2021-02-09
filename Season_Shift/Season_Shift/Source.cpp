@@ -84,6 +84,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
 
+	bool m_cameraCheck = false;
 	MSG msg = { };
 	while (!win.isClosed())
 	{
@@ -98,13 +99,34 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		physicsEng->simulate(player->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY)/*temp*/, m_timer.dt());
-
+		Input::getInput().update();
 		// Do stuff
 		//input->update();
-		debugCamera.rotate();
-		debugCamera.move();
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
-		Input::getInput().update();
+		if (Input::getInput().keyPressed(Input::C)) 
+		{
+			if( m_cameraCheck == true)
+			{
+				m_cameraCheck = false;
+			}
+			else
+			{
+				m_cameraCheck = true;
+			}
+		}
+		if (m_cameraCheck == true)
+		{
+			debugCamera.rotate();
+			debugCamera.move();
+			gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
+		}
+		else
+		{
+			gph.render(sceneManager.getActiveScene()->getSceneModels(), player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);//player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera());//cam);
+		}
+			
+			
+		
+
 		m_timer.stop();
 	}
 
