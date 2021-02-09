@@ -34,14 +34,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	SceneManager sceneManager = SceneManager(&gph);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
-	Ref<GameObject> player = scene->createGameObject("player",  Vector3(-2, 0, -20), Vector3(0.2f, 0.2f, 0.2f));
-	player->AddComponent(std::make_shared<RigidBody>());
-	player->AddComponent(std::make_shared<SphereCollider>(2));
-	player->AddComponent(std::make_shared<CameraComponent>());
-	player->AddComponent(std::make_shared<Player>());
-	player->AddComponent(gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+	Ref<GameObject> player = scene->getGameObject("player");
 	
-	sceneManager.getActiveScene()->start();
+	//sceneManager.getActiveScene()->start();
 
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
 	sceneManager.addObserver(physicsEng);

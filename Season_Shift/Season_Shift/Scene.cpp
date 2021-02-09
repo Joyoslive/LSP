@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "Graphics/Graphics.h"
+#include "Player.h"
+#include "CameraComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -54,6 +56,16 @@ void Scene::setUpScene()
 
 	Ref<GameObject> go4 = createGameObject("Model4", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
 	go4->AddComponent(model4);
+
+	Ref<GameObject> player = createGameObject("player", Vector3(-2, 0, -20), Vector3(0.2f, 0.2f, 0.2f));
+	player->AddComponent(std::make_shared<RigidBody>());
+	player->AddComponent(std::make_shared<SphereCollider>(2));
+	player->AddComponent(std::make_shared<CameraComponent>());
+	player->AddComponent(std::make_shared<Player>());
+	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+
+	Ref<GameObject> coll = createGameObject("collider", Vector3(-2, -8, -20));
+	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10, 1, 10)));
 }
 
 void Scene::resetScene()
