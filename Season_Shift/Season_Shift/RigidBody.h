@@ -16,14 +16,18 @@ private:
 	DirectX::SimpleMath::Vector3 m_velocity;
 	DirectX::SimpleMath::Vector3 m_acceleration;
 	
-
+private:
+	void update() override;
 
 public:
 	RigidBody(float mass = 1);
 	void setMass(float mass);
 	float getMass() const;
 	void addForce(DirectX::SimpleMath::Vector3 force);
+	void setVelocity(const DirectX::SimpleMath::Vector3& velocity);
+	const DirectX::SimpleMath::Vector3& getVelocity() const;
 	void removeForces();
 	void stop();
+	
 };
 
