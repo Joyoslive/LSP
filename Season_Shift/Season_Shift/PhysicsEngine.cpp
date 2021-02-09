@@ -54,8 +54,19 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(const Ref<Collider>& collider)
 	return colliderVec;
 }
 
+void PhysicsEngine::simulate(long double dt)
+{
+	for (auto& go : m_scene->getSceneGameObjects())
+	{
+		Ref<RigidBody> rg = go->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		if (rg != nullptr)
+		{
+			internalSimulate(rg, dt);
+		}
+	}
+}
 
-void PhysicsEngine::simulate(const Ref<RigidBody>& rigidBody, long double dt)
+void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long double dt)
 {
 	m_deltaTime += dt;
 	while (m_timeStep < m_deltaTime)
