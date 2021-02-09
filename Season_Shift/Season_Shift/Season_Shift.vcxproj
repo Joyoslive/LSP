@@ -161,6 +161,9 @@
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
+    <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
+    <ClCompile Include="Graphics\DX\DXResource.cpp" />
     <ClCompile Include="Graphics\AssimpLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -199,6 +202,9 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Graphics\DX\DXRenderPass.h" />
+    <ClInclude Include="Graphics\DX\DXPipeline.h" />
+    <ClInclude Include="Graphics\DX\DXResource.h" />
     <ClInclude Include="Graphics\AssimpLoader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />

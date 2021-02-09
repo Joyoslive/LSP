@@ -13,6 +13,12 @@ Material::~Material()
 	
 }
 
+void Material::setBuffers(std::shared_ptr<DXBuffer> vsBuffer, std::shared_ptr<DXBuffer> psBuffer)
+{
+	m_buffers.vsBuffer = vsBuffer;
+	m_buffers.psBuffer = psBuffer;
+}
+
 void Material::bindShader(DXDevice* device)
 {
 	device->bindShader(m_shaders.vs, DXShader::Type::VS);
@@ -25,4 +31,10 @@ void Material::bindTextures(DXDevice* device)
 	device->bindShaderTexture(DXShader::Type::PS, 0, m_textures.diffuse);
 	device->bindShaderTexture(DXShader::Type::PS, 1, m_textures.specular);
 	device->bindShaderTexture(DXShader::Type::PS, 2, m_textures.normal);
+}
+
+void Material::bindBuffers(DXDevice* device)
+{
+	device->bindShaderConstantBuffer(DXShader::Type::VS, 10, m_buffers.vsBuffer);
+	device->bindShaderConstantBuffer(DXShader::Type::PS, 10, m_buffers.psBuffer);
 }

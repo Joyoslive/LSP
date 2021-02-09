@@ -18,10 +18,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	PhysicsEngine pe = PhysicsEngine();
 	// Material
-	auto mat1 = gph.getResourceDevice()->createMaterial(GfxShader::DEFAULT,
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_basecolor.jpg",
-		"Textures/Stylized_01_Bricks/Stylized_01_Bricks_normal.jpg");
 
 	SceneManager sceneManager = SceneManager(&gph);
 	Ref<Scene> scene = sceneManager.getActiveScene();
@@ -89,6 +85,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		debugCamera.rotate();
 		debugCamera.move();
+
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), cam);
 		m_timer.stop();
 	}

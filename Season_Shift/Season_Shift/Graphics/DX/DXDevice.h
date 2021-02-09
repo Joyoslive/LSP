@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include <vector>
 #include <array>
 #include <string>
@@ -10,31 +9,16 @@
 #include "DXShader.h"
 #include <SimpleMath.h>
 
-
-
 #define COMPILED_SHADERS_DIRECTORY "Graphics/CompiledShaders/"
 
-struct PipelineState
-{
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11BlendState> blendState = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState = nullptr;
-	D3D_PRIMITIVE_TOPOLOGY primitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	
-	std::shared_ptr<DXShader> vs = nullptr;	
-	std::shared_ptr<DXShader> hs = nullptr;
-	std::shared_ptr<DXShader> ds = nullptr;
-	std::shared_ptr<DXShader> gs = nullptr;
-	std::shared_ptr<DXShader> ps = nullptr;
-};
 
-struct RenderPass
-{
-	std::shared_ptr<PipelineState> pipeline = nullptr;
-	std::vector<DXTexture> textureOutputs = {};			// RTV
-	std::vector<D3D11_RECT> scissorRects = {};
-	std::vector<DXTexture> textureOutputsUAV = {};		// UAV
-};
+//struct RenderPass
+//{
+//	std::shared_ptr<PipelineState> pipeline = nullptr;
+//	std::vector<DXTexture> textureOutputs = {};			// RTV
+//	std::vector<D3D11_RECT> scissorRects = {};
+//	std::vector<DXTexture> textureOutputsUAV = {};		// UAV
+//};
 
 struct Vertex
 {
@@ -75,7 +59,7 @@ Works as an abstract 'Device' for low-level graphics resource creations AND as a
 class DXDevice
 {
 private:
-	DXCore m_core;
+	std::shared_ptr<DXCore> m_core;
 
 	// Used to bind
 	std::array<ID3D11RenderTargetView*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> m_currTargetBind;
@@ -114,14 +98,12 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
-	/*
-	createPipelineState
-	createRenderPass
-
-	*/
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> createSamplerState(D3D11_SAMPLER_DESC desc);
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> createRasterizerState(D3D11_RASTERIZER_DESC desc);
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> createDepthStencilState(D3D11_DEPTH_STENCIL_DESC desc);
+	Microsoft::WRL::ComPtr<ID3D11BlendState> createBlendState(D3D11_BLEND_DESC desc);
 
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
-	// Bind resource for shader
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
 	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
 	void bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res);
@@ -132,7 +114,7 @@ public:
 	void bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs, std::array<float, 4> blendFac = { 1.0, 1.0, 1.0, 1.0 }, unsigned int sampleMask = 0xffffffff);
 	void bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11RasterizerState>& rss);		
 
-	void bindRenderTargets(const std::array<std::shared_ptr<DXTexture>, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>& targets, const std::shared_ptr<DXTexture>& depthTarget);				// RTV/DSV pair
+	void bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget);				// RTV/DSV pair
 	// UnorderedAccess OM target bind not implemented for now.
 
 	// Assumes single VB/IB pair per Draw or single VB per Draw! (Can be changed later if needed)
@@ -162,9 +144,6 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-	void updateResourcesMapUnmap(ID3D11Resource* resource, void* data, unsigned int dataSize, D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD);
-    void updateSubresource(ID3D11Resource* resource, void* data, unsigned int dstSubresIdx = 0, D3D11_BOX* box = nullptr, unsigned int srcRowPitch = 0, unsigned int srcDepthPitch = 0);
-	
 	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
 
 	UINT getClientWidth();
@@ -172,40 +151,6 @@ public:
 
 
 	/*
-	std::shared_ptr<DXShader>				createShader(id, shaderstage);
-
-	// These two below are most important as they are closely tied to specific game assets (VBs, IBs and Material for mesh) --> May require std::hash string to std::size_t in GfxResourceDevice
-	std::shared_ptr<DXBuffer>				createBuffer(id, desc)
-
-	std::shared_ptr<Buffer> createVertexBuffer(const std::string& name, unsigned int elementSize, unsigned int elementStride, bool dynamic, bool cpuUpdates, bool streamOut, D3D11_SUBRESOURCE_DATA* subres);
-	std::shared_ptr<Buffer> createIndexBuffer(const std::string& name, unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
-	std::shared_ptr<Buffer> createConstantBuffer(const std::string& name, unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
-	std::shared_ptr<Buffer> createStructuredBuffer(const std::string& name, unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
-
-	std::shared_ptr<DXTexture>				createTexture(id, desc);				// Dont forget about mip levels! (e.g Generate Mips)
-
-	ComPtr<ID3D11InputLayout>				createInputLayout(desc);				// We can let this live in PipelineState
-
-	// NO NEED FOR THESE 4 TO BE MADE
-	ComPtr<ID3D11BlendState>				createBlendState(desc);					--> If previous objects has been created with same state -> Previous instance returned by D3D11 instead of duplicate! (remarks on MSDN)
-	ComPtr<ID3D11RasterizerState>			createRasterizerState(desc);			--> Same as above (remarks on MSDN)
-	ComPtr<ID3D11DepthStencilState>			createDepthStencilState(desc);			--> Same as above
-	ComPtr<ID3D11SamplerState>				createSamplerState(desc);				--> Same as above
-	// Duplicate resources given back by D3D11 requires no repository as it simply gives us a reference to an existing resource we have.
-	// We can create above 4 resources without having to worry about duplicate resources.
-
-
-
-	std::shared_ptr<DXPipelineState>		createPipelineState(pipelineStateDesc);
-	DXPipelineStateDesc
-	{
-		il*,		IA					
-		dss*,		OM					Toggle depth/stencil, depth op
-		bs*,		OM					...
-		rs*,		RS					FillMode (Wireframe), Toggle scissors, AA line, MS, 
-		it*,		IA
-		vs*, hs*, ds*, gs*, ps*			IL and IT closely related to VS/GS
-	}
 
 	std::shared_ptr<DXRenderPass>			createRenderPass(renderPassDesc)
 	DXRenderPassDesc
@@ -222,20 +167,6 @@ public:
 
 	/*
 	
-	// Graphics resource upload functions
-	Map/Unmap
-	UpdateSubresource
-
-
-	// Shader binds
-	void bindConstantBuffer(shaderstage, slot, resource)
-	void bindSampler(shaderstage, slot, resource)
-	void bindTexture(shaderstage, slot, type, resource)
-
-
-
-	// Changes for every new geometry to be drawn
-	void bindInputBuffers(vb, ib)
 
 	// Fixed Pipeline Stuff (that changes less often --> these changes are more dependent on technique passes rather than different draw calls)
 	// For example, 'input layout' and 'input topology' may change once we want to use a "line renderer" instead of a traditional "triangle renderer"
