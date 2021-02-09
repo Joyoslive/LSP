@@ -23,7 +23,7 @@ void OrientedBoxCollider::initialize()
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
-bool OrientedBoxCollider::collide(Ref<Collider> collider)
+bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 {
 	if ((int)(collider->getType() & ComponentEnum::SPHERE_COLLIDER) > 0)
 	{
@@ -46,7 +46,7 @@ void OrientedBoxCollider::update()
 
 
 
-BoundingOrientedBox OrientedBoxCollider::getInternalCollider()
+const BoundingOrientedBox& OrientedBoxCollider::getInternalCollider()
 {
 	return m_obb;
 }
