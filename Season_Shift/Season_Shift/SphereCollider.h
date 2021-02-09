@@ -12,11 +12,11 @@ public:
 	SphereCollider(float radius);
 	~SphereCollider();
 
-	bool collide(Ref<Collider> collider) override;
+	bool collide(const Ref<Collider>& collider) override;
 	void update() override;
 	void initialize() override;
 
-	DirectX::BoundingSphere getInternalCollider();
+	const DirectX::BoundingSphere& getInternalCollider();
 
 
 private:
