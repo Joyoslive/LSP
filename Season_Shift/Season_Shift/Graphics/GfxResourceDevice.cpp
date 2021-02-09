@@ -125,7 +125,15 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 		mat.indexStart = subsetInfo.indexStart;
 		mat.vertexCount = subsetInfo.vertexCount;
 		mat.vertexStart = subsetInfo.vertexStart;
-		mat.material = createMaterial(shader, modelDirectory + subsetInfo.diffuseFilePath, modelDirectory + subsetInfo.specularFilePath, modelDirectory + subsetInfo.normalFilePath);
+		if (subsetInfo.diffuseFilePath == "")
+		{
+			std::string defaultDir = "Textures/Default/";
+			mat.material = createMaterial(shader, defaultDir + "diffuse.png", defaultDir + "specular.png", defaultDir + "normal.png");
+		}
+		else
+		{
+			mat.material = createMaterial(shader, modelDirectory + subsetInfo.diffuseFilePath, modelDirectory + subsetInfo.specularFilePath, modelDirectory + subsetInfo.normalFilePath);
+		}
 		materials.push_back(mat);
 	}
 	
