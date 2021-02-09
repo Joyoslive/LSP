@@ -45,6 +45,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Graphics\DX\DXResource.cpp" />
     <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
+    <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Graphics\DX\DXResource.h" />
     <ClInclude Include="Graphics\DX\DXPipeline.h" />
+    <ClInclude Include="Graphics\DX\DXRenderPass.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
