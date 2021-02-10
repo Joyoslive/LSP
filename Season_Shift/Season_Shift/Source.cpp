@@ -34,7 +34,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	
 	//sceneManager.getActiveScene()->start();
 
-	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>();
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/200.0);
 	sceneManager.addObserver(physicsEng);
 
 	// Material
@@ -74,8 +74,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	
 	DebugCamera debugCamera(cam);
 
-	Ref<GameObject> gameObject = sceneManager.getActiveScene()->getGameObject("Model4");
-
 	CameraSwitch camSwitch;
 	camSwitch.Init(&debugCamera, player, cam);
 	MSG msg = { };
@@ -90,7 +88,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 		
 		sceneManager.updateActiveScene();
-		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		physicsEng->simulate(m_timer.dt());
 		Input::getInput().update(m_timer.dt());
 		// Do stuff
