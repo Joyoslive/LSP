@@ -48,6 +48,21 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
+    Vector3 normalA;
+    Vector3 pointA = obb->closestPointOnObb(m_capsule.PointA, normalA);
+
+    Vector3 normalB;
+    Vector3 pointB = obb->closestPointOnObb(m_capsule.PointB, normalB);
+
+    if (normalA == normalB) // capsule can't have collided with two faces
+    {
+        if ((m_capsule.PointA - pointA).Length() < m_capsule.radius || (m_capsule.PointB - pointB).Length() < m_capsule.radius)
+        {
+            return true;
+        }
+    }
+
+
     //obb->closestPointOnObb()
 
     //printa ut obb hörnen så att du ser hur du kan göra 12 trianglar av dem
