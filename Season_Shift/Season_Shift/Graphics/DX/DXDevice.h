@@ -156,9 +156,12 @@ public:
 	DXRenderPassDesc
 	{
 		pipelineState
-		vector<rtvs>*		OM			Output Textures
+
 		vector<viewports>*	OM			Part to draw to in said Output Textures
-		scissors*			RS
+		scissors*			RS			Part to cut
+
+		Output Textures
+		vector<rtvs>*		OM			
 		vector<uavs>*		OM
 	}
 
