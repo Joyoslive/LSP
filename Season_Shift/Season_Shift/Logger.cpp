@@ -32,6 +32,12 @@ Logger& Logger::getLogger()
 
 void Logger::setFile(std::string filepath)
 {
+	if (m_bufferedLogs.size() > 0)
+	{
+		Log destructorLog = {"-- DUMPLOGS CALLED ON FILE SWITCH --"};
+		m_bufferedLogs.emplace(m_bufferedLogs.begin(), destructorLog);
+		dumpLogs();
+	}
 	m_logFile = filepath;
 }
 
