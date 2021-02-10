@@ -25,6 +25,7 @@ void OrientedBoxCollider::initialize()
 
 bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 {
+	update();
 	if ((int)(collider->getType() & ComponentEnum::SPHERE_COLLIDER) > 0)
 	{
 		return internalCollide<SphereCollider>(std::dynamic_pointer_cast<SphereCollider>(collider));
