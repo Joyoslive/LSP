@@ -14,6 +14,7 @@ private:
 private:
 	static Logger instance;
 	std::vector<Log> m_bufferedLogs;
+	std::vector<std::string> m_storedFiles;
 	std::string m_logFile;
 	
 private:

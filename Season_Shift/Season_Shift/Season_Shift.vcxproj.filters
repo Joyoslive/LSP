@@ -49,6 +49,8 @@
     <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
     <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
     <ClCompile Include="CameraSwitch.cpp" />
+    <ClCompile Include="Scenes\Scene1.cpp" />
+    <ClCompile Include="Scenes\Scene2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -92,6 +94,8 @@
     <ClInclude Include="Graphics\DX\DXResource.h" />
     <ClInclude Include="Graphics\DX\DXPipeline.h" />
     <ClInclude Include="Graphics\DX\DXRenderPass.h" />
+    <ClInclude Include="Scenes\Scene1.h" />
+    <ClInclude Include="Scenes\Scene2.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

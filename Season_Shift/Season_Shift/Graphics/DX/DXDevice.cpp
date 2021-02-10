@@ -423,30 +423,56 @@ void DXDevice::bindShaderSampler(DXShader::Type stage, unsigned int slot, const 
 
 void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res)
 {
-	if (!res)
-		return;
-
-	if (!res->getSRV())
-		return;
+	ID3D11ShaderResourceView* nullView[] = { nullptr };
 
 	switch (stage)
 	{
 	case DXShader::Type::VS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->VSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->VSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::HS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->HSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->HSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::DS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->DSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->DSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::GS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->GSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->GSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::PS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->PSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->PSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	case DXShader::Type::CS:
+		if (!res)
+		{
+			m_core->getImmediateContext()->CSSetShaderResources(slot, 1, nullView);
+			return;
+		}
 		m_core->getImmediateContext()->CSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
 		break;
 	default:
