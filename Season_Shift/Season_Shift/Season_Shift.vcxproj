@@ -195,6 +195,8 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="SceneManagerObserver.cpp" />
+    <ClCompile Include="Scenes\Scene1.cpp" />
+    <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -229,6 +231,8 @@
     <ClInclude Include="Graphics\ResourceRepository.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="SceneManagerObserver.h" />
+    <ClInclude Include="Scenes\Scene1.h" />
+    <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />

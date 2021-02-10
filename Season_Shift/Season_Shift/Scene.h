@@ -9,6 +9,7 @@ class Scene : public std::enable_shared_from_this<Scene>
 private:
 	std::vector<Ref<GameObject>> m_sceneGameObjects;
 	std::vector<Ref<Model>> m_sceneModels;
+protected:
 	Graphics* m_graphics;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
@@ -17,7 +18,7 @@ private:
 public:
 	Scene(Graphics *graphics);
 	~Scene();
-	void setUpScene();
+	virtual void setUpScene() = 0;
 	void resetScene();
 	void emptyScene();
 	void start();
