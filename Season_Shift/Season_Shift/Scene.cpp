@@ -91,7 +91,7 @@ void Scene::setUpScene()
 	coll->AddComponent(quadMod1);
 	//coll->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
 	Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
-	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT));
+	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube2.obj", GfxShader::DEFAULT));
 }
 
 void Scene::resetScene()
