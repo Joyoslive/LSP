@@ -11,7 +11,7 @@ public:
 	CameraSwitch();
 	void Init(DebugCamera* dc, Ref<GameObject> go, Ref<Camera> cam);
 	~CameraSwitch();
-	void update();
+	void update(long double dt);
 	Ref<Camera> getCamera() const;
 private:
 	SceneManager* m_sceneManager;

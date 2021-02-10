@@ -14,6 +14,8 @@ private:
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 respawn;
 	bool m_disable;
+	long double m_frameTime;
+	float m_speed;
 public:
 	Player();
 	~Player();
@@ -22,5 +24,5 @@ public:
 	void update() override;
 	void onCollision(Ref<Collider> collider) override;
 	void setRespawn(DirectX::SimpleMath::Vector3 incomingRespawn);
-	
+	void setFrametime(long double dt);
 };

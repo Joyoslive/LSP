@@ -6,7 +6,7 @@ DebugCamera::DebugCamera(std::shared_ptr<Camera> incomingCamera)
 {
 	mousePos = { 0.0f, 0.0f };
 	m_up = { 0.0f, 1.0f, 0.0f, 0.0f };
-	m_speed = 0.05f;
+	m_speed = 35.0f;
 	m_position = incomingCamera->getPosition();
 	m_yaw = 0.0f;
 	m_pitch = 0.0f;
@@ -16,6 +16,7 @@ DebugCamera::DebugCamera(std::shared_ptr<Camera> incomingCamera)
 	m_camera->setPosition(m_position);
 	m_camera->setRotation(m_pitch, m_roll, m_yaw);
 	m_freecamMode = false;
+	m_frameTime = 0.0f;
 }
 
 DebugCamera::~DebugCamera() 
@@ -23,25 +24,25 @@ DebugCamera::~DebugCamera()
 
 }
 
-void DebugCamera::move() 
+void DebugCamera::move(long double m_frameTime)
 {
 	auto forward = m_camera->getForward();
 	auto right = m_camera->getRight();
 	if (Input::getInput().keyBeingPressed(Input::W)) 
 	{
-		m_position += m_speed * forward;
+		m_position += m_speed * m_frameTime *  forward;
 	}
 	if (Input::getInput().keyBeingPressed(Input::S))
 	{
-		m_position -= m_speed * forward;
+		m_position -= m_speed * m_frameTime * forward;
 	}
 	if (Input::getInput().keyBeingPressed(Input::A))
 	{
-		m_position -= m_speed * right;
+		m_position -= m_speed * m_frameTime * right;
 	}
 	if (Input::getInput().keyBeingPressed(Input::D))
 	{
-		m_position += m_speed * right;
+		m_position += m_speed * m_frameTime * right;
 	}
 	if (Input::getInput().keyBeingPressed(Input::R))
 	{
@@ -64,22 +65,22 @@ void DebugCamera::move()
 	}
 	if (Input::getInput().mousePressed(Input::LeftButton))
 	{
-		m_speed += 0.01f;
+		m_speed += 3.0f;
 	}
 	if (Input::getInput().mousePressed(Input::RightButton))
 	{
 		if (m_speed -0.01f > 0.0f) 
 		{
-			m_speed -= 0.01f;
+			m_speed -= 3.0f;
 		}
 	}
 	if (Input::getInput().keyBeingPressed(Input::Shift))
 	{
-		m_position -= m_speed * m_up;
+		m_position -= m_speed * m_frameTime * m_up;
 	}
 	if (Input::getInput().keyBeingPressed(Input::Space))
 	{
-		m_position += m_speed * m_up;
+		m_position += m_speed * m_frameTime * m_up;
 	}
 	m_camera->setPosition(m_position);
 }

@@ -9,6 +9,8 @@ using namespace DirectX::SimpleMath;
 	 m_roll = 0.0f;
 	 respawn = { 0, 0, 0 };
 	 m_disable = false;
+	 m_frameTime = 0.0f;
+	 m_speed = 5000.0f;
  }
 
  Player::~Player()
@@ -39,7 +41,6 @@ using namespace DirectX::SimpleMath;
  {
 	lookAround();
 	detectDeath(-35.0f);
-
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -59,19 +60,19 @@ using namespace DirectX::SimpleMath;
 	{
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
-			velocity += cameraForward * 2;
+			velocity += cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
-			velocity -= cameraForward * 2;
+			velocity -= cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
-			velocity -= cameraRight * 2;
+			velocity -= cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
-			velocity += cameraRight * 2;
+			velocity += cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyPressed(Input::Esc))
 		{
@@ -79,7 +80,7 @@ using namespace DirectX::SimpleMath;
 		}
 		if (Input::getInput().keyPressed(Input::Space))
 		{
-			velocity += Vector3(0, 10, 0);
+			velocity += Vector3(0,  7, 0);
 		}
 		if (Input::getInput().keyPressed(Input::Shift))
 		{
@@ -134,4 +135,9 @@ using namespace DirectX::SimpleMath;
  void Player::setRespawn(Vector3 incomingRespawn)
  {
 	 respawn = incomingRespawn;
+ }
+
+ void Player::setFrametime(long double dt)
+ {
+	 m_frameTime = dt;
  }

@@ -18,7 +18,7 @@ CameraSwitch::~CameraSwitch()
 
 }
 
-void CameraSwitch::update()
+void CameraSwitch::update(long double dt)
 {
 	if (Input::getInput().keyPressed(Input::C))
 	{
@@ -34,7 +34,7 @@ void CameraSwitch::update()
 	if (m_cameraCheck == true)
 	{
 		m_debugCamera->rotate();
-		m_debugCamera->move();
+		m_debugCamera->move(dt);
 	}
 }
 
