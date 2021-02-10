@@ -1,5 +1,6 @@
 #include "CapsuleCollider.h"
 #include "GameObject.h"
+#include "Logger.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -61,11 +62,52 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
             return true;
         }
     }
+    
+
+    //test
+    Matrix obbWorldMatrix = obb->getTransform()->getWorldMatrix();
+    
+    Vector3 inputTest = Vector3(1, 2, 3);
+    Vector3 resultTest1;
+    Vector3 resultTest2;
+
+    Vector3::Transform(inputTest, obbWorldMatrix, resultTest1);
 
 
-    //obb->closestPointOnObb()
+    Vector3 unitX;
+    unitX.x = obb->getTransform()->getWorldMatrix().m[0][0];
+    unitX.y = obb->getTransform()->getWorldMatrix().m[0][1];
+    unitX.z = obb->getTransform()->getWorldMatrix().m[0][2];
+    unitX.Normalize();
 
-    //printa ut obb hörnen så att du ser hur du kan göra 12 trianglar av dem
+    Vector3 unitY;
+    unitY.x = obb->getTransform()->getWorldMatrix().m[1][0];
+    unitY.y = obb->getTransform()->getWorldMatrix().m[1][1];
+    unitY.z = obb->getTransform()->getWorldMatrix().m[1][2];
+    unitY.Normalize();
+
+    Vector3 unitZ;
+    unitZ.x = obb->getTransform()->getWorldMatrix().m[2][0];
+    unitZ.y = obb->getTransform()->getWorldMatrix().m[2][1];
+    unitZ.z = obb->getTransform()->getWorldMatrix().m[2][2];
+    unitZ.Normalize();
+
+
+    resultTest2.x = unitX.Dot(inputTest - obb->getInternalCollider().Center);
+    resultTest2.y = unitY.Dot(inputTest - obb->getInternalCollider().Center);
+    resultTest2.z = unitZ.Dot(inputTest - obb->getInternalCollider().Center);
+
+    
+    std::string test1 = "test1: ";
+    std::string test2 = "test2: ";
+    test1 += std::to_string(resultTest1.x) += ", ";
+    test1 += std::to_string(resultTest1.y) += ", ";
+    test1 += std::to_string(resultTest1.z) += "\n";
+ 
+    test2 += std::to_string(resultTest2.x) += ", ";
+    test2 += std::to_string(resultTest2.y) += ", ";
+    test2 += std::to_string(resultTest2.z) += "\n";
+
 }
 
 
