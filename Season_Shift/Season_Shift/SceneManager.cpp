@@ -24,7 +24,7 @@ void SceneManager::createScenes(Graphics* graphics)
 	Ref<Scene> scene2 = std::make_shared<Scene2>(graphics);
 	addScene(scene);
 	setActiveScene(scene);
-	setActiveScene(scene2);
+	//setActiveScene(scene2);
 }
 
 void SceneManager::setActiveScene(Ref<Scene> newActiveScene)
