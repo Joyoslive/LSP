@@ -24,10 +24,11 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//Init singleton with window handler
 	Input::initInput(win.getHWND());
 
-	PhysicsEngine pe = PhysicsEngine();
 	// Material
 
 	SceneManager sceneManager = SceneManager(&gph);
+
+	sceneManager.changeScene(1);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->getGameObject("player");
