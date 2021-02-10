@@ -29,8 +29,8 @@ void Scene2::setUpScene()
 
 
 	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(1, 1, 1));
-	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "100x1x100Box.obj", GfxShader::DEFAULT));
-	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(100, 2, 100)));
+	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
 
 	Ref<GameObject> go1 = createGameObject("object1", Vector3(0, 0, 20.0f));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));

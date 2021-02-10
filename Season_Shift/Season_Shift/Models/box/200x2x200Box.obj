@@ -1,6 +1,6 @@
 # Blender v2.82 (sub 7) OBJ File: ''
 # www.blender.org
-mtllib 100x1x100Box.mtl
+mtllib 200x2x200Box.mtl
 o Cube
 v -100.000000 1.000000 100.000000
 v -100.000000 -1.000000 100.000000
