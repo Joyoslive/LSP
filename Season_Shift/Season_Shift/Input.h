@@ -36,7 +36,7 @@ public:
 	bool mouseBeingPressed(MouseKeys key);
 	bool mousePressed(MouseKeys key);
 	void lockMouse();
-	void update();
+	void update(long double dt);
 private:
 	static Input instance;
 	float m_mouseY;
@@ -47,6 +47,7 @@ private:
 	DirectX::Mouse::ButtonStateTracker m_mouseButtons;
 	bool m_mouseMode;
 	DirectX::Mouse::State mouse;
+	long double m_frameTime;
 private:
 	Input();
 };

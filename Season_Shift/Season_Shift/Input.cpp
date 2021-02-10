@@ -25,6 +25,7 @@ void Input::initInput(HWND wndHandle)
 	instance.m_mouseX = 0.0f;
 	instance.m_mouseY = 0.0f;
 	instance.mouse = instance.m_mouse->GetState();
+	instance.m_frameTime = 0.0f;
 }
 
 bool Input::keyBeingPressed(Keys key) 
@@ -50,13 +51,13 @@ DirectX::SimpleMath::Vector2 Input::mousePos()
 
 }
 
-void Input::mouseMovement(float &m_pitch, float &m_yaw) 
+void Input::mouseMovement(float &m_pitch, float &m_yaw)
 {
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 
-		m_pitch += m_mouseY *0.0004;
-		m_yaw += m_mouseX*0.0004;
+		m_pitch += m_mouseY * m_frameTime * 0.4;
+		m_yaw += m_mouseX* m_frameTime * 0.4;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
@@ -137,8 +138,9 @@ void Input::lockMouse()
 	}
 }
 
-void Input::update() 
+void Input::update(long double dt) 
 {
+	m_frameTime = dt;
 	auto kb = m_keyboard->GetState();
 	mouse = m_mouse->GetState();
 	m_mouseY = mouse.y;

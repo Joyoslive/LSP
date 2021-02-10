@@ -92,7 +92,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		sceneManager.updateActiveScene();
 		Ref<RigidBody> temp = sceneManager.getActiveScene()->getGameObject("sphere")->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		physicsEng->simulate(m_timer.dt());
-		Input::getInput().update();
+		Input::getInput().update(m_timer.dt());
 		// Do stuff
 		//input->update();
 		camSwitch.update();
