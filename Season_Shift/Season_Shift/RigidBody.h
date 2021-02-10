@@ -22,6 +22,7 @@ private:
 public:
 	RigidBody(float mass = 1);
 	void setMass(float mass);
+	void setGravity(float g);
 	float getMass() const;
 	void addForce(DirectX::SimpleMath::Vector3 force);
 	void setVelocity(const DirectX::SimpleMath::Vector3& velocity);

@@ -21,6 +21,11 @@ void RigidBody::setMass(float mass)
 	assert(m_mass > 0);
 }
 
+void RigidBody::setGravity(float g)
+{
+	m_gravity = g;
+}
+
 float RigidBody::getMass() const
 {
 	return m_mass;
