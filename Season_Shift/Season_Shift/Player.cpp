@@ -8,6 +8,7 @@ using namespace DirectX::SimpleMath;
 	 m_pitch = 0.0f;
 	 m_roll = 0.0f;
 	 respawn = { 0, 0, 0 };
+	 m_disable = false;
  }
 
  Player::~Player()
@@ -26,45 +27,60 @@ using namespace DirectX::SimpleMath;
  void Player::update()
  {
 	lookAround();
-	
+	detectDeath(-35.0f);
+
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
-	detectDeath(-35.0f);
-
-	if (Input::getInput().keyBeingPressed(Input::W))
+	
+	if (Input::getInput().keyPressed(Input::C))
 	{
-		velocity += cameraForward * 2;
+		if (m_disable == false)
+		{
+			m_disable = true;
+		}
+		else
+		{
+			m_disable = false;
+		}
 	}
-	if (Input::getInput().keyBeingPressed(Input::S))
+	if (m_disable == false)
 	{
-		velocity -= cameraForward * 2;
-	}
-	if (Input::getInput().keyBeingPressed(Input::A))
-	{
-		velocity -= cameraRight * 2;
-	}
-	if (Input::getInput().keyBeingPressed(Input::D))
-	{
-		velocity += cameraRight * 2;
-	}
-	if (Input::getInput().keyPressed(Input::Esc))
-	{
-		exit(0);
-	}
-	if (Input::getInput().keyPressed(Input::Space))
-	{
-		velocity += Vector3(0, 10, 0);
-	}
-	if (Input::getInput().keyPressed(Input::Shift))
-	{
-		velocity -= Vector3(0, 50, 0);
-		//m_rb->addForce(Vector3(0, -50, 0));
+		if (Input::getInput().keyBeingPressed(Input::W))
+		{
+			velocity += cameraForward * 2;
+		}
+		if (Input::getInput().keyBeingPressed(Input::S))
+		{
+			velocity -= cameraForward * 2;
+		}
+		if (Input::getInput().keyBeingPressed(Input::A))
+		{
+			velocity -= cameraRight * 2;
+		}
+		if (Input::getInput().keyBeingPressed(Input::D))
+		{
+			velocity += cameraRight * 2;
+		}
+		if (Input::getInput().keyPressed(Input::Esc))
+		{
+			exit(0);
+		}
+		if (Input::getInput().keyPressed(Input::Space))
+		{
+			velocity += Vector3(0, 10, 0);
+		}
+		if (Input::getInput().keyPressed(Input::Shift))
+		{
+			velocity -= Vector3(0, 50, 0);
+			//m_rb->addForce(Vector3(0, -50, 0));
+		}
 	}
 	if (Input::getInput().keyPressed(Input::L))
 	{
 		Input::getInput().lockMouse();
 	}
+	
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;

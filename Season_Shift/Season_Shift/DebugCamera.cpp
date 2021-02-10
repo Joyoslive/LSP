@@ -6,7 +6,7 @@ DebugCamera::DebugCamera(std::shared_ptr<Camera> incomingCamera)
 {
 	mousePos = { 0.0f, 0.0f };
 	m_up = { 0.0f, 1.0f, 0.0f, 0.0f };
-	m_speed = 0.005f;
+	m_speed = 0.05f;
 	m_position = incomingCamera->getPosition();
 	m_yaw = 0.0f;
 	m_pitch = 0.0f;

@@ -13,6 +13,7 @@ private:
 	void lookAround();
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 respawn;
+	bool m_disable;
 public:
 	Player();
 	~Player();
