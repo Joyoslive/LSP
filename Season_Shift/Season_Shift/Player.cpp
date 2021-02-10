@@ -24,6 +24,17 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
  }	
 
+ Vector3 antiMovement(Vector3 velocity)
+ {
+	 if (velocity.Length() > 0.1f)
+	 {
+		 Vector3 velocityNormal = velocity;
+		 velocityNormal.Normalize();
+		 velocity -= velocityNormal * 0.1f * velocity.Length();
+	 }
+	 return velocity;
+ }
+
  void Player::update()
  {
 	lookAround();
@@ -84,13 +95,7 @@ using namespace DirectX::SimpleMath;
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
-	if (velocitySkipY.Length() > 0.1f)
-	{
-		OutputDebugStringA("Hej");
-		Vector3 velocityNormal = velocitySkipY;
-		velocityNormal.Normalize();
-		velocitySkipY -= velocityNormal * 0.1f;
-	}
+	velocitySkipY = antiMovement(velocitySkipY);
 
 	//velocitySkipY = velocity;
 	velocitySkipY.y = 0;
