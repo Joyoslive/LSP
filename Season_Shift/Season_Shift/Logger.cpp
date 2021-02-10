@@ -18,11 +18,7 @@ Logger::Logger()
 Logger::~Logger() 
 {
 	if (m_bufferedLogs.size() > 0)
-	{
-		Log destructorLog = {"-- DUMPLOGS CALLED BY DESTRUCTOR --"};
-		m_bufferedLogs.emplace(m_bufferedLogs.begin(), destructorLog);
 		dumpLogs();
-	}
 }
 
 Logger& Logger::getLogger()
@@ -33,11 +29,8 @@ Logger& Logger::getLogger()
 void Logger::setFile(std::string filepath)
 {
 	if (m_bufferedLogs.size() > 0)
-	{
-		Log destructorLog = {"-- DUMPLOGS CALLED ON FILE SWITCH --"};
-		m_bufferedLogs.emplace(m_bufferedLogs.begin(), destructorLog);
 		dumpLogs();
-	}
+
 	m_logFile = filepath;
 }
 
@@ -72,7 +65,8 @@ void Logger::dumpLogs()
 {
 	if (m_bufferedLogs.size() > 0)
 	{
-		std::ofstream file(m_logFile);
+		bool stored = std::find(m_storedFiles.begin(), m_storedFiles.end(), m_logFile) != m_storedFiles.end();
+		std::ofstream file(m_logFile, stored ? std::ios::app : std::ios::out);
 		if (!file)
 		{
 			debugLog("Error: The file specified for the logger does not exist! \nLogs are dumped to logs.txt");
@@ -89,5 +83,7 @@ void Logger::dumpLogs()
 		}
 		m_bufferedLogs.clear();
 		file.close();
+		if (!stored)
+			m_storedFiles.emplace_back(m_logFile);
 	}
 }
