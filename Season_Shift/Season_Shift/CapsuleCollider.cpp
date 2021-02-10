@@ -44,6 +44,7 @@ void CapsuleCollider::update()
 
 bool CapsuleCollider::collide(const Ref<Collider>& collider)
 {
+    update();
     if (!((int)(collider->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0))    return false;   //only support collision vs obb
 
 
