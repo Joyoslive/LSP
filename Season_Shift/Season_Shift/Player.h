@@ -10,12 +10,19 @@ private:
 	Ref<RigidBody> m_rb;
 	float m_pitch, m_yaw, m_roll;
 
-	void lookAround();
-	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 respawn;
 	bool m_disable;
 	long double m_frameTime;
 	float m_speed;
+	float m_maxSpeed, m_minSpeed;
+
+private:
+	void lookAround();
+	void detectDeath(float death);
+
+	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity);
+	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity, const float& velocityY);
+	const DirectX::SimpleMath::Vector3& checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 public:
 	Player();
 	~Player();

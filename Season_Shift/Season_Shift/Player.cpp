@@ -11,6 +11,8 @@ using namespace DirectX::SimpleMath;
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 5000.0f;
+	 m_maxSpeed = 30.0f;
+	 m_minSpeed = 0.1f;
  }
 
  Player::~Player()
@@ -26,14 +28,33 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
  }	
 
- Vector3 antiMovement(Vector3 velocity)
+ const Vector3& Player::antiMovement(Vector3 velocity)
  {
-	 if (velocity.Length() > 0.1f)
+	 const float antiMoveSize = 0.3f;
+	 if (velocity.Length() > m_minSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * 0.1f * velocity.Length();
+		 velocity -= velocityNormal * antiMoveSize * velocity.Length();
 	 }
+	 return velocity;
+ }
+
+ const Vector3& Player::checkMaxSpeed(Vector3 velocity, const float& velocityY)
+ {
+	 if (velocity.Length() + velocityY > m_maxSpeed)
+	 {
+		 Vector3 velocityNormal = velocity;
+		 velocityNormal.Normalize();
+		 velocity = velocityNormal * m_maxSpeed;
+	 }
+	 return velocity;
+ }
+
+ const Vector3& Player::checkMinSpeed(const Vector3& velocity)
+ {
+	 if (velocity.Length() < m_minSpeed)
+		 return Vector3::Zero;
 	 return velocity;
  }
 
@@ -44,6 +65,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
+	Vector3 moveDirection = Vector3::Zero;
 	
 	if (Input::getInput().keyPressed(Input::C))
 	{
@@ -60,19 +82,23 @@ using namespace DirectX::SimpleMath;
 	{
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
-			velocity += cameraForward *m_frameTime * m_speed;
+			moveDirection += cameraForward;
+			//velocity += cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
-			velocity -= cameraForward *m_frameTime * m_speed;
+			moveDirection -= cameraForward;
+			//velocity -= cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
-			velocity -= cameraRight *m_frameTime * m_speed;
+			moveDirection -= cameraRight;
+			//velocity -= cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
-			velocity += cameraRight *m_frameTime * m_speed;
+			moveDirection += cameraRight;
+			//velocity += cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyPressed(Input::Esc))
 		{
@@ -85,7 +111,6 @@ using namespace DirectX::SimpleMath;
 		if (Input::getInput().keyPressed(Input::Shift))
 		{
 			velocity -= Vector3(0, 50, 0);
-			//m_rb->addForce(Vector3(0, -50, 0));
 		}
 	}
 	if (Input::getInput().keyPressed(Input::L))
@@ -93,19 +118,19 @@ using namespace DirectX::SimpleMath;
 		Input::getInput().lockMouse();
 	}
 	
+	moveDirection.y = 0;
+	moveDirection.Normalize();
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
+	velocitySkipY += moveDirection * m_frameTime * m_speed;
+
 	velocitySkipY = antiMovement(velocitySkipY);
 
-	//velocitySkipY = velocity;
-	velocitySkipY.y = 0;
-	if (velocitySkipY.Length() > 20.0f)
-	{
-		Vector3 velocityNormal = velocitySkipY;
-		velocityNormal.Normalize();
-		velocitySkipY = velocityNormal * 20.0f;
-	}
+	velocitySkipY = checkMaxSpeed(velocitySkipY, std::abs(velocity.y));
+
+	velocitySkipY = checkMinSpeed(velocitySkipY);
+
 	velocitySkipY.y = velocity.y;
 	velocity = velocitySkipY;
 

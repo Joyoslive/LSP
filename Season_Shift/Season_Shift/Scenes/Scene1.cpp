@@ -92,4 +92,5 @@ void Scene1::setUpScene()
 	//coll->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
 	Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT));
+	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(1, 1, 1)));
 }
