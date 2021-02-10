@@ -13,11 +13,12 @@ private:
 	float m_speed;
 	float m_pitch, m_yaw, m_roll;
 	bool m_freecamMode;
+	long double m_frameTime;
 public:
 	DebugCamera(std::shared_ptr<Camera> incomingCamera);
 	~DebugCamera();
 
 
-	void move();
+	void move(long double dt);
 	void rotate();
 };
