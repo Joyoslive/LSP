@@ -23,6 +23,7 @@ void Scene::setUpScene()
 	Ref<Model> model4 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	Ref<Model> model5 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	Ref<Model> model6 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
+	Ref<Model> model7 = m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT);
 
 	createGameObject();
 	createGameObject("GameObject1");
@@ -92,6 +93,11 @@ void Scene::setUpScene()
 	//coll->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
 	Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT));
+
+
+
+	Ref<GameObject> capsule = createGameObject("capsule", Vector3(0, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 90, 0));
+	capsule->AddComponent(model7);
 }
 
 void Scene::resetScene()
