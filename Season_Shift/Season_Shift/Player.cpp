@@ -149,7 +149,15 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
-	
+
+	if (m_ground == false)
+	{
+		m_speed = 50.0f;
+	}
+	else
+	{
+		m_speed = 300.0f;
+	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -157,8 +165,10 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
-	velocitySkipY = antiMovement(velocitySkipY, moveDirection);
-
+	if (m_ground == true)
+	{
+		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
+	}
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 
 	velocitySkipY = checkMinSpeed(velocitySkipY);
