@@ -48,7 +48,6 @@ public:
 	void attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout);
 	void setInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// VS/PS + Input Layout/Topology may vary depending on Draw
 	void attachVS(std::shared_ptr<DXShader> vs);
 	void attachHS(std::shared_ptr<DXShader> hs);
 	void attachDS(std::shared_ptr<DXShader> ds);
