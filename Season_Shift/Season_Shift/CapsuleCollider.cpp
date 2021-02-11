@@ -51,19 +51,19 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
-    Vector3 normalA;
-    Vector3 pointA = obb->closestPointOnObb(m_capsule.PointA, normalA);
+    //Vector3 normalA;
+    //Vector3 pointA = obb->closestPointOnObb(m_capsule.PointA, normalA);
 
-    Vector3 normalB;
-    Vector3 pointB = obb->closestPointOnObb(m_capsule.PointB, normalB);
+    //Vector3 normalB;
+    //Vector3 pointB = obb->closestPointOnObb(m_capsule.PointB, normalB);
 
-    if (normalA == normalB) // capsule can't have collided with two faces
-    {
-        if ((m_capsule.PointA - pointA).Length() < m_capsule.radius || (m_capsule.PointB - pointB).Length() < m_capsule.radius)
-        {
-            return true;   
-        }
-    }
+    //if (normalA == normalB) // capsule can't have collided with two faces
+    //{
+    //    if ((m_capsule.PointA - pointA).Length() < m_capsule.radius || (m_capsule.PointB - pointB).Length() < m_capsule.radius)
+    //    {
+    //        return true;   
+    //    }
+    //}
     
 
 
@@ -139,10 +139,49 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
         planePoint = obb->getInternalCollider().Center + obb->getInternalCollider().Extents.z * planeNormal;
     }
     
+    /*Logger::getLogger().debugLog(std::to_string(planeNormal.x) +
+        ", " + std::to_string(planeNormal.y) +
+        ", " + std::to_string(planeNormal.z) + "\n");*/
+
     DirectX::XMVECTOR closestPlane = DirectX::XMPlaneFromPointNormal(planePoint, planeNormal);
+
+    //find point on plane, OBS! this does not always give "right" result
 
     DirectX::XMVECTOR planeIntersectionPoint = DirectX::XMPlaneIntersectLine(closestPlane, m_capsule.PointA, m_capsule.PointB);
 
+
+
+    //closeset point on plane to obb, OBS! 
+    Vector3 trash;
+    Vector3 closestPoint = obb->closestPointOnObb(planeIntersectionPoint, trash);
+
+
+    //closest point on linesegment to point
+    //från boken Real time collision detection
+    
+    Vector3 ab = m_capsule.PointB - m_capsule.PointA;
+    float t = ab.Dot(closestPoint - m_capsule.PointA) / ab.Dot(ab);
+
+    if (t < 0.0f) t = 0.0f;
+    if (t > 1.0f) t = 1.0f;
+
+    closestPoint = m_capsule.PointA + t * ab;
+
+    Vector3 collisionNormal;
+    Vector3 closestPointOnObb = obb->closestPointOnObb(closestPoint, collisionNormal);
+    if ((closestPoint - closestPointOnObb).Length() <= m_capsule.radius)
+    {
+        m_collisionInfo.m_collisionPoint = closestPointOnObb;
+        m_collisionInfo.m_segmentPoint = closestPoint;
+        m_collisionInfo.m_normal = collisionNormal;
+        m_collisionInfo.m_penetration = m_capsule.radius - (closestPoint - closestPointOnObb).Length();
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
