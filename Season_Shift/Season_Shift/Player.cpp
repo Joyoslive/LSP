@@ -7,12 +7,15 @@ using namespace DirectX::SimpleMath;
 	 m_yaw = DirectX::XM_2PI/2;
 	 m_pitch = 0.0f;
 	 m_roll = 0.0f;
-	 respawn = { 0, 0, 0 };
+	 respawn = { 0, 10, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 5000.0f;
 	 m_maxSpeed = 30.0f;
 	 m_minSpeed = 0.1f;
+	 m_ground = false;
+	 m_doubleJump = true;
+	 m_jetPackFuel = 50.0f;
  }
 
  Player::~Player()
@@ -108,7 +111,25 @@ using namespace DirectX::SimpleMath;
 		}
 		if (Input::getInput().keyPressed(Input::Space))
 		{
-			velocity += Vector3(0,  10, 0);
+			if (m_ground == true) 
+			{
+				velocity += Vector3(0, 10, 0);
+				m_ground = false;
+			}
+			else if(m_doubleJump == true)
+			{
+				velocity += Vector3(0, 6, 0);
+				m_doubleJump = false;
+			}
+
+		}
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
+		{
+			if (m_jetPackFuel > 0.0f)
+			{
+				velocity += Vector3(0, 30 * m_frameTime, 0);
+				m_jetPackFuel -= 50 * m_frameTime;
+			}
 		}
 		if (Input::getInput().keyPressed(Input::Shift))
 		{
@@ -138,10 +159,17 @@ using namespace DirectX::SimpleMath;
 
 	m_rb->setVelocity(velocity);
 	m_playerCamera->update();
+	
  }
 
  void Player::onCollision(Ref<Collider> collider)
  {
+	 if (collider->getGameObject()->getName() == "brickCube") 
+	 {
+		 m_ground = true;
+		 m_doubleJump = true;
+		 m_jetPackFuel = 50.0f;
+	 }
 	
  }
 
