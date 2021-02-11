@@ -17,6 +17,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_color;
 	float m_intensity;
 public:
+	DirectionalLight();
 	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 color, float intensity);
 	~DirectionalLight();
 
