@@ -12,7 +12,7 @@ public:
 	FullscreenQuad(DXDevice* gph);
 	~FullscreenQuad();
 
-	std::shared_ptr<DXBuffer> getVB();
-	std::shared_ptr<DXBuffer> getIB();
+	const std::shared_ptr<DXBuffer>& getVB() const;
+	const std::shared_ptr<DXBuffer>& getIB() const;
 };
 

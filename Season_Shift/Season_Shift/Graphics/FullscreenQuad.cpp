@@ -32,12 +32,12 @@ FullscreenQuad::~FullscreenQuad()
 
 }
 
-std::shared_ptr<DXBuffer> FullscreenQuad::getVB()
+const std::shared_ptr<DXBuffer>& FullscreenQuad::getVB() const
 {
 	return m_vertexBuffer;
 }
 
-std::shared_ptr<DXBuffer> FullscreenQuad::getIB()
+const std::shared_ptr<DXBuffer>& FullscreenQuad::getIB() const
 {
 	return m_indexBuffer;
 }
