@@ -42,8 +42,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	std::shared_ptr<DXTexture> depthTexture = dev->createTexture(depthDesc, nullptr);
 
 	// Setup Pipeline
-	std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> samplers = { {0, sampler} };
-	m_pipeline = std::make_shared<DXPipeline>(nullptr, nullptr, nullptr, samplers);
+	m_pipeline = std::make_shared<DXPipeline>();
+	m_pipeline->attachSampler(DXShader::Type::PS, 0, sampler);
 	m_pipeline->attachInputLayout(il);
 	m_pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	

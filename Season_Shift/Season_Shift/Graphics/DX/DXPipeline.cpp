@@ -1,11 +1,11 @@
 #include "DXPipeline.h"
 
 
-DXPipeline::DXPipeline(Microsoft::WRL::ComPtr<ID3D11BlendState> bs, Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs, Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss, std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> samplers) :
-	m_bs(bs),
-	m_rs(rs),
-	m_dss(dss),
-	m_samplers(samplers),
+DXPipeline::DXPipeline() :
+	m_bs(nullptr),
+	m_rs(nullptr),
+	m_dss(nullptr),
+	m_samplers({}),
 	m_bsBlendFac({ 1.0, 1.0, 1.0, 1.0 }),
 	m_bsSampleMask(0xffffffff),
 	m_dssStencilRef(0),
@@ -35,6 +35,11 @@ void DXPipeline::bindPipeline(DXDevice* dev)
 	dev->bindShader(m_ps, DXShader::Type::PS);
 }
 
+void DXPipeline::attachBlendState(Microsoft::WRL::ComPtr<ID3D11BlendState> bs)
+{
+	m_bs = bs;
+}
+
 void DXPipeline::setBlendFactor(std::array<float, 4> blendFactor)
 {
 	m_bsBlendFac = blendFactor;
@@ -43,6 +48,11 @@ void DXPipeline::setBlendFactor(std::array<float, 4> blendFactor)
 void DXPipeline::setBlendSampleMask(unsigned int sampleMask)
 {
 	m_bsSampleMask = sampleMask;
+}
+
+void DXPipeline::attachRasterizerState(Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs)
+{
+	m_rs = rs;
 }
 
 void DXPipeline::setDepthStencilRef(unsigned int stencilRef)
@@ -65,6 +75,11 @@ void DXPipeline::attachVS(std::shared_ptr<DXShader> vs)
 	m_vs = vs;
 }
 
+void DXPipeline::attachDepthStencilState(Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss)
+{
+	m_dss = dss;
+}
+
 void DXPipeline::attachHS(std::shared_ptr<DXShader> hs)
 {
 	m_hs = hs;
@@ -78,6 +93,11 @@ void DXPipeline::attachDS(std::shared_ptr<DXShader> ds)
 void DXPipeline::attachGS(std::shared_ptr<DXShader> gs)
 {
 	m_gs = gs;
+}
+
+void DXPipeline::attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
+{
+	m_samplers.push_back({ slot, sampler });
 }
 
 void DXPipeline::attachPS(std::shared_ptr<DXShader> ps)
