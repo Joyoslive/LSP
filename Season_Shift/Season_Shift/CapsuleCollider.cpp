@@ -9,6 +9,7 @@ CapsuleCollider::CapsuleCollider(float radius, float totalLength)
 {
     m_length = totalLength - 2 * radius;
     m_capsule.radius = radius;
+    m_componentType = ComponentEnum::CAPSULE_COLLIDER | ComponentEnum::COLLIDER;
 }
 
 CapsuleCollider::~CapsuleCollider()
@@ -60,20 +61,17 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     {
         if ((m_capsule.PointA - pointA).Length() < m_capsule.radius || (m_capsule.PointB - pointB).Length() < m_capsule.radius)
         {
-            return true;
+            return true;   
         }
     }
     
 
-    //test
-    Matrix obbWorldMatrix = obb->getTransform()->getWorldMatrix();
-    
-    Vector3 inputTest = Vector3(1, 2, 3);
-    Vector3 resultTest1;
+
+    //--------------------------------
+
+
+    Vector3 inputTest = Vector3(-1, 0, 0);
     Vector3 resultTest2;
-
-    Vector3::Transform(inputTest, obbWorldMatrix, resultTest1);
-
 
     Vector3 unitX;
     unitX.x = obb->getTransform()->getWorldMatrix().m[0][0];
@@ -97,17 +95,6 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     resultTest2.x = unitX.Dot(inputTest - obb->getInternalCollider().Center);
     resultTest2.y = unitY.Dot(inputTest - obb->getInternalCollider().Center);
     resultTest2.z = unitZ.Dot(inputTest - obb->getInternalCollider().Center);
-
-    
-    std::string test1 = "test1: ";
-    std::string test2 = "test2: ";
-    test1 += std::to_string(resultTest1.x) += ", ";
-    test1 += std::to_string(resultTest1.y) += ", ";
-    test1 += std::to_string(resultTest1.z) += "\n";
- 
-    test2 += std::to_string(resultTest2.x) += ", ";
-    test2 += std::to_string(resultTest2.y) += ", ";
-    test2 += std::to_string(resultTest2.z) += "\n";
 
 }
 

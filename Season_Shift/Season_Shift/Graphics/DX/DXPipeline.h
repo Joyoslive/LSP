@@ -29,19 +29,25 @@ private:
 	std::shared_ptr<DXShader> m_ps;
 
 public:
-	DXPipeline(Microsoft::WRL::ComPtr<ID3D11BlendState> bs, Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs, Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss, std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> samplers);
+	DXPipeline();
 	~DXPipeline() = default;
 
-	void bindPipeline(const std::shared_ptr<DXDevice>& dev);
+	void bindPipeline(DXDevice* dev);
 
+	void attachBlendState(Microsoft::WRL::ComPtr<ID3D11BlendState> bs);
 	void setBlendFactor(std::array<float, 4> blendFactor = { 1.0, 1.0, 1.0, 1.0 });
 	void setBlendSampleMask(unsigned int sampleMask = 0xffffffff);
+	
+	void attachRasterizerState(Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs);
+
+	void attachDepthStencilState(Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss);
 	void setDepthStencilRef(unsigned int stencilRef = 0);
 
-	void attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout);
-	void attachInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler);
 
-	// VS/PS + Input Layout/Topology may vary depending on Draw
+	void attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout);
+	void setInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	void attachVS(std::shared_ptr<DXShader> vs);
 	void attachHS(std::shared_ptr<DXShader> hs);
 	void attachDS(std::shared_ptr<DXShader> ds);
