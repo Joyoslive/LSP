@@ -1,7 +1,7 @@
 #pragma once
 #include "GfxRenderer.h"
 #include "Model.h"
-#include "DX/DXPipeline.h"
+#include "DX/DXRenderPass.h"
 #include "../Camera.h"
 
 /*
