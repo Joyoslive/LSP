@@ -22,6 +22,8 @@ using namespace DirectX::SimpleMath;
 	 m_maxAntiMoveSize = 14.3f * 2;
 	 m_minAntiMoveSize = 6.0f;
 	 m_chargeJump = 0.0f;
+	 m_jumpSpeed = 15.0f;
+	 m_doubleJumpSpeed = 6.0f;
  }
 
  Player::~Player()
@@ -147,14 +149,14 @@ using namespace DirectX::SimpleMath;
 		{
 			if (m_ground == true) 
 			{
-				velocity += Vector3(0, 10, 0);
+				velocity += Vector3(0, m_jumpSpeed, 0);
 				velocity.y += m_chargeJump;
 				m_chargeJump = 0.0f;
 				m_ground = false;
 			}
 			else if(m_doubleJump == true)
 			{
-				velocity.y = 6;
+				velocity.y = m_doubleJumpSpeed;
 				m_doubleJump = false;
 			}
 
@@ -216,7 +218,7 @@ using namespace DirectX::SimpleMath;
 	if (m_ground == false)
 	{
 		if (velocity.y < 0)
-			m_rb->setGravity(30);
+			m_rb->setGravity(40);
 		else
 			m_rb->setGravity(20);
 	}

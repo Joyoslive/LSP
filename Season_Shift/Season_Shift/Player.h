@@ -16,7 +16,7 @@ private:
 	bool m_doubleJump;
 	long double m_frameTime;
 	float m_speed;
-	float m_maxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed;
+	float m_maxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
 	float m_chargeJump;

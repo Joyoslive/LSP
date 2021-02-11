@@ -197,6 +197,7 @@
     <ClCompile Include="SceneManagerObserver.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
+    <ClCompile Include="Scenes\Scene3.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="SceneManagerObserver.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
+    <ClInclude Include="Scenes\Scene3.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
