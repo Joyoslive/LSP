@@ -95,8 +95,18 @@ void DeferredRenderStrategy::setupGeometryPass()
 	std::shared_ptr<DXTexture> gbUV = dev->createTexture(gbDesc, nullptr);			// UV
 	std::shared_ptr<DXTexture> gbDiffuse = dev->createTexture(gbDesc, nullptr);		// Diffuse
 
-	// Create Depth Stencil State
-	D3D11_DEPTH_STENCIL_DESC dssDesc = {};
+	// Create Rasterizer State for Wireframe
+	D3D11_RASTERIZER_DESC rsDesc = {};
+	rsDesc.FillMode = D3D11_FILL_WIREFRAME;
+	rsDesc.CullMode = D3D11_CULL_BACK;
+	ComPtr<ID3D11RasterizerState> wireframeRS = dev->createRasterizerState(rsDesc);
+
+	// Create pipeline (solid render)
+	std::shared_ptr<DXPipeline> solidRenderPipeline = std::make_shared<DXPipeline>();
+	
+
+
+
 
 
 
