@@ -42,10 +42,6 @@ using namespace DirectX::SimpleMath;
 		 antiMoveSize = m_minAntiMoveSize + velocity.Length() * modifier / m_speed;
 	 }
 
-	 /*char msgbuf[1000];
-	 sprintf_s(msgbuf, "My variable is %f\n", antiMoveSize);
-	 OutputDebugStringA(msgbuf);*/
-
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
@@ -70,6 +66,19 @@ using namespace DirectX::SimpleMath;
  {
 	 if (velocity.Length() < m_minSpeed)
 		 return Vector3::Zero;
+	 return velocity;
+ }
+
+ //Checks if you change direction in movement and sets the previous velocity to zero
+ const Vector3& Player::checkDirection(Vector3 velocity, const Vector3& moveDirection)
+ {
+	 Vector3 check = moveDirection * velocity;
+	 if (check.x < 0)
+		 velocity.x = 0;
+	 if (check.y < 0)
+		 velocity.y = 0;
+	 if (check.z < 0)
+		 velocity.z = 0;
 	 return velocity;
  }
 
@@ -134,6 +143,9 @@ using namespace DirectX::SimpleMath;
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
+
+	velocitySkipY = checkDirection(velocitySkipY, moveDirection);
+
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection);
@@ -146,11 +158,12 @@ using namespace DirectX::SimpleMath;
 	velocity = velocitySkipY;
 
 	m_rb->setVelocity(velocity);
-	/*char msgbuf[1000];
-	sprintf_s(msgbuf, "My variable is %f\n", velocity.Length());
-	OutputDebugStringA(msgbuf);*/
 
 	m_playerCamera->update();
+
+	/*char msgbuf[1000];
+	sprintf_s(msgbuf, "My variable is %f, %f, %f\n", check.x, check.y, check.z);
+	OutputDebugStringA(msgbuf);*/
  }
 
  void Player::onCollision(Ref<Collider> collider)
