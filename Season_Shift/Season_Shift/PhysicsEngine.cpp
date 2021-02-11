@@ -90,7 +90,9 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 						}
 						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
 						{
-
+							Vector3 temp = rigidBody->getTransform()->getPosition();
+							capsuleCollideObb(rigidBodyCollider, other);
+							rigidBody->stop();
 						}
 
 					}
@@ -125,5 +127,17 @@ Vector3 PhysicsEngine::sphereCollideObb(const Ref<Collider>& sphere, const Ref<C
 
 
 	sphere->getTransform()->setPosition((position + normal * 1.001f * std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Radius));
+	std::dynamic_pointer_cast<SphereCollider>(sphere)->update();
 	return normal;
+}
+
+Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref<Collider>& obb)
+{
+	auto collisionInfo = std::dynamic_pointer_cast<CapsuleCollider>(capsule)->m_collisionInfo;
+	Vector3 normal = collisionInfo.m_normal;
+	Vector3 position = capsule->getTransform()->getPosition();
+
+	capsule->getTransform()->setPosition(position + normal * collisionInfo.m_penetration * 1.001f);
+	std::dynamic_pointer_cast<CapsuleCollider>(capsule)->update();
+	return collisionInfo.m_normal;
 }
