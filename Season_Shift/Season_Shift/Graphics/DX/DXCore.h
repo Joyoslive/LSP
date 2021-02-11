@@ -49,6 +49,7 @@ public:
 
 	const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& getBackbufferRTV();
 	const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& getBackbufferSRV();
+	const Microsoft::WRL::ComPtr<ID3D11Texture2D>& getBackbufferTexture();
 
 	/*
 	Pointer for ease-of-access when binding viewports
