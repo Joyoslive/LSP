@@ -12,10 +12,11 @@ using namespace DirectX::SimpleMath;
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
-	 m_maxSpeed = 30.0f;
+	 m_maxSpeed = 100.0f;
+	 m_oldMaxSpeed = m_maxSpeed;
 	 m_minSpeed = 0.1f;
-	 m_groundSpeed = 300.0f;
-	 m_flySpeed = 45.0f;
+	 m_groundSpeed = 350.0f;//300.0f;
+	 m_flySpeed = 100.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuel = 50.0f;
@@ -41,11 +42,18 @@ using namespace DirectX::SimpleMath;
 	 m_rb->setGravity(20.0);
  }	
 
- const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection)
+ const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
-	 if (moveDirection != Vector3::Zero)
+	 if (!onGround)
+	 {
+		 if (moveDirection == Vector3::Zero)
+			 antiMoveSize /= 18.f;
+		 else
+			 antiMoveSize /= 13.f;
+	 }
+	 else if (moveDirection != Vector3::Zero)
 	 {
 		 const float modifier = 20;
 		 antiMoveSize = m_minAntiMoveSize + velocity.Length() * modifier / m_speed;
@@ -67,6 +75,7 @@ using namespace DirectX::SimpleMath;
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
 		 velocity = velocityNormal * m_maxSpeed;
+		 //m_maxSpeed += 100.f * m_frameTime;
 	 }
 	 return velocity;
  }
@@ -91,7 +100,7 @@ using namespace DirectX::SimpleMath;
  {
 	 float changeDirectionSize = 2500.0f;
 	 if (!onGround)
-		 changeDirectionSize = 250.0f;
+		 changeDirectionSize = 125.0f;
 
 	 Vector3 check = moveDirection * velocity;
 	 if (check.x < 0)
@@ -197,6 +206,9 @@ using namespace DirectX::SimpleMath;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
+	/*if (moveDirection != Vector3::Zero)
+		m_groundSpeed += 10 * m_frameTime;*/
+
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 
@@ -204,13 +216,20 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
-	if (m_ground == true)
+	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+
+	/*if (m_ground == true)
 	{
 		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
-	}
+	}*/
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 
 	velocitySkipY = checkMinSpeed(velocitySkipY);
+
+	/*m_maxSpeed -= 0.05f * m_frameTime;
+	m_groundSpeed -= 0.05f * m_frameTime;
+	if (m_maxSpeed < m_oldMaxSpeed)
+		m_maxSpeed = m_oldMaxSpeed;*/
 
 	velocitySkipY.y = velocity.y;
 	velocity = velocitySkipY;
@@ -227,8 +246,9 @@ using namespace DirectX::SimpleMath;
 
 	m_playerCamera->update();
 
+	//velocitySkipY.y = 0;
 	/*char msgbuf[1000];
-	sprintf_s(msgbuf, "My variable is %f, %f, %f\n", check.x, check.y, check.z);
+	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
 	OutputDebugStringA(msgbuf);*/
  }
 

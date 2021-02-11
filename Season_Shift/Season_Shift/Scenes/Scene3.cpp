@@ -30,7 +30,7 @@ void Scene3::setUpScene()
 	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
 
-	Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0, 0.0f), Vector3(1.0f / 100.0f, 1, 1.0f / 100.0f));
+	Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0, 0.0f), Vector3(1.0f / 50.0f, 1, 1.0f / 50.0f));
 	cube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	cube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(2, 2, 2)));
+	cube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 2, 4)));
 }

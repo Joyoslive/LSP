@@ -16,7 +16,7 @@ private:
 	bool m_doubleJump;
 	long double m_frameTime;
 	float m_speed;
-	float m_maxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
+	float m_maxSpeed, m_oldMaxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
 	float m_chargeJump;
@@ -24,7 +24,7 @@ private:
 private:
 	void lookAround();
 	void detectDeath(float death);
-	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection);
+	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	const DirectX::SimpleMath::Vector3& checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	const DirectX::SimpleMath::Vector3& checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
