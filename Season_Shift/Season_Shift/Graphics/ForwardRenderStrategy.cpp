@@ -35,7 +35,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	// Create a matrix buffer
 	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
-	m_dirLight = DirectionalLight(Vector3(-1,-0.5,0), Vector3(1,1,1), 1);
+	m_dirLight = DirectionalLight(Vector3(-1,- 0.5, 0), Vector3(0.1, 0.1, 0.1), Vector3(1, 1, 1), 1);
 
 	// Depth target
 	DXTexture::Desc depthDesc;

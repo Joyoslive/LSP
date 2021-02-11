@@ -10,7 +10,8 @@ cbuffer dirLight : register(b0)
 {
     float3 g_dlDirection;
     float g_dlIntensity;
-    float3 g_dlColor;
+    float4 g_dlAmbColor;
+    float4 g_dlDifColor;
 };
 
 
@@ -23,8 +24,8 @@ Texture2D g_norTex : register(t2);
 float4 calculateDirectionalLight(float3 normal, float4 textureColor)
 {
     float intensity = saturate(dot(normal, normalize(-g_dlDirection)));
-    float4 amb = saturate(textureColor * float4(g_dlColor/10, 1));
-    float4 dif = saturate(textureColor * float4(1,1,1,1) * intensity);
+    float4 amb = saturate(textureColor * g_dlAmbColor);
+    float4 dif = saturate(textureColor * g_dlDifColor * intensity);
     //float4 spec
 
     return saturate(amb + dif /*+ spec*/);
