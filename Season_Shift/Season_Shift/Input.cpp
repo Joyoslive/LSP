@@ -43,6 +43,13 @@ bool Input::keyPressed(Keys key)
 	return m_keys.IsKeyPressed(dxkey);
 }
 
+bool Input::keyReleased(Keys key)
+{
+	DirectX::Keyboard::Keys dxkey;
+	dxkey = (DirectX::Keyboard::Keys)key;
+	return m_keys.IsKeyReleased(dxkey);
+}
+
 DirectX::SimpleMath::Vector2 Input::mousePos() 
 {
 	mouse = m_mouse->GetState();

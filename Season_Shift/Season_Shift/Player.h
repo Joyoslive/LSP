@@ -19,6 +19,7 @@ private:
 	float m_maxSpeed, m_minSpeed;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
+	float m_shardJump;
 
 private:
 	void lookAround();

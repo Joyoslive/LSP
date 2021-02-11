@@ -18,6 +18,7 @@ using namespace DirectX::SimpleMath;
 	 m_jetPackFuel = 50.0f;
 	 m_maxAntiMoveSize = 14.3f;
 	 m_minAntiMoveSize = 6.0f;
+	 m_shardJump = 0.0f;
  }
 
  Player::~Player()
@@ -32,7 +33,7 @@ using namespace DirectX::SimpleMath;
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 
-	 m_rb->setGravity(15.0);
+	 m_rb->setGravity(20.0);
  }	
 
  const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection)
@@ -140,6 +141,15 @@ using namespace DirectX::SimpleMath;
 				m_doubleJump = false;
 			}
 
+		}
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == true)
+		{
+			m_shardJump += 10 * m_frameTime;
+		}
+		if (Input::getInput().keyReleased(Input::Space))
+		{
+			velocity.y += m_shardJump;
+			m_shardJump = 0.0f;
 		}
 		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
 		{

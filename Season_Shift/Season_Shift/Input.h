@@ -33,6 +33,7 @@ public:
 	void mouseMovement(float &m_pitch, float &m_yaw);
 	bool keyBeingPressed(Keys key);
 	bool keyPressed(Keys key);
+	bool keyReleased(Keys key);
 	bool mouseBeingPressed(MouseKeys key);
 	bool mousePressed(MouseKeys key);
 	void lockMouse();
