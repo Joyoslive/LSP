@@ -6,9 +6,6 @@
 class ForwardRenderStrategy final : public IRenderStrategy
 {
 private:
-	std::shared_ptr<DXShader> vs, ps;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> il;
-
 	std::shared_ptr<DXBuffer> matrixBuffer;
 
 	std::shared_ptr<DXPipeline> m_pipeline;

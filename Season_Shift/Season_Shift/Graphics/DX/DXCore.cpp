@@ -23,6 +23,9 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	// Create RTV for backbuffer
 	HRCHECK(m_device->CreateRenderTargetView(m_backbufferTexture.Get(), NULL, m_backbufferRTV.GetAddressOf()));
 
+	// Create SRV for backbuffer
+	HRCHECK(m_device->CreateShaderResourceView(m_backbufferTexture.Get(), NULL, m_backbufferSRV.GetAddressOf()));
+
 
 #if _DEBUG
 	HRCHECK(m_device.Get()->QueryInterface<ID3D11Debug>(m_debug.GetAddressOf()));
@@ -51,7 +54,7 @@ void DXCore::createDeviceAndSwapChain()
 	scDesc.SampleDesc.Count = 1;		// No multisamples
 	//scDesc.SampleDesc.Quality = 0;
 
-	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
 	scDesc.BufferCount = 2;		// Front buffer typically included in this value (MSDN)
 
 	scDesc.OutputWindow = m_hwnd;
@@ -111,6 +114,11 @@ const Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& DXCore::getBackbufferRTV()
 const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& DXCore::getBackbufferSRV()
 {
     return m_backbufferSRV;
+}
+
+const Microsoft::WRL::ComPtr<ID3D11Texture2D>& DXCore::getBackbufferTexture()
+{
+	return m_backbufferTexture;
 }
 
 D3D11_VIEWPORT* DXCore::getBackBufferViewport()

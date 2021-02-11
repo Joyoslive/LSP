@@ -10,13 +10,13 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	auto dev = renderer->getDXDevice();
 
 	// Load shaders
-	vs = dev->createShader("DefaultVS.cso", DXShader::Type::VS);
+	std::shared_ptr<DXShader> vs = dev->createShader("DefaultVS.cso", DXShader::Type::VS);
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> ilDesc;
 	ilDesc.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA , 0 });
 	ilDesc.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0 });
 	ilDesc.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0 });
-	il = dev->createInputLayout(ilDesc, vs->getShaderData());
+	ComPtr<ID3D11InputLayout> il = dev->createInputLayout(ilDesc, vs->getShaderData());
 
 	// Create some sampler
 	D3D11_SAMPLER_DESC sDesc = { };
@@ -30,7 +30,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	sDesc.MinLOD = 0;
 	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	ComPtr<ID3D11SamplerState> sampler;
-	HRCHECK(m_renderer->getDXDevice()->getCore()->getDevice()->CreateSamplerState(&sDesc, sampler.GetAddressOf()));
+	sampler = m_renderer->getDXDevice()->createSamplerState(sDesc);
 
 	// Create a matrix buffer
 	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
@@ -48,10 +48,14 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	m_pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
 	// Setup Render Pass
-	std::vector<D3D11_VIEWPORT> vps = { *dev->getCore()->getBackBufferViewport() };
-	std::vector<std::shared_ptr<DXTexture>> targets;	// no backbuffer here
-	m_renderPass = std::make_shared<DXRenderPass>(m_pipeline, targets, depthTexture, vps);
+	std::vector<D3D11_VIEWPORT> vps = { *dev->getBackbufferViewport() };
+	std::vector<std::shared_ptr<DXTexture>> targets = { dev->getBackbuffer() };
 
+	m_renderPass = std::make_shared<DXRenderPass>();
+	m_renderPass->attachPipeline(m_pipeline);
+	m_renderPass->attachOutputTargets(targets);
+	m_renderPass->attachViewports(vps);
+	m_renderPass->attachDepthTarget(depthTexture);
 }
 
 ForwardRenderStrategy::~ForwardRenderStrategy()
@@ -64,12 +68,9 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	dev->clearScreen();
 
 	m_renderPass->bind(dev);
-
-	dev->clearDepthTarget(m_renderPass->getDepthTarget());
-	dev->bindBackBufferAsTarget(m_renderPass->getDepthTarget());
+	m_renderPass->clearAttachedDepthTarget(dev);
 
 	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
-
 	for (auto& mod : models)
 	{
 		for (auto& mat : mod->getSubsetsMaterial())

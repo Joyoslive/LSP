@@ -66,6 +66,8 @@ private:
 	unsigned int m_vOffsetBind;
 
 
+	std::shared_ptr<DXTexture> m_backbufferText;
+
 	/*
 	
 	NOTE TO SELF:
@@ -142,9 +144,12 @@ public:
 
 	// No scissors for now
 
-	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
+	//void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-	const std::shared_ptr<DXCore>& getCore();
+	const std::shared_ptr<DXTexture>& getBackbuffer();
+	D3D11_VIEWPORT* getBackbufferViewport();
+
+	//const std::shared_ptr<DXCore>& getCore();
 
 	UINT getClientWidth();
 	UINT getClientHeight();

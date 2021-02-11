@@ -7,6 +7,14 @@ DXDevice::DXDevice(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	m_currTargetBind({ })
 {
 	m_core = std::make_shared<DXCore>(hwnd, clientWidth, clientHeight);
+
+	DXTexture::Desc dsc = {};
+	dsc.type = DXTexture::Type::TEX2D;
+	m_backbufferText = std::make_shared<DXTexture>(m_core, m_core->getBackbufferTexture(), dsc);
+	m_backbufferText->m_rtv = m_core->getBackbufferRTV();
+	m_backbufferText->m_srv = m_core->getBackbufferSRV();
+
+	int a = 5;
 }
 
 DXDevice::~DXDevice()
@@ -585,6 +593,11 @@ void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float
 
 void DXDevice::clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag, float depth, float stencil)
 {
+	if (depthTarget == nullptr)
+	{
+		return;
+	}
+
 	m_core->getImmediateContext()->ClearDepthStencilView(depthTarget->getDSV().Get(), clearFlag, depth, stencil);
 }
 
@@ -608,23 +621,33 @@ void DXDevice::present()
 	m_core->getSwapChain()->Present(0, 0);
 }
 
-void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget)
+//void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget)
+//{
+//
+//	if (depthTarget != nullptr) 
+//		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), depthTarget->getDSV().Get());
+//	else
+//		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), nullptr);
+//
+//	m_core->getImmediateContext()->RSSetViewports(1, m_core->getBackBufferViewport());
+//
+//
+//}
+
+const std::shared_ptr<DXTexture>& DXDevice::getBackbuffer()
 {
-
-	if (depthTarget != nullptr) 
-		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), depthTarget->getDSV().Get());
-	else
-		m_core->getImmediateContext()->OMSetRenderTargets(1, m_core->getBackbufferRTV().GetAddressOf(), nullptr);
-
-	m_core->getImmediateContext()->RSSetViewports(1, m_core->getBackBufferViewport());
-
-
+	return m_backbufferText;
 }
 
-const std::shared_ptr<DXCore>& DXDevice::getCore()
+D3D11_VIEWPORT* DXDevice::getBackbufferViewport()
 {
-	return m_core;
+	return m_core->getBackBufferViewport();
 }
+
+//const std::shared_ptr<DXCore>& DXDevice::getCore()
+//{
+//	return m_core;
+//}
 
 UINT DXDevice::getClientWidth()
 {

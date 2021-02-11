@@ -1,9 +1,12 @@
 #pragma once
 #include "DXResource.h"
 
+class DXDevice;
+
 class DXTexture : public DXResource
 {
 public:
+	friend DXDevice;
 	enum class Type
 	{
 		TEX1D,

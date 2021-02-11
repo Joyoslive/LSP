@@ -16,16 +16,23 @@ private:
 	std::vector<std::shared_ptr<DXTexture>> m_outputTargetUnorderedAccess;
 
 public:
-	DXRenderPass(std::shared_ptr<DXPipeline> pipeline, std::vector<std::shared_ptr<DXTexture>> outputTargets, std::shared_ptr<DXTexture> depthTarget, std::vector<D3D11_VIEWPORT> viewports);
+	DXRenderPass();
 	~DXRenderPass() = default;
 
+	void attachPipeline(std::shared_ptr<DXPipeline> pipeline);
+	void attachOutputTargets(std::vector<std::shared_ptr<DXTexture>> outputTargets);
+	void attachDepthTarget(std::shared_ptr<DXTexture> depthTarget);
+	void attachViewports(std::vector<D3D11_VIEWPORT> viewports);
+
 	void setScissorRects(const std::vector<D3D11_RECT>& rects);
-	void setUAOutputTarget(const std::vector<std::shared_ptr<DXTexture>>& unorderedAccessTargets);
+	void attachUAOutputTargets(const std::vector<std::shared_ptr<DXTexture>>& unorderedAccessTargets);
+
+	void clearAttachedDepthTarget(DXDevice* dev);
 
 	void bind(DXDevice* dev);
 
-	const std::shared_ptr<DXTexture> getDepthTarget() const;
-	std::shared_ptr<DXPipeline>& getPipeline();
+	//const std::shared_ptr<DXTexture> getDepthTarget() const;
+	//std::shared_ptr<DXPipeline>& getPipeline();
 
 
 };
