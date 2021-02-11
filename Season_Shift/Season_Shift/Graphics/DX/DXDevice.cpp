@@ -267,7 +267,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 			rtvDesc.Texture2D.MipSlice = 0;
 
-			HRCHECK(m_core->getDevice()->CreateRenderTargetView(t.Get(), &rtvDesc, rtv.GetAddressOf());
+			HRCHECK(m_core->getDevice()->CreateRenderTargetView(t.Get(), &rtvDesc, rtv.GetAddressOf()));
 
 			tex->setRTV(rtv);
 		}

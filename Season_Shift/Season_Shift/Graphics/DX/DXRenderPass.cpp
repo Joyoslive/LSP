@@ -18,7 +18,7 @@ void DXRenderPass::attachInputConstantBuffer(unsigned int slot, std::shared_ptr<
 	m_inputConstantBuffers.push_back({ slot, buffer });
 }
 
-void DXRenderPass::attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
+void DXRenderPass::attachSampler(unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
 {
 	m_samplers.push_back({ slot, sampler });
 

@@ -6,8 +6,6 @@ struct VS_OUT
     
 };
 
-
-
 SamplerState g_defSamp : register(s0);
 
 Texture2D g_difTex : register(t0);

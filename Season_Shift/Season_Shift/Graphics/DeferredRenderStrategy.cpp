@@ -31,13 +31,37 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 
 	drawQuad();		--> draw final texture AFTER screen space postprocess!
-
-
-
-
-	
-	
 	*/
+
+	auto dev = m_renderer->getDXDevice();
+	dev->clearScreen();
+
+	m_geometryPassSolid->bind(dev);
+	m_geometryPassSolid->clearAttachedDepthTarget(dev);
+
+	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
+	for (auto& mod : models)
+	{
+		for (auto& mat : mod->getSubsetsMaterial())
+		{
+			mat.material->bindShader(dev);
+			mat.material->bindTextures(dev);
+			mat.material->bindBuffers(dev);
+
+			matrices[0] = mod->getTransform()->getWorldMatrix();
+
+			m_gpMatrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
+
+			//m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
+
+			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
+		}
+	}
+
+	dev->present();
+
+
 }
 
 
@@ -70,11 +94,10 @@ void DeferredRenderStrategy::setupGeometryPass()
 	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sDesc.MinLOD = 0;
 	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	ComPtr<ID3D11SamplerState> sampler;
-	sampler = m_renderer->getDXDevice()->createSamplerState(sDesc);
+	ComPtr<ID3D11SamplerState> minMagLinMipPointSamp = m_renderer->getDXDevice()->createSamplerState(sDesc);
 
 	// Create a matrix buffer
-	std::shared_ptr<DXBuffer> matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
+	m_gpMatrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
 
 	// Create GBuffers
 	DXTexture::Desc gbDesc = { };
@@ -101,22 +124,42 @@ void DeferredRenderStrategy::setupGeometryPass()
 	rsDesc.CullMode = D3D11_CULL_BACK;
 	ComPtr<ID3D11RasterizerState> wireframeRS = dev->createRasterizerState(rsDesc);
 
-	// Create pipeline (solid render)
+	// Create Solid Render Pipeline
 	std::shared_ptr<DXPipeline> solidRenderPipeline = std::make_shared<DXPipeline>();
-	
+	solidRenderPipeline->attachInputLayout(il);
+	solidRenderPipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	// Create Wireframe Render Pipeline
+	std::shared_ptr<DXPipeline> wireframeRenderPipeline = std::make_shared<DXPipeline>();
+	solidRenderPipeline->attachInputLayout(il);
+	wireframeRenderPipeline->attachRasterizerState(wireframeRS);
 
+	// Create normal viewport for render to GBuffer
+	D3D11_VIEWPORT gbVP = {};
+	gbVP.TopLeftX = 0;
+	gbVP.TopLeftY = 0;
+	gbVP.Width = m_clientWidth;
+	gbVP.Height = m_clientWidth;
+	gbVP.MinDepth = 0.0;
+	gbVP.MaxDepth = 0.0;
 
+	// Attach resources to RenderPass (Solid)
+	m_geometryPassSolid = std::make_shared<DXRenderPass>();
+	m_geometryPassSolid->attachPipeline(solidRenderPipeline);
+	m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
+	m_geometryPassSolid->attachSampler(0, minMagLinMipPointSamp);
+	m_geometryPassSolid->attachViewports({ gbVP });
+	m_geometryPassSolid->attachOutputTargets({ gbPosWS, gbNorWS, gbUV, gbDiffuse });
+	m_geometryPassSolid->attachDepthTarget(depthTexture);
 
-
-
-
-
-
-
-
-
-
+	// Attach resources to RenderPass (Wireframe)
+	m_geometryPassSolid = std::make_shared<DXRenderPass>();
+	m_geometryPassSolid->attachPipeline(wireframeRenderPipeline);
+	m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
+	m_geometryPassSolid->attachSampler(0, minMagLinMipPointSamp);
+	m_geometryPassSolid->attachViewports({ gbVP });
+	m_geometryPassSolid->attachOutputTargets({ gbPosWS, gbNorWS, gbUV, gbDiffuse });
+	m_geometryPassSolid->attachDepthTarget(depthTexture);
 }
 
 void DeferredRenderStrategy::setupLightPass()

@@ -4,6 +4,7 @@
 class DeferredRenderStrategy final : public IRenderStrategy
 {
 private:
+	std::shared_ptr<DXBuffer> m_gpMatrixBuffer;
 	std::shared_ptr<DXRenderPass> m_geometryPassSolid;
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
 

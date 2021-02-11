@@ -51,7 +51,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	std::vector<std::shared_ptr<DXTexture>> targets = { dev->getBackbuffer() };
 
 	m_renderPass = std::make_shared<DXRenderPass>();
-	m_renderPass->attachSampler(DXShader::Type::PS, 0, sampler);
+	m_renderPass->attachSampler(0, sampler);
 	m_renderPass->attachPipeline(pipeline);
 	m_renderPass->attachOutputTargets(targets);
 	m_renderPass->attachViewports(vps);

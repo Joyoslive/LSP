@@ -26,7 +26,7 @@ public:
 
 	void attachInputTexture(unsigned int slot, std::shared_ptr<DXTexture> texture);			// SRVs only
 	void attachInputConstantBuffer(unsigned int slot, std::shared_ptr<DXBuffer> buffer);
-	void attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler);
+	void attachSampler(unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler);
 
 	void attachPipeline(std::shared_ptr<DXPipeline> pipeline);
 	void attachOutputTargets(std::vector<std::shared_ptr<DXTexture>> outputTargets);
