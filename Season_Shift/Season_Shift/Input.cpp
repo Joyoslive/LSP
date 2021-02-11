@@ -50,6 +50,31 @@ bool Input::keyReleased(Keys key)
 	return m_keys.IsKeyReleased(dxkey);
 }
 
+bool Input::mouseReleased(MouseKeys key)
+{
+	switch (key)
+	{
+	case Input::LeftButton:
+		if (m_mouseButtons.leftButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	case Input::RightButton:
+		if (m_mouseButtons.rightButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	case Input::MiddleButton:
+		if (m_mouseButtons.middleButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}
+
 DirectX::SimpleMath::Vector2 Input::mousePos() 
 {
 	mouse = m_mouse->GetState();

@@ -18,7 +18,7 @@ using namespace DirectX::SimpleMath;
 	 m_jetPackFuel = 50.0f;
 	 m_maxAntiMoveSize = 14.3f;
 	 m_minAntiMoveSize = 6.0f;
-	 m_shardJump = 0.0f;
+	 m_chargeJump = 0.0f;
  }
 
  Player::~Player()
@@ -133,6 +133,8 @@ using namespace DirectX::SimpleMath;
 			if (m_ground == true) 
 			{
 				velocity += Vector3(0, 10, 0);
+				velocity.y += m_chargeJump;
+				m_chargeJump = 0.0f;
 				m_ground = false;
 			}
 			else if(m_doubleJump == true)
@@ -142,14 +144,12 @@ using namespace DirectX::SimpleMath;
 			}
 
 		}
-		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == true)
+		if (Input::getInput().mouseBeingPressed(Input::LeftButton) && m_ground == true)
 		{
-			m_shardJump += 10 * m_frameTime;
-		}
-		if (Input::getInput().keyReleased(Input::Space))
-		{
-			velocity.y += m_shardJump;
-			m_shardJump = 0.0f;
+			if (m_chargeJump < 50.0f)
+			{
+				m_chargeJump += 10 * m_frameTime;
+			}
 		}
 		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
 		{
