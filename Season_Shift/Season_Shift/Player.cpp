@@ -254,13 +254,12 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
-	 if (collider->getGameObject()->getName() == "brickCube") 
+	 /*if (collider->getGameObject()->getName() == "brickCube") 
 	 {
-		 m_ground = true;
-		 m_doubleJump = true;
-		 m_jetPackFuel = 50.0f;
-	 }
-	
+	 }*/
+	 m_ground = true;
+	 m_doubleJump = true;
+	 m_jetPackFuel = 50.0f;
  }
 
  void Player::lookAround() 

@@ -13,11 +13,6 @@ Scene::~Scene()
 
 }
 
-void Scene::setUpScene()
-{
-	
-}
-
 void Scene::resetScene()
 {
 	emptyScene();
@@ -32,6 +27,7 @@ void Scene::emptyScene()
 		destroyGameObject(m_sceneGameObjects[i]);
 		--i;
 	}
+	m_sceneModels.clear();
 	//m_sceneGameObjects.
 }
 
