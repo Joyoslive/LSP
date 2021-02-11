@@ -12,14 +12,19 @@ private:
 
 	DirectX::SimpleMath::Vector3 respawn;
 	bool m_disable;
+	bool m_ground;
+	bool m_doubleJump;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_minSpeed;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
+	float m_jetPackFuel;
 
 private:
 	void lookAround();
 	void detectDeath(float death);
+	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity);
+	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity, const float& velocityY);
 
 	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection);
 	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);

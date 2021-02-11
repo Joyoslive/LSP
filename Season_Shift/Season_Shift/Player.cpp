@@ -7,12 +7,15 @@ using namespace DirectX::SimpleMath;
 	 m_yaw = DirectX::XM_2PI/2;
 	 m_pitch = 0.0f;
 	 m_roll = 0.0f;
-	 respawn = { 0, 0, 0 };
+	 respawn = { 0, 10, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 30.0f;
 	 m_minSpeed = 0.1f;
+	 m_ground = false;
+	 m_doubleJump = true;
+	 m_jetPackFuel = 50.0f;
 	 m_maxAntiMoveSize = 14.3f;
 	 m_minAntiMoveSize = 6.0f;
  }
@@ -126,7 +129,25 @@ using namespace DirectX::SimpleMath;
 		}
 		if (Input::getInput().keyPressed(Input::Space))
 		{
-			velocity += Vector3(0,  10, 0);
+			if (m_ground == true) 
+			{
+				velocity += Vector3(0, 50, 0);
+				m_ground = false;
+			}
+			else if(m_doubleJump == true)
+			{
+				velocity.y = 6;
+				m_doubleJump = false;
+			}
+
+		}
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
+		{
+			if (m_jetPackFuel > 0.0f)
+			{
+				velocity += Vector3(0, 30 * m_frameTime, 0);
+				m_jetPackFuel -= 50 * m_frameTime;
+			}
 		}
 		if (Input::getInput().keyPressed(Input::Shift))
 		{
@@ -137,7 +158,15 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
-	
+
+	if (m_ground == false)
+	{
+		m_speed = 50.0f;
+	}
+	else
+	{
+		m_speed = 300.0f;
+	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -148,8 +177,10 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
-	velocitySkipY = antiMovement(velocitySkipY, moveDirection);
-
+	if (m_ground == true)
+	{
+		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
+	}
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 
 	velocitySkipY = checkMinSpeed(velocitySkipY);
@@ -168,6 +199,12 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
+	 if (collider->getGameObject()->getName() == "brickCube") 
+	 {
+		 m_ground = true;
+		 m_doubleJump = true;
+		 m_jetPackFuel = 50.0f;
+	 }
 	
  }
 
