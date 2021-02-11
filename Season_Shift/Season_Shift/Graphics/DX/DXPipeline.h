@@ -32,14 +32,14 @@ public:
 	DXPipeline(Microsoft::WRL::ComPtr<ID3D11BlendState> bs, Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs, Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss, std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> samplers);
 	~DXPipeline() = default;
 
-	void bindPipeline(const std::shared_ptr<DXDevice>& dev);
+	void bindPipeline(DXDevice* dev);
 
 	void setBlendFactor(std::array<float, 4> blendFactor = { 1.0, 1.0, 1.0, 1.0 });
 	void setBlendSampleMask(unsigned int sampleMask = 0xffffffff);
 	void setDepthStencilRef(unsigned int stencilRef = 0);
 
 	void attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout);
-	void attachInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void setInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// VS/PS + Input Layout/Topology may vary depending on Draw
 	void attachVS(std::shared_ptr<DXShader> vs);

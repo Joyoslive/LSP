@@ -506,7 +506,7 @@ void DXDevice::bindBlendState(const Microsoft::WRL::ComPtr<ID3D11BlendState>& bs
 {
 	if (bs == nullptr)
 	{
-		m_core->getImmediateContext()->OMSetBlendState(nullptr, nullptr, 0);
+		m_core->getImmediateContext()->OMSetBlendState(nullptr, blendFac.data(), sampleMask);
 		return;
 	}
 
@@ -526,6 +526,13 @@ void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11Rasterizer
 
 void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget)
 {
+	if (targets.size() == 0)
+	{
+		m_core->getImmediateContext()->OMSetRenderTargets(0, { nullptr }, nullptr);
+		return;
+	}
+
+
 	if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
 
 	for (auto& target : targets)
@@ -614,9 +621,9 @@ void DXDevice::bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTar
 
 }
 
-const Microsoft::WRL::ComPtr<ID3D11Device>& DXDevice::getDevice()
+const std::shared_ptr<DXCore>& DXDevice::getCore()
 {
-	return m_core->getDevice();
+	return m_core;
 }
 
 UINT DXDevice::getClientWidth()

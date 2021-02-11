@@ -8,12 +8,13 @@ DXPipeline::DXPipeline(Microsoft::WRL::ComPtr<ID3D11BlendState> bs, Microsoft::W
 	m_samplers(samplers),
 	m_bsBlendFac({ 1.0, 1.0, 1.0, 1.0 }),
 	m_bsSampleMask(0xffffffff),
-	m_dssStencilRef(0)
+	m_dssStencilRef(0),
+	m_inputTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 
 }
 
-void DXPipeline::bindPipeline(const std::shared_ptr<DXDevice>& dev)
+void DXPipeline::bindPipeline(DXDevice* dev)
 {
 	dev->bindInputLayout(m_inputLayout);
 	dev->bindInputTopology(m_inputTopology);
@@ -54,7 +55,7 @@ void DXPipeline::attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inp
 	m_inputLayout = inputLayout;
 }
 
-void DXPipeline::attachInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
+void DXPipeline::setInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
 {
 	m_inputTopology = topology;
 }

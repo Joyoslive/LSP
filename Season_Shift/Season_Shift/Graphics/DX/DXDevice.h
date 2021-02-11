@@ -144,7 +144,7 @@ public:
 
 	void bindBackBufferAsTarget(const std::shared_ptr<DXTexture>& depthTarget = nullptr);
 
-	const Microsoft::WRL::ComPtr<ID3D11Device>& getDevice();
+	const std::shared_ptr<DXCore>& getCore();
 
 	UINT getClientWidth();
 	UINT getClientHeight();

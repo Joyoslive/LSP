@@ -68,7 +68,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	if (velocitySkipY.Length() > 0.1f)
 	{
-		OutputDebugStringA("Hej");
+		//OutputDebugStringA("Hej");
 		Vector3 velocityNormal = velocitySkipY;
 		velocityNormal.Normalize();
 		velocitySkipY -= velocityNormal * 0.1f;
