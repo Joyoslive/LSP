@@ -131,7 +131,7 @@ using namespace DirectX::SimpleMath;
 		{
 			if (m_ground == true) 
 			{
-				velocity += Vector3(0, 50, 0);
+				velocity += Vector3(0, 10, 0);
 				m_ground = false;
 			}
 			else if(m_doubleJump == true)
@@ -161,7 +161,7 @@ using namespace DirectX::SimpleMath;
 
 	if (m_ground == false)
 	{
-		m_speed = 50.0f;
+		m_speed = 30.0f;
 	}
 	else
 	{
