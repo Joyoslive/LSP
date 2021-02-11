@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Logger.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -13,10 +14,12 @@ using namespace DirectX::SimpleMath;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 30.0f;
 	 m_minSpeed = 0.1f;
+	 m_groundSpeed = 300.0f;
+	 m_flySpeed = 45.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuel = 50.0f;
-	 m_maxAntiMoveSize = 14.3f;
+	 m_maxAntiMoveSize = 14.3f * 2;
 	 m_minAntiMoveSize = 6.0f;
  }
 
@@ -72,16 +75,28 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
- //Checks if you change direction in movement and sets the previous velocity to zero
- const Vector3& Player::checkDirection(Vector3 velocity, const Vector3& moveDirection)
+ int signOf(const float& value)
  {
+	 if (value < 0)
+		 return -1;
+	 else
+		 return 1;
+ }
+
+ //Checks if you change direction in movement and sets the previous velocity to zero
+ const Vector3& Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
+ {
+	 float changeDirectionSize = 2500.0f;
+	 if (!onGround)
+		 changeDirectionSize = 250.0f;
+
 	 Vector3 check = moveDirection * velocity;
 	 if (check.x < 0)
-		 velocity.x = 0;
+		 velocity.x -= m_frameTime * changeDirectionSize * signOf(velocity.x) * std::abs(moveDirection.x);
 	 if (check.y < 0)
-		 velocity.y = 0;
+		 velocity.y -= m_frameTime * changeDirectionSize * signOf(velocity.y) * std::abs(moveDirection.y);
 	 if (check.z < 0)
-		 velocity.z = 0;
+		 velocity.z -= m_frameTime * changeDirectionSize * signOf(velocity.z) * std::abs(moveDirection.z);
 	 return velocity;
  }
 
@@ -161,11 +176,11 @@ using namespace DirectX::SimpleMath;
 
 	if (m_ground == false)
 	{
-		m_speed = 30.0f;
+		m_speed = m_flySpeed;
 	}
 	else
 	{
-		m_speed = 300.0f;
+		m_speed = m_groundSpeed;
 	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
@@ -173,7 +188,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 
-	velocitySkipY = checkDirection(velocitySkipY, moveDirection);
+	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
@@ -187,6 +202,14 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY.y = velocity.y;
 	velocity = velocitySkipY;
+
+	if (m_ground == false)
+	{
+		if (velocity.y < 0)
+			m_rb->setGravity(30);
+		else
+			m_rb->setGravity(20);
+	}
 
 	m_rb->setVelocity(velocity);
 

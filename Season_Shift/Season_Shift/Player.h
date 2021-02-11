@@ -16,20 +16,17 @@ private:
 	bool m_doubleJump;
 	long double m_frameTime;
 	float m_speed;
-	float m_maxSpeed, m_minSpeed;
+	float m_maxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
 
 private:
 	void lookAround();
 	void detectDeath(float death);
-	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity);
-	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity, const float& velocityY);
-
 	const DirectX::SimpleMath::Vector3& antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection);
 	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	const DirectX::SimpleMath::Vector3& checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
-	const DirectX::SimpleMath::Vector3& checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection);
+	const DirectX::SimpleMath::Vector3& checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 public:
 	Player();
 	~Player();
