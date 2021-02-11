@@ -16,6 +16,7 @@ Texture2D g_norTex : register(t2);
 
 float4 main(VS_OUT input) : SV_TARGET
 {
+
     float4 finalColor = float4(0.0, 0.0, 0.0, 0.0);
     
 	//return float4(input.uv, 0.0f, 1.0f);
