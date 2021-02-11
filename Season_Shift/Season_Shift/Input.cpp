@@ -56,8 +56,8 @@ void Input::mouseMovement(float &m_pitch, float &m_yaw)
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 
-		m_pitch += m_mouseY * m_frameTime * 0.4;
-		m_yaw += m_mouseX* m_frameTime * 0.4;
+		m_pitch += m_mouseY * m_frameTime * 1.0;
+		m_yaw += m_mouseX* m_frameTime * 1.0;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
