@@ -5,6 +5,13 @@
 
 class DirectionalLight
 {
+public:
+	struct alignas(16) DirLight
+	{
+		DirectX::SimpleMath::Vector3 m_direction;
+		DirectX::SimpleMath::Vector3 m_color;
+		float m_intensity;
+	};
 private:
 	DirectX::SimpleMath::Vector3 m_direction;
 	DirectX::SimpleMath::Vector3 m_color;
