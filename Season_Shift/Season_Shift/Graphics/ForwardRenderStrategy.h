@@ -8,7 +8,6 @@ class ForwardRenderStrategy final : public IRenderStrategy
 private:
 	std::shared_ptr<DXBuffer> matrixBuffer;
 
-	std::shared_ptr<DXPipeline> m_pipeline;
 	std::shared_ptr<DXRenderPass> m_renderPass;
 
 public:

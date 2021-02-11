@@ -42,17 +42,17 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	std::shared_ptr<DXTexture> depthTexture = dev->createTexture(depthDesc, nullptr);
 
 	// Setup Pipeline
-	m_pipeline = std::make_shared<DXPipeline>();
-	m_pipeline->attachSampler(DXShader::Type::PS, 0, sampler);
-	m_pipeline->attachInputLayout(il);
-	m_pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	std::shared_ptr<DXPipeline> pipeline = std::make_shared<DXPipeline>();
+	pipeline->attachSampler(DXShader::Type::PS, 0, sampler);
+	pipeline->attachInputLayout(il);
+	pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
 	// Setup Render Pass
 	std::vector<D3D11_VIEWPORT> vps = { *dev->getBackbufferViewport() };
 	std::vector<std::shared_ptr<DXTexture>> targets = { dev->getBackbuffer() };
 
 	m_renderPass = std::make_shared<DXRenderPass>();
-	m_renderPass->attachPipeline(m_pipeline);
+	m_renderPass->attachPipeline(pipeline);
 	m_renderPass->attachOutputTargets(targets);
 	m_renderPass->attachViewports(vps);
 	m_renderPass->attachDepthTarget(depthTexture);
