@@ -36,6 +36,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	auto dev = m_renderer->getDXDevice();
 	dev->clearScreen();
 
+	m_gbuffers.clear(dev);
 	m_geometryPassSolid->bind(dev);
 	m_geometryPassSolid->clearAttachedDepthTarget(dev);
 
@@ -52,7 +53,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 			m_gpMatrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
 
-			//m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, matrixBuffer);
+			m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_gpMatrixBuffer);
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
@@ -113,10 +114,10 @@ void DeferredRenderStrategy::setupGeometryPass()
 	gbDesc.desc2D.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	gbDesc.desc2D.CPUAccessFlags = 0;
 	gbDesc.desc2D.MiscFlags = 0;
-	std::shared_ptr<DXTexture> gbPosWS = dev->createTexture(gbDesc, nullptr);		// Position
-	std::shared_ptr<DXTexture> gbNorWS = dev->createTexture(gbDesc, nullptr);		// Normal
-	std::shared_ptr<DXTexture> gbUV = dev->createTexture(gbDesc, nullptr);			// UV
-	std::shared_ptr<DXTexture> gbDiffuse = dev->createTexture(gbDesc, nullptr);		// Diffuse
+	m_gbuffers.gbPosWS = dev->createTexture(gbDesc, nullptr);		// Position
+	m_gbuffers.gbNorWS = dev->createTexture(gbDesc, nullptr);		// Normal
+	m_gbuffers.gbUV = dev->createTexture(gbDesc, nullptr);			// UV
+	m_gbuffers.gbDiffuse = dev->createTexture(gbDesc, nullptr);		// Diffuse
 
 	// Create Rasterizer State for Wireframe
 	D3D11_RASTERIZER_DESC rsDesc = {};
@@ -131,7 +132,7 @@ void DeferredRenderStrategy::setupGeometryPass()
 
 	// Create Wireframe Render Pipeline
 	std::shared_ptr<DXPipeline> wireframeRenderPipeline = std::make_shared<DXPipeline>();
-	solidRenderPipeline->attachInputLayout(il);
+	wireframeRenderPipeline->attachInputLayout(il);
 	wireframeRenderPipeline->attachRasterizerState(wireframeRS);
 
 	// Create normal viewport for render to GBuffer
@@ -146,20 +147,20 @@ void DeferredRenderStrategy::setupGeometryPass()
 	// Attach resources to RenderPass (Solid)
 	m_geometryPassSolid = std::make_shared<DXRenderPass>();
 	m_geometryPassSolid->attachPipeline(solidRenderPipeline);
-	m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
+	//m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
 	m_geometryPassSolid->attachSampler(0, minMagLinMipPointSamp);
 	m_geometryPassSolid->attachViewports({ gbVP });
-	m_geometryPassSolid->attachOutputTargets({ gbPosWS, gbNorWS, gbUV, gbDiffuse });
+	m_geometryPassSolid->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_gbuffers.gbDiffuse });
 	m_geometryPassSolid->attachDepthTarget(depthTexture);
 
 	// Attach resources to RenderPass (Wireframe)
-	m_geometryPassSolid = std::make_shared<DXRenderPass>();
-	m_geometryPassSolid->attachPipeline(wireframeRenderPipeline);
-	m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
-	m_geometryPassSolid->attachSampler(0, minMagLinMipPointSamp);
-	m_geometryPassSolid->attachViewports({ gbVP });
-	m_geometryPassSolid->attachOutputTargets({ gbPosWS, gbNorWS, gbUV, gbDiffuse });
-	m_geometryPassSolid->attachDepthTarget(depthTexture);
+	m_geometryPassWireframe = std::make_shared<DXRenderPass>();
+	m_geometryPassWireframe->attachPipeline(wireframeRenderPipeline);
+	//m_geometryPassWireframe->attachInputConstantBuffer(0, m_gpMatrixBuffer);
+	m_geometryPassWireframe->attachSampler(0, minMagLinMipPointSamp);
+	m_geometryPassWireframe->attachViewports({ gbVP });
+	m_geometryPassWireframe->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_gbuffers.gbDiffuse });
+	m_geometryPassWireframe->attachDepthTarget(depthTexture);
 }
 
 void DeferredRenderStrategy::setupLightPass()

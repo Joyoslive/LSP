@@ -247,7 +247,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 
 			tex->setSRV(srv);
 		}
-		else if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+		if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
 		{
 			ComPtr<ID3D11DepthStencilView> dsv;
 			D3D11_DEPTH_STENCIL_VIEW_DESC mtDSV = { };
@@ -259,7 +259,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 
 			tex->setDSV(dsv);
 		}
-		else if (desc.desc2D.BindFlags & D3D11_BIND_RENDER_TARGET)
+		if (desc.desc2D.BindFlags & D3D11_BIND_RENDER_TARGET)
 		{
 			ComPtr<ID3D11RenderTargetView> rtv;
 			D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = { };

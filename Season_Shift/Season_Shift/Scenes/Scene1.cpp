@@ -38,7 +38,7 @@ void Scene1::setUpScene()
 	sphere->AddComponent(std::make_shared<RigidBody>());
 	sphere->AddComponent(model5);
 
-	Ref<GameObject> collider = createGameObject("colliderTest1", Vector3(0, -5.0f, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 0.0, 0));
+	/*Ref<GameObject> collider = createGameObject("colliderTest1", Vector3(0, -5.0f, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 0.0, 0));
 	collider->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(1.0f, 1.0f, 1.0f)));
 	collider->AddComponent(model6);
 	collider->AddComponent(std::make_shared<Test>());
@@ -46,7 +46,7 @@ void Scene1::setUpScene()
 	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
 	go1->AddComponent(model);
-	go1->AddComponent(std::make_shared<Test>());
+	go1->AddComponent(std::make_shared<Test>());*/
 
 	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 90, 0));
 	go2->AddComponent(model2);
