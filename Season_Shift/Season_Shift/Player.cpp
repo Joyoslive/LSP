@@ -10,12 +10,14 @@ using namespace DirectX::SimpleMath;
 	 respawn = { 0, 10, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
-	 m_speed = 5000.0f;
+	 m_speed = 300.0f;
 	 m_maxSpeed = 30.0f;
 	 m_minSpeed = 0.1f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuel = 50.0f;
+	 m_maxAntiMoveSize = 14.3f;
+	 m_minAntiMoveSize = 6.0f;
  }
 
  Player::~Player()
@@ -33,9 +35,20 @@ using namespace DirectX::SimpleMath;
 	 m_rb->setGravity(15.0);
  }	
 
- const Vector3& Player::antiMovement(Vector3 velocity)
+ const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection)
  {
-	 const float antiMoveSize = 14.3f;
+	 //When the player stops moving the antiMovement gets bigger
+	 float antiMoveSize = m_maxAntiMoveSize;
+	 if (moveDirection != Vector3::Zero)
+	 {
+		 const float modifier = 20;
+		 antiMoveSize = m_minAntiMoveSize + velocity.Length() * modifier / m_speed;
+	 }
+
+	 /*char msgbuf[1000];
+	 sprintf_s(msgbuf, "My variable is %f\n", antiMoveSize);
+	 OutputDebugStringA(msgbuf);*/
+
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
@@ -45,9 +58,9 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
- const Vector3& Player::checkMaxSpeed(Vector3 velocity, const float& velocityY)
+ const Vector3& Player::checkMaxSpeed(Vector3 velocity)
  {
-	 if (velocity.Length() + velocityY > m_maxSpeed)
+	 if (velocity.Length() > m_maxSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
@@ -88,22 +101,18 @@ using namespace DirectX::SimpleMath;
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
 			moveDirection += cameraForward;
-			//velocity += cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
 			moveDirection -= cameraForward;
-			//velocity -= cameraForward *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
 			moveDirection -= cameraRight;
-			//velocity -= cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
 			moveDirection += cameraRight;
-			//velocity += cameraRight *m_frameTime * m_speed;
 		}
 		if (Input::getInput().keyPressed(Input::Esc))
 		{
@@ -148,9 +157,9 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
-	velocitySkipY = antiMovement(velocitySkipY);
+	velocitySkipY = antiMovement(velocitySkipY, moveDirection);
 
-	velocitySkipY = checkMaxSpeed(velocitySkipY, std::abs(velocity.y));
+	velocitySkipY = checkMaxSpeed(velocitySkipY);
 
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 
@@ -158,6 +167,10 @@ using namespace DirectX::SimpleMath;
 	velocity = velocitySkipY;
 
 	m_rb->setVelocity(velocity);
+	/*char msgbuf[1000];
+	sprintf_s(msgbuf, "My variable is %f\n", velocity.Length());
+	OutputDebugStringA(msgbuf);*/
+
 	m_playerCamera->update();
 	
  }
