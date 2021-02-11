@@ -26,16 +26,18 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setOffset(0, 3.0f, -0.5);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+
+	 m_rb->setGravity(15.0);
  }	
 
  const Vector3& Player::antiMovement(Vector3 velocity)
  {
-	 const float antiMoveSize = 0.3f;
+	 const float antiMoveSize = 14.3f;
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * antiMoveSize * velocity.Length();
+		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
 	 }
 	 return velocity;
  }
@@ -106,7 +108,7 @@ using namespace DirectX::SimpleMath;
 		}
 		if (Input::getInput().keyPressed(Input::Space))
 		{
-			velocity += Vector3(0,  7, 0);
+			velocity += Vector3(0,  10, 0);
 		}
 		if (Input::getInput().keyPressed(Input::Shift))
 		{
