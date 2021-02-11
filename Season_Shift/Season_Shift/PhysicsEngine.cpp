@@ -74,30 +74,28 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 		
 		rigidBody->getTransform()->setPosition(calcPos(rigidBody));
 
-		Ref<Collider> rigidBodyCollider = rigidBody->getGameObject()->getComponentType<SphereCollider>(Component::ComponentEnum::COLLIDER);
+		Ref<Collider> rigidBodyCollider = rigidBody->getGameObject()->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
 		if (rigidBodyCollider != nullptr)
 		{
 			vector<Ref<Collider>> otherColliders = checkCollide(rigidBodyCollider);
 
-			//sphere vs obb collision
-			if ((rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER) == Component::ComponentEnum::SPHERE_COLLIDER)
-			{
 				for (auto& other : otherColliders)
 				{
-					if ((other->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) == Component::ComponentEnum::ORIENTED_BOX_COLLIDER)
+					if ((int)(other->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0)
 					{
+						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
+						{
+							Vector3 normal = sphereCollideObb(rigidBodyCollider, other);
+							rigidBody->stop();
+						}
+						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
+						{
 
-						Vector3 normal = sphereCollideObb(rigidBodyCollider, other);
-						//DirectX::
-						rigidBody->stop();
+						}
+
 					}
-
-
 				}
-			}
 		}
-		
-
 		m_deltaTime -= m_timeStep;
 	}
 }
