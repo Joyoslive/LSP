@@ -28,7 +28,7 @@ void Scene2::setUpScene()
 	
 
 
-	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, 0.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,90));
+	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, 0.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
 	ground->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	ground->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
 
