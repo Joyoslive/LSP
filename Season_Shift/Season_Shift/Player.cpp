@@ -122,12 +122,12 @@ using namespace DirectX::SimpleMath;
 		{
 			if (m_ground == true) 
 			{
-				velocity += Vector3(0, 10, 0);
+				velocity += Vector3(0, 50, 0);
 				m_ground = false;
 			}
 			else if(m_doubleJump == true)
 			{
-				velocity += Vector3(0, 6, 0);
+				velocity.y = 6;
 				m_doubleJump = false;
 			}
 
