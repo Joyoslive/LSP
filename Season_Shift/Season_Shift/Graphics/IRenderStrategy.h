@@ -15,6 +15,8 @@ class IRenderStrategy
 {
 protected:
 	std::shared_ptr<GfxRenderer> m_renderer;
+	UINT m_clientWidth;
+	UINT m_clientHeight;
 
 public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);

@@ -259,6 +259,18 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 
 			tex->setDSV(dsv);
 		}
+		else if (desc.desc2D.BindFlags & D3D11_BIND_RENDER_TARGET)
+		{
+			ComPtr<ID3D11RenderTargetView> rtv;
+			D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = { };
+			rtvDesc.Format = desc.desc2D.Format;
+			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			rtvDesc.Texture2D.MipSlice = 0;
+
+			HRCHECK(m_core->getDevice()->CreateRenderTargetView(t.Get(), &rtvDesc, rtv.GetAddressOf());
+
+			tex->setRTV(rtv);
+		}
 
 
 	}
