@@ -35,6 +35,7 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(const Ref<Collider>& collider)
 		Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
 		if (other != nullptr)
 		{
+			if (collider.get() == other.get()) continue; //skip if to avoid self collision check
 			if (collider->collide(other))
 			{
 				Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
