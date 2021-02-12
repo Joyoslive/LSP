@@ -260,15 +260,16 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
+	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * 5.0f);
+	m_oldMoveDirection.Normalize();
+
 	if (m_ground)
 		velocitySkipY += moveDirection * m_frameTime * m_speed;
 	else if (moveDirection != Vector3::Zero)
-		velocitySkipY = moveDirection * velocitySkipY.Length();
+		velocitySkipY = m_oldMoveDirection * velocitySkipY.Length();
 
 	if (!m_ground && moveDirection != Vector3::Zero && velocitySkipY.Length() < 10.0f)
-	{
-		velocitySkipY = moveDirection * 30;
-	}
+		velocitySkipY = m_oldMoveDirection * 30;
 
 	//Dash
 	if (Input::getInput().keyPressed(Input::Shift))
