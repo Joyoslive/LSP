@@ -62,6 +62,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
 	m_lightPass->bind(dev);
+	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
+	dev->drawIndexed(6, 0, 0);
 
 	dev->present();
 
@@ -146,9 +148,9 @@ void DeferredRenderStrategy::setupGeometryPass()
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
 	gbVP.Width = m_clientWidth;
-	gbVP.Height = m_clientWidth;
+	gbVP.Height = m_clientHeight;
 	gbVP.MinDepth = 0.0;
-	gbVP.MaxDepth = 0.0;
+	gbVP.MaxDepth = 1.0;
 
 	// Attach resources to RenderPass (Solid)
 	m_geometryPassSolid = std::make_shared<DXRenderPass>();
@@ -182,6 +184,7 @@ void DeferredRenderStrategy::setupLightPass()
 	std::vector<D3D11_INPUT_ELEMENT_DESC> ilDesc;
 	ilDesc.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA , 0});
 	ilDesc.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
+	ilDesc.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
 	auto inputLayout = dev->createInputLayout(ilDesc, vsShader->getShaderData());
 
 	// Create a sampler for the GBuffers
@@ -208,9 +211,9 @@ void DeferredRenderStrategy::setupLightPass()
 	lpVP.TopLeftX = 0;
 	lpVP.TopLeftY = 0;
 	lpVP.Width = m_clientWidth;
-	lpVP.Height = m_clientWidth;
+	lpVP.Height = m_clientHeight;
 	lpVP.MinDepth = 0.0;
-	lpVP.MaxDepth = 0.0;
+	lpVP.MaxDepth = 1.0;
 
 	m_lightPass = std::make_shared<DXRenderPass>();
 	m_lightPass->attachPipeline(lpPipeline);
