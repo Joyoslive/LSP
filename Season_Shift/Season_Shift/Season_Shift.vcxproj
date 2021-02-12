@@ -164,6 +164,7 @@
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
+    <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
     <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
     <ClCompile Include="Graphics\DX\DXResource.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
+    <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="Graphics\DX\DXRenderPass.h" />
     <ClInclude Include="Graphics\DX\DXPipeline.h" />
     <ClInclude Include="Graphics\DX\DXResource.h" />

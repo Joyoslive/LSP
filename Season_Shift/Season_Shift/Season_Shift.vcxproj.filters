@@ -53,6 +53,7 @@
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
+    <ClCompile Include="Graphics\DirectionalLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -100,6 +101,7 @@
     <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
+    <ClInclude Include="Graphics\DirectionalLight.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
