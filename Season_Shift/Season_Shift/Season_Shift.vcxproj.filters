@@ -106,6 +106,8 @@
     <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Input.h" />
+    <FxCompile Include="Graphics\Shaders\SkyboxVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
