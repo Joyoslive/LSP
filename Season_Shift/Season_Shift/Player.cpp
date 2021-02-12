@@ -13,7 +13,7 @@ using namespace DirectX::SimpleMath;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 100.0f;
-	 m_maxSpeedRetardation = 150.0f;
+	 m_maxSpeedRetardation = 100.0f;
 	 m_oldMaxSpeed = m_maxSpeed;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 350.0f;//300.0f;
@@ -119,7 +119,11 @@ using namespace DirectX::SimpleMath;
 
  void Player::update()
  {
-	lookAround();
+	 if (m_disable == false)
+	 {
+		 lookAround();
+	 }
+
 	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
@@ -128,7 +132,7 @@ using namespace DirectX::SimpleMath;
 	
 	Vector3 moveDirection = Vector3::Zero;
 	
-	if (Input::getInput().keyPressed(Input::C))
+	if (Input::getInput().keyPressed(Input::X))
 	{
 		if (m_disable == false)
 		{
@@ -225,7 +229,11 @@ using namespace DirectX::SimpleMath;
 	{
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
-		velocitySkipY += cameraLook * 500.0f;
+		velocitySkipY += cameraLook * 200.0f;
+		if (velocitySkipY.y > 50.0f)
+		{
+			velocitySkipY.y = 50.0f;
+		}
 	}
 
 	velocitySkipY.y += velocity.y;
