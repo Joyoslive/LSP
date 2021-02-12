@@ -87,15 +87,19 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
 						{
 							Vector3 normal = sphereCollideObb(rigidBodyCollider, other);
+							Vector3 velocity = rigidBody->getVelocity();
+							velocity = velocity - (normal.Dot(velocity)) * normal;
 							rigidBody->stop();
+							rigidBody->m_velocity = velocity;
 						}
 						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
 						{
-							Vector3 temp = rigidBody->getTransform()->getPosition();
-							capsuleCollideObb(rigidBodyCollider, other);
+							Vector3 normal = capsuleCollideObb(rigidBodyCollider, other);
+							Vector3 velocity = rigidBody->getVelocity();
+							velocity = velocity - (normal.Dot(velocity)) * normal;
 							rigidBody->stop();
+							rigidBody->m_velocity = velocity;
 						}
-
 					}
 				}
 		}

@@ -18,11 +18,11 @@ Scene2::~Scene2()
 void Scene2::setUpScene()
 {
 	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 0), Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f));
+	player->AddComponent(std::make_shared<CameraComponent>());
+	player->AddComponent(std::make_shared<Player>());
+	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
-	player->AddComponent(std::make_shared<CameraComponent>());
-	player->AddComponent(std::make_shared<RigidBody>());
-	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	

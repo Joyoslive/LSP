@@ -4,7 +4,7 @@
 
 class PhysicsEngine;
 
-class OrientedBoxCollider : public Collider
+class OrientedBoxCollider : public Collider, public std::enable_shared_from_this<OrientedBoxCollider>
 {
 	friend PhysicsEngine;
 private:

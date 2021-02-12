@@ -38,6 +38,10 @@ bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 	{
 		return internalCollide<OrientedBoxCollider>(std::dynamic_pointer_cast<OrientedBoxCollider>(collider));
 	}
+	else if ((int)(collider->getType() & ComponentEnum::CAPSULE_COLLIDER) > 0)
+	{
+		return std::dynamic_pointer_cast<CapsuleCollider>(collider)->collide(std::dynamic_pointer_cast<Collider>(shared_from_this())); //call capsule colliders detection function on self
+	}
 
 
 	return false;

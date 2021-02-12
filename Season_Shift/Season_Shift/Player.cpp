@@ -22,12 +22,12 @@ using namespace DirectX::SimpleMath;
 	 m_doubleJump = true;
 	 m_jetPackFuelMax = 10.0f;
 	 m_jetPackFuel = m_jetPackFuelMax;
-	 m_jetPackSpeed = 30.0f;
+	 m_jetPackSpeed = 67.0f;//60.0f;//30.0f;
 	 m_maxAntiMoveSize = 14.3f * 2;
 	 m_minAntiMoveSize = 6.0f;
 	 m_chargeJump = 0.0f;
-	 m_jumpSpeed = 15.0f;
-	 m_doubleJumpSpeed = 9.0f;
+	 m_jumpSpeed = 26.0f;//15.0f;
+	 m_doubleJumpSpeed = 30.0f;//9.0f;
  }
 
  Player::~Player()
@@ -47,8 +47,17 @@ using namespace DirectX::SimpleMath;
 
  const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
+	 Vector3 velocityNormal = velocity;
+	 Vector3 fakeVelocity = velocity;
+	 if (velocityNormal.y < 0)
+	 {
+		 velocityNormal.y = 0;
+		 fakeVelocity.y = 0;
+	 }
+
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
+
 	 if (!onGround)
 	 {
 		 if (moveDirection == Vector3::Zero)
@@ -64,11 +73,8 @@ using namespace DirectX::SimpleMath;
 
 	 if (velocity.Length() > m_minSpeed)
 	 {
-		 Vector3 velocityNormal = velocity;
-		 if (velocityNormal.y < 0)
-			 velocityNormal.y = 0;
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
+		 velocity -= velocityNormal * antiMoveSize * fakeVelocity.Length() * m_frameTime;
 	 }
 	 return velocity;
  }
@@ -78,6 +84,8 @@ using namespace DirectX::SimpleMath;
 	 if (velocity.Length() > m_maxSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
+		 if (velocityNormal.y < 0)
+			 velocityNormal.y = 0;
 		 velocityNormal.Normalize();
 		 velocity -= velocityNormal * m_maxSpeedRetardation * m_frameTime;
 		 //m_maxSpeed += 100.f * m_frameTime;
@@ -165,6 +173,16 @@ using namespace DirectX::SimpleMath;
 		{
 			exit(0);
 		}
+
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false)
+		{
+			if (m_jetPackFuel > 0.0f)
+			{
+				velocity.y += m_jetPackSpeed * m_frameTime;
+				m_jetPackFuel -= 50 * m_frameTime;
+			}
+		}
+
 		if (Input::getInput().keyPressed(Input::Space))
 		{
 			if (m_ground == true) 
@@ -186,14 +204,6 @@ using namespace DirectX::SimpleMath;
 			if (m_chargeJump < 50.0f)
 			{
 				m_chargeJump += 10 * m_frameTime;
-			}
-		}
-		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false )
-		{
-			if (m_jetPackFuel > 0.0f)
-			{
-				velocity.y += m_jetPackSpeed * m_frameTime;
-				m_jetPackFuel -= 50 * m_frameTime;
 			}
 		}
 		if (Input::getInput().keyReleased(Input::Space) && m_doubleJump)
