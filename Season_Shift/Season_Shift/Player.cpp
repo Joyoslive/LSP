@@ -19,7 +19,8 @@ using namespace DirectX::SimpleMath;
 	 m_flySpeed = 100.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
-	 m_jetPackFuel = 50.0f;
+	 m_jetPackFuelMax = 30.0f;
+	 m_jetPackFuel = m_jetPackFuelMax;
 	 m_maxAntiMoveSize = 14.3f * 2;
 	 m_minAntiMoveSize = 6.0f;
 	 m_chargeJump = 0.0f;
@@ -119,6 +120,8 @@ using namespace DirectX::SimpleMath;
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
+	Vector3 cameraLook = m_playerCamera->getLookDirection();
+	
 	Vector3 moveDirection = Vector3::Zero;
 	
 	if (Input::getInput().keyPressed(Input::C))
@@ -177,7 +180,7 @@ using namespace DirectX::SimpleMath;
 				m_chargeJump += 10 * m_frameTime;
 			}
 		}
-		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false )
 		{
 			if (m_jetPackFuel > 0.0f)
 			{
@@ -185,10 +188,7 @@ using namespace DirectX::SimpleMath;
 				m_jetPackFuel -= 50 * m_frameTime;
 			}
 		}
-		if (Input::getInput().keyPressed(Input::Shift))
-		{
-			velocity -= Vector3(0, 50, 0);
-		}
+
 	}
 	if (Input::getInput().keyPressed(Input::L))
 	{
@@ -215,23 +215,33 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
-
-	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-
+	if (Input::getInput().keyPressed(Input::Shift))
+	{
+		velocitySkipY = { 0, 0, 0 };
+		cameraLook.Normalize();
+		velocitySkipY += cameraLook * 80.0f;
+	}
+	else
+	{
+		velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+		velocitySkipY = checkMaxSpeed(velocitySkipY);
+		velocitySkipY = checkMinSpeed(velocitySkipY);
+		velocitySkipY.y = velocity.y;
+	}
 	/*if (m_ground == true)
 	{
 		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
 	}*/
-	velocitySkipY = checkMaxSpeed(velocitySkipY);
+	
 
-	velocitySkipY = checkMinSpeed(velocitySkipY);
+	
 
 	/*m_maxSpeed -= 0.05f * m_frameTime;
 	m_groundSpeed -= 0.05f * m_frameTime;
 	if (m_maxSpeed < m_oldMaxSpeed)
 		m_maxSpeed = m_oldMaxSpeed;*/
 
-	velocitySkipY.y = velocity.y;
+	
 	velocity = velocitySkipY;
 
 	if (m_ground == false)
@@ -259,7 +269,7 @@ using namespace DirectX::SimpleMath;
 	 }*/
 	 m_ground = true;
 	 m_doubleJump = true;
-	 m_jetPackFuel = 50.0f;
+	 m_jetPackFuel = m_jetPackFuelMax;
  }
 
  void Player::lookAround() 
