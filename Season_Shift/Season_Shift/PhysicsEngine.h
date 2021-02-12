@@ -23,6 +23,8 @@ private:
 private:
 	DirectX::SimpleMath::Vector3 calcPos(const Ref<RigidBody>& rigidBody);
 	std::vector<Ref<Collider>> checkCollide(const Ref<Collider>& collider);
+
+	void collisionResponse(const Ref<RigidBody>& rigidBody, const Ref<Collider>& rigidBodyCollider, const Ref<Collider>& obb);
 	DirectX::SimpleMath::Vector3 sphereCollideObb(const Ref<Collider>& sphere, const Ref<Collider>& obb);
 	DirectX::SimpleMath::Vector3 capsuleCollideObb(const Ref<Collider>& capsule, const Ref<Collider>& obb);
 
