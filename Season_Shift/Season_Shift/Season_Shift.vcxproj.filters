@@ -52,6 +52,7 @@
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
+    <ClInclude Include="Graphics\Skybox.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

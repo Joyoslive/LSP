@@ -4,7 +4,8 @@ using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
-	IRenderStrategy(renderer)
+	IRenderStrategy(renderer),
+	m_skybox(m_renderer)
 {
 	setupGeometryPass();
 	setupLightPass();
@@ -59,8 +60,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	}
 
 	dev->present();
-
-
 }
 
 void DeferredRenderStrategy::setupGeometryPass()

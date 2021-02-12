@@ -1,5 +1,6 @@
 #pragma once
 #include "IRenderStrategy.h"
+#include "Skybox.h"
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -26,6 +27,8 @@ private:
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
+
+	Skybox m_skybox;
 
 	void setupGeometryPass();
 	void setupLightPass();
