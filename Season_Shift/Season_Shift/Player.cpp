@@ -234,13 +234,10 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = velocity.y;
 	velocity = velocitySkipY;
 
-	if (m_ground == false)
-	{
-		if (velocity.y < 0)
-			m_rb->setGravity(40);
-		else
-			m_rb->setGravity(20);
-	}
+	if (velocity.y < 1)
+		m_rb->setGravity(45);
+	else
+		m_rb->setGravity(20);
 
 	m_rb->setVelocity(velocity);
 
