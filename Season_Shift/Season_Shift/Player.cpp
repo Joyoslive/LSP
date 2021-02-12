@@ -67,8 +67,9 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else if (moveDirection != Vector3::Zero)
 	 {
-		 const float modifier = 20;
-		 antiMoveSize = m_minAntiMoveSize + velocity.Length() * modifier / m_speed;
+		 const float modifier = 20.0f / 300.0f;
+		 antiMoveSize = m_minAntiMoveSize + fakeVelocity.Length() * modifier;
+		 //antiMoveSize = 0;
 	 }
 
 	 if (velocity.Length() > m_minSpeed)
@@ -183,8 +184,7 @@ using namespace DirectX::SimpleMath;
 		{
 			if (m_ground == true) 
 			{
-				velocity += Vector3(0, m_jumpSpeed, 0);
-				velocity.y += m_chargeJump;
+				velocity.y += m_jumpSpeed + m_chargeJump;
 				m_chargeJump = 0.0f;
 				m_ground = false;
 			}
@@ -235,7 +235,17 @@ using namespace DirectX::SimpleMath;
 	{
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
-		velocitySkipY += cameraLook * 500.0f;
+		velocitySkipY += cameraLook * 300.0f;
+		m_ground = false;
+	}
+
+	if (m_addSpeed)
+	{
+		Vector3 velocityNormalize = velocitySkipY;
+		velocityNormalize.y = 0;
+		velocityNormalize.Normalize();
+		//velocitySkipY += 100 * velocityNormalize;
+		m_addSpeed = false;
 	}
 
 	velocitySkipY.y += velocity.y;
@@ -265,6 +275,11 @@ using namespace DirectX::SimpleMath;
 	 /*if (collider->getGameObject()->getName() == "brickCube") 
 	 {
 	 }*/
+	 if (!m_ground)
+	 {
+		 m_addSpeed = true;
+	 }
+
 	 m_ground = true;
 	 m_doubleJump = true;
 	 m_jetPackFuel = m_jetPackFuelMax;

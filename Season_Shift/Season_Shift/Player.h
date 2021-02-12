@@ -14,6 +14,7 @@ private:
 	bool m_disable;
 	bool m_ground;
 	bool m_doubleJump;
+	bool m_addSpeed;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_oldMaxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
