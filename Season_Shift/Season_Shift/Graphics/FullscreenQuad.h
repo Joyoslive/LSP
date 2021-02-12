@@ -9,7 +9,8 @@ private:
 	std::shared_ptr<DXBuffer> m_indexBuffer;
 	std::shared_ptr<Mesh> m_mesh;
 public:
-	FullscreenQuad(DXDevice* gph);
+	FullscreenQuad() = default;
+	FullscreenQuad(DXDevice* dev);
 	~FullscreenQuad();
 
 	const std::shared_ptr<DXBuffer>& getVB() const;

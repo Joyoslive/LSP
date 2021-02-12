@@ -2,7 +2,7 @@
 
 using namespace DirectX::SimpleMath;
 
-FullscreenQuad::FullscreenQuad(DXDevice* device)
+FullscreenQuad::FullscreenQuad(DXDevice* dev)
 {
 	std::vector<Vertex> vertices;
 	vertices.push_back({Vector3(-1, 1, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0)});
@@ -21,8 +21,8 @@ FullscreenQuad::FullscreenQuad(DXDevice* device)
 	D3D11_SUBRESOURCE_DATA indexData = {};
 	indexData.pSysMem = indices.data();
 
-	m_vertexBuffer = device->createVertexBuffer(vertices.size(), sizeof(Vertex), false, false, false, &vertexData);
-	m_indexBuffer = device->createIndexBuffer(indices.size() * sizeof(uint32_t), false, &indexData);
+	m_vertexBuffer = dev->createVertexBuffer(vertices.size(), sizeof(Vertex), false, false, false, &vertexData);
+	m_indexBuffer = dev->createIndexBuffer(indices.size() * sizeof(uint32_t), false, &indexData);
 	
 	m_mesh = std::make_shared<Mesh>(m_vertexBuffer, m_indexBuffer);
 }
