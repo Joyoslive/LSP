@@ -13,7 +13,7 @@ using namespace DirectX::SimpleMath;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 100.0f;
-	 m_maxSpeedRetardation = 5.0f;
+	 m_maxSpeedRetardation = 150.0f;
 	 m_oldMaxSpeed = m_maxSpeed;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 350.0f;//300.0f;
@@ -65,6 +65,8 @@ using namespace DirectX::SimpleMath;
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
+		 if (velocityNormal.y < 0)
+			 velocityNormal.y = 0;
 		 velocityNormal.Normalize();
 		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
 	 }
@@ -77,7 +79,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * m_maxSpeed*m_frameTime;
+		 velocity -= velocityNormal * m_maxSpeedRetardation * m_frameTime;
 		 //m_maxSpeed += 100.f * m_frameTime;
 	 }
 	 return velocity;
@@ -218,23 +220,19 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
+	//Dash
 	if (Input::getInput().keyPressed(Input::Shift))
 	{
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
 		velocitySkipY += cameraLook * 500.0f;
-		if (velocitySkipY.y > 50.0f)
-		{
-			velocitySkipY.y = 50.0f;
-		}
 	}
 
-	velocitySkipY.y = velocity.y;
+	velocitySkipY.y += velocity.y;
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 
-	
 	velocity = velocitySkipY;
 
 	if (velocity.y < 1)
@@ -247,9 +245,9 @@ using namespace DirectX::SimpleMath;
 	m_playerCamera->update();
 
 	//velocitySkipY.y = 0;
-	/*char msgbuf[1000];
+	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	OutputDebugStringA(msgbuf);*/
+	OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
