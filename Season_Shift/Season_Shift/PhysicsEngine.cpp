@@ -64,6 +64,11 @@ void PhysicsEngine::simulate(long double dt)
 		{
 			internalSimulate(rg, dt);
 		}
+		else if (go->getComponentType<Logic>(Component::ComponentEnum::LOGIC) != nullptr && go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER) != nullptr)
+		{
+			//check collision for non rigidbody gameobjects that have a logic component needing collision
+			checkCollide(go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER));
+		}
 	}
 }
 
