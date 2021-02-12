@@ -106,6 +106,8 @@
     <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Input.h" />
+    <FxCompile Include="Graphics\Shaders\LightPassPS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "IRenderStrategy.h"
+#include "FullscreenQuad.h"
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -26,6 +27,7 @@ private:
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
+	FullscreenQuad m_fsQuad;
 
 	void setupGeometryPass();
 	void setupLightPass();
