@@ -17,9 +17,11 @@ private:
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_oldMaxSpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
+	float m_maxSpeedRetardation;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
 	float m_jetPackFuelMax;
+	float m_jetPackSpeed;
 	float m_chargeJump;
 
 private:

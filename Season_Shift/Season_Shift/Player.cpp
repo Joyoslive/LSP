@@ -13,19 +13,21 @@ using namespace DirectX::SimpleMath;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 100.0f;
+	 m_maxSpeedRetardation = 5.0f;
 	 m_oldMaxSpeed = m_maxSpeed;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 350.0f;//300.0f;
 	 m_flySpeed = 100.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
-	 m_jetPackFuelMax = 30.0f;
+	 m_jetPackFuelMax = 10.0f;
 	 m_jetPackFuel = m_jetPackFuelMax;
+	 m_jetPackSpeed = 30.0f;
 	 m_maxAntiMoveSize = 14.3f * 2;
 	 m_minAntiMoveSize = 6.0f;
 	 m_chargeJump = 0.0f;
 	 m_jumpSpeed = 15.0f;
-	 m_doubleJumpSpeed = 6.0f;
+	 m_doubleJumpSpeed = 9.0f;
  }
 
  Player::~Player()
@@ -75,7 +77,8 @@ using namespace DirectX::SimpleMath;
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity = velocityNormal * m_maxSpeed;
+		 //velocity = velocityNormal * m_maxSpeed;
+		 velocity -= velocityNormal * 5.0f;
 		 //m_maxSpeed += 100.f * m_frameTime;
 	 }
 	 return velocity;
@@ -184,9 +187,13 @@ using namespace DirectX::SimpleMath;
 		{
 			if (m_jetPackFuel > 0.0f)
 			{
-				velocity += Vector3(0, 30 * m_frameTime, 0);
+				velocity.y += m_jetPackSpeed * m_frameTime;
 				m_jetPackFuel -= 50 * m_frameTime;
 			}
+		}
+		if (Input::getInput().keyReleased(Input::Space) && m_doubleJump)
+		{
+			m_jetPackFuel = 0;
 		}
 
 	}
@@ -205,9 +212,6 @@ using namespace DirectX::SimpleMath;
 	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
-
-	/*if (moveDirection != Vector3::Zero)
-		m_groundSpeed += 10 * m_frameTime;*/
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -228,18 +232,6 @@ using namespace DirectX::SimpleMath;
 		velocitySkipY = checkMinSpeed(velocitySkipY);
 		velocitySkipY.y = velocity.y;
 	}
-	/*if (m_ground == true)
-	{
-		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
-	}*/
-	
-
-	
-
-	/*m_maxSpeed -= 0.05f * m_frameTime;
-	m_groundSpeed -= 0.05f * m_frameTime;
-	if (m_maxSpeed < m_oldMaxSpeed)
-		m_maxSpeed = m_oldMaxSpeed;*/
 
 	
 	velocity = velocitySkipY;
@@ -247,7 +239,7 @@ using namespace DirectX::SimpleMath;
 	if (velocity.y < 1)
 		m_rb->setGravity(45);
 	else
-		m_rb->setGravity(20);
+		m_rb->setGravity(35);
 
 	m_rb->setVelocity(velocity);
 

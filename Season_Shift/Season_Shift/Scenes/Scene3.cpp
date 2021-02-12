@@ -26,11 +26,19 @@ void Scene3::setUpScene()
 	
 
 
-	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(1, 1, 1));
+	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(2, 1, 2));
 	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
+	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(400, 2, 400)));
 
-	Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0, 0.0f), Vector3(1.0f / 50.0f, 1, 1.0f / 50.0f));
+	Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0f, 0.0f), Vector3(1.0f / 25.0f, 1, 1.0f / 25.0f));
 	cube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	cube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 2, 4)));
+	cube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(8, 2, 8)));
+
+	Ref<GameObject> cube2 = createGameObject("brickCube", Vector3(30.0f, 10.0f, 0.0f), Vector3(1.0f / 25.0f, 1, 1.0f / 25.0f));
+	cube2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	cube2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(8, 2, 8)));
+
+	Ref<GameObject> cube3 = createGameObject("brickCube", Vector3(80.0f, 15.0f, 0.0f), Vector3(1.0f / 25.0f, 1, 1.0f / 25.0f));
+	cube3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	cube3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(8, 2, 8)));
 }
