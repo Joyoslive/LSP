@@ -2,10 +2,8 @@
 #include "OrientedBoxCollider.h"
 #include "GameObject.h"
 
-
 SphereCollider::SphereCollider(float radius)
 {
-	
 	m_sphere.Radius = radius;
 	m_componentType = ComponentEnum::SPHERE_COLLIDER | ComponentEnum::COLLIDER;
 }
@@ -36,7 +34,6 @@ bool SphereCollider::collide(const Ref<Collider>& collider)
 		return internalCollide<OrientedBoxCollider>(std::dynamic_pointer_cast<OrientedBoxCollider>(collider));
 	}
 
-
 	return 0;
 }
 
@@ -45,9 +42,7 @@ void SphereCollider::update()
 	m_sphere.Center = m_transform->getPosition();
 }
 
-
-
-const DirectX::BoundingSphere& SphereCollider::getInternalCollider()
+const DirectX::BoundingSphere& SphereCollider::getInternalCollider() const
 {
 	return m_sphere;
 }
