@@ -1,6 +1,5 @@
 #pragma once
 #include "Model.h"
-#include "Graphics.h"
 
 class FullscreenQuad
 {
