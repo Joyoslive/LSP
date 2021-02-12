@@ -10,7 +10,6 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupLightPass();
 	setupPostProcessPass();
 
-
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
@@ -28,7 +27,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_postprocPass->bind();
 	bindFinalLitTexture();
 	bindPostProcBuffers();		// various postproc buffers (user postproc)
-
 
 	drawQuad();		--> draw final texture AFTER screen space postprocess!
 	*/
@@ -64,7 +62,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 
 }
-
 
 void DeferredRenderStrategy::setupGeometryPass()
 {
