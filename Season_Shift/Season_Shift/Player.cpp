@@ -75,7 +75,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity = velocityNormal * m_maxSpeed;
+		 velocity -= velocityNormal * m_maxSpeed*m_frameTime;
 		 //m_maxSpeed += 100.f * m_frameTime;
 	 }
 	 return velocity;
@@ -219,15 +219,18 @@ using namespace DirectX::SimpleMath;
 	{
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
-		velocitySkipY += cameraLook * 80.0f;
+		velocitySkipY += cameraLook * 500.0f;
+		if (velocitySkipY.y > 50.0f)
+		{
+			velocitySkipY.y = 50.0f;
+		}
 	}
-	else
-	{
-		velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-		velocitySkipY = checkMaxSpeed(velocitySkipY);
-		velocitySkipY = checkMinSpeed(velocitySkipY);
-		velocitySkipY.y = velocity.y;
-	}
+
+	velocitySkipY.y = velocity.y;
+	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+	velocitySkipY = checkMaxSpeed(velocitySkipY);
+	velocitySkipY = checkMinSpeed(velocitySkipY);
+		
 	/*if (m_ground == true)
 	{
 		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
