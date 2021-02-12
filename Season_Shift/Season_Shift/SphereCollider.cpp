@@ -22,6 +22,10 @@ void SphereCollider::initialize()
 
 bool SphereCollider::collide(const Ref<Collider>& collider)
 {
+	if (collider.get() == this) // check for selfCollison
+	{
+		return 0;
+	}
 	update();
 	if ((int)(collider->getType() & ComponentEnum::SPHERE_COLLIDER) > 0)
 	{
