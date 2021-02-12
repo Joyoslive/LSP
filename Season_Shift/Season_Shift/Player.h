@@ -25,8 +25,6 @@ private:
 	float m_jetPackSpeed;
 	float m_chargeJump;
 
-	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
-
 private:
 	void lookAround();
 	void detectDeath(float death);
