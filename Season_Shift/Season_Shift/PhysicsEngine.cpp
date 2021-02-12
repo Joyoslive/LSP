@@ -91,7 +91,6 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 						}
 						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
 						{
-							Vector3 temp = rigidBody->getTransform()->getPosition();
 							capsuleCollideObb(rigidBodyCollider, other);
 							rigidBody->stop();
 						}
