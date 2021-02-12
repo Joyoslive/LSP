@@ -13,22 +13,22 @@ DirectionalLight::DirectionalLight(Vector3 direction, Vector3 ambColor, Vector3 
 DirectionalLight::~DirectionalLight()
 {}
 
-DirectX::SimpleMath::Vector3& DirectionalLight::getDirection()
+const DirectX::SimpleMath::Vector3& DirectionalLight::getDirection()
 {
 	return m_direction;
 }
 
-DirectX::SimpleMath::Vector3& DirectionalLight::getAmbColor()
+const DirectX::SimpleMath::Vector3& DirectionalLight::getAmbColor()
 {
 	return m_ambColor;
 }
 
-DirectX::SimpleMath::Vector3& DirectionalLight::getDifColor()
+const DirectX::SimpleMath::Vector3& DirectionalLight::getDifColor()
 {
 	return m_difColor;
 }
 
-float DirectionalLight::getIntensity()
+const float DirectionalLight::getIntensity()
 {
 	return m_intensity;
 }

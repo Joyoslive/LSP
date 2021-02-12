@@ -23,10 +23,10 @@ public:
 	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 ambColor, DirectX::SimpleMath::Vector3 difColor, float intensity);
 	~DirectionalLight();
 
-	DirectX::SimpleMath::Vector3& getDirection();
-	DirectX::SimpleMath::Vector3& getAmbColor();
-	DirectX::SimpleMath::Vector3& getDifColor();
-	float getIntensity();
+	const DirectX::SimpleMath::Vector3& getDirection();
+	const DirectX::SimpleMath::Vector3& getAmbColor();
+	const DirectX::SimpleMath::Vector3& getDifColor();
+	const float getIntensity();
 	DirLight getLight();
 };
 
