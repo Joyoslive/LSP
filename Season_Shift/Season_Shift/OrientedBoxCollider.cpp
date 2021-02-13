@@ -9,7 +9,6 @@ using namespace DirectX;
 OrientedBoxCollider::OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions)
 {
 	m_obb.Extents = dimensions / 2;
-	
 	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }
 
@@ -42,8 +41,6 @@ bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 	{
 		return std::dynamic_pointer_cast<CapsuleCollider>(collider)->collide(std::dynamic_pointer_cast<Collider>(shared_from_this())); //call capsule colliders detection function on self
 	}
-
-
 	return false;
 }
 
@@ -53,13 +50,10 @@ void OrientedBoxCollider::update()
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
-
-
-const BoundingOrientedBox& OrientedBoxCollider::getInternalCollider()
+const BoundingOrientedBox& OrientedBoxCollider::getInternalCollider() const
 {
 	return m_obb;
 }
-
 
 Vector3 OrientedBoxCollider::closestPointOnObb(Vector3 point, Vector3& returnNormal)
 {

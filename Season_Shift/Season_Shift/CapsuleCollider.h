@@ -35,6 +35,6 @@ public:
 
 	void initialize() override;
 
-	const Capsule& getInternalCollider();
+	const Capsule& getInternalCollider() const;
 };
 

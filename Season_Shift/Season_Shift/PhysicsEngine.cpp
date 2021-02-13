@@ -64,6 +64,11 @@ void PhysicsEngine::simulate(long double dt)
 		{
 			internalSimulate(rg, dt);
 		}
+		else if (go->getComponentType<Logic>(Component::ComponentEnum::LOGIC) != nullptr && go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER) != nullptr)
+		{
+			//check collision for non rigidbody gameobjects that have a logic component needing collision
+			checkCollide(go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER));
+		}
 	}
 }
 
@@ -72,36 +77,16 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 	m_deltaTime += dt;
 	while (m_timeStep < m_deltaTime)
 	{
-		
 		rigidBody->getTransform()->setPosition(calcPos(rigidBody));
 
 		Ref<Collider> rigidBodyCollider = rigidBody->getGameObject()->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
 		if (rigidBodyCollider != nullptr)
 		{
 			vector<Ref<Collider>> otherColliders = checkCollide(rigidBodyCollider);
-
-				for (auto& other : otherColliders)
-				{
-					if ((int)(other->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0)
-					{
-						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
-						{
-							Vector3 normal = sphereCollideObb(rigidBodyCollider, other);
-							Vector3 velocity = rigidBody->getVelocity();
-							velocity = velocity - (normal.Dot(velocity)) * normal;
-							rigidBody->stop();
-							rigidBody->m_velocity = velocity;
-						}
-						if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
-						{
-							Vector3 normal = capsuleCollideObb(rigidBodyCollider, other);
-							Vector3 velocity = rigidBody->getVelocity();
-							velocity = velocity - (normal.Dot(velocity)) * normal;
-							rigidBody->stop();
-							rigidBody->m_velocity = velocity;
-						}
-					}
-				}
+			for (auto& other : otherColliders)
+			{
+				collisionResponse(rigidBody, rigidBodyCollider, other);
+			}
 		}
 		m_deltaTime -= m_timeStep;
 	}
@@ -119,17 +104,35 @@ Vector3 PhysicsEngine::calcPos(const Ref<RigidBody>& rigidBody)
 	return rigidBody->m_transform->getPosition() + rigidBody->m_velocity * (float)m_timeStep;
 }
 
+void PhysicsEngine::collisionResponse(const Ref<RigidBody>& rigidBody, const Ref<Collider>& rigidBodyCollider, const Ref<Collider>& obb)
+{
+	if ((int)(obb->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) == 0)
+	{
+		Logger::getLogger().debugLog("Can't respond to non obb collision\n");
+		return;
+	}
+	Vector3 normal, velocity;
+	if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
+	{
+		normal = capsuleCollideObb(rigidBodyCollider, obb);
+	}
+	else if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
+	{
+		normal = sphereCollideObb(rigidBodyCollider, obb);
+	}
+	//project velocity on plane normal to collision
+	velocity = rigidBody->getVelocity();
+	velocity = velocity - (normal.Dot(velocity)) * normal;
+	rigidBody->stop();
+	rigidBody->m_velocity = velocity;
+}
+
 
 Vector3 PhysicsEngine::sphereCollideObb(const Ref<Collider>& sphere, const Ref<Collider>& obb)
 {
-	assert(obb->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY) == nullptr); //sånt hanteras inte
-
-
 	Vector3 normal = Vector3(0, 1, 0);
 	Vector3 position = std::dynamic_pointer_cast<OrientedBoxCollider>(obb)->closestPointOnObb(
 		std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Center, normal);
-
-
 
 	sphere->getTransform()->setPosition((position + normal * 1.001f * std::dynamic_pointer_cast<SphereCollider>(sphere)->getInternalCollider().Radius));
 	std::dynamic_pointer_cast<SphereCollider>(sphere)->update();

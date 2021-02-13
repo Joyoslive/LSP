@@ -14,8 +14,8 @@ CapsuleCollider::CapsuleCollider(float radius, float totalLength)
 
 CapsuleCollider::~CapsuleCollider()
 {
-}
 
+}
 
 
 void CapsuleCollider::initialize()
@@ -42,7 +42,7 @@ void CapsuleCollider::update()
     m_capsule.PointA = m_transform->getPosition() + m_length * unitY;
 }
 
-Vector3 closestPointOnSegmentFromPoint(Vector3 segmentEndPoint1, Vector3 segmentEndPoint2, Vector3 point)
+const Vector3& closestPointOnSegmentFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point)
 {
     //closest point on linesegment to point
     //från boken Real time collision detection
@@ -60,7 +60,6 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
 {
     update();
     if (!((int)(collider->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0))    return false;   //only support collision vs obb
-
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
@@ -108,12 +107,10 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     DirectX::XMVECTOR closestPlane3 = DirectX::XMPlaneFromPointNormal(planePoint3, planeNormal3);
 
 
-
     //find intersection point on planes from line through capsule
     DirectX::XMVECTOR planeIntersectionPoint1 = DirectX::XMPlaneIntersectLine(closestPlane1, m_capsule.PointA, m_capsule.PointB);
     DirectX::XMVECTOR planeIntersectionPoint2 = DirectX::XMPlaneIntersectLine(closestPlane2, m_capsule.PointA, m_capsule.PointB);
     DirectX::XMVECTOR planeIntersectionPoint3 = DirectX::XMPlaneIntersectLine(closestPlane3, m_capsule.PointA, m_capsule.PointB);
-
 
 
     //clamp point on plane to the co-planar face of the obb
@@ -175,7 +172,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     }
 }
 
-const Capsule& CapsuleCollider::getInternalCollider()
+const Capsule& CapsuleCollider::getInternalCollider() const
 {
     return m_capsule;
 }
