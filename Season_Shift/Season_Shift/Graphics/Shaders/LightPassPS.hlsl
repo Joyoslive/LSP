@@ -25,15 +25,17 @@ cbuffer camBuf : register(b1)
 
 float4 calcDirLight(float3 normal, float3 worldPos, float4 texColor)
 {
-	float incidentIntensity = saturate(dot(normal, normalize(-g_dlDirection)));
-	float4 amb = g_dlColor * g_dlAmbIntensity;
+	float3 lDir = normalize(-g_dlDirection);
+
+	float incidentIntensity = saturate(dot(normal, lDir));
+	float4 amb = saturate(g_dlColor * g_dlAmbIntensity);
 	float4 dif = saturate(g_dlColor * incidentIntensity);
 
-	float3 camDir = g_camPos - worldPos;
-	float3 halfWay = normalize(camDir + g_dlDirection);
-	float4 spec = g_dlColor * pow(max(dot(normal, halfWay), 0.0), 32.0);
+	float3 camDir = normalize(g_camPos - worldPos);
+	float3 halfWay = normalize(camDir + lDir);
+	float4 spec = saturate(g_dlColor * pow(max(dot(normal, halfWay), 0), 32));
 	
-	return (amb + amb + spec) * texColor;
+	return saturate((amb + dif + spec) * texColor);
 }
 
 float4 main(PS_IN input) : SV_TARGET
