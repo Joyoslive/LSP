@@ -38,10 +38,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gbuffers.clear(dev);
 	m_geometryPassSolid->bind(dev);
 	m_geometryPassSolid->clearAttachedDepthTarget(dev);
-	//m_geometryPassWireframe->bind(dev);
-	//m_geometryPassWireframe->clearAttachedDepthTarget(dev);
-
-
 
 	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
 	for (auto& mod : models)
@@ -63,7 +59,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		}
 	}
 	m_skybox.draw(mainCamera);
-
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 

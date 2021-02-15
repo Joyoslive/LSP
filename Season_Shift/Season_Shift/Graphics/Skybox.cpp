@@ -16,14 +16,12 @@ Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 
 	// Set up Rasterizer State
 	D3D11_RASTERIZER_DESC rsDesc = CD3D11_RASTERIZER_DESC(CD3D11_DEFAULT());
-	rsDesc.FrontCounterClockwise = true;		// We are inside cube
-	rsDesc.FillMode = D3D11_FILL_SOLID;
+	rsDesc.FrontCounterClockwise = true;	// We are inside cube
 	m_rs = dev->createRasterizerState(rsDesc);
 
 	// Set up Depth Stencil State
 	D3D11_DEPTH_STENCIL_DESC dsDesc = CD3D11_DEPTH_STENCIL_DESC(CD3D11_DEFAULT());
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	m_dss = dev->createDepthStencilState(dsDesc);
 
 	// Set up VP buffer
@@ -106,11 +104,11 @@ void Skybox::draw(const std::shared_ptr<Camera>& cam)
 	dev->bindInputLayout(nullptr);
 	dev->bindRasterizerState(m_rs);
 	dev->bindDepthStencilState(m_dss);
-	dev->bindShader(m_vs, DXShader::Type::VS);
-	dev->bindShader(m_ps, DXShader::Type::PS);
 	dev->bindShaderConstantBuffer(DXShader::Type::VS, 5, m_vpBuffer);
 	dev->bindShaderSampler(DXShader::Type::PS, 5, m_sampler);
 	dev->bindShaderTexture(DXShader::Type::PS, 5, m_activeTexture);
+	dev->bindShader(m_vs, DXShader::Type::VS);
+	dev->bindShader(m_ps, DXShader::Type::PS);
 
 	// Unbind all draw buffers
 	dev->bindDrawIndexedBuffer(nullptr, nullptr, 0, 0);

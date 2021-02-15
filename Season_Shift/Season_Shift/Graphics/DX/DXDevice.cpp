@@ -519,7 +519,6 @@ void DXDevice::bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& 
 	if (il == nullptr)
 	{
 		m_core->getImmediateContext()->IASetInputLayout(nullptr);
-		return;
 	}
 
 	m_core->getImmediateContext()->IASetInputLayout(il.Get());
