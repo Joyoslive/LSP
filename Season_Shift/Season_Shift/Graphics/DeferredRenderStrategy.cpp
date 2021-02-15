@@ -218,7 +218,7 @@ void DeferredRenderStrategy::setupLightPass()
 	lpVP.MaxDepth = 1.0;
 
 	// Directional Light Buffer
-	m_dirLight = DirectionalLight({1,-1,-1}, {0.1,0.1,0.1}, {1,1,1}, 1);
+	m_dirLight = DirectionalLight({1,-1,-1});
 	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
 
 	// Setup light render pass

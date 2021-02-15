@@ -14,16 +14,15 @@ struct PS_IN
 cbuffer dirLight : register(b0)
 {
 	float3 g_dlDirection;
-	float g_dlIntensity;
-	float4 g_dlAmbColor;
-	float4 g_dlDifColor;
+	float g_dlAmbIntensity;
+	float4 g_dlColor;
 };
 
 float4 calcDirLight(float3 normal, float4 texColor)
 {
 	float incidentIntensity = saturate(dot(normal, normalize(-g_dlDirection)));
-	float4 amb = g_dlAmbColor;
-	float4 dif = saturate(g_dlDifColor * incidentIntensity);
+	float4 amb = g_dlColor * g_dlAmbIntensity;
+	float4 dif = saturate(g_dlColor * incidentIntensity);
 	float4 spec = float4(0, 0, 0, 0);
 	return (amb + dif + spec) * texColor;
 }

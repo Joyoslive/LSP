@@ -9,23 +9,20 @@ public:
 	struct alignas(16) DirLight
 	{
 		DirectX::SimpleMath::Vector3 direction;
-		float intensity;
-		DirectX::SimpleMath::Vector4 ambColor;
-		DirectX::SimpleMath::Vector4 difColor;
+		float ambientIntensity;
+		DirectX::SimpleMath::Vector4 color;
 	};
 private:
 	DirectX::SimpleMath::Vector3 m_direction;
-	DirectX::SimpleMath::Vector3 m_ambColor;
-	DirectX::SimpleMath::Vector3 m_difColor;
-	float m_intensity;
+	DirectX::SimpleMath::Vector3 m_color;
+	float m_ambIntensity;
 public:
 	DirectionalLight();
-	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 ambColor, DirectX::SimpleMath::Vector3 difColor, float intensity);
+	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 color = {1,1,1}, float ambientIntensity = 0.1);
 	~DirectionalLight();
 
 	const DirectX::SimpleMath::Vector3& getDirection();
-	const DirectX::SimpleMath::Vector3& getAmbColor();
-	const DirectX::SimpleMath::Vector3& getDifColor();
+	const DirectX::SimpleMath::Vector3& getColor();
 	const float getIntensity();
 	DirLight getLight();
 };
