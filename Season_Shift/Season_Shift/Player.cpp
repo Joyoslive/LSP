@@ -66,7 +66,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (moveDirection != Vector3::Zero)
 	 {
-		 const float modifier = 20.0f / 300.0f;
+		 const float modifier = 1.0f * 20.0f / 300.0f;
 		 antiMoveSize = m_minAntiMoveSize + fakeVelocity.Length() * modifier;
 		 //antiMoveSize = 0;
 	 }
