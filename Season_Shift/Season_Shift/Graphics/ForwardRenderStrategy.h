@@ -17,4 +17,5 @@ public:
 	ForwardRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~ForwardRenderStrategy();
 	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) override;
+	void setUp() override;
 };

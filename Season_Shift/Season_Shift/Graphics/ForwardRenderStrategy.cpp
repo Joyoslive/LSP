@@ -98,3 +98,9 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 
 	dev->present();
 }
+
+void ForwardRenderStrategy::setUp()
+{
+	//allt har deletats efter en onResize så skapa om allt
+	assert(false);
+}

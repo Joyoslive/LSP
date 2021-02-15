@@ -101,11 +101,17 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
+    case WM_CLOSE:
+    {
+        m_isClosed = true;
+        DestroyWindow(m_hwnd);
+        break;
+    }
     case WM_DESTROY:
     {
         PostQuitMessage(0);
         m_isClosed = true;
-        break;
+        return 0;
     }
     case WM_PAINT:
     {
@@ -126,6 +132,7 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_WINDOWPOSCHANGED:
     {
         if (m_onResize == nullptr) break;
+        if (m_isClosed) break;
 
         RECT winRect;
         GetClientRect(m_hwnd, &winRect);
