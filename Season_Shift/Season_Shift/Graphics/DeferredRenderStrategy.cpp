@@ -63,6 +63,9 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	auto lightData = m_dirLight.getLight();
 	m_dirLightBuffer->updateMapUnmap(&lightData, sizeof(lightData));
+
+	CameraBuffer camBuf = { mainCamera->getPosition() };
+	m_cameraBuffer->updateMapUnmap(&camBuf, sizeof(camBuf));
 	m_lightPass->bind(dev);
 	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 	dev->drawIndexed(6, 0, 0);
@@ -221,6 +224,9 @@ void DeferredRenderStrategy::setupLightPass()
 	m_dirLight = DirectionalLight({1,-1,-1});
 	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
 
+	// Camera constant buffer
+	m_cameraBuffer = dev->createConstantBuffer(sizeof(CameraBuffer), true, true);
+
 	// Setup light render pass
 	m_lightPass = std::make_shared<DXRenderPass>();
 	m_lightPass->attachPipeline(lpPipeline);
@@ -232,6 +238,7 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass->attachViewports({lpVP});
 	m_lightPass->attachOutputTargets({dev->getBackbuffer()});
 	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
+	m_lightPass->attachInputConstantBuffer(1, m_cameraBuffer);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()

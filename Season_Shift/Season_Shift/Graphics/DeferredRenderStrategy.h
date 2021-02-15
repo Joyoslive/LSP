@@ -6,6 +6,11 @@
 class DeferredRenderStrategy final : public IRenderStrategy
 {
 private:
+	struct alignas(16) CameraBuffer
+	{
+		DirectX::SimpleMath::Vector3 position;
+	};
+private:
 	struct GBuffers
 	{
 		std::shared_ptr<DXTexture> gbPosWS;		// Position
@@ -31,6 +36,7 @@ private:
 	FullscreenQuad m_fsQuad;
 	DirectionalLight m_dirLight;
 	std::shared_ptr<DXBuffer> m_dirLightBuffer;
+	std::shared_ptr<DXBuffer> m_cameraBuffer;
 
 	void setupGeometryPass();
 	void setupLightPass();
