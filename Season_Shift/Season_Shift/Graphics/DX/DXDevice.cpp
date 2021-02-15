@@ -239,28 +239,15 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			ComPtr<ID3D11ShaderResourceView> srv;
 			D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
 			mtSRV.Format = desc.desc2D.Format;
-
-			if (desc.desc2D.MiscFlags & D3D11_RESOURCE_MISC_TEXTURECUBE)
-			{
-				mtSRV.Format = desc.desc2D.Format;
-				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-				mtSRV.TextureCube.MipLevels = 1;
-				mtSRV.TextureCube.MostDetailedMip = 0;
-			}
-			else
-			{
-				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-				mtSRV.Texture2D.MostDetailedMip = 0;
-				mtSRV.Texture2D.MipLevels = 1;		// temporary for now
-			}
-			
-
+			mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			mtSRV.Texture2D.MostDetailedMip = 0;
+			mtSRV.Texture2D.MipLevels = 1;		// temporary for now
 
 			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
 
 			tex->setSRV(srv);
 		}
-		if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+		else if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
 		{
 			ComPtr<ID3D11DepthStencilView> dsv;
 			D3D11_DEPTH_STENCIL_VIEW_DESC mtDSV = { };
@@ -271,18 +258,6 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			HRCHECK(m_core->getDevice()->CreateDepthStencilView(t.Get(), &mtDSV, dsv.GetAddressOf()));
 
 			tex->setDSV(dsv);
-		}
-		if (desc.desc2D.BindFlags & D3D11_BIND_RENDER_TARGET)
-		{
-			ComPtr<ID3D11RenderTargetView> rtv;
-			D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = { };
-			rtvDesc.Format = desc.desc2D.Format;
-			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-			rtvDesc.Texture2D.MipSlice = 0;
-
-			HRCHECK(m_core->getDevice()->CreateRenderTargetView(t.Get(), &rtvDesc, rtv.GetAddressOf()));
-
-			tex->setRTV(rtv);
 		}
 
 
@@ -516,11 +491,6 @@ void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const 
 
 void DXDevice::bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& il)
 {
-	if (il == nullptr)
-	{
-		m_core->getImmediateContext()->IASetInputLayout(nullptr);
-	}
-
 	m_core->getImmediateContext()->IASetInputLayout(il.Get());
 }
 
@@ -633,18 +603,6 @@ void DXDevice::clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, u
 
 void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset)
 {
-
-	if (vb == nullptr || ib == nullptr)
-	{
-		ID3D11Buffer* nullBufs[] = { nullptr, nullptr, nullptr };
-		UINT stride = 0;
-		UINT offset = 0;
-		m_core->getImmediateContext()->IASetVertexBuffers(0, 3, nullBufs, &stride, &offset);
-		m_core->getImmediateContext()->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, ibOffset);
-		return;
-	}
-
-
 	if (vb->getType() != DXBuffer::Type::Vertex || ib->getType() != DXBuffer::Type::Index) assert(false);
 	m_vOffsetBind = vbOffset;
 
