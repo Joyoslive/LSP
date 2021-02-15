@@ -15,6 +15,7 @@ private:
 	bool m_ground;
 	bool m_doubleJump;
 	bool m_addSpeed;
+	bool m_walljump;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
@@ -25,7 +26,7 @@ private:
 	float m_jetPackFuelMax;
 	float m_jetPackSpeed;
 	float m_chargeJump;
-	float m_cooldown;
+	float m_cooldownDash;
 
 private:
 	void lookAround();
