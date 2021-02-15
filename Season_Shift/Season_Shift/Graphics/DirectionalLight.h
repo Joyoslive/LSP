@@ -18,7 +18,7 @@ private:
 	float m_ambIntensity;
 public:
 	DirectionalLight();
-	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 color = {1,1,1}, float ambientIntensity = 0.1);
+	DirectionalLight(DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 color = { 1,1,1 }, float ambientIntensity = 0.1);
 	~DirectionalLight();
 
 	const DirectX::SimpleMath::Vector3& getDirection();
@@ -26,4 +26,3 @@ public:
 	const float getIntensity();
 	DirLight getLight();
 };
-

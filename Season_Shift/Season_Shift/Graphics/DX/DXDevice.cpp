@@ -239,9 +239,22 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			ComPtr<ID3D11ShaderResourceView> srv;
 			D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
 			mtSRV.Format = desc.desc2D.Format;
-			mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-			mtSRV.Texture2D.MostDetailedMip = 0;
-			mtSRV.Texture2D.MipLevels = 1;		// temporary for now
+
+			if (desc.desc2D.MiscFlags & D3D11_RESOURCE_MISC_TEXTURECUBE)
+			{
+				mtSRV.Format = desc.desc2D.Format;
+				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+				mtSRV.TextureCube.MipLevels = 1;
+				mtSRV.TextureCube.MostDetailedMip = 0;
+			}
+			else
+			{
+				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+				mtSRV.Texture2D.MostDetailedMip = 0;
+				mtSRV.Texture2D.MipLevels = 1;		// temporary for now
+			}
+
+
 
 			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
 
@@ -282,7 +295,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 		tex = std::make_shared<DXTexture>(m_core, t, desc);
 	}
 
-	
+
 	return tex;
 }
 
@@ -503,6 +516,11 @@ void DXDevice::bindShaderTexture(DXShader::Type stage, unsigned int slot, const 
 
 void DXDevice::bindInputLayout(const Microsoft::WRL::ComPtr<ID3D11InputLayout>& il)
 {
+	if (il == nullptr)
+	{
+		m_core->getImmediateContext()->IASetInputLayout(nullptr);
+	}
+
 	m_core->getImmediateContext()->IASetInputLayout(il.Get());
 }
 
@@ -553,12 +571,12 @@ void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& 
 	}
 
 	// Make sure depth target is of correct type, or is null
-	if(depthTarget)
+	if (depthTarget)
 		if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
 
 	for (auto& target : targets)
 	{
-		if(target)
+		if (target)
 			if (target->getDesc().type != DXTexture::Type::TEX2D || target->getRTV() == nullptr) assert(false);
 	}
 	for (unsigned int i = 0; i < targets.size(); ++i)
@@ -619,6 +637,18 @@ void DXDevice::clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, u
 
 void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset)
 {
+
+	if (vb == nullptr || ib == nullptr)
+	{
+		ID3D11Buffer* nullBufs[] = { nullptr, nullptr, nullptr };
+		UINT stride = 0;
+		UINT offset = 0;
+		m_core->getImmediateContext()->IASetVertexBuffers(0, 3, nullBufs, &stride, &offset);
+		m_core->getImmediateContext()->IASetIndexBuffer(nullptr, DXGI_FORMAT_R32_UINT, ibOffset);
+		return;
+	}
+
+
 	if (vb->getType() != DXBuffer::Type::Vertex || ib->getType() != DXBuffer::Type::Index) assert(false);
 	m_vOffsetBind = vbOffset;
 

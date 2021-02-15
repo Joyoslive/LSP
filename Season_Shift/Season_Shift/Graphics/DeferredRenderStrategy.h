@@ -1,5 +1,6 @@
 #pragma once
 #include "IRenderStrategy.h"
+#include "Skybox.h"
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
@@ -37,6 +38,8 @@ private:
 	DirectionalLight m_dirLight;
 	std::shared_ptr<DXBuffer> m_dirLightBuffer;
 	std::shared_ptr<DXBuffer> m_cameraBuffer;
+
+	Skybox m_skybox;
 
 	void setupGeometryPass();
 	void setupLightPass();

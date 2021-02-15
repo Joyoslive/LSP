@@ -3,7 +3,7 @@
 using namespace DirectX::SimpleMath;
 
 DirectionalLight::DirectionalLight()
-	: m_direction(Vector3(0, 0, 1)), m_color(Vector3(1,1,1)),  m_ambIntensity(0.1)
+	: m_direction(Vector3(0, 0, 1)), m_color(Vector3(1, 1, 1)), m_ambIntensity(0.1)
 {}
 
 DirectionalLight::DirectionalLight(Vector3 direction, Vector3 color, float ambientIntensity)
@@ -29,7 +29,7 @@ const float DirectionalLight::getIntensity()
 }
 
 DirectionalLight::DirLight DirectionalLight::getLight()
-{	
-	Vector4 col = {m_color.x, m_color.y, m_color.z, 1};
-	return {m_direction, m_ambIntensity, col};
+{
+	Vector4 col = { m_color.x, m_color.y, m_color.z, 1 };
+	return { m_direction, m_ambIntensity, col };
 }
