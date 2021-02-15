@@ -11,9 +11,28 @@ struct PS_IN
 	float2 uv : TEXCOORD;
 };
 
+cbuffer dirLight : register(b0)
+{
+	float3 g_dlDirection;
+	float g_dlIntensity;
+	float4 g_dlAmbColor;
+	float4 g_dlDifColor;
+};
+
+float4 calcDirLight(float3 normal, float4 texColor)
+{
+	float incidentIntensity = saturate(dot(normal, normalize(-g_dlDirection)));
+	float4 amb = g_dlAmbColor;
+	float4 dif = saturate(g_dlDifColor * incidentIntensity);
+	float4 spec = float4(0, 0, 0, 0);
+	return (amb + dif + spec) * texColor;
+}
+
 float4 main(PS_IN input) : SV_TARGET
 {
 	float4 finalColor = g_difTex.Sample(g_sampler, input.uv);
+	float3 normal = g_norTex.Sample(g_sampler, input.uv);
+	finalColor = calcDirLight(normal, finalColor);
 	finalColor = pow(finalColor, float4(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f, 1.f));
 	return finalColor;
 }

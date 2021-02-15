@@ -61,6 +61,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	}
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
+	auto lightData = m_dirLight.getLight();
+	m_dirLightBuffer->updateMapUnmap(&lightData, sizeof(lightData));
 	m_lightPass->bind(dev);
 	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 	dev->drawIndexed(6, 0, 0);
@@ -215,6 +217,11 @@ void DeferredRenderStrategy::setupLightPass()
 	lpVP.MinDepth = 0.0;
 	lpVP.MaxDepth = 1.0;
 
+	// Directional Light Buffer
+	m_dirLight = DirectionalLight({1,-1,-1}, {0.1,0.1,0.1}, {1,1,1}, 1);
+	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
+
+	// Setup light render pass
 	m_lightPass = std::make_shared<DXRenderPass>();
 	m_lightPass->attachPipeline(lpPipeline);
 	m_lightPass->attachSampler(0, samplerState);
@@ -224,6 +231,7 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass->attachInputTexture(3, m_gbuffers.gbDiffuse);
 	m_lightPass->attachViewports({lpVP});
 	m_lightPass->attachOutputTargets({dev->getBackbuffer()});
+	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()

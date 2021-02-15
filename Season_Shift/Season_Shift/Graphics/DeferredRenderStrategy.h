@@ -1,6 +1,7 @@
 #pragma once
 #include "IRenderStrategy.h"
 #include "FullscreenQuad.h"
+#include "DirectionalLight.h"
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -28,6 +29,8 @@ private:
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
 	FullscreenQuad m_fsQuad;
+	DirectionalLight m_dirLight;
+	std::shared_ptr<DXBuffer> m_dirLightBuffer;
 
 	void setupGeometryPass();
 	void setupLightPass();
