@@ -316,7 +316,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	OutputDebugStringA(msgbuf);
+	//OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
