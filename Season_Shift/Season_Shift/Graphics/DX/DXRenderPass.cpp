@@ -65,21 +65,6 @@ void DXRenderPass::bind(DXDevice* dev)
 		m_pipelineState->bindPipeline(dev);
 	}
 
-	for (auto& texture : m_inputTextures)
-	{
-		dev->bindShaderTexture(DXShader::Type::PS, texture.first, texture.second);
-	}
-
-	for (auto& buffer : m_inputConstantBuffers)
-	{
-		dev->bindShaderConstantBuffer(DXShader::Type::PS, buffer.first, buffer.second);
-	}
-
-	for (auto& sampler : m_samplers)
-	{
-		dev->bindShaderSampler(DXShader::Type::PS, sampler.first, sampler.second);
-	}
-
 	dev->bindViewports(m_viewports);
 	dev->bindRenderTargets(m_outputTargets, m_depthTarget);
 }

@@ -43,6 +43,38 @@ bool Input::keyPressed(Keys key)
 	return m_keys.IsKeyPressed(dxkey);
 }
 
+bool Input::keyReleased(Keys key)
+{
+	DirectX::Keyboard::Keys dxkey;
+	dxkey = (DirectX::Keyboard::Keys)key;
+	return m_keys.IsKeyReleased(dxkey);
+}
+
+bool Input::mouseReleased(MouseKeys key)
+{
+	switch (key)
+	{
+	case Input::LeftButton:
+		if (m_mouseButtons.leftButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	case Input::RightButton:
+		if (m_mouseButtons.rightButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	case Input::MiddleButton:
+		if (m_mouseButtons.middleButton == DirectX::Mouse::ButtonStateTracker::RELEASED) {
+			return true;
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}
+
 DirectX::SimpleMath::Vector2 Input::mousePos() 
 {
 	mouse = m_mouse->GetState();
@@ -56,8 +88,8 @@ void Input::mouseMovement(float &m_pitch, float &m_yaw)
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 
-		m_pitch += m_mouseY * m_frameTime * 0.4;
-		m_yaw += m_mouseX* m_frameTime * 0.4;
+		m_pitch += m_mouseY * m_frameTime * 1.0;
+		m_yaw += m_mouseX* m_frameTime * 1.0;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock

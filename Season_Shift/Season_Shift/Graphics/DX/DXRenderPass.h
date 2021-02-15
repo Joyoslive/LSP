@@ -15,18 +15,9 @@ private:
 
 	std::vector<std::shared_ptr<DXTexture>> m_outputTargetUnorderedAccess;
 
-	std::vector<std::pair<unsigned int, std::shared_ptr<DXTexture>>> m_inputTextures;
-	std::vector<std::pair<unsigned int, std::shared_ptr<DXBuffer>>> m_inputConstantBuffers;
-	std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> m_samplers;
-
-
 public:
 	DXRenderPass();
 	~DXRenderPass() = default;
-
-	void attachInputTexture(unsigned int slot, std::shared_ptr<DXTexture> texture);			// SRVs only
-	void attachInputConstantBuffer(unsigned int slot, std::shared_ptr<DXBuffer> buffer);
-	void attachSampler(unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler);
 
 	void attachPipeline(std::shared_ptr<DXPipeline> pipeline);
 	void attachOutputTargets(std::vector<std::shared_ptr<DXTexture>> outputTargets);
@@ -40,6 +31,8 @@ public:
 
 	void bind(DXDevice* dev);
 
+	//const std::shared_ptr<DXTexture> getDepthTarget() const;
+	//std::shared_ptr<DXPipeline>& getPipeline();
 
 
 };

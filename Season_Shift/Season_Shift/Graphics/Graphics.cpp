@@ -11,8 +11,7 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 	Utilize the DirectX API in various components
 	*/
 	m_renderer = std::make_shared<GfxRenderer>(m_dxDev);
-	//m_currRenderStrat = std::make_unique<ForwardRenderStrategy>(m_renderer);
-	m_currRenderStrat = std::make_unique<DeferredRenderStrategy>(m_renderer);
+	m_currRenderStrat = std::make_unique<ForwardRenderStrategy>(m_renderer);
 
 }
 

@@ -55,6 +55,7 @@
     <ClCompile Include="Graphics\Skybox.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
+    <ClCompile Include="Scenes\Scene3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Graphics\Skybox.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
+    <ClInclude Include="Scenes\Scene3.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
