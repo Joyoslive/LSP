@@ -13,18 +13,27 @@ using namespace DirectX::SimpleMath;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
 	 m_maxSpeed = 100.0f;
-	 m_oldMaxSpeed = m_maxSpeed;
+	 m_maxSpeedRetardation = 1000.0f;
+	 //m_oldMaxSpeed = 700.0f;
+	 m_baseFlySpeed = 100.0f;
+	 m_baseGroundSpeed = 350.0f;
+	 m_maxGroundSpeed = 700.0f;
+	 m_maxFlySpeed = 700.0f;//500;
 	 m_minSpeed = 0.1f;
-	 m_groundSpeed = 350.0f;//300.0f;
-	 m_flySpeed = 100.0f;
+	 //m_groundSpeed = 350.0f;//300.0f;
+	 m_groundSpeed = 0;
+	 m_flySpeed = 100.0f;//100.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
-	 m_jetPackFuel = 50.0f;
-	 m_maxAntiMoveSize = 14.3f * 2;
+	 m_jetPackFuelMax = 10.0f;
+	 m_jetPackFuel = m_jetPackFuelMax;
+	 m_jetPackSpeed = 67.0f;//60.0f;//30.0f;
+	 m_maxAntiMoveSize = 14.3f;
 	 m_minAntiMoveSize = 6.0f;
 	 m_chargeJump = 0.0f;
-	 m_jumpSpeed = 15.0f;
-	 m_doubleJumpSpeed = 6.0f;
+	 m_jumpSpeed = 26.0f;//15.0f;
+	 m_doubleJumpSpeed = 30.0f;//9.0f;
+	 m_cooldownDash = 0.0f;
  }
 
  Player::~Player()
@@ -42,45 +51,53 @@ using namespace DirectX::SimpleMath;
 	 m_rb->setGravity(20.0);
  }	
 
- const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
+ Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
+	 Vector3 velocityNormal = velocity;
+	 velocityNormal.y = 0;
+	 float saveY = velocity.y;
+	 velocity.y = 0;
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
+
+	 if (moveDirection != Vector3::Zero)
+	 {
+		 const float modifier = 1.0f * 20.0f / 300.0f;
+		 antiMoveSize = m_minAntiMoveSize * 2.4f;
+	 }
 	 if (!onGround)
 	 {
 		 if (moveDirection == Vector3::Zero)
-			 antiMoveSize /= 18.f;
+			 antiMoveSize /= 9.f;
 		 else
-			 antiMoveSize /= 13.f;
+		 {
+			 antiMoveSize = 1.385f;//1.38f;//1.4f;
+		 }
 	 }
-	 else if (moveDirection != Vector3::Zero)
-	 {
-		 const float modifier = 20;
-		 antiMoveSize = m_minAntiMoveSize + velocity.Length() * modifier / m_speed;
-	 }
-
+	 //antiMoveSize *= 0.0014f;
 	 if (velocity.Length() > m_minSpeed)
 	 {
-		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
+		 velocity -= velocityNormal* antiMoveSize* velocity.Length()* m_frameTime;
 	 }
+	 velocity.y = saveY;
 	 return velocity;
  }
 
- const Vector3& Player::checkMaxSpeed(Vector3 velocity)
+ Vector3 Player::checkMaxSpeed(Vector3 velocity)
  {
-	 if (velocity.Length() > m_maxSpeed)
+	 Vector3 velocitySkipY = velocity;
+	 velocitySkipY.y = 0;
+	 if (velocitySkipY.Length() > m_maxSpeed)
 	 {
 		 Vector3 velocityNormal = velocity;
 		 velocityNormal.Normalize();
-		 velocity = velocityNormal * m_maxSpeed;
-		 //m_maxSpeed += 100.f * m_frameTime;
+		 velocity -= velocityNormal * m_maxSpeedRetardation * m_frameTime;
 	 }
 	 return velocity;
  }
 
- const Vector3& Player::checkMinSpeed(const Vector3& velocity)
+ Vector3 Player::checkMinSpeed(const Vector3& velocity)
  {
 	 if (velocity.Length() < m_minSpeed)
 		 return Vector3::Zero;
@@ -96,7 +113,7 @@ using namespace DirectX::SimpleMath;
  }
 
  //Checks if you change direction in movement and sets the previous velocity to zero
- const Vector3& Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
+ Vector3 Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 float changeDirectionSize = 2500.0f;
 	 if (!onGround)
@@ -112,16 +129,53 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
+ void Player::checkSpeeds(const Vector3& moveDirection)
+ {
+	 if (m_ground == false)
+	 {
+		 m_speed = m_baseFlySpeed + m_flySpeed;
+	 }
+	 else
+	 {
+		 m_speed = m_baseGroundSpeed + m_groundSpeed;
+	 }
+
+	 if (moveDirection != Vector3::Zero)
+	 {
+		 m_groundSpeed += 400 * m_frameTime;
+		 m_maxFlySpeed += 200 * m_frameTime;
+		 if (m_groundSpeed > m_maxGroundSpeed)
+			 m_groundSpeed = m_maxGroundSpeed;
+		 if (m_flySpeed > m_maxFlySpeed)
+			 m_flySpeed = m_maxFlySpeed;
+	 }
+	 else
+	 {
+		 m_groundSpeed -= m_frameTime * 800;
+		 m_flySpeed -= m_frameTime * 500;
+		 if (m_groundSpeed < 0)
+			 m_groundSpeed = 0;
+		 if (m_flySpeed < 0)
+			 m_flySpeed = 0;
+	 }
+ }
+
  void Player::update()
  {
-	lookAround();
+	 if (m_disable == false)
+	 {
+		 lookAround();
+	 }
+
 	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
+	Vector3 cameraLook = m_playerCamera->getLookDirection();
+	
 	Vector3 moveDirection = Vector3::Zero;
 	
-	if (Input::getInput().keyPressed(Input::C))
+	if (Input::getInput().keyPressed(Input::X))
 	{
 		if (m_disable == false)
 		{
@@ -154,12 +208,21 @@ using namespace DirectX::SimpleMath;
 		{
 			exit(0);
 		}
+
+		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false)
+		{
+			if (m_jetPackFuel > 0.0f)
+			{
+				velocity.y += m_jetPackSpeed * m_frameTime;
+				m_jetPackFuel -= 50 * m_frameTime;
+			}
+		}
+
 		if (Input::getInput().keyPressed(Input::Space))
 		{
 			if (m_ground == true) 
 			{
-				velocity += Vector3(0, m_jumpSpeed, 0);
-				velocity.y += m_chargeJump;
+				velocity.y += m_jumpSpeed + m_chargeJump;
 				m_chargeJump = 0.0f;
 				m_ground = false;
 			}
@@ -167,6 +230,10 @@ using namespace DirectX::SimpleMath;
 			{
 				velocity.y = m_doubleJumpSpeed;
 				m_doubleJump = false;
+			}
+			else if (m_walljump == true)
+			{
+				velocity.y = 30;
 			}
 
 		}
@@ -177,89 +244,103 @@ using namespace DirectX::SimpleMath;
 				m_chargeJump += 10 * m_frameTime;
 			}
 		}
-		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false && m_doubleJump == false)
+		if (Input::getInput().keyReleased(Input::Space) && m_doubleJump)
 		{
-			if (m_jetPackFuel > 0.0f)
-			{
-				velocity += Vector3(0, 30 * m_frameTime, 0);
-				m_jetPackFuel -= 50 * m_frameTime;
-			}
+			m_jetPackFuel = 0;
 		}
-		if (Input::getInput().keyPressed(Input::Shift))
-		{
-			velocity -= Vector3(0, 50, 0);
-		}
+
 	}
 	if (Input::getInput().keyPressed(Input::L))
 	{
 		Input::getInput().lockMouse();
 	}
-
-	if (m_ground == false)
-	{
-		m_speed = m_flySpeed;
-	}
-	else
-	{
-		m_speed = m_groundSpeed;
-	}
+	m_walljump = false;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
-	/*if (moveDirection != Vector3::Zero)
-		m_groundSpeed += 10 * m_frameTime;*/
+	checkSpeeds(moveDirection);
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
+	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
-	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-
-	/*if (m_ground == true)
+	//Dash
+	if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	{
-		velocitySkipY = antiMovement(velocitySkipY, moveDirection);
+		m_cooldownDash = 5.0f;
+
+		velocitySkipY = { 0, 0, 0 };
+		cameraLook.Normalize();
+		velocitySkipY += cameraLook * 600.0f;
+		if (m_ground && velocitySkipY.y < 10.0f)
+		{
+			velocitySkipY.y = 10.0f;
+		}
+		if (velocitySkipY.y > 50.0f)
+		{
+			velocitySkipY.y = 50.0f;
+		}
+		m_ground = false;
+	}
+	if (m_cooldownDash > 0.0f)
+	{
+		m_cooldownDash -= 1 * m_frameTime;
+	}
+	/*if (m_addSpeed)
+	{
+		Vector3 velocityNormalize = velocitySkipY;
+		velocityNormalize.y = 0;
+		velocityNormalize.Normalize();
+		//velocitySkipY += 1600 * velocityNormalize;
+		m_addSpeed = false;
 	}*/
+
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
-
 	velocitySkipY = checkMinSpeed(velocitySkipY);
-
-	/*m_maxSpeed -= 0.05f * m_frameTime;
-	m_groundSpeed -= 0.05f * m_frameTime;
-	if (m_maxSpeed < m_oldMaxSpeed)
-		m_maxSpeed = m_oldMaxSpeed;*/
-
-	velocitySkipY.y = velocity.y;
+	velocitySkipY.y += velocity.y;
 	velocity = velocitySkipY;
 
-	if (m_ground == false)
-	{
-		if (velocity.y < 0)
-			m_rb->setGravity(40);
-		else
-			m_rb->setGravity(20);
-	}
+	if (velocity.y < 20.0f)//10.0f)//5.0f)
+		m_rb->setGravity(80.0f);//55);//45);
+	else
+		m_rb->setGravity(55.0f);//35);
 
 	m_rb->setVelocity(velocity);
 
 	m_playerCamera->update();
 
-	//velocitySkipY.y = 0;
-	/*char msgbuf[1000];
+	velocitySkipY.y = 0;
+	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	OutputDebugStringA(msgbuf);*/
+	OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
  {
-	 /*if (collider->getGameObject()->getName() == "brickCube") 
+	 if (m_waitForJump)
 	 {
-	 }*/
-	 m_ground = true;
-	 m_doubleJump = true;
-	 m_jetPackFuel = 50.0f;
+		 m_waitForJump = false;
+	 }
+	 if (collider->getGameObject()->getName() == "brickCube")
+	 {
+		 m_ground = true;
+		 m_doubleJump = true;
+		 m_jetPackFuel = m_jetPackFuelMax;
+	 }
+	 if (collider->getGameObject()->getName() == "wall")
+	 {
+		 m_walljump = true;
+	 }
+	 if (!m_ground)
+	 {
+		 m_addSpeed = true;
+	 }
+
+
  }
 
  void Player::lookAround() 
@@ -284,4 +365,9 @@ using namespace DirectX::SimpleMath;
  void Player::setFrametime(long double dt)
  {
 	 m_frameTime = dt;
+ }
+
+ void Player::setWaitForJump()
+ {
+	 m_waitForJump = true;
  }
