@@ -54,14 +54,13 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 Vector3 velocityNormal = velocity;
-	 Vector3 fakeVelocity = velocity;
 	 /*if (velocityNormal.y < 0)
 	 {
 		 velocityNormal.y = 0;
 		 fakeVelocity.y = 0;
 	 }*/
 	 velocityNormal.y = 0;
-	 fakeVelocity.y = 0;
+	 velocity.y = 0;
 
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
@@ -85,7 +84,7 @@ using namespace DirectX::SimpleMath;
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * antiMoveSize * fakeVelocity.Length() * m_frameTime;
+		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
 	 }
 	 return velocity;
  }
