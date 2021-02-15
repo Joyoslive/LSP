@@ -193,6 +193,7 @@
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
