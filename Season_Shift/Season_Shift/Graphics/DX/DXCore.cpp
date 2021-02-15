@@ -143,3 +143,25 @@ void DXCore::changeResolution(unsigned int clientWidth, unsigned int clientHeigh
 	*/
 }
 
+void DXCore::onResize(UINT width, UINT height)
+{
+	m_backbufferRTV.Reset();
+	m_backbufferSRV.Reset();
+	m_backbufferTexture.Reset();
+
+	HRESULT hr = m_swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+	assert(SUCCEEDED(hr));
+
+
+	//from constuctor
+
+	// Get backbuffer texture
+	HRCHECK(m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_backbufferTexture.GetAddressOf()));
+
+	// Create RTV for backbuffer
+	HRCHECK(m_device->CreateRenderTargetView(m_backbufferTexture.Get(), NULL, m_backbufferRTV.GetAddressOf()));
+
+	// Create SRV for backbuffer
+	HRCHECK(m_device->CreateShaderResourceView(m_backbufferTexture.Get(), NULL, m_backbufferSRV.GetAddressOf()));
+}
+

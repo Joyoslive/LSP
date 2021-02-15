@@ -22,5 +22,6 @@ public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	virtual ~IRenderStrategy();
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
+	virtual void setUp() = 0;
 };
 

@@ -73,6 +73,13 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 }
 
+void DeferredRenderStrategy::setUp()
+{
+	setupGeometryPass();
+	setupLightPass();
+	setupPostProcessPass();
+}
+
 
 void DeferredRenderStrategy::setupGeometryPass()
 {

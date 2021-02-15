@@ -93,7 +93,7 @@ bool Window::isClosed() const
     return m_isClosed;
 }
 
-void Window::setOnResizeCallback(std::function<void(int x, int y)> func)
+void Window::setOnResizeCallback(std::function<void(UINT width, UINT height)> func)
 {
     m_onResize = func;
 }
@@ -130,8 +130,8 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
         RECT winRect;
         GetClientRect(m_hwnd, &winRect);
 
-        int rx = winRect.right - winRect.left;
-        int ry = winRect.bottom - winRect.top;
+        UINT rx = winRect.right - winRect.left;
+        UINT ry = winRect.bottom - winRect.top;
 
         Logger::getLogger().setFile("WindowLogger.txt");
         Logger::getLogger().addLog(std::to_string(rx) + "x" + std::to_string(ry) + "\n");

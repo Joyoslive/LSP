@@ -34,8 +34,8 @@ const std::shared_ptr<GfxResourceDevice>& Graphics::getResourceDevice()
 	return m_gfxDevice;
 }
 
-void Graphics::onResize(int x, int y)
+void Graphics::onResize(UINT width, UINT height)
 {
-	Logger::getLogger().setFile("resize.txt");
-	Logger::getLogger().addLog("in resize()\n");
+	m_dxDev->onResize(width, height);
+	m_currRenderStrat->setUp();
 }

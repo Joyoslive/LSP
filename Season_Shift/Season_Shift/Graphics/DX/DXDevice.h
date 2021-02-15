@@ -132,6 +132,8 @@ public:
 	void clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4]);
 	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 1.0, float stencil = 0.0);
 
+	void onResize(UINT width, UINT height);
+
 	/*
 	Defaults to clearing to black
 	*/
@@ -153,6 +155,8 @@ public:
 
 	UINT getClientWidth();
 	UINT getClientHeight();
+
+
 
 
 	/*

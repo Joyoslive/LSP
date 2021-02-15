@@ -617,6 +617,42 @@ void DXDevice::clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, u
 	m_core->getImmediateContext()->ClearDepthStencilView(depthTarget->getDSV().Get(), clearFlag, depth, stencil);
 }
 
+void DXDevice::onResize(UINT width, UINT height)
+{
+
+	m_core->getImmediateContext()->OMSetRenderTargets(0, nullptr, nullptr);
+	m_core->getImmediateContext()->ClearState();
+	m_core->getImmediateContext()->Flush();
+
+	/*for (auto& rtv : m_currTargetBind)
+	{
+		if (rtv == nullptr) continue;
+		rtv->Release();
+	}*/
+	
+	m_backbufferText->m_resource.Reset();
+	m_backbufferText->m_rtv.Reset();
+	m_backbufferText->m_srv.Reset();
+
+	m_core->onResize(width, height);
+
+
+	
+
+
+
+	//from constructor
+	DXTexture::Desc dsc = {};
+	dsc.type = DXTexture::Type::TEX2D;
+	m_backbufferText = std::make_shared<DXTexture>(m_core, m_core->getBackbufferTexture(), dsc);
+	m_backbufferText->m_rtv = m_core->getBackbufferRTV();
+	m_backbufferText->m_srv = m_core->getBackbufferSRV();
+
+
+
+
+}
+
 void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset)
 {
 	if (vb->getType() != DXBuffer::Type::Vertex || ib->getType() != DXBuffer::Type::Index) assert(false);

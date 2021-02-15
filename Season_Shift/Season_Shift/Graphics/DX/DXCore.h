@@ -60,5 +60,6 @@ public:
 	UINT getClientHeight();
 	
 	void changeResolution(unsigned int clientWidth, unsigned int clientHeight);
+	void onResize(UINT width, UINT height);
 };
 

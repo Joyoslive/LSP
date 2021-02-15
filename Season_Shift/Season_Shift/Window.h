@@ -20,7 +20,7 @@ private:
 	void resizeToWindowToFitClient();
 	
 public:
-	std::function<void(int x, int y)> m_onResize;
+	std::function<void(UINT width, UINT height)> m_onResize;
 	Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight);
 	~Window();
 
@@ -31,7 +31,7 @@ public:
 	
 	bool isClosed() const;
 
-	void setOnResizeCallback(std::function<void(int x, int y)> func);
+	void setOnResizeCallback(std::function<void(UINT width, UINT height)> func);
 
 	LRESULT handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
