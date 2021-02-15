@@ -1,5 +1,6 @@
 #include "Skybox.h"
 #include "DX/GraphicsUtils.h"
+#include "../../Camera.h"
 
 Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 	m_renderer(renderer)
@@ -7,6 +8,7 @@ Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 	auto dev = renderer->getDXDevice();
 
 	loadSkybox("Textures/Skyboxes/yokohama");
+	m_activeTexture = m_textures[0];
 
 	// Load Skybox VS/PS
 	m_vs = dev->createShader("SkyboxVS.cso", DXShader::Type::VS);
@@ -22,7 +24,22 @@ Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	m_dss = dev->createDepthStencilState(dsDesc);
 
-	
+	// Set up VP buffer
+	m_vpBuffer = dev->createConstantBuffer(sizeof(m_vpInfo), true, true);
+
+	// Set up Sampler
+	D3D11_SAMPLER_DESC sDesc = { };
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.MipLODBias = 0;
+	sDesc.MaxAnisotropy = 1;	// not used
+	sDesc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+	sDesc.MinLOD = 0;
+	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	m_sampler = m_renderer->getDXDevice()->createSamplerState(sDesc);
+
 }
 
 void Skybox::loadSkybox(std::filesystem::path directoryPath)
@@ -72,9 +89,37 @@ void Skybox::loadSkybox(std::filesystem::path directoryPath)
 	{
 		free(textData[i].data);
 	}
-
 }
 
-void Skybox::draw()
+void Skybox::draw(const std::shared_ptr<Camera>& cam)
 {
+	auto dev = m_renderer->getDXDevice();
+
+	// Update buffer with cam info
+	m_vpInfo.viewMat = cam->getViewMatrix();
+	m_vpInfo.projMat = cam->getProjectionMatrix();
+	m_vpBuffer->updateMapUnmap(&m_vpInfo, sizeof(m_vpInfo));
+
+	// Bind
+	dev->bindInputLayout(nullptr);
+	dev->bindRasterizerState(m_rs);
+	dev->bindDepthStencilState(m_dss);
+	dev->bindShaderConstantBuffer(DXShader::Type::VS, 5, m_vpBuffer);
+	dev->bindShaderSampler(DXShader::Type::PS, 5, m_sampler);
+	dev->bindShaderTexture(DXShader::Type::PS, 5, m_activeTexture);
+	dev->bindShader(m_vs, DXShader::Type::VS);
+	dev->bindShader(m_ps, DXShader::Type::PS);
+
+	// Unbind all draw buffers
+	dev->bindDrawIndexedBuffer(nullptr, nullptr, 0, 0);
+
+	// Draw with immediate buffer
+	dev->draw(36, 0);
+
+	// Unbind
+	dev->bindShader(nullptr, DXShader::Type::VS);
+	dev->bindShader(nullptr, DXShader::Type::PS);
+	dev->bindRasterizerState(nullptr);
+	dev->bindDepthStencilState(nullptr);
 }
+
