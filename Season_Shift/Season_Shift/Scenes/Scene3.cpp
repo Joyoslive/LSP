@@ -62,11 +62,11 @@ void Scene3::setUpScene()
 	cube8->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	cube8->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 
-	Ref<GameObject> cube9 = createGameObject("twinTower", Vector3(-250.0f, 1.0f, -50.0f), Vector3(1.0f / 10.0f, 1000, 1.0f / 10.0f));
+	Ref<GameObject> cube9 = createGameObject("wall", Vector3(-250.0f, 1.0f, -20.0f), Vector3(1.0f / 10.0f, 1000, 1.0f / 10.0f));
 	cube9->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	cube9->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2*1000, 20)));
 
-	Ref<GameObject> cube10 = createGameObject("twinTower", Vector3(-250.0f, 1.0f, 50.0f), Vector3(1.0f / 10.0f, 1000, 1.0f / 10.0f));
+	Ref<GameObject> cube10 = createGameObject("wall", Vector3(-250.0f, 1.0f, 20.0f), Vector3(1.0f / 10.0f, 1000, 1.0f / 10.0f));
 	cube10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	cube10->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2*1000, 20)));
 

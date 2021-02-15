@@ -326,6 +326,12 @@ using namespace DirectX::SimpleMath;
 		 m_doubleJump = true;
 		 m_jetPackFuel = m_jetPackFuelMax;
 	 }
+	 if (collider->getGameObject()->getName() == "wall")
+	 {
+		 m_ground = true;
+		 m_doubleJump = true;
+		 m_jetPackFuel = m_jetPackFuelMax;
+	 }
 	 if (!m_ground)
 	 {
 		 m_addSpeed = true;
