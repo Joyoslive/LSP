@@ -55,11 +55,13 @@ using namespace DirectX::SimpleMath;
  {
 	 Vector3 velocityNormal = velocity;
 	 Vector3 fakeVelocity = velocity;
-	 if (velocityNormal.y < 0)
+	 /*if (velocityNormal.y < 0)
 	 {
 		 velocityNormal.y = 0;
 		 fakeVelocity.y = 0;
-	 }
+	 }*/
+	 velocityNormal.y = 0;
+	 fakeVelocity.y = 0;
 
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
