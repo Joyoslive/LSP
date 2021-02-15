@@ -137,7 +137,7 @@ void DeferredRenderStrategy::setupGeometryPass()
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
 	gbVP.Width = m_clientWidth;
-	gbVP.Height = m_clientHeight;
+	gbVP.Height = m_clientWidth;
 	gbVP.MinDepth = 0.0;
 	gbVP.MaxDepth = 0.0;
 
@@ -147,8 +147,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	//m_geometryPassSolid->attachInputConstantBuffer(0, m_gpMatrixBuffer);
 	m_geometryPassSolid->attachSampler(0, minMagLinMipPointSamp);
 	m_geometryPassSolid->attachViewports({ gbVP });
-	//m_geometryPassSolid->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_gbuffers.gbDiffuse });
-	m_geometryPassSolid->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_renderer->getDXDevice()->getBackbuffer() });
+	m_geometryPassSolid->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_gbuffers.gbDiffuse });
+	//m_geometryPassSolid->attachOutputTargets({ m_gbuffers.gbPosWS, m_gbuffers.gbNorWS, m_gbuffers.gbUV, m_renderer->getDXDevice()->getBackbuffer() });
 	m_geometryPassSolid->attachDepthTarget(depthTexture);
 
 	// Attach resources to RenderPass (Wireframe)
