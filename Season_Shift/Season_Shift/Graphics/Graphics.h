@@ -57,6 +57,7 @@ public:
 	Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~Graphics();
 
+	void onResize(int x, int y);
 	/*
 	To-add: Data to be rendered! (Mesh, Material, Shader) (Assumes all the data is to be rendered, meaning culling has already been done prior to passing it for rendering)
 	*/

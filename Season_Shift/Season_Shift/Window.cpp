@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Input.h"
+#include "Logger.h"
 
 Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight) : 
     m_hInst(hInst),
@@ -92,6 +93,10 @@ bool Window::isClosed() const
     return m_isClosed;
 }
 
+void Window::setOnResizeCallback(std::function<void(int x, int y)> func)
+{
+    m_onResize = func;
+}
 LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -117,6 +122,27 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
        DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
        DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
        break;
+
+    case WM_WINDOWPOSCHANGED:
+    {
+        if (m_onResize == nullptr) break;
+
+        RECT winRect;
+        GetClientRect(m_hwnd, &winRect);
+
+        int rx = winRect.right - winRect.left;
+        int ry = winRect.bottom - winRect.top;
+
+        Logger::getLogger().setFile("WindowLogger.txt");
+        Logger::getLogger().addLog(std::to_string(rx) + "x" + std::to_string(ry) + "\n");
+        Logger::getLogger().debugLog(std::to_string(rx) + "x" + std::to_string(ry) + "\n");
+
+        m_onResize(rx, ry);
+
+        Logger::getLogger().dumpLogs();
+
+        break;
+    }
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:

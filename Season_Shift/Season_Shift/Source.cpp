@@ -19,6 +19,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
+	win.setOnResizeCallback([&gph](int x, int y) { gph.onResize(x, y); }); //onResize is not static, lamda solves this
+
 	//Input input = Input(win.getHWND());
 	//Ref<Input> input = std::make_shared<Input>(win.getHWND());
 	//Init singleton with window handler

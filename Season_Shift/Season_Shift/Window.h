@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <string>
 #include <assert.h>
+#include <functional>
 
 
 class Window
@@ -19,6 +20,7 @@ private:
 	void resizeToWindowToFitClient();
 	
 public:
+	std::function<void(int x, int y)> m_onResize;
 	Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight);
 	~Window();
 
@@ -28,6 +30,8 @@ public:
 	UINT getClientHeight() const;
 	
 	bool isClosed() const;
+
+	void setOnResizeCallback(std::function<void(int x, int y)> func);
 
 	LRESULT handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
