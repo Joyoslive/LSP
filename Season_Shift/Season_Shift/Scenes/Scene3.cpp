@@ -26,9 +26,9 @@ void Scene3::setUpScene()
 	
 
 
-	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(2, 1, 2));
+	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(2*5, 1, 2*5));
 	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(400, 2, 400)));
+	brickCube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(400*5, 2, 400*5)));
 
 	Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0f, 0.0f), Vector3(1.0f / 10.0f, 1, 1.0f / 10.0f));
 	cube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
