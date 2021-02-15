@@ -33,6 +33,7 @@ using namespace DirectX::SimpleMath;
 	 m_chargeJump = 0.0f;
 	 m_jumpSpeed = 26.0f;//15.0f;
 	 m_doubleJumpSpeed = 30.0f;//9.0f;
+	 m_cooldown = 0.0f;
  }
 
  Player::~Player()
@@ -267,8 +268,9 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	//Dash
-	if (Input::getInput().keyPressed(Input::Shift))
+	if (Input::getInput().keyPressed(Input::Shift) && m_cooldown <= 0.0f)
 	{
+		m_cooldown = 5.0f;
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
 		velocitySkipY += cameraLook * 600.0f;
@@ -306,7 +308,10 @@ using namespace DirectX::SimpleMath;
 	m_rb->setVelocity(velocity);
 
 	m_playerCamera->update();
-
+	if (m_cooldown > 0.0f)
+	{
+		m_cooldown -= 1 * m_frameTime;
+	}
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
@@ -326,7 +331,6 @@ using namespace DirectX::SimpleMath;
 		 m_addSpeed = true;
 	 }
 
-	 m_ground = true;
 
  }
 

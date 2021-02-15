@@ -25,6 +25,7 @@ private:
 	float m_jetPackFuelMax;
 	float m_jetPackSpeed;
 	float m_chargeJump;
+	float m_cooldown;
 
 private:
 	void lookAround();
