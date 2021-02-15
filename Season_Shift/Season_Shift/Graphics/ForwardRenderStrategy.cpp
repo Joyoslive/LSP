@@ -34,6 +34,8 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Create a matrix buffer
 	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
+	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
+	m_dirLight = DirectionalLight(Vector3(-1,- 0.5, 0), Vector3(0.1, 0.1, 0.1), Vector3(1, 1, 1), 1);
 
 	// Depth target
 	DXTexture::Desc depthDesc;
@@ -43,7 +45,6 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Setup Pipeline
 	std::shared_ptr<DXPipeline> pipeline = std::make_shared<DXPipeline>();
-	pipeline->attachSampler(DXShader::Type::PS, 0, sampler);
 	pipeline->attachInputLayout(il);
 	pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
@@ -52,6 +53,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	std::vector<std::shared_ptr<DXTexture>> targets = { dev->getBackbuffer() };
 
 	m_renderPass = std::make_shared<DXRenderPass>();
+	m_renderPass->attachSampler(0, sampler);
 	m_renderPass->attachPipeline(pipeline);
 	m_renderPass->attachOutputTargets(targets);
 	m_renderPass->attachViewports(vps);
@@ -71,6 +73,9 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	m_renderPass->clearAttachedDepthTarget(dev);
 
 	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
+	auto light = m_dirLight.getLight();
+	m_dirLightBuffer->updateMapUnmap(&light, sizeof(DirectionalLight::DirLight));
+	dev->bindShaderConstantBuffer(DXShader::Type::PS, 0, m_dirLightBuffer);
 	for (auto& mod : models)
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
@@ -79,7 +84,8 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 			mat.material->bindTextures(dev);
 			mat.material->bindBuffers(dev);
 
-			matrices[0] = mod->getTransform()->getWorldMatrix();
+			//matrices[0] = mod->getTransform()->getWorldMatrix();
+			matrices[0] = DirectX::XMMatrixRotationY(DirectX::XM_PI/8);
 
 			matrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
 

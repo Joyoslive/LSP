@@ -247,7 +247,7 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 
 			tex->setSRV(srv);
 		}
-		else if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+		if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
 		{
 			ComPtr<ID3D11DepthStencilView> dsv;
 			D3D11_DEPTH_STENCIL_VIEW_DESC mtDSV = { };
@@ -258,6 +258,18 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			HRCHECK(m_core->getDevice()->CreateDepthStencilView(t.Get(), &mtDSV, dsv.GetAddressOf()));
 
 			tex->setDSV(dsv);
+		}
+		if (desc.desc2D.BindFlags & D3D11_BIND_RENDER_TARGET)
+		{
+			ComPtr<ID3D11RenderTargetView> rtv;
+			D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = { };
+			rtvDesc.Format = desc.desc2D.Format;
+			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			rtvDesc.Texture2D.MipSlice = 0;
+
+			HRCHECK(m_core->getDevice()->CreateRenderTargetView(t.Get(), &rtvDesc, rtv.GetAddressOf()));
+
+			tex->setRTV(rtv);
 		}
 
 
@@ -540,19 +552,23 @@ void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& 
 		return;
 	}
 
-
-	if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
+	// Make sure depth target is of correct type, or is null
+	if(depthTarget)
+		if (depthTarget->getDesc().type != DXTexture::Type::TEX2D || depthTarget->getDSV() == nullptr) assert(false);
 
 	for (auto& target : targets)
 	{
-		if (target->getDesc().type != DXTexture::Type::TEX2D || target->getRTV() == nullptr) assert(false);
+		if(target)
+			if (target->getDesc().type != DXTexture::Type::TEX2D || target->getRTV() == nullptr) assert(false);
 	}
 	for (unsigned int i = 0; i < targets.size(); ++i)
 	{
-		m_currTargetBind[i] = targets[i]->getRTV().Get();
+		m_currTargetBind[i] = targets[i] ? targets[i]->getRTV().Get() : nullptr;
 	}
 
-	m_core->getImmediateContext()->OMSetRenderTargets(static_cast<unsigned int>(targets.size()), m_currTargetBind.data(), depthTarget->getDSV().Get());
+	auto dsv = depthTarget ? depthTarget->getDSV().Get() : nullptr;
+
+	m_core->getImmediateContext()->OMSetRenderTargets(static_cast<unsigned int>(targets.size()), m_currTargetBind.data(), dsv);
 
 }
 

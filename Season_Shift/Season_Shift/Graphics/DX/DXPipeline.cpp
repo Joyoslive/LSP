@@ -5,7 +5,6 @@ DXPipeline::DXPipeline() :
 	m_bs(nullptr),
 	m_rs(nullptr),
 	m_dss(nullptr),
-	m_samplers({}),
 	m_bsBlendFac({ 1.0, 1.0, 1.0, 1.0 }),
 	m_bsSampleMask(0xffffffff),
 	m_dssStencilRef(0),
@@ -22,11 +21,6 @@ void DXPipeline::bindPipeline(DXDevice* dev)
 	dev->bindBlendState(m_bs, m_bsBlendFac, m_bsSampleMask);
 	dev->bindRasterizerState(m_rs);
 	dev->bindDepthStencilState(m_dss, m_dssStencilRef);
-
-	for (auto& sampler : m_samplers)
-	{
-		dev->bindShaderSampler(DXShader::Type::PS, sampler.first, sampler.second);
-	}
 
 	dev->bindShader(m_vs, DXShader::Type::VS);
 	dev->bindShader(m_hs, DXShader::Type::HS);
@@ -93,11 +87,6 @@ void DXPipeline::attachDS(std::shared_ptr<DXShader> ds)
 void DXPipeline::attachGS(std::shared_ptr<DXShader> gs)
 {
 	m_gs = gs;
-}
-
-void DXPipeline::attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
-{
-	m_samplers.push_back({ slot, sampler });
 }
 
 void DXPipeline::attachPS(std::shared_ptr<DXShader> ps)

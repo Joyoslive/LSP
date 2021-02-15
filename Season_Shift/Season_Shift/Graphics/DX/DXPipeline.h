@@ -7,8 +7,6 @@
 class DXPipeline
 {
 private:
-	std::vector<std::pair<unsigned int, Microsoft::WRL::ComPtr<ID3D11SamplerState>>> m_samplers;
-
 	Microsoft::WRL::ComPtr<ID3D11BlendState> m_bs;
 	std::array<float, 4> m_bsBlendFac;
 	unsigned int m_bsSampleMask;
@@ -42,8 +40,6 @@ public:
 
 	void attachDepthStencilState(Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dss);
 	void setDepthStencilRef(unsigned int stencilRef = 0);
-
-	void attachSampler(DXShader::Type shaderStage, unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler);
 
 	void attachInputLayout(Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout);
 	void setInputTopology(D3D11_PRIMITIVE_TOPOLOGY topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
