@@ -1,9 +1,16 @@
 #pragma once
 #include "IRenderStrategy.h"
 #include "Skybox.h"
+#include "FullscreenQuad.h"
+#include "DirectionalLight.h"
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
+private:
+	struct alignas(16) CameraBuffer
+	{
+		DirectX::SimpleMath::Vector3 position;
+	};
 private:
 	struct GBuffers
 	{
@@ -27,6 +34,10 @@ private:
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
+	FullscreenQuad m_fsQuad;
+	DirectionalLight m_dirLight;
+	std::shared_ptr<DXBuffer> m_dirLightBuffer;
+	std::shared_ptr<DXBuffer> m_cameraBuffer;
 
 	Skybox m_skybox;
 
