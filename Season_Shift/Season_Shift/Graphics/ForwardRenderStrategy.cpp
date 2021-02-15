@@ -34,8 +34,6 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Create a matrix buffer
 	matrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
-	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
-	m_dirLight = DirectionalLight(Vector3(-1,- 0.5, 0));
 
 	// Depth target
 	DXTexture::Desc depthDesc;
@@ -73,9 +71,6 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 	m_renderPass->clearAttachedDepthTarget(dev);
 
 	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
-	auto light = m_dirLight.getLight();
-	m_dirLightBuffer->updateMapUnmap(&light, sizeof(DirectionalLight::DirLight));
-	dev->bindShaderConstantBuffer(DXShader::Type::PS, 0, m_dirLightBuffer);
 	for (auto& mod : models)
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
@@ -84,8 +79,7 @@ void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& mo
 			mat.material->bindTextures(dev);
 			mat.material->bindBuffers(dev);
 
-			//matrices[0] = mod->getTransform()->getWorldMatrix();
-			matrices[0] = DirectX::XMMatrixRotationY(DirectX::XM_PI/8);
+			matrices[0] = mod->getTransform()->getWorldMatrix();
 
 			matrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
 

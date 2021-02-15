@@ -53,8 +53,6 @@
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
     <ClCompile Include="Graphics\Skybox.cpp" />
-    <ClCompile Include="Graphics\FullscreenQuad.cpp" />
-    <ClCompile Include="Graphics\DirectionalLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -102,8 +100,6 @@
     <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
     <ClInclude Include="Graphics\Skybox.h" />
-    <ClInclude Include="Graphics\FullscreenQuad.h" />
-    <ClInclude Include="Graphics\DirectionalLight.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -112,8 +108,6 @@
     <ClInclude Include="Input.h" />
     <FxCompile Include="Graphics\Shaders\SkyboxVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
-    <FxCompile Include="Graphics\Shaders\LightPassPS.hlsl" />
-    <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
