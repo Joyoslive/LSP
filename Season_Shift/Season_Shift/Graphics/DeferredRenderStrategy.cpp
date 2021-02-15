@@ -116,8 +116,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	// Create GBuffers
 	DXTexture::Desc gbDesc = { };
 	gbDesc.type = DXTexture::Type::TEX2D;
-	gbDesc.desc2D.Width = m_clientWidth;
-	gbDesc.desc2D.Height = m_clientHeight;
+	gbDesc.desc2D.Width = m_renderer->getDXDevice()->getClientWidth();
+	gbDesc.desc2D.Height = m_renderer->getDXDevice()->getClientHeight();
 	gbDesc.desc2D.MipLevels = 1;
 	gbDesc.desc2D.ArraySize = 1;
 	gbDesc.desc2D.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -152,8 +152,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	D3D11_VIEWPORT gbVP = {};
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
-	gbVP.Width = m_clientWidth;
-	gbVP.Height = m_clientHeight;
+	gbVP.Width = m_renderer->getDXDevice()->getClientWidth();
+	gbVP.Height = m_renderer->getDXDevice()->getClientHeight();
 	gbVP.MinDepth = 0.0;
 	gbVP.MaxDepth = 1.0;
 
@@ -215,8 +215,8 @@ void DeferredRenderStrategy::setupLightPass()
 	D3D11_VIEWPORT lpVP = {};
 	lpVP.TopLeftX = 0;
 	lpVP.TopLeftY = 0;
-	lpVP.Width = m_clientWidth;
-	lpVP.Height = m_clientHeight;
+	lpVP.Width = m_renderer->getDXDevice()->getClientWidth();
+	lpVP.Height = m_renderer->getDXDevice()->getClientHeight();
 	lpVP.MinDepth = 0.0;
 	lpVP.MaxDepth = 1.0;
 
