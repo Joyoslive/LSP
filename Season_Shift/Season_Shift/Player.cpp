@@ -51,7 +51,7 @@ using namespace DirectX::SimpleMath;
 	 m_rb->setGravity(20.0);
  }	
 
- const Vector3& Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
+ Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 Vector3 velocityNormal = velocity;
 	 Vector3 fakeVelocity = velocity;
@@ -67,7 +67,7 @@ using namespace DirectX::SimpleMath;
 	 if (moveDirection != Vector3::Zero)
 	 {
 		 const float modifier = 1.0f * 20.0f / 300.0f;
-		 antiMoveSize = m_minAntiMoveSize + fakeVelocity.Length() * modifier;
+		 antiMoveSize = m_minAntiMoveSize * 2.f; //+ fakeVelocity.Length() * modifier;
 		 //antiMoveSize = 0;
 	 }
 	 if (!onGround)
@@ -88,7 +88,7 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
- const Vector3& Player::checkMaxSpeed(Vector3 velocity)
+ Vector3 Player::checkMaxSpeed(Vector3 velocity)
  {
 	 Vector3 velocitySkipY = velocity;
 	 velocitySkipY.y = 0;
@@ -101,7 +101,7 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
- const Vector3& Player::checkMinSpeed(const Vector3& velocity)
+ Vector3 Player::checkMinSpeed(const Vector3& velocity)
  {
 	 if (velocity.Length() < m_minSpeed)
 		 return Vector3::Zero;
@@ -117,7 +117,7 @@ using namespace DirectX::SimpleMath;
  }
 
  //Checks if you change direction in movement and sets the previous velocity to zero
- const Vector3& Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
+ Vector3 Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 float changeDirectionSize = 2500.0f;
 	 if (!onGround)
