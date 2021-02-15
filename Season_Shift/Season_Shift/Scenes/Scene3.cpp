@@ -2,6 +2,7 @@
 #include "../Graphics/Graphics.h"
 #include "../Player.h"
 #include "../CameraComponent.h"
+#include "../PlayerJumpTrigger.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -18,13 +19,18 @@ Scene3::~Scene3()
 void Scene3::setUpScene()
 {
 	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 0), Vector3(1.0f, 1.0f, 1.0f));
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
-	player->AddComponent(std::make_shared<SphereCollider>(1));
+	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	
-
+	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger");
+	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(1));
+	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
 	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, 0, 0.0f), Vector3(2*5, 1, 2*5));
 	brickCube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/ground/", "200x2x200Box.obj", GfxShader::DEFAULT));

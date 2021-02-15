@@ -27,6 +27,7 @@ private:
 	float m_jetPackSpeed;
 	float m_chargeJump;
 	float m_cooldownDash;
+	bool m_waitForJump;
 
 private:
 	void lookAround();
@@ -45,4 +46,5 @@ public:
 	void onCollision(Ref<Collider> collider) override;
 	void setRespawn(DirectX::SimpleMath::Vector3 incomingRespawn);
 	void setFrametime(long double dt);
+	void setWaitForJump();
 };

@@ -54,22 +54,16 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 Vector3 velocityNormal = velocity;
-	 /*if (velocityNormal.y < 0)
-	 {
-		 velocityNormal.y = 0;
-		 fakeVelocity.y = 0;
-	 }*/
 	 velocityNormal.y = 0;
+	 float saveY = velocity.y;
 	 velocity.y = 0;
-
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
 
 	 if (moveDirection != Vector3::Zero)
 	 {
 		 const float modifier = 1.0f * 20.0f / 300.0f;
-		 antiMoveSize = m_minAntiMoveSize * 2.f; //+ fakeVelocity.Length() * modifier;
-		 //antiMoveSize = 0;
+		 antiMoveSize = m_minAntiMoveSize * 2.4f;
 	 }
 	 if (!onGround)
 	 {
@@ -77,15 +71,16 @@ using namespace DirectX::SimpleMath;
 			 antiMoveSize /= 9.f;
 		 else
 		 {
-			 antiMoveSize = 1.38f;//1.4f;
+			 antiMoveSize = 1.385f;//1.38f;//1.4f;
 		 }
 	 }
-
+	 //antiMoveSize *= 0.0014f;
 	 if (velocity.Length() > m_minSpeed)
 	 {
 		 velocityNormal.Normalize();
-		 velocity -= velocityNormal * antiMoveSize * velocity.Length() * m_frameTime;
+		 velocity -= velocityNormal* antiMoveSize* velocity.Length()* m_frameTime;
 	 }
+	 velocity.y = saveY;
 	 return velocity;
  }
 
@@ -122,7 +117,7 @@ using namespace DirectX::SimpleMath;
  {
 	 float changeDirectionSize = 2500.0f;
 	 if (!onGround)
-		 changeDirectionSize = 125.0f;//100.0f;//1000.0f;//125.0f;
+		 changeDirectionSize = 125.0f;
 
 	 Vector3 check = moveDirection * velocity;
 	 if (check.x < 0)
@@ -270,6 +265,7 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
+	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	//Dash
@@ -303,7 +299,6 @@ using namespace DirectX::SimpleMath;
 		m_addSpeed = false;
 	}*/
 
-	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 	velocitySkipY.y += velocity.y;
@@ -326,7 +321,11 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
-	 if (collider->getGameObject()->getName() == "brickCube") 
+	 if (m_waitForJump)
+	 {
+		 m_waitForJump = false;
+	 }
+	 if (collider->getGameObject()->getName() == "brickCube")
 	 {
 		 m_ground = true;
 		 m_doubleJump = true;
@@ -366,4 +365,9 @@ using namespace DirectX::SimpleMath;
  void Player::setFrametime(long double dt)
  {
 	 m_frameTime = dt;
+ }
+
+ void Player::setWaitForJump()
+ {
+	 m_waitForJump = true;
  }
