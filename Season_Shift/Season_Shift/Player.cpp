@@ -33,7 +33,7 @@ using namespace DirectX::SimpleMath;
 	 m_chargeJump = 0.0f;
 	 m_jumpSpeed = 26.0f;//15.0f;
 	 m_doubleJumpSpeed = 30.0f;//9.0f;
-	 m_cooldown = 0.0f;
+	 m_cooldownDash = 0.0f;
  }
 
  Player::~Player()
@@ -237,6 +237,10 @@ using namespace DirectX::SimpleMath;
 				velocity.y = m_doubleJumpSpeed;
 				m_doubleJump = false;
 			}
+			else if (m_walljump == true)
+			{
+				velocity.y = 30;
+			}
 
 		}
 		if (Input::getInput().mouseBeingPressed(Input::LeftButton) && m_ground == true)
@@ -256,7 +260,7 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
-
+	m_walljump = false;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -270,9 +274,10 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	//Dash
-	if (Input::getInput().keyPressed(Input::Shift) && m_cooldown <= 0.0f)
+	if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	{
-		m_cooldown = 5.0f;
+		m_cooldownDash = 5.0f;
+
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
 		velocitySkipY += cameraLook * 600.0f;
@@ -286,7 +291,10 @@ using namespace DirectX::SimpleMath;
 		}
 		m_ground = false;
 	}
-
+	if (m_cooldownDash > 0.0f)
+	{
+		m_cooldownDash -= 1 * m_frameTime;
+	}
 	/*if (m_addSpeed)
 	{
 		Vector3 velocityNormalize = velocitySkipY;
@@ -310,10 +318,7 @@ using namespace DirectX::SimpleMath;
 	m_rb->setVelocity(velocity);
 
 	m_playerCamera->update();
-	if (m_cooldown > 0.0f)
-	{
-		m_cooldown -= 1 * m_frameTime;
-	}
+
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
@@ -330,9 +335,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (collider->getGameObject()->getName() == "wall")
 	 {
-		 m_ground = true;
-		 m_doubleJump = true;
-		 m_jetPackFuel = m_jetPackFuelMax;
+		 m_walljump = true;
 	 }
 	 if (!m_ground)
 	 {
