@@ -18,6 +18,7 @@ private:
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
+	float m_baseFlySpeed, m_baseGroundSpeed;
 	float m_maxSpeedRetardation;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
 	float m_jetPackFuel;
@@ -32,6 +33,7 @@ private:
 	const DirectX::SimpleMath::Vector3& checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	const DirectX::SimpleMath::Vector3& checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	const DirectX::SimpleMath::Vector3& checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
+	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);
 public:
 	Player();
 	~Player();

@@ -15,6 +15,8 @@ using namespace DirectX::SimpleMath;
 	 m_maxSpeed = 100.0f;
 	 m_maxSpeedRetardation = 1000.0f;
 	 //m_oldMaxSpeed = 700.0f;
+	 m_baseFlySpeed = 100.0f;
+	 m_baseGroundSpeed = 350.0f;
 	 m_maxGroundSpeed = 700.0f;
 	 m_maxFlySpeed = 700.0f;//500;
 	 m_minSpeed = 0.1f;
@@ -73,7 +75,7 @@ using namespace DirectX::SimpleMath;
 			 antiMoveSize /= 9.f;
 		 else
 		 {
-			 antiMoveSize = 0;///= 9.f;
+			 antiMoveSize = 1.38f;//1.4f;
 		 }
 	 }
 
@@ -118,7 +120,7 @@ using namespace DirectX::SimpleMath;
  {
 	 float changeDirectionSize = 2500.0f;
 	 if (!onGround)
-		 changeDirectionSize = 1000.0f;//125.0f;
+		 changeDirectionSize = 125.0f;//100.0f;//1000.0f;//125.0f;
 
 	 Vector3 check = moveDirection * velocity;
 	 if (check.x < 0)
@@ -128,6 +130,37 @@ using namespace DirectX::SimpleMath;
 	 if (check.z < 0)
 		 velocity.z -= m_frameTime * changeDirectionSize * signOf(velocity.z) * std::abs(moveDirection.z);
 	 return velocity;
+ }
+
+ void Player::checkSpeeds(const Vector3& moveDirection)
+ {
+	 if (m_ground == false)
+	 {
+		 m_speed = m_baseFlySpeed + m_flySpeed;
+	 }
+	 else
+	 {
+		 m_speed = m_baseGroundSpeed + m_groundSpeed;
+	 }
+
+	 if (moveDirection != Vector3::Zero)
+	 {
+		 m_groundSpeed += 400 * m_frameTime;
+		 m_maxFlySpeed += 200 * m_frameTime;
+		 if (m_groundSpeed > m_maxGroundSpeed)
+			 m_groundSpeed = m_maxGroundSpeed;
+		 if (m_flySpeed > m_maxFlySpeed)
+			 m_flySpeed = m_maxFlySpeed;
+	 }
+	 else
+	 {
+		 m_groundSpeed -= m_frameTime * 800;
+		 m_flySpeed -= m_frameTime * 500;
+		 if (m_groundSpeed < 0)
+			 m_groundSpeed = 0;
+		 if (m_flySpeed < 0)
+			 m_flySpeed = 0;
+	 }
  }
 
  void Player::update()
@@ -221,34 +254,10 @@ using namespace DirectX::SimpleMath;
 		Input::getInput().lockMouse();
 	}
 
-	if (m_ground == false)
-	{
-		m_speed = 100.0f + m_flySpeed;
-	}
-	else
-	{
-		m_speed = 350.0f + m_groundSpeed;
-	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
-	if (moveDirection != Vector3::Zero)
-	{
-		m_groundSpeed += 400 * m_frameTime;
-		m_maxFlySpeed += 200 * m_frameTime;
-		if (m_groundSpeed > m_maxGroundSpeed)
-			m_groundSpeed = m_maxGroundSpeed;
-		if (m_flySpeed > m_maxFlySpeed)
-			m_flySpeed = m_maxFlySpeed;
-	}
-	else
-	{
-		m_groundSpeed -= m_frameTime * 800;
-		m_flySpeed -= m_frameTime * 500;
-		if (m_groundSpeed < 0)
-			m_groundSpeed = 0;
-		if (m_flySpeed < 0)
-			m_flySpeed = 0;
-	}
+
+	checkSpeeds(moveDirection);
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -274,14 +283,14 @@ using namespace DirectX::SimpleMath;
 		m_ground = false;
 	}
 
-	if (m_addSpeed)
+	/*if (m_addSpeed)
 	{
 		Vector3 velocityNormalize = velocitySkipY;
 		velocityNormalize.y = 0;
 		velocityNormalize.Normalize();
 		//velocitySkipY += 1600 * velocityNormalize;
 		m_addSpeed = false;
-	}
+	}*/
 
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
@@ -289,16 +298,16 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y += velocity.y;
 	velocity = velocitySkipY;
 
-	if (velocity.y < 5.0f)
-		m_rb->setGravity(55);//45);
+	if (velocity.y < 20.0f)//10.0f)//5.0f)
+		m_rb->setGravity(80.0f);//55);//45);
 	else
-		m_rb->setGravity(35);
+		m_rb->setGravity(55.0f);//35);
 
 	m_rb->setVelocity(velocity);
 
 	m_playerCamera->update();
 
-	//velocitySkipY.y = 0;
+	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
 	OutputDebugStringA(msgbuf);
