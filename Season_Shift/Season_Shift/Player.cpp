@@ -315,17 +315,19 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
-	 /*if (collider->getGameObject()->getName() == "brickCube") 
+	 if (collider->getGameObject()->getName() == "brickCube") 
 	 {
-	 }*/
+		 m_ground = true;
+		 m_doubleJump = true;
+		 m_jetPackFuel = m_jetPackFuelMax;
+	 }
 	 if (!m_ground)
 	 {
 		 m_addSpeed = true;
 	 }
 
 	 m_ground = true;
-	 m_doubleJump = true;
-	 m_jetPackFuel = m_jetPackFuelMax;
+
  }
 
  void Player::lookAround() 
