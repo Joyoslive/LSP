@@ -140,13 +140,7 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
         UINT rx = winRect.right - winRect.left;
         UINT ry = winRect.bottom - winRect.top;
 
-        Logger::getLogger().setFile("WindowLogger.txt");
-        Logger::getLogger().addLog(std::to_string(rx) + "x" + std::to_string(ry) + "\n");
-        Logger::getLogger().debugLog(std::to_string(rx) + "x" + std::to_string(ry) + "\n");
-
         m_onResize(rx, ry);
-
-        Logger::getLogger().dumpLogs();
 
         break;
     }
