@@ -2,14 +2,11 @@
 #include <vector>
 #include "IRenderStrategy.h"
 #include "GfxRenderer.h"
-#include "DirectionalLight.h"
 
 class ForwardRenderStrategy final : public IRenderStrategy
 {
 private:
 	std::shared_ptr<DXBuffer> matrixBuffer;
-	std::shared_ptr<DXBuffer> m_dirLightBuffer;
-	DirectionalLight m_dirLight;
 
 	std::shared_ptr<DXRenderPass> m_renderPass;
 

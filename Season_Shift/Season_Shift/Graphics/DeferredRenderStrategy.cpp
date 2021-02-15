@@ -60,25 +60,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	}
 	m_skybox.draw(mainCamera);
 
-	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
-
-	auto lightData = m_dirLight.getLight();
-	m_dirLightBuffer->updateMapUnmap(&lightData, sizeof(lightData));
-
-	CameraBuffer camBuf = { mainCamera->getPosition() };
-	m_cameraBuffer->updateMapUnmap(&camBuf, sizeof(camBuf));
-	m_lightPass->bind(dev);
-	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
-	dev->drawIndexed(6, 0, 0);
-
 	dev->present();
-
-	dev->bindShaderTexture(DXShader::Type::PS, 0, nullptr);
-	dev->bindShaderTexture(DXShader::Type::PS, 1, nullptr);
-	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
-	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 }
-
 
 void DeferredRenderStrategy::setupGeometryPass()
 {
@@ -154,9 +137,9 @@ void DeferredRenderStrategy::setupGeometryPass()
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
 	gbVP.Width = m_clientWidth;
-	gbVP.Height = m_clientHeight;
+	gbVP.Height = m_clientWidth;
 	gbVP.MinDepth = 0.0;
-	gbVP.MaxDepth = 1.0;
+	gbVP.MaxDepth = 0.0;
 
 	// Attach resources to RenderPass (Solid)
 	m_geometryPassSolid = std::make_shared<DXRenderPass>();
@@ -180,67 +163,6 @@ void DeferredRenderStrategy::setupGeometryPass()
 
 void DeferredRenderStrategy::setupLightPass()
 {
-	auto dev = m_renderer->getDXDevice();
-	m_fsQuad = FullscreenQuad(dev);
-
-	// Create shader
-	auto vsShader = dev->createShader("LightPassVS.cso", DXShader::Type::VS);
-	auto psShader = dev->createShader("LightPassPS.cso", DXShader::Type::PS);
-
-	// Create Input Layout
-	std::vector<D3D11_INPUT_ELEMENT_DESC> ilDesc;
-	ilDesc.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA , 0});
-	ilDesc.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
-	ilDesc.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
-	auto inputLayout = dev->createInputLayout(ilDesc, vsShader->getShaderData());
-
-	// Create a sampler for the GBuffers
-	D3D11_SAMPLER_DESC sDesc = { };
-	sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.MipLODBias = 0;
-	sDesc.MaxAnisotropy = 0;
-	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-	sDesc.MinLOD = 0;
-	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	auto samplerState = dev->createSamplerState(sDesc);
-
-	// Create a render pipeline for the deferred light pass
-	auto lpPipeline = std::make_shared<DXPipeline>();
-	lpPipeline->attachInputLayout(inputLayout);
-	lpPipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	lpPipeline->attachVS(vsShader);
-	lpPipeline->attachPS(psShader);
-
-	D3D11_VIEWPORT lpVP = {};
-	lpVP.TopLeftX = 0;
-	lpVP.TopLeftY = 0;
-	lpVP.Width = m_clientWidth;
-	lpVP.Height = m_clientHeight;
-	lpVP.MinDepth = 0.0;
-	lpVP.MaxDepth = 1.0;
-
-	// Directional Light Buffer
-	m_dirLight = DirectionalLight({1,-1,-1});
-	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
-
-	// Camera constant buffer
-	m_cameraBuffer = dev->createConstantBuffer(sizeof(CameraBuffer), true, true);
-
-	// Setup light render pass
-	m_lightPass = std::make_shared<DXRenderPass>();
-	m_lightPass->attachPipeline(lpPipeline);
-	m_lightPass->attachSampler(0, samplerState);
-	m_lightPass->attachInputTexture(0, m_gbuffers.gbPosWS);
-	m_lightPass->attachInputTexture(1, m_gbuffers.gbNorWS);
-	m_lightPass->attachInputTexture(2, m_gbuffers.gbUV);
-	m_lightPass->attachInputTexture(3, m_gbuffers.gbDiffuse);
-	m_lightPass->attachViewports({lpVP});
-	m_lightPass->attachOutputTargets({dev->getBackbuffer()});
-	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
-	m_lightPass->attachInputConstantBuffer(1, m_cameraBuffer);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()
