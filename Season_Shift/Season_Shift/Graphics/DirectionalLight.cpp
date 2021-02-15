@@ -3,11 +3,11 @@
 using namespace DirectX::SimpleMath;
 
 DirectionalLight::DirectionalLight()
-	: m_direction(Vector3(0, 0, 1)), m_ambColor(Vector3(0.1, 0.1, 0.1)), m_difColor(Vector3(1,1,1)),  m_intensity(1)
+	: m_direction(Vector3(0, 0, 1)), m_color(Vector3(1, 1, 1)), m_ambIntensity(0.1)
 {}
 
-DirectionalLight::DirectionalLight(Vector3 direction, Vector3 ambColor, Vector3 difColor, float intensity)
-	: m_direction(direction), m_ambColor(ambColor), m_difColor(difColor), m_intensity(intensity)
+DirectionalLight::DirectionalLight(Vector3 direction, Vector3 color, float ambientIntensity)
+	: m_direction(direction), m_color(color), m_ambIntensity(ambientIntensity)
 {}
 
 DirectionalLight::~DirectionalLight()
@@ -18,25 +18,18 @@ const DirectX::SimpleMath::Vector3& DirectionalLight::getDirection()
 	return m_direction;
 }
 
-const DirectX::SimpleMath::Vector3& DirectionalLight::getAmbColor()
+const DirectX::SimpleMath::Vector3& DirectionalLight::getColor()
 {
-	return m_ambColor;
-}
-
-const DirectX::SimpleMath::Vector3& DirectionalLight::getDifColor()
-{
-	return m_difColor;
+	return m_color;
 }
 
 const float DirectionalLight::getIntensity()
 {
-	return m_intensity;
+	return m_ambIntensity;
 }
 
 DirectionalLight::DirLight DirectionalLight::getLight()
 {
-	Vector4 ambient = Vector4(m_ambColor.x, m_ambColor.y, m_ambColor.z, 1);
-	Vector4 diffuse = Vector4(m_difColor.x, m_difColor.y, m_difColor.z, 1);
-
-	return {m_direction, m_intensity, ambient, diffuse};
+	Vector4 col = { m_color.x, m_color.y, m_color.z, 1 };
+	return { m_direction, m_ambIntensity, col };
 }

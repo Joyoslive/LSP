@@ -5,10 +5,10 @@ using namespace DirectX::SimpleMath;
 FullscreenQuad::FullscreenQuad(DXDevice* dev)
 {
 	std::vector<Vertex> vertices;
-	vertices.push_back({Vector3(-1, 1, 1.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0)});
-	vertices.push_back({Vector3(1, 1, 1.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0)});
-	vertices.push_back({Vector3(1, -1, 1.0), Vector2(1.0, 1.0), Vector3(0.0, 0.0, -1.0)});
-	vertices.push_back({Vector3(-1, -1, 1.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0)});
+	vertices.push_back({ Vector3(-1, 1, 1.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	vertices.push_back({ Vector3(1, 1, 1.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
+	vertices.push_back({ Vector3(1, -1, 1.0), Vector2(1.0, 1.0), Vector3(0.0, 0.0, -1.0) });
+	vertices.push_back({ Vector3(-1, -1, 1.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
 
 	std::vector<uint32_t> indices = {
 		0, 1, 2,
@@ -23,7 +23,7 @@ FullscreenQuad::FullscreenQuad(DXDevice* dev)
 
 	m_vertexBuffer = dev->createVertexBuffer(vertices.size(), sizeof(Vertex), false, false, false, &vertexData);
 	m_indexBuffer = dev->createIndexBuffer(indices.size() * sizeof(uint32_t), false, &indexData);
-	
+
 	m_mesh = std::make_shared<Mesh>(m_vertexBuffer, m_indexBuffer);
 }
 

@@ -51,10 +51,12 @@
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
+    <ClCompile Include="Graphics\Skybox.cpp" />
     <ClCompile Include="Scenes\Scene3.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
+    <ClCompile Include="PlayerJumpTrigger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -100,16 +102,20 @@
     <ClInclude Include="Graphics\DX\DXRenderPass.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
+    <ClInclude Include="Graphics\Skybox.h" />
     <ClInclude Include="Scenes\Scene3.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
+    <ClInclude Include="PlayerJumpTrigger.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Input.h" />
+    <FxCompile Include="Graphics\Shaders\SkyboxVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
   </ItemGroup>

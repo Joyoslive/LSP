@@ -15,4 +15,3 @@ public:
 	const std::shared_ptr<DXBuffer>& getVB() const;
 	const std::shared_ptr<DXBuffer>& getIB() const;
 };
-

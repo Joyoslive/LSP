@@ -4,12 +4,12 @@ using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
-	IRenderStrategy(renderer)
+	IRenderStrategy(renderer),
+	m_skybox(m_renderer)
 {
 	setupGeometryPass();
 	setupLightPass();
 	setupPostProcessPass();
-
 
 }
 
@@ -28,7 +28,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_postprocPass->bind();
 	bindFinalLitTexture();
 	bindPostProcBuffers();		// various postproc buffers (user postproc)
-
 
 	drawQuad();		--> draw final texture AFTER screen space postprocess!
 	*/
@@ -59,8 +58,15 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
 		}
 	}
+	m_skybox.draw(mainCamera);
+
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
+	auto lightData = m_dirLight.getLight();
+	m_dirLightBuffer->updateMapUnmap(&lightData, sizeof(lightData));
+
+	CameraBuffer camBuf = { mainCamera->getPosition() };
+	m_cameraBuffer->updateMapUnmap(&camBuf, sizeof(camBuf));
 	m_lightPass->bind(dev);
 	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 	dev->drawIndexed(6, 0, 0);
@@ -118,8 +124,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	// Create GBuffers
 	DXTexture::Desc gbDesc = { };
 	gbDesc.type = DXTexture::Type::TEX2D;
-	gbDesc.desc2D.Width = m_clientWidth;
-	gbDesc.desc2D.Height = m_clientHeight;
+	gbDesc.desc2D.Width = m_renderer->getDXDevice()->getClientWidth();
+	gbDesc.desc2D.Height = m_renderer->getDXDevice()->getClientHeight();
 	gbDesc.desc2D.MipLevels = 1;
 	gbDesc.desc2D.ArraySize = 1;
 	gbDesc.desc2D.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -154,8 +160,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	D3D11_VIEWPORT gbVP = {};
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
-	gbVP.Width = m_clientWidth;
-	gbVP.Height = m_clientHeight;
+	gbVP.Width = m_renderer->getDXDevice()->getClientWidth();
+	gbVP.Height = m_renderer->getDXDevice()->getClientHeight();
 	gbVP.MinDepth = 0.0;
 	gbVP.MaxDepth = 1.0;
 
@@ -217,11 +223,19 @@ void DeferredRenderStrategy::setupLightPass()
 	D3D11_VIEWPORT lpVP = {};
 	lpVP.TopLeftX = 0;
 	lpVP.TopLeftY = 0;
-	lpVP.Width = m_clientWidth;
-	lpVP.Height = m_clientHeight;
+	lpVP.Width = m_renderer->getDXDevice()->getClientWidth();
+	lpVP.Height = m_renderer->getDXDevice()->getClientHeight();
 	lpVP.MinDepth = 0.0;
 	lpVP.MaxDepth = 1.0;
 
+	// Directional Light Buffer
+	m_dirLight = DirectionalLight({1,-1,-1});
+	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
+
+	// Camera constant buffer
+	m_cameraBuffer = dev->createConstantBuffer(sizeof(CameraBuffer), true, true);
+
+	// Setup light render pass
 	m_lightPass = std::make_shared<DXRenderPass>();
 	m_lightPass->attachPipeline(lpPipeline);
 	m_lightPass->attachSampler(0, samplerState);
@@ -231,6 +245,8 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass->attachInputTexture(3, m_gbuffers.gbDiffuse);
 	m_lightPass->attachViewports({lpVP});
 	m_lightPass->attachOutputTargets({dev->getBackbuffer()});
+	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
+	m_lightPass->attachInputConstantBuffer(1, m_cameraBuffer);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()
