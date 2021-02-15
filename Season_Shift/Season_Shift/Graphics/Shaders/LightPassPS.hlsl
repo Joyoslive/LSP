@@ -41,7 +41,11 @@ float4 main(PS_IN input) : SV_TARGET
 	float4 finalColor = g_difTex.Sample(g_sampler, input.uv);
 	float3 normal = g_norTex.Sample(g_sampler, input.uv);
 	float3 worldPos = g_posTex.Sample(g_sampler, input.uv);
-	finalColor = calcDirLight(normal, worldPos, finalColor);
+
+	if (!(finalColor.w > -1.1 && finalColor.w < -0.9))
+		finalColor = calcDirLight(normal, worldPos, finalColor);
+	
+	
 	finalColor = pow(finalColor, float4(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f, 1.f));
 	return finalColor;
 }

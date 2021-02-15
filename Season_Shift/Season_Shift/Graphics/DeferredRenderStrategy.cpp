@@ -60,7 +60,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	}
 	m_skybox.draw(mainCamera);
 
-	dev->present();
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
 	auto lightData = m_dirLight.getLight();

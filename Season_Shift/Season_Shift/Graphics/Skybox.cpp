@@ -17,11 +17,13 @@ Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 	// Set up Rasterizer State
 	D3D11_RASTERIZER_DESC rsDesc = CD3D11_RASTERIZER_DESC(CD3D11_DEFAULT());
 	rsDesc.FrontCounterClockwise = true;	// We are inside cube
+	rsDesc.FillMode = D3D11_FILL_SOLID;
 	m_rs = dev->createRasterizerState(rsDesc);
 
 	// Set up Depth Stencil State
 	D3D11_DEPTH_STENCIL_DESC dsDesc = CD3D11_DEPTH_STENCIL_DESC(CD3D11_DEFAULT());
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	m_dss = dev->createDepthStencilState(dsDesc);
 
 	// Set up VP buffer
