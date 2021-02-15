@@ -43,7 +43,6 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 
 	// Setup Pipeline
 	std::shared_ptr<DXPipeline> pipeline = std::make_shared<DXPipeline>();
-	pipeline->attachSampler(DXShader::Type::PS, 0, sampler);
 	pipeline->attachInputLayout(il);
 	pipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
@@ -52,6 +51,7 @@ ForwardRenderStrategy::ForwardRenderStrategy(std::shared_ptr<GfxRenderer> render
 	std::vector<std::shared_ptr<DXTexture>> targets = { dev->getBackbuffer() };
 
 	m_renderPass = std::make_shared<DXRenderPass>();
+	m_renderPass->attachSampler(0, sampler);
 	m_renderPass->attachPipeline(pipeline);
 	m_renderPass->attachOutputTargets(targets);
 	m_renderPass->attachViewports(vps);

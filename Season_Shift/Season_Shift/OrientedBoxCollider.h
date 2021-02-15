@@ -4,7 +4,7 @@
 
 class PhysicsEngine;
 
-class OrientedBoxCollider : public Collider, public std::enable_shared_from_this<OrientedBoxCollider>
+class OrientedBoxCollider : public Collider
 {
 	friend PhysicsEngine;
 private:
@@ -21,7 +21,7 @@ public:
 
 	void initialize() override;
 
-	const DirectX::BoundingOrientedBox& getInternalCollider() const;
+	const DirectX::BoundingOrientedBox& getInternalCollider();
 	DirectX::SimpleMath::Vector3 closestPointOnObb(DirectX::SimpleMath::Vector3 point, DirectX::SimpleMath::Vector3& returnNormal);
 
 private:

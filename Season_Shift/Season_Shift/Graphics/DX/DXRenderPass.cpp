@@ -8,6 +8,21 @@ DXRenderPass::DXRenderPass() :
 {
 }
 
+void DXRenderPass::attachInputTexture(unsigned int slot, std::shared_ptr<DXTexture> texture)
+{
+	m_inputTextures.push_back({ slot, texture });
+}
+
+void DXRenderPass::attachInputConstantBuffer(unsigned int slot, std::shared_ptr<DXBuffer> buffer)
+{
+	m_inputConstantBuffers.push_back({ slot, buffer });
+}
+
+void DXRenderPass::attachSampler(unsigned int slot, Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler)
+{
+	m_samplers.push_back({ slot, sampler });
+}
+
 void DXRenderPass::attachPipeline(std::shared_ptr<DXPipeline> pipeline)
 {
 	m_pipelineState = pipeline;
@@ -48,6 +63,21 @@ void DXRenderPass::bind(DXDevice* dev)
 	if (m_pipelineState)
 	{
 		m_pipelineState->bindPipeline(dev);
+	}
+
+	for (auto& texture : m_inputTextures)
+	{
+		dev->bindShaderTexture(DXShader::Type::PS, texture.first, texture.second);
+	}
+
+	for (auto& buffer : m_inputConstantBuffers)
+	{
+		dev->bindShaderConstantBuffer(DXShader::Type::PS, buffer.first, buffer.second);
+	}
+
+	for (auto& sampler : m_samplers)
+	{
+		dev->bindShaderSampler(DXShader::Type::PS, sampler.first, sampler.second);
 	}
 
 	dev->bindViewports(m_viewports);

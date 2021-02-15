@@ -162,6 +162,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
     <ClCompile Include="Graphics\DX\DXRenderPass.cpp" />
     <ClCompile Include="Graphics\DX\DXPipeline.cpp" />
     <ClCompile Include="Graphics\DX\DXResource.cpp" />
@@ -197,7 +198,7 @@
     <ClCompile Include="SceneManagerObserver.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
-    <ClCompile Include="Scenes\Scene3.cpp" />
+    <ClCompile Include="Graphics\Skybox.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -207,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
     <ClInclude Include="Graphics\DX\DXRenderPass.h" />
     <ClInclude Include="Graphics\DX\DXPipeline.h" />
     <ClInclude Include="Graphics\DX\DXResource.h" />
@@ -234,7 +236,7 @@
     <ClInclude Include="SceneManagerObserver.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
-    <ClInclude Include="Scenes\Scene3.h" />
+    <ClInclude Include="Graphics\Skybox.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
@@ -270,6 +272,22 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shaders\SkyboxVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <None Include="packages.config" />
   </ItemGroup>

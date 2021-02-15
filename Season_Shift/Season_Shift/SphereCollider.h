@@ -16,7 +16,7 @@ public:
 	void update() override;
 	void initialize() override;
 
-	const DirectX::BoundingSphere& getInternalCollider() const;
+	const DirectX::BoundingSphere& getInternalCollider();
 
 
 private:

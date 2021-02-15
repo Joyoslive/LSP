@@ -3,6 +3,7 @@
 #include "GfxRenderer.h"
 #include "GfxResourceDevice.h"
 #include "ForwardRenderStrategy.h"
+#include "DeferredRenderStrategy.h"
 #include "Model.h"
 
 #include <vector>

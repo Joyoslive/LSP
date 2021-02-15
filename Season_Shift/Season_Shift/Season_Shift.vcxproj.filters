@@ -51,7 +51,8 @@
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
-    <ClCompile Include="Scenes\Scene3.cpp" />
+    <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
+    <ClCompile Include="Graphics\Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -97,13 +98,16 @@
     <ClInclude Include="Graphics\DX\DXRenderPass.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
-    <ClInclude Include="Scenes\Scene3.h" />
+    <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
+    <ClInclude Include="Graphics\Skybox.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\DefaultPS.hlsl" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Input.h" />
+    <FxCompile Include="Graphics\Shaders\SkyboxVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
