@@ -1,11 +1,11 @@
 #include "DeferredRenderStrategy.h"
+#include "Skybox.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
-	IRenderStrategy(renderer),
-	m_skybox(m_renderer)
+	IRenderStrategy(renderer)
 {
 	setupGeometryPass();
 	setupLightPass();
@@ -58,7 +58,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
 		}
 	}
-	m_skybox.draw(mainCamera);
+	if (m_skybox != nullptr)
+		m_skybox->draw(mainCamera);
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
@@ -78,6 +79,12 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 }
+
+void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
+{
+	m_skybox = skybox;
+}
+
 
 void DeferredRenderStrategy::setUp()
 {
@@ -202,7 +209,7 @@ void DeferredRenderStrategy::setupLightPass()
 
 	// Create a sampler for the GBuffers
 	D3D11_SAMPLER_DESC sDesc = { };
-	sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;

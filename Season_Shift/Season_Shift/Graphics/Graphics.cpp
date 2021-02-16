@@ -14,6 +14,14 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 	//m_currRenderStrat = std::make_unique<ForwardRenderStrategy>(m_renderer);
 	m_currRenderStrat = std::make_unique<DeferredRenderStrategy>(m_renderer);
 
+	// Setup skyboxes
+	m_skybox = std::make_shared<Skybox>(m_renderer);
+	m_currRenderStrat->setSkybox(m_skybox);
+
+	// Default skybox
+	m_skybox->loadSkybox("Textures/Skyboxes/yokohama");
+	m_skybox->setSkybox(0);
+
 }
 
 Graphics::~Graphics()
@@ -32,6 +40,17 @@ void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const s
 const std::shared_ptr<GfxResourceDevice>& Graphics::getResourceDevice()
 {
 	return m_gfxDevice;
+}
+
+void Graphics::loadSkybox(const std::filesystem::path directoryPath)
+{
+	// perhaps make some check here if the skybox is already loaded, none for now
+	m_skybox->loadSkybox(directoryPath);
+}
+
+void Graphics::setSkybox(unsigned int idx)
+{
+	m_skybox->setSkybox(idx);
 }
 
 void Graphics::onResize(UINT width, UINT height)

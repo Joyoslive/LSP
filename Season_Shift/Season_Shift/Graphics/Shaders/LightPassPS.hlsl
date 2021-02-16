@@ -41,7 +41,7 @@ float4 calcDirLight(float3 normal, float3 worldPos, float4 texColor)
 float4 main(PS_IN input) : SV_TARGET
 {
 	float4 finalColor = g_difTex.Sample(g_sampler, input.uv);
-	float3 normal = g_norTex.Sample(g_sampler, input.uv);
+	float3 normal = normalize(g_norTex.Sample(g_sampler, input.uv));
 	float3 worldPos = g_posTex.Sample(g_sampler, input.uv);
 
 	if (!(finalColor.w > -1.1 && finalColor.w < -0.9))
