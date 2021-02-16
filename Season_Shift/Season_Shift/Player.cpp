@@ -334,6 +334,10 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_walljump = true;
 	 }
+	 if (collider->getGameObject()->getName() == "goal")
+	 {
+		 m_rb->getTransform()->setPosition(respawn);
+	 }
 	 if (!m_ground)
 	 {
 		 m_addSpeed = true;
@@ -415,7 +419,7 @@ using namespace DirectX::SimpleMath;
 
  void Player::setWaitForJump()
  {
-	 //Dålig lösning
+	 //Dï¿½lig lï¿½sning
 	 if (m_rb->getVelocity().y < 0)
 		 m_waitForJump = true;
 	 else
