@@ -30,7 +30,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	SceneManager sceneManager = SceneManager(&gph);
 
-	sceneManager.changeScene(3);
+	sceneManager.changeScene(2);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->getGameObject("player");
