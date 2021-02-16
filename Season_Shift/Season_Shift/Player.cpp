@@ -127,6 +127,12 @@ using namespace DirectX::SimpleMath;
 	 if (!onGround)
 		 changeDirectionSize = flyDirectionSize;
 
+	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > 30.0f)
+	 {
+		 m_flySpeed -= velocity.Length() * 200.0f * m_frameTime;
+		 m_groundSpeed -= velocity.Length() * 200.0f * m_frameTime;
+	 }
+
 	 Vector3 check = moveDirection * velocity;
 	 if (check.x < 0)
 		 velocity.x -= m_frameTime * changeDirectionSize * signOf(velocity.x) * std::abs(moveDirection.x);
@@ -157,20 +163,21 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_groundSpeed += groundSpeedModifier * m_frameTime;
 		 m_maxFlySpeed += flySpeedModifier * m_frameTime;
-		 if (m_groundSpeed > m_maxGroundSpeed)
-			 m_groundSpeed = m_maxGroundSpeed;
-		 if (m_flySpeed > m_maxFlySpeed)
-			 m_flySpeed = m_maxFlySpeed;
 	 }
 	 else
 	 {
 		 m_groundSpeed -= m_frameTime * groundSpeedNotMove;
 		 m_flySpeed -= m_frameTime * flySpeedNotMove;
-		 if (m_groundSpeed < 0)
-			 m_groundSpeed = 0;
-		 if (m_flySpeed < 0)
-			 m_flySpeed = 0;
 	 }
+
+	 if (m_groundSpeed > m_maxGroundSpeed)
+		 m_groundSpeed = m_maxGroundSpeed;
+	 if (m_flySpeed > m_maxFlySpeed)
+		 m_flySpeed = m_maxFlySpeed;
+	 if (m_groundSpeed < 0)
+		 m_groundSpeed = 0;
+	 if (m_flySpeed < 0)
+		 m_flySpeed = 0;
  }
 
  Vector3 Player::dash(Vector3 velocity, Vector3 cameraLook)
@@ -284,13 +291,12 @@ using namespace DirectX::SimpleMath;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
-	checkSpeeds(moveDirection);
-
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 
+	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
