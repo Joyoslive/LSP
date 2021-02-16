@@ -145,7 +145,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (moveDirection != Vector3::Zero)
 	 {
-		 m_groundSpeed += 400.0f * m_frameTime;
+		 m_groundSpeed += 350.0f * m_frameTime;
 		 m_maxFlySpeed += /*200*/ 400.0f * m_frameTime;
 		 if (m_groundSpeed > m_maxGroundSpeed)
 			 m_groundSpeed = m_maxGroundSpeed;
@@ -248,7 +248,7 @@ using namespace DirectX::SimpleMath;
 
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
-		velocitySkipY += cameraLook * 300.0f;
+		velocitySkipY += cameraLook * 150.0f;
 		if (m_ground && velocitySkipY.y < 10.0f)
 		{
 			velocitySkipY.y = 10.0f;
@@ -304,6 +304,10 @@ using namespace DirectX::SimpleMath;
 	 if (collider->getGameObject()->getName() == "wall")
 	 {
 		 m_walljump = true;
+	 }
+	 if (collider->getGameObject()->getName() == "goal")
+	 {
+		 m_rb->getTransform()->setPosition(respawn);
 	 }
 	 if (!m_ground)
 	 {
