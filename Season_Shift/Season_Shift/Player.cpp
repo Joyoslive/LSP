@@ -257,11 +257,11 @@ using namespace DirectX::SimpleMath;
 	//Dash
 	if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	{
-		m_cooldownDash = 5.0f;
+		m_cooldownDash = 2.0f;
 
 		velocitySkipY = { 0, 0, 0 };
 		cameraLook.Normalize();
-		velocitySkipY += cameraLook * 600.0f;
+		velocitySkipY += cameraLook * 300.0f;
 		if (m_ground && velocitySkipY.y < 10.0f)
 		{
 			velocitySkipY.y = 10.0f;
