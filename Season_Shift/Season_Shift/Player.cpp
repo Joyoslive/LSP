@@ -34,6 +34,9 @@ using namespace DirectX::SimpleMath;
 	 m_jumpSpeed = 26.0f;//15.0f;
 	 m_doubleJumpSpeed = 30.0f;//9.0f;
 	 m_cooldownDash = 0.0f;
+	 m_waitForJump = false;
+	 m_jumpWhenLanding = false;
+	 m_checkCollideJump = false;
  }
 
  Player::~Player()
@@ -218,25 +221,8 @@ using namespace DirectX::SimpleMath;
 			}
 		}
 
-		if (Input::getInput().keyPressed(Input::Space))
-		{
-			if (m_ground == true) 
-			{
-				velocity.y += m_jumpSpeed + m_chargeJump;
-				m_chargeJump = 0.0f;
-				m_ground = false;
-			}
-			else if(m_doubleJump == true)
-			{
-				velocity.y = m_doubleJumpSpeed;
-				m_doubleJump = false;
-			}
-			else if (m_walljump == true)
-			{
-				velocity.y = 30;
-			}
+		velocity = jumpPlayer(velocity);
 
-		}
 		if (Input::getInput().mouseBeingPressed(Input::LeftButton) && m_ground == true)
 		{
 			if (m_chargeJump < 50.0f)
@@ -330,6 +316,11 @@ using namespace DirectX::SimpleMath;
 		 m_ground = true;
 		 m_doubleJump = true;
 		 m_jetPackFuel = m_jetPackFuelMax;
+		 if (m_checkCollideJump)
+		 {
+			 m_checkCollideJump = false;
+			 m_jumpWhenLanding = true;
+		 }
 	 }
 	 if (collider->getGameObject()->getName() == "wall")
 	 {
@@ -339,8 +330,6 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_addSpeed = true;
 	 }
-
-
  }
 
  void Player::lookAround() 
@@ -357,6 +346,39 @@ using namespace DirectX::SimpleMath;
 	 }
  }
 
+ Vector3 Player::jumpPlayer(Vector3 velocity)
+ {
+	 if (Input::getInput().keyPressed(Input::Space) || m_jumpWhenLanding)
+	 {
+		 if (m_waitForJump && !m_checkCollideJump && !m_ground)
+		 {
+			 m_checkCollideJump = true;
+			 m_waitForJump = false;
+			 OutputDebugStringA("Check\n");
+		 }
+		 else if (m_ground == true)
+		 {
+			 velocity.y += m_jumpSpeed + m_chargeJump;
+			 m_chargeJump = 0.0f;
+			 m_ground = false;
+			 m_checkCollideJump = false;
+			 m_waitForJump = false;
+			 m_jumpWhenLanding = false;
+		 }
+		 else if (m_doubleJump == true)
+		 {
+			 velocity.y = m_doubleJumpSpeed;
+			 m_doubleJump = false;
+		 }
+		 else if (m_walljump == true)
+		 {
+			 velocity.y = 30;
+		 }
+		 m_jumpWhenLanding = false;
+	 }
+	 return velocity;
+ }
+
  void Player::setRespawn(Vector3 incomingRespawn)
  {
 	 respawn = incomingRespawn;
@@ -369,5 +391,18 @@ using namespace DirectX::SimpleMath;
 
  void Player::setWaitForJump()
  {
-	 m_waitForJump = true;
+	 /*if (!m_ground)
+		m_waitForJump = true;
+	 else
+		m_waitForJump = false;*/
+	 if (m_rb->getVelocity().y < 0)
+		 m_waitForJump = true;
+	 else
+		 m_waitForJump = false;
+	 //OutputDebugStringA("fs\n");
+ }
+
+ bool Player::getOnGround()
+ {
+	 return m_ground;
  }
