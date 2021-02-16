@@ -12,13 +12,13 @@ using namespace DirectX::SimpleMath;
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
-	 m_maxSpeed = 100.0f;
-	 m_maxSpeedRetardation = 1000.0f;
+	 m_maxSpeed = 90.0f;//100.0f;
+	 m_maxSpeedRetardation = 150.0f;//1000.0f;
 	 //m_oldMaxSpeed = 700.0f;
 	 m_baseFlySpeed = 100.0f;
 	 m_baseGroundSpeed = 350.0f;
-	 m_maxGroundSpeed = 700.0f;
-	 m_maxFlySpeed = 700.0f;//500;
+	 m_maxGroundSpeed = 1000.0f;//1400.0f;//900.0f;//700.0f;
+	 m_maxFlySpeed = 1000.0f;//1400.0f;//900.0f;//700.0f;//500;
 	 m_minSpeed = 0.1f;
 	 //m_groundSpeed = 350.0f;//300.0f;
 	 m_groundSpeed = 0;
@@ -47,7 +47,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
-	 m_playerCamera->setOffset(0, 3.0f, -0.5);
+	 m_playerCamera->setOffset(0, 3.0f, 0);//-0.5);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 
@@ -74,7 +74,7 @@ using namespace DirectX::SimpleMath;
 			 antiMoveSize /= 9.f;
 		 else
 		 {
-			 antiMoveSize = 1.385f;//1.38f;//1.4f;
+			 antiMoveSize = 1.1f; //* 1.385f;//1.385f;//1.38f;//1.4f;
 		 }
 	 }
 	 //antiMoveSize *= 0.0014f;
@@ -145,8 +145,8 @@ using namespace DirectX::SimpleMath;
 
 	 if (moveDirection != Vector3::Zero)
 	 {
-		 m_groundSpeed += 400 * m_frameTime;
-		 m_maxFlySpeed += 200 * m_frameTime;
+		 m_groundSpeed += 400.0f * m_frameTime;
+		 m_maxFlySpeed += /*200*/ 400.0f * m_frameTime;
 		 if (m_groundSpeed > m_maxGroundSpeed)
 			 m_groundSpeed = m_maxGroundSpeed;
 		 if (m_flySpeed > m_maxFlySpeed)
@@ -212,15 +212,6 @@ using namespace DirectX::SimpleMath;
 			exit(0);
 		}
 
-		if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false)
-		{
-			if (m_jetPackFuel > 0.0f)
-			{
-				velocity.y += m_jetPackSpeed * m_frameTime;
-				m_jetPackFuel -= 50 * m_frameTime;
-			}
-		}
-
 		velocity = jumpPlayer(velocity);
 
 		if (Input::getInput().mouseBeingPressed(Input::LeftButton) && m_ground == true)
@@ -229,10 +220,6 @@ using namespace DirectX::SimpleMath;
 			{
 				m_chargeJump += 10 * m_frameTime;
 			}
-		}
-		if (Input::getInput().keyReleased(Input::Space) && m_doubleJump)
-		{
-			m_jetPackFuel = 0;
 		}
 
 	}
@@ -276,14 +263,6 @@ using namespace DirectX::SimpleMath;
 	{
 		m_cooldownDash -= 1 * m_frameTime;
 	}
-	/*if (m_addSpeed)
-	{
-		Vector3 velocityNormalize = velocitySkipY;
-		velocityNormalize.y = 0;
-		velocityNormalize.Normalize();
-		//velocitySkipY += 1600 * velocityNormalize;
-		m_addSpeed = false;
-	}*/
 
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
@@ -302,7 +281,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	//OutputDebugStringA(msgbuf);
+	OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -348,13 +327,22 @@ using namespace DirectX::SimpleMath;
 
  Vector3 Player::jumpPlayer(Vector3 velocity)
  {
+	 if (Input::getInput().keyBeingPressed(Input::Space) && m_ground == false)
+	 {
+		 if (m_jetPackFuel > 0.0f)
+		 {
+			 velocity.y += m_jetPackSpeed * m_frameTime;
+			 m_jetPackFuel -= 50 * m_frameTime;
+		 }
+	 }
+
 	 if (Input::getInput().keyPressed(Input::Space) || m_jumpWhenLanding)
 	 {
+		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 if (m_waitForJump && !m_checkCollideJump && !m_ground)
 		 {
 			 m_checkCollideJump = true;
 			 m_waitForJump = false;
-			 OutputDebugStringA("Check\n");
 		 }
 		 else if (m_ground == true)
 		 {
@@ -376,6 +364,11 @@ using namespace DirectX::SimpleMath;
 		 }
 		 m_jumpWhenLanding = false;
 	 }
+
+	 if (Input::getInput().keyReleased(Input::Space) && m_doubleJump)
+	 {
+		 m_jetPackFuel = 0;
+	 }
 	 return velocity;
  }
 
@@ -391,15 +384,11 @@ using namespace DirectX::SimpleMath;
 
  void Player::setWaitForJump()
  {
-	 /*if (!m_ground)
-		m_waitForJump = true;
-	 else
-		m_waitForJump = false;*/
+	 //Dålig lösning
 	 if (m_rb->getVelocity().y < 0)
 		 m_waitForJump = true;
 	 else
 		 m_waitForJump = false;
-	 //OutputDebugStringA("fs\n");
  }
 
  bool Player::getOnGround()

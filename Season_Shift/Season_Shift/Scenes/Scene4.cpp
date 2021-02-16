@@ -27,9 +27,9 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 
-	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger");
+	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2,2,2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
-	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(1));
+	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
 	Ref<GameObject> brickCube = createGameObject("brickCube", Vector3(0, -50, 0.0f), Vector3(2 * 5, 1, 2 * 5));
