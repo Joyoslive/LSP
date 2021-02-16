@@ -209,7 +209,7 @@ void DeferredRenderStrategy::setupLightPass()
 
 	// Create a sampler for the GBuffers
 	D3D11_SAMPLER_DESC sDesc = { };
-	sDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
