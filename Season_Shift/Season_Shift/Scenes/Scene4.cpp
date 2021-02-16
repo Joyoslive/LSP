@@ -57,10 +57,18 @@ void Scene4::setUpScene()
 	springBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSpring/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	springBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 5, 2 * 4.5, 20 * 1.5)));
 
-
 	Ref<GameObject> springBox4 = createGameObject("brickCube", Vector3(10.0f + (20 * 90) / 2, 70.0f, 0.0f), Vector3((1.0f / 10.0f) * 7.5, 1 * 7.5, (1.0f / 10.0f) * 1.2));
 	springBox4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSpring/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	springBox4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 7.5, 2 * 7.5, 20 * 1.2)));
+
+	Ref<GameObject> springBox6 = createGameObject("brickCube", Vector3(10.0f + (20 * 60) / 2, 45.0f, 70.0f), Vector3((1.0f / 10.0f) * 5, 1 * 4.5, (1.0f / 10.0f) * 1.5));
+	springBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSpring/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	springBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 5, 2 * 4.5, 20 * 1.5)));
+
+	Ref<GameObject> springBox7 = createGameObject("brickCube", Vector3(10.0f + (20 * 60) / 2, 45.0f, 50.0f), Vector3((1.0f / 10.0f) * 5, 1 * 4.5, (1.0f / 10.0f) * 1.5));
+	springBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSpring/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	springBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 5, 2 * 4.5, 20 * 1.5)));
+
 
 	//Winter
 	Ref<GameObject> winterBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, 10.0f+(20*2)/2), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f)*2));
