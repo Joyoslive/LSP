@@ -2,6 +2,7 @@
 #include "Scenes/Scene1.h"
 #include "Scenes/Scene2.h"
 #include "Scenes/Scene3.h"
+#include "Scenes/Scene4.h"
 
 SceneManager::SceneManager(Graphics *graphics)
 {
@@ -26,6 +27,8 @@ void SceneManager::createScenes(Graphics* graphics)
 	addScene(scene2);
 	Ref<Scene> scene3 = std::make_shared<Scene3>(graphics);
 	addScene(scene3);
+	Ref<Scene> scene4 = std::make_shared<Scene4>(graphics);
+	addScene(scene4);
 	setActiveScene(scene);
 	//setActiveScene(scene2);
 }
