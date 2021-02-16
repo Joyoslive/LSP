@@ -27,7 +27,7 @@ private:
 	float m_jetPackSpeed;
 	float m_chargeJump;
 	float m_cooldownDash;
-	bool m_waitForJump;
+	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 
 private:
 	void lookAround();
@@ -37,6 +37,7 @@ private:
 	DirectX::SimpleMath::Vector3 checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	DirectX::SimpleMath::Vector3 checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);
+	DirectX::SimpleMath::Vector3 jumpPlayer(DirectX::SimpleMath::Vector3 velocity);
 public:
 	Player();
 	~Player();
@@ -47,4 +48,5 @@ public:
 	void setRespawn(DirectX::SimpleMath::Vector3 incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
+	bool getOnGround();
 };
