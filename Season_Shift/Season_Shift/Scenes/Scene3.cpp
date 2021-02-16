@@ -96,4 +96,7 @@ void Scene3::setUpScene()
 	cube14->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	cube14->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20*200, 2*200, 20)));
 
+	m_graphics->loadSkybox("Textures/Skyboxes/gl");
+	m_graphics->setSkybox(1);	// 0 är tagen (default)
+
 }

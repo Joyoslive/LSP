@@ -4,6 +4,7 @@
 #include "DX/DXRenderPass.h"
 #include "../Camera.h"
 
+class Skybox;
 /*
 
 Works as an interface to be able to select different rendering implementations (e.g forward or deferred)
@@ -20,6 +21,7 @@ public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	virtual ~IRenderStrategy();
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
+	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void setUp() = 0;
 };
 

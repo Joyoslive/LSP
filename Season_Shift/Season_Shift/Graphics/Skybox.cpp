@@ -3,12 +3,11 @@
 #include "../../Camera.h"
 
 Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_texCount(0),
+	m_activeIdx(0)
 {
 	auto dev = renderer->getDXDevice();
-
-	loadSkybox("Textures/Skyboxes/yokohama");
-	m_activeTexture = m_textures[0];
 
 	// Load Skybox VS/PS
 	m_vs = dev->createShader("SkyboxVS.cso", DXShader::Type::VS);
@@ -86,11 +85,23 @@ void Skybox::loadSkybox(std::filesystem::path directoryPath)
 	}
 
 	m_textures.push_back(dev->createTexture(texCubeDesc, subresDat));
+	++m_texCount;
 
 	for (int i = 0; i < 6; ++i)
 	{
 		free(textData[i].data);
 	}
+}
+
+void Skybox::setSkybox(unsigned int idx)
+{
+	if (idx >= m_texCount)
+	{
+		m_activeIdx = 0;
+		return;
+	}
+	m_activeIdx = idx;
+
 }
 
 void Skybox::draw(const std::shared_ptr<Camera>& cam)
@@ -108,7 +119,7 @@ void Skybox::draw(const std::shared_ptr<Camera>& cam)
 	dev->bindDepthStencilState(m_dss);
 	dev->bindShaderConstantBuffer(DXShader::Type::VS, 5, m_vpBuffer);
 	dev->bindShaderSampler(DXShader::Type::PS, 5, m_sampler);
-	dev->bindShaderTexture(DXShader::Type::PS, 5, m_activeTexture);
+	dev->bindShaderTexture(DXShader::Type::PS, 5, m_textures[m_activeIdx]);
 	dev->bindShader(m_vs, DXShader::Type::VS);
 	dev->bindShader(m_ps, DXShader::Type::PS);
 

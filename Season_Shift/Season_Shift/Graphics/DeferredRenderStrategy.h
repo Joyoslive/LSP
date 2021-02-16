@@ -1,6 +1,5 @@
 #pragma once
 #include "IRenderStrategy.h"
-#include "Skybox.h"
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
@@ -39,7 +38,7 @@ private:
 	std::shared_ptr<DXBuffer> m_dirLightBuffer;
 	std::shared_ptr<DXBuffer> m_cameraBuffer;
 
-	Skybox m_skybox;
+	std::shared_ptr<Skybox> m_skybox;
 
 	void setupGeometryPass();
 	void setupLightPass();
@@ -50,6 +49,8 @@ public:
 	~DeferredRenderStrategy() = default;
 
 	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) override;
+
+	void setSkybox(std::shared_ptr<Skybox> skybox) override;
 
 	void setUp() override;
 
