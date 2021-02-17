@@ -56,6 +56,7 @@ private:
 
 
 	std::shared_ptr<Skybox> m_skybox;
+	std::shared_ptr<DirectionalLight> m_dirLight;
 
 public:
 	Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight);
@@ -82,6 +83,10 @@ public:
 	*/
 	void setSkybox(unsigned int idx);
 
+	/*
+	Change the direction of the global directional light
+	*/
+	void setLightDirection(const DirectX::SimpleMath::Vector3& direction);
 
 	/*
 	

@@ -22,6 +22,8 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 	m_skybox->loadSkybox("Textures/Skyboxes/yokohama");
 	m_skybox->setSkybox(0);
 
+	m_dirLight = std::make_shared<DirectionalLight>();
+	m_currRenderStrat->setDirLight(m_dirLight);
 }
 
 Graphics::~Graphics()
@@ -51,6 +53,11 @@ void Graphics::loadSkybox(const std::filesystem::path directoryPath)
 void Graphics::setSkybox(unsigned int idx)
 {
 	m_skybox->setSkybox(idx);
+}
+
+void Graphics::setLightDirection(const DirectX::SimpleMath::Vector3& direction)
+{
+	m_dirLight->setDirection(direction);
 }
 
 void Graphics::onResize(UINT width, UINT height)
