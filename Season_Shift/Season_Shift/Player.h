@@ -8,6 +8,7 @@ class Player : public Logic
 private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
+	Ref<CapsuleCollider> m_capsuleCollider;
 	float m_pitch, m_yaw, m_roll;
 
 	DirectX::SimpleMath::Vector3 respawn;
