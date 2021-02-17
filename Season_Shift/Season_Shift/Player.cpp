@@ -122,15 +122,16 @@ using namespace DirectX::SimpleMath;
  {
 	 constexpr float flyDirectionSize = 125.0f;
 	 constexpr float groundDirectionSize = 2500.0f;
+	 constexpr float speedChange = 0.0f;
 
 	 float changeDirectionSize = groundDirectionSize;
 	 if (!onGround)
 		 changeDirectionSize = flyDirectionSize;
 
-	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > 30.0f)
+	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > m_maxSpeed / 3.0f)
 	 {
-		 m_flySpeed -= velocity.Length() * 200.0f * m_frameTime;
-		 m_groundSpeed -= velocity.Length() * 200.0f * m_frameTime;
+		 m_flySpeed -= velocity.LengthSquared() * speedChange * m_frameTime;
+		 m_groundSpeed -= velocity.LengthSquared() * speedChange * m_frameTime;
 	 }
 
 	 Vector3 check = moveDirection * velocity;
