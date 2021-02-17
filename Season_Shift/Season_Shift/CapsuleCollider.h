@@ -36,5 +36,7 @@ public:
 	void initialize() override;
 
 	const Capsule& getInternalCollider() const;
+
+	const DirectX::SimpleMath::Vector3& getCollisionNormal() const;
 };
 
