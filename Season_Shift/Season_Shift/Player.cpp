@@ -346,10 +346,8 @@ using namespace DirectX::SimpleMath;
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
-		 std::wstring headerMsg = L"Your Time is";
-		 m_timer.stop();
-		 m_timer.print(headerMsg);
-		 m_timer.start();
+		 std::wstring msg = L"Your Time was";
+		 getTime(msg);
 		
 	 }
 	 if (!m_ground)
@@ -369,8 +367,8 @@ using namespace DirectX::SimpleMath;
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
-		 m_timer.stop();
-		 m_timer.start();
+		 std::wstring msg = L"Your survived for";
+		 getTime(msg);
 	 }
  }
 
@@ -445,4 +443,11 @@ using namespace DirectX::SimpleMath;
  bool Player::getOnGround()
  {
 	 return m_ground;
+ }
+
+ void Player::getTime(std::wstring msg) 
+ {
+	 m_timer.stop();
+	 m_timer.print(msg);
+	 m_timer.start();
  }

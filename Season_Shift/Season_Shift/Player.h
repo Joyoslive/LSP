@@ -43,6 +43,7 @@ private:
 	DirectX::SimpleMath::Vector3 jumpPlayer(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
+	void getTime(std::wstring msg);
 public:
 	Player();
 	~Player();
