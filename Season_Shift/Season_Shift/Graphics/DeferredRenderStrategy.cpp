@@ -63,7 +63,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
-	auto lightData = m_dirLight.getLight();
+	auto lightData = m_dirLight->getLight();
 	m_dirLightBuffer->updateMapUnmap(&lightData, sizeof(lightData));
 
 	CameraBuffer camBuf = { mainCamera->getPosition() };
@@ -85,6 +85,11 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
 {
 	m_skybox = skybox;
+}
+
+void DeferredRenderStrategy::setDirLight(std::shared_ptr<DirectionalLight> light)
+{
+	m_dirLight = light;
 }
 
 
@@ -243,7 +248,6 @@ void DeferredRenderStrategy::setupLightPass()
 	lpVP.MaxDepth = 1.0;
 
 	// Directional Light Buffer
-	m_dirLight = DirectionalLight({1,-1,-1});
 	m_dirLightBuffer = dev->createConstantBuffer(sizeof(DirectionalLight::DirLight), true, true);
 
 	// Camera constant buffer

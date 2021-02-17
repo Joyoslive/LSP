@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "DX/DXRenderPass.h"
 #include "../Camera.h"
+#include "DirectionalLight.h"
 
 class Skybox;
 /*
@@ -23,6 +24,7 @@ public:
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void present() {};
+	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setUp() = 0;
 };
 

@@ -34,7 +34,7 @@ private:
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
 	FullscreenQuad m_fsQuad;
-	DirectionalLight m_dirLight;
+	std::shared_ptr<DirectionalLight> m_dirLight;
 	std::shared_ptr<DXBuffer> m_dirLightBuffer;
 	std::shared_ptr<DXBuffer> m_cameraBuffer;
 
@@ -51,6 +51,8 @@ public:
 	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) override;
 
 	void setSkybox(std::shared_ptr<Skybox> skybox) override;
+
+	void setDirLight(std::shared_ptr<DirectionalLight> light) override;
 
 	void setUp() override;
 
