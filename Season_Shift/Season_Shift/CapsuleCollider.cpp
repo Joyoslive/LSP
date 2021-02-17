@@ -176,3 +176,8 @@ const Capsule& CapsuleCollider::getInternalCollider() const
 {
     return m_capsule;
 }
+
+const DirectX::SimpleMath::Vector3& CapsuleCollider::getCollisionNormal() const
+{
+    return m_collisionInfo.m_normal;
+}
