@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Logger.h"
+#include <imgui_impl_win32.h>
 
 using namespace DirectX::SimpleMath;
 
@@ -321,6 +322,14 @@ using namespace DirectX::SimpleMath;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
 	//OutputDebugStringA(msgbuf);
+
+	ImGui::Begin("Player Info");
+	{
+		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
+		ImGui::Text("Speed: %f", velocity.Length());
+		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
+	}
+	ImGui::End();
  }
 
  void Player::onCollision(Ref<Collider> collider)
