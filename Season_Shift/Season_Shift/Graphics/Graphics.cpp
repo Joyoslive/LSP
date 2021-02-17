@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include <imgui_impl_win32.h>
 
 Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight)
 {
@@ -34,9 +35,15 @@ Graphics::~Graphics()
 void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
 {
 	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
-	
+
 	m_currRenderStrat->render(models, mainCamera);
 
+
+	ImGui::ShowDemoWindow();
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	m_currRenderStrat->present();
 }
 
 const std::shared_ptr<GfxResourceDevice>& Graphics::getResourceDevice()

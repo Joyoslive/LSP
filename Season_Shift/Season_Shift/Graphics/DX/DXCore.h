@@ -4,6 +4,9 @@
 #include <memory>
 #include <DirectXColors.h>
 #include <wrl/client.h>
+#include <imgui.h>
+#include <imgui_impl_dx11.h>
+
 
 
 static inline void HRCHECK(HRESULT hr)

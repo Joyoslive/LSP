@@ -36,6 +36,8 @@ using namespace DirectX::SimpleMath;
 	 m_waitForJump = false;
 	 m_jumpWhenLanding = false;
 	 m_checkCollideJump = false;
+	 m_timer = Timer();
+	 m_timer.start();
  }
 
  Player::~Player()
@@ -49,6 +51,7 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setOffset(0, 3.0f, 0);//-0.5);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
 
 	 m_rb->setGravity(20.0);
  }	
@@ -122,15 +125,16 @@ using namespace DirectX::SimpleMath;
  {
 	 constexpr float flyDirectionSize = 125.0f;
 	 constexpr float groundDirectionSize = 2500.0f;
+	 constexpr float speedChange = 200.0f;
 
 	 float changeDirectionSize = groundDirectionSize;
 	 if (!onGround)
 		 changeDirectionSize = flyDirectionSize;
 
-	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > 30.0f)
+	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > m_maxSpeed / 3.0f)
 	 {
-		 m_flySpeed -= velocity.Length() * 200.0f * m_frameTime;
-		 m_groundSpeed -= velocity.Length() * 200.0f * m_frameTime;
+		 m_flySpeed -= velocity.Length() * speedChange * m_frameTime;
+		 m_groundSpeed -= velocity.Length() * speedChange * m_frameTime;
 	 }
 
 	 Vector3 check = moveDirection * velocity;
@@ -316,16 +320,17 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	OutputDebugStringA(msgbuf);
+	//OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
  {
+	 Vector3 normal = m_capsuleCollider->getCollisionNormal();
 	 if (m_waitForJump)
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (collider->getGameObject()->getName() == "brickCube")
+	 if (/*collider->getGameObject()->getName() == "brickCube" && */normal.Dot(Vector3::Up) > 0.8f)
 	 {
 		 m_ground = true;
 		 m_doubleJump = true;
@@ -343,6 +348,9 @@ using namespace DirectX::SimpleMath;
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
+		 std::wstring msg = L"Your Time was";
+		 getTime(msg);
+		
 	 }
 	 if (!m_ground)
 	 {
@@ -361,6 +369,11 @@ using namespace DirectX::SimpleMath;
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
+		 m_roll = 0.0f;
+		 m_pitch = 0.0f;
+		 m_yaw = 0.0f;
+		 std::wstring msg = L"Your survived for";
+		 getTime(msg);
 	 }
  }
 
@@ -425,7 +438,7 @@ using namespace DirectX::SimpleMath;
 
  void Player::setWaitForJump()
  {
-	 //D�lig l�sning
+	 //Bad solution
 	 if (m_rb->getVelocity().y < 0)
 		 m_waitForJump = true;
 	 else
@@ -435,4 +448,11 @@ using namespace DirectX::SimpleMath;
  bool Player::getOnGround()
  {
 	 return m_ground;
+ }
+
+ void Player::getTime(std::wstring msg) 
+ {
+	 m_timer.stop();
+	 m_timer.print(msg);
+	 m_timer.start();
  }
