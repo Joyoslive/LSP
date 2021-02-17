@@ -89,6 +89,10 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			DispatchMessage(&msg);
 		}
 
+		//ImGui_ImplDX11_NewFrame();
+		//ImGui_ImplWin32_NewFrame();
+		//ImGui::NewFrame();
+
 		
 		sceneManager.updateActiveScene();
 		physicsEng->simulate(m_timer.dt());
@@ -99,6 +103,13 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(m_timer.dt());
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
 		m_timer.stop();
+
+
+
+		//ImGui::ShowDemoWindow();
+
+		//ImGui::Render();
+		//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 
 

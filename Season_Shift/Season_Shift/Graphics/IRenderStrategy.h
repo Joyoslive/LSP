@@ -22,6 +22,7 @@ public:
 	virtual ~IRenderStrategy();
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
+	virtual void present() {};
 	virtual void setUp() = 0;
 };
 

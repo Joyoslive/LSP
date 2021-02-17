@@ -4,6 +4,8 @@
 #include <string>
 #include <assert.h>
 #include <functional>
+#include <imgui.h>
+#include <imgui_impl_win32.h>
 
 
 class Window
