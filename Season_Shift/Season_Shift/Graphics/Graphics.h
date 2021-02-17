@@ -4,6 +4,7 @@
 #include "GfxResourceDevice.h"
 #include "ForwardRenderStrategy.h"
 #include "DeferredRenderStrategy.h"
+#include "Skybox.h"
 #include "Model.h"
 
 #include <vector>
@@ -53,6 +54,9 @@ private:
 	std::shared_ptr<GfxRenderer> m_renderer;
 	std::unique_ptr<IRenderStrategy> m_currRenderStrat;
 
+
+	std::shared_ptr<Skybox> m_skybox;
+
 public:
 	Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight);
 	~Graphics();
@@ -68,6 +72,15 @@ public:
 	*/
 	const std::shared_ptr<GfxResourceDevice>& getResourceDevice();
 
+	/*
+	Load skybox - Files in the directory must be named "negx, posx, negy, posy, negz, posz"
+	*/
+	void loadSkybox(const std::filesystem::path directoryPath);
+
+	/*
+	Change skybox
+	*/
+	void setSkybox(unsigned int idx);
 
 
 	/*

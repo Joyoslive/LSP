@@ -18,10 +18,12 @@ void PlayerJumpTrigger::start()
 
 void PlayerJumpTrigger::update()
 {
-	m_myTransform->setPosition(m_playerTransform->getPosition() + DirectX::SimpleMath::Vector3(0, -1, 0));
+	m_myTransform->setPosition(m_playerTransform->getPosition() + DirectX::SimpleMath::Vector3(0, -2, 0));
+	m_ground = false;
 }
 
 void PlayerJumpTrigger::onCollision(Ref<Collider> collider)
 {
+	m_ground = true;
 	m_player->setWaitForJump();
 }

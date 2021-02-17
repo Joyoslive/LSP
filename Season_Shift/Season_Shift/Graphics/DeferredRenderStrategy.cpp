@@ -1,11 +1,11 @@
 #include "DeferredRenderStrategy.h"
+#include "Skybox.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer) :
-	IRenderStrategy(renderer),
-	m_skybox(m_renderer)
+	IRenderStrategy(renderer)
 {
 	setupGeometryPass();
 	setupLightPass();
@@ -58,7 +58,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
 		}
 	}
-	m_skybox.draw(mainCamera);
+	if (m_skybox != nullptr)
+		m_skybox->draw(mainCamera);
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
@@ -78,6 +79,12 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 }
+
+void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
+{
+	m_skybox = skybox;
+}
+
 
 void DeferredRenderStrategy::setUp()
 {

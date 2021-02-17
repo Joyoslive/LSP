@@ -19,6 +19,7 @@ private:
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
+	float m_dashSpeed;
 	float m_baseFlySpeed, m_baseGroundSpeed;
 	float m_maxSpeedRetardation;
 	float m_maxAntiMoveSize, m_minAntiMoveSize;
@@ -27,7 +28,7 @@ private:
 	float m_jetPackSpeed;
 	float m_chargeJump;
 	float m_cooldownDash;
-	bool m_waitForJump;
+	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 
 private:
 	void lookAround();
@@ -37,6 +38,9 @@ private:
 	DirectX::SimpleMath::Vector3 checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	DirectX::SimpleMath::Vector3 checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);
+	DirectX::SimpleMath::Vector3 jumpPlayer(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
+	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
 public:
 	Player();
 	~Player();
@@ -47,4 +51,5 @@ public:
 	void setRespawn(DirectX::SimpleMath::Vector3 incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
+	bool getOnGround();
 };

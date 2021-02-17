@@ -57,6 +57,7 @@
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
+    <ClCompile Include="Scenes\Scene4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="Graphics\FullscreenQuad.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
+    <ClInclude Include="Scenes\Scene4.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
