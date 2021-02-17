@@ -51,6 +51,7 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setOffset(0, 3.0f, 0);//-0.5);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
 
 	 m_rb->setGravity(20.0);
  }	
@@ -124,7 +125,7 @@ using namespace DirectX::SimpleMath;
  {
 	 constexpr float flyDirectionSize = 125.0f;
 	 constexpr float groundDirectionSize = 2500.0f;
-	 constexpr float speedChange = 0.0f;
+	 constexpr float speedChange = 200.0f;
 
 	 float changeDirectionSize = groundDirectionSize;
 	 if (!onGround)
@@ -132,8 +133,8 @@ using namespace DirectX::SimpleMath;
 
 	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > m_maxSpeed / 3.0f)
 	 {
-		 m_flySpeed -= velocity.LengthSquared() * speedChange * m_frameTime;
-		 m_groundSpeed -= velocity.LengthSquared() * speedChange * m_frameTime;
+		 m_flySpeed -= velocity.Length() * speedChange * m_frameTime;
+		 m_groundSpeed -= velocity.Length() * speedChange * m_frameTime;
 	 }
 
 	 Vector3 check = moveDirection * velocity;
@@ -324,11 +325,12 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
+	 Vector3 normal = m_capsuleCollider->getCollisionNormal();
 	 if (m_waitForJump)
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (collider->getGameObject()->getName() == "brickCube")
+	 if (/*collider->getGameObject()->getName() == "brickCube" && */normal.Dot(Vector3::Up) > 0.8f)
 	 {
 		 m_ground = true;
 		 m_doubleJump = true;
@@ -433,7 +435,7 @@ using namespace DirectX::SimpleMath;
 
  void Player::setWaitForJump()
  {
-	 //D�lig l�sning
+	 //Bad solution
 	 if (m_rb->getVelocity().y < 0)
 		 m_waitForJump = true;
 	 else

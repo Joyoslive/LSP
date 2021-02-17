@@ -9,6 +9,7 @@ class Player : public Logic
 private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
+	Ref<CapsuleCollider> m_capsuleCollider;
 	Timer m_timer;
 	float m_pitch, m_yaw, m_roll;
 
