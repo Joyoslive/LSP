@@ -112,7 +112,7 @@ void Scene4::setUpScene()
 
 	Ref<GameObject> go1 = createGameObject("goal", Vector3(10.0f + (20 * 195) / 2, 280.0f, 90.0f));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
-	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 2, 10 * 2)));
+	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 
 	//Winter
 	Ref<GameObject> winterBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, 10.0f+(20*2)/2), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f)*2));
@@ -163,7 +163,7 @@ void Scene4::setUpScene()
 
 	Ref<GameObject> go2 = createGameObject("goal", Vector3(0.0, 32.0f, -(10.0f + (20 * 102) / 2)));
 	go2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
-	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 2, 10 * 2)));
+	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 
 	//Fall
 	Ref<GameObject> fallBox1 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 2) / 2), 5.0f,0), Vector3((1.0f / 10.0f)*2, 1, (1.0f / 10.0f)));
