@@ -25,4 +25,6 @@ public:
 	const DirectX::SimpleMath::Vector3& getColor();
 	const float getIntensity();
 	DirLight getLight();
+
+	void setDirection(const DirectX::SimpleMath::Vector3& direction);
 };

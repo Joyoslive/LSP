@@ -1,4 +1,5 @@
 #include "DirectionalLight.h"
+#include <stdexcept>
 
 using namespace DirectX::SimpleMath;
 
@@ -32,4 +33,12 @@ DirectionalLight::DirLight DirectionalLight::getLight()
 {
 	Vector4 col = { m_color.x, m_color.y, m_color.z, 1 };
 	return { m_direction, m_ambIntensity, col };
+}
+
+void DirectionalLight::setDirection(const Vector3& direction)
+{
+	if (direction.Length() > 0.00001)
+		m_direction = direction;
+	else
+		throw std::invalid_argument("Length of direction vector must be greater than 0");
 }

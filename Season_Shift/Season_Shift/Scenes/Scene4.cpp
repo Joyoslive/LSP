@@ -130,4 +130,5 @@ void Scene4::setUpScene()
 	fallBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	fallBox1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20*2, 2, 20)));
 
+	m_graphics->setLightDirection({-1, -1, 1});
 }
