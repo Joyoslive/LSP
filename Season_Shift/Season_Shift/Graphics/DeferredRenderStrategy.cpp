@@ -52,7 +52,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 			m_gpMatrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
 
-			m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_gpMatrixBuffer);
+			dev->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_gpMatrixBuffer);
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
@@ -128,7 +128,7 @@ void DeferredRenderStrategy::setupGeometryPass()
 	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sDesc.MinLOD = 0;
 	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	ComPtr<ID3D11SamplerState> minMagLinMipPointSamp = m_renderer->getDXDevice()->createSamplerState(sDesc);
+	ComPtr<ID3D11SamplerState> minMagLinMipPointSamp = dev->createSamplerState(sDesc);
 
 	// Create a matrix buffer
 	m_gpMatrixBuffer = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 3, true, true);
@@ -136,8 +136,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	// Create GBuffers
 	DXTexture::Desc gbDesc = { };
 	gbDesc.type = DXTexture::Type::TEX2D;
-	gbDesc.desc2D.Width = m_renderer->getDXDevice()->getClientWidth();
-	gbDesc.desc2D.Height = m_renderer->getDXDevice()->getClientHeight();
+	gbDesc.desc2D.Width = dev->getClientWidth();
+	gbDesc.desc2D.Height = dev->getClientHeight();
 	gbDesc.desc2D.MipLevels = 1;
 	gbDesc.desc2D.ArraySize = 1;
 	gbDesc.desc2D.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -172,8 +172,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	D3D11_VIEWPORT gbVP = {};
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
-	gbVP.Width = m_renderer->getDXDevice()->getClientWidth();
-	gbVP.Height = m_renderer->getDXDevice()->getClientHeight();
+	gbVP.Width = dev->getClientWidth();
+	gbVP.Height = dev->getClientHeight();
 	gbVP.MinDepth = 0.0;
 	gbVP.MaxDepth = 1.0;
 
@@ -235,8 +235,8 @@ void DeferredRenderStrategy::setupLightPass()
 	D3D11_VIEWPORT lpVP = {};
 	lpVP.TopLeftX = 0;
 	lpVP.TopLeftY = 0;
-	lpVP.Width = m_renderer->getDXDevice()->getClientWidth();
-	lpVP.Height = m_renderer->getDXDevice()->getClientHeight();
+	lpVP.Width = dev->getClientWidth();
+	lpVP.Height = dev->getClientHeight();
 	lpVP.MinDepth = 0.0;
 	lpVP.MaxDepth = 1.0;
 
