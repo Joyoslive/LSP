@@ -58,6 +58,8 @@
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scenes\Scene4.cpp" />
+    <ClCompile Include="Graphics\PointLight.cpp" />
+    <ClCompile Include="Graphics\PointLightRepo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -110,6 +112,8 @@
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scenes\Scene4.h" />
+    <ClInclude Include="Graphics\PointLight.h" />
+    <ClInclude Include="Graphics\PointLightRepo.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
