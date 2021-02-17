@@ -79,19 +79,35 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	CameraSwitch camSwitch;
 	camSwitch.Init(&debugCamera, player, cam);
+
+	// ImGUI
+	int a = 500;
+	bool b = false;
+	float myFloats[3] = {};
+
 	MSG msg = { };
 	while (!win.isClosed())
 	{
 		m_timer.start();
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
 		while (PeekMessageW(&msg, win.getHWND(), 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 
-		//ImGui_ImplDX11_NewFrame();
-		//ImGui_ImplWin32_NewFrame();
-		//ImGui::NewFrame();
+		// Example
+		ImGui::Begin("App Statistics");
+		{
+			ImGui::Text("Elapsed Time = %f", &a);
+			ImGui::Text("DisplaySize = %f, %f", ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y);
+			ImGui::Checkbox("My Checkbox", &b);
+			ImGui::SliderFloat3("Float3", myFloats, 0.0, 5.0);
+
+		}
+		ImGui::End();
 
 		
 		sceneManager.updateActiveScene();
@@ -104,12 +120,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
 		m_timer.stop();
 
-
-
-		//ImGui::ShowDemoWindow();
-
-		//ImGui::Render();
-		//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 
 
