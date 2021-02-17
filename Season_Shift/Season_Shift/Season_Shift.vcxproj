@@ -195,6 +195,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scene5.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scene5.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Graphics\ResourceRepository.h" />
