@@ -133,8 +133,8 @@ using namespace DirectX::SimpleMath;
 
 	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > m_maxSpeed / 3.0f)
 	 {
-		 m_flySpeed -= velocity.Length() * speedChange * m_frameTime;
-		 m_groundSpeed -= velocity.Length() * speedChange * m_frameTime;
+		 m_flySpeed -= speedChange * velocity.Length() * m_frameTime;
+		 m_groundSpeed -= speedChange * velocity.Length() * m_frameTime;
 	 }
 
 	 Vector3 check = moveDirection * velocity;
@@ -330,7 +330,8 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (/*collider->getGameObject()->getName() == "brickCube" && */normal.Dot(Vector3::Up) > 0.8f)
+	 /*collider->getGameObject()->getName() == "brickCube" && */
+	 if (normal.Dot(Vector3::Up) > 0.8f)
 	 {
 		 m_ground = true;
 		 m_doubleJump = true;
