@@ -26,6 +26,13 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	// Create SRV for backbuffer
 	HRCHECK(m_device->CreateShaderResourceView(m_backbufferTexture.Get(), NULL, m_backbufferSRV.GetAddressOf()));
 
+	// Initialize ImGUI
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGui_ImplDX11_Init(m_device.Get(), m_immediateContext.Get());
+	ImGui::StyleColorsDark();
+
 
 #if _DEBUG
 	HRCHECK(m_device.Get()->QueryInterface<ID3D11Debug>(m_debug.GetAddressOf()));
