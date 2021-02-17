@@ -369,6 +369,9 @@ using namespace DirectX::SimpleMath;
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
+		 m_roll = 0.0f;
+		 m_pitch = 0.0f;
+		 m_yaw = 0.0f;
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
 	 }
