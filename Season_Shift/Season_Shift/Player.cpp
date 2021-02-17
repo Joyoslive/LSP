@@ -36,6 +36,8 @@ using namespace DirectX::SimpleMath;
 	 m_waitForJump = false;
 	 m_jumpWhenLanding = false;
 	 m_checkCollideJump = false;
+	 m_timer = Timer();
+	 m_timer.start();
  }
 
  Player::~Player()
@@ -318,7 +320,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
 	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	OutputDebugStringA(msgbuf);
+	//OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -346,6 +348,11 @@ using namespace DirectX::SimpleMath;
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
+		 std::wstring headerMsg = L"Your Time is";
+		 m_timer.stop();
+		 m_timer.print(headerMsg);
+		 m_timer.start();
+		
 	 }
 	 if (!m_ground)
 	 {
@@ -364,6 +371,8 @@ using namespace DirectX::SimpleMath;
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
+		 m_timer.stop();
+		 m_timer.start();
 	 }
  }
 
