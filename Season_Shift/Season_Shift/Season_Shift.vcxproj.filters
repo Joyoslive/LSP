@@ -58,7 +58,8 @@
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scenes\Scene4.cpp" />
-    <ClCompile Include="Scene5.cpp" />
+    <ClCompile Include="SceneReader.cpp" />
+    <ClCompile Include="Scenes\Scene5.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -111,7 +112,9 @@
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scenes\Scene4.h" />
-    <ClInclude Include="Scene5.h" />
+    <ClInclude Include="SceneReader.h" />
+    <ClInclude Include="Libraries\inc\json\json.hpp" />
+    <ClInclude Include="Scenes\Scene5.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

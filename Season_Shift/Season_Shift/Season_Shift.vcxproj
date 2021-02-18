@@ -195,11 +195,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scene5.cpp" />
+    <ClCompile Include="Scenes\Scene5.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="SceneManagerObserver.cpp" />
+    <ClCompile Include="SceneReader.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\Skybox.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="CameraSwitch.h" />
+    <ClInclude Include="Libraries\inc\json\json.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
@@ -238,12 +240,13 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Scene5.h" />
+    <ClInclude Include="Scenes\Scene5.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Graphics\ResourceRepository.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="SceneManagerObserver.h" />
+    <ClInclude Include="SceneReader.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="Graphics\Skybox.h" />
