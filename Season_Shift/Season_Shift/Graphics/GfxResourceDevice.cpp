@@ -112,8 +112,6 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 	}
 
 	// Load model in one mesh
-	D3D11_SUBRESOURCE_DATA subresData;
-	ZeroMemory(&subresData, sizeof(D3D11_SUBRESOURCE_DATA));
 	auto mesh = createMesh(modelDirectory + modelFileName, modelData.vertices, modelData.indices);
 
 	std::vector<SubsetMaterial> materials;
