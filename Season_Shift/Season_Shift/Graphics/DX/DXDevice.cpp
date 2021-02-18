@@ -205,10 +205,22 @@ std::shared_ptr<DXBuffer> DXDevice::createStructuredBuffer(unsigned int count, u
 		assert(false);
 	}
 
+	//fix more fancy shit 
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = { };
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.ElementWidth = structSize;
+	srvDesc.Buffer.NumElements = count;
+
 	ComPtr<ID3D11Buffer> buf = nullptr;
 	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
 
 	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Structured, count, structSize);
+
+	ComPtr<ID3D11ShaderResourceView> srv;
+	m_core->getDevice()->CreateShaderResourceView(buf.Get(), &srvDesc, &srv);
+	toRet->setSRV(srv);
 	return toRet;
 }
 
