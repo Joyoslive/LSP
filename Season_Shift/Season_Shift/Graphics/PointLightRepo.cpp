@@ -16,6 +16,9 @@ PointLightRepo::~PointLightRepo()
 
 void PointLightRepo::addPointLight(PointLight& pointLight)
 {
+	if (findPointLight(pointLight.m_name)) return; //can't have same
+
+
 	m_pointLightVector.push_back(std::pair(pointLight, -1)); // hope pair() stores a copy of pointlight
 	m_latestUsedLightIndex = m_pointLightVector.size() - 1;
 	m_rebuildBuffer = true;
