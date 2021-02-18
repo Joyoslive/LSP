@@ -72,12 +72,14 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 	dev->drawIndexed(6, 0, 0);
 
-	dev->present();
+	//dev->present();
 
 	dev->bindShaderTexture(DXShader::Type::PS, 0, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 1, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
+
+	dev->bindRenderTargets({ m_renderer->getDXDevice()->getBackbuffer() }, nullptr);
 }
 
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
@@ -96,6 +98,11 @@ void DeferredRenderStrategy::setUp()
 	setupGeometryPass();
 	setupLightPass();
 	setupPostProcessPass();
+}
+
+void DeferredRenderStrategy::present()
+{
+	m_renderer->getDXDevice()->present();
 }
 
 

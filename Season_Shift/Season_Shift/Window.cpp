@@ -41,6 +41,12 @@ Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT
     
     resizeToWindowToFitClient();
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+
+    // Init ImGUI
+    IMGUI_CHECKVERSION();
+    auto ctx = ImGui::CreateContext();
+    ImGui_ImplWin32_Init(m_hwnd);
+    ImGui::StyleColorsDark();
 };
 
 Window::~Window()
@@ -97,8 +103,13 @@ void Window::setOnResizeCallback(std::function<void(UINT width, UINT height)> fu
 {
     m_onResize = func;
 }
+
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    ImGui_ImplWin32_WndProcHandler(m_hwnd, uMsg, wParam, lParam);
+
     switch (uMsg)
     {
     case WM_CLOSE:

@@ -194,6 +194,8 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
+    <ClCompile Include="Graphics\PointLight.cpp" />
+    <ClCompile Include="Graphics\PointLightRepo.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scenes\Scene5.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -239,6 +241,8 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
+    <ClInclude Include="Graphics\PointLight.h" />
+    <ClInclude Include="Graphics\PointLightRepo.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenes\Scene5.h" />
     <ClInclude Include="SceneManager.h" />

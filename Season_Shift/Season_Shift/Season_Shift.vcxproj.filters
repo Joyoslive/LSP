@@ -60,6 +60,8 @@
     <ClCompile Include="Scenes\Scene4.cpp" />
     <ClCompile Include="SceneReader.cpp" />
     <ClCompile Include="Scenes\Scene5.cpp" />
+    <ClCompile Include="Graphics\PointLight.cpp" />
+    <ClCompile Include="Graphics\PointLightRepo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -115,6 +117,8 @@
     <ClInclude Include="SceneReader.h" />
     <ClInclude Include="Libraries\inc\json\json.hpp" />
     <ClInclude Include="Scenes\Scene5.h" />
+    <ClInclude Include="Graphics\PointLight.h" />
+    <ClInclude Include="Graphics\PointLightRepo.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
