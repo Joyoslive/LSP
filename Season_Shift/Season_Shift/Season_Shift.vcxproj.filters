@@ -58,6 +58,8 @@
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Scenes\Scene4.cpp" />
+    <ClCompile Include="SceneReader.cpp" />
+    <ClCompile Include="Scenes\Scene5.cpp" />
     <ClCompile Include="Graphics\PointLight.cpp" />
     <ClCompile Include="Graphics\PointLightRepo.cpp" />
   </ItemGroup>
@@ -112,6 +114,9 @@
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Scenes\Scene4.h" />
+    <ClInclude Include="SceneReader.h" />
+    <ClInclude Include="Libraries\inc\json\json.hpp" />
+    <ClInclude Include="Scenes\Scene5.h" />
     <ClInclude Include="Graphics\PointLight.h" />
     <ClInclude Include="Graphics\PointLightRepo.h" />
   </ItemGroup>
@@ -128,5 +133,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <ClInclude Include="Logger.h" />
+    <None Include="Scenes\SceneJSONs\scene.json" />
   </ItemGroup>
 </Project>
