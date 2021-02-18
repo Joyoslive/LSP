@@ -20,7 +20,6 @@ private:
 	D3D11_SUBRESOURCE_DATA m_subresData;
 
 	std::shared_ptr<DXDevice> m_dxDev;
-
 	std::shared_ptr<DXBuffer> m_structuredBuffer;
 
 
