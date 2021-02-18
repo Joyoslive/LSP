@@ -4,6 +4,7 @@ PlayerJumpTrigger::PlayerJumpTrigger(Ref<GameObject> gameObject)
 {
 	m_playerTransform = gameObject->getComponentType<Transform>(Component::ComponentEnum::TRANSFORM);
 	m_player = gameObject->getComponentType<Player>(Component::ComponentEnum::LOGIC);
+	m_oldCollider = nullptr;
 }
 
 PlayerJumpTrigger::~PlayerJumpTrigger()
@@ -18,12 +19,12 @@ void PlayerJumpTrigger::start()
 
 void PlayerJumpTrigger::update()
 {
-	m_myTransform->setPosition(m_playerTransform->getPosition() + DirectX::SimpleMath::Vector3(0, -2, 0));
-	m_ground = false;
+	m_myTransform->setPosition(m_playerTransform->getPosition() + DirectX::SimpleMath::Vector3(0, -3, 0));
 }
 
 void PlayerJumpTrigger::onCollision(Ref<Collider> collider)
 {
-	m_ground = true;
-	m_player->setWaitForJump();
+	if (m_oldCollider == collider)
+		m_player->setWaitForJump();
+	m_oldCollider = collider;
 }

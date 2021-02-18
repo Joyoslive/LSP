@@ -451,11 +451,12 @@ using namespace DirectX::SimpleMath;
 
  Vector3 Player::slowPlayer(Vector3 velocity)
  {
+	 constexpr float slowModifier = 50.0f;
 	 if (Input::getInput().mouseBeingPressed(Input::MouseKeys::LeftButton))
 	 {
-		 Vector3 normal = velocity;
-		 normal.Normalize();
-		 velocity -= 100.0f * m_frameTime * normal;
+		 Vector3 normalVelocity = velocity;
+		 normalVelocity.Normalize();
+		 velocity -= slowModifier * m_frameTime * normalVelocity;
 	 }
 	 return velocity;
  }
