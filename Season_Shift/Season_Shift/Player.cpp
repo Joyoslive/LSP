@@ -334,12 +334,12 @@ using namespace DirectX::SimpleMath;
 
  Vector3 Player::dash(Vector3 velocity, Vector3 cameraLook)
  {
+	 constexpr float minYVelocity = 10.0f;
+	 constexpr float maxYVelocity = 50.0f;
+
 	 //Dash
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	 {
-		 constexpr float minYVelocity = 10.0f;
-		 constexpr float maxYVelocity = 50.0f;
-
 		 m_cooldownDash = 2.0f;
 
 		 velocity = { 0, 0, 0 };
