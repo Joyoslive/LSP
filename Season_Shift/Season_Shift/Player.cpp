@@ -271,7 +271,7 @@ using namespace DirectX::SimpleMath;
  //Checks if you change direction in movement and changes the speed or velocity
  Vector3 Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
-	 constexpr float flyDirectionSize = -10.0f;
+	 constexpr float flyDirectionSize = -17.5f;
 	 constexpr float groundDirectionSize = 2500.0f;
 	 constexpr float speedChange = 100.0f;
 
