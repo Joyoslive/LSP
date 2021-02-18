@@ -41,7 +41,6 @@ using namespace DirectX::SimpleMath;
 	 m_fly = false;
 	 m_timer = Timer();
 	 m_timer.start();
-	 m_walljump = false;
 	 m_oldFrameTime = 0.0f;
 
 	 m_oldMoveDirection = Vector3::Zero;
@@ -125,7 +124,6 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
-	m_walljump = false;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -500,11 +498,11 @@ using namespace DirectX::SimpleMath;
 	 if (m_walljump == false) {
 		 if (m_roll > 0)
 		 {
-			 m_roll -= 0.3 * m_frameTime*2.5;
+			 m_roll -= 0.3 * m_frameTime * 2.5;
 		 }
-		 else if (m_roll < 0 )
+		 else if (m_roll < 0)
 		 {
-			 m_roll += 0.3 * m_frameTime*2.5;
+			 m_roll += 0.3 * m_frameTime * 2.5;
 		 }
 		 else
 		 {
@@ -515,15 +513,16 @@ using namespace DirectX::SimpleMath;
 	 {
 		 if (m_roll > -0.3 && m_normal.x > 0)
 		 {
-			 m_roll += -1 *  m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll += -1 * m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
 		 }
-		 else if (m_roll < 0.3 && m_normal.x < 0 )
+		 else if (m_roll < 0.3 && m_normal.x < 0)
 		 {
-			 m_roll += -1 *   m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll += -1 * m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
 		 }
 
 	 }
 	 //////////////////////////////////////////
+ }
  //Debug feature
  Vector3 Player::playerFly(Vector3 velocity)
  {
