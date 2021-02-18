@@ -48,6 +48,7 @@ private:
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
 	void getTime(std::wstring msg);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 public:
 	Player();
 	~Player();

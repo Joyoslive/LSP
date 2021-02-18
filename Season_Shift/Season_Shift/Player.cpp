@@ -139,6 +139,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
+	velocitySkipY = slowPlayer(velocitySkipY);
 
 	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
@@ -205,7 +206,7 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 constexpr float modifierRun = 2.4f;
-	 constexpr float modifierFlyStop = 9.f;
+	 constexpr float modifierFlyStop = 1.f / 5.f;//1.f/9.f;
 	 constexpr float modifierFly = 1.1f;
 
 	 Vector3 velocityNormal = velocity;
@@ -224,7 +225,7 @@ using namespace DirectX::SimpleMath;
 	 if (!onGround)
 	 {
 		 if (moveDirection == Vector3::Zero)
-			 antiMoveSize /= modifierFlyStop;
+			 antiMoveSize = modifierFlyStop;
 		 else
 		 {
 			 antiMoveSize = modifierFly;
@@ -440,6 +441,17 @@ using namespace DirectX::SimpleMath;
 		 m_jetPackFuel = 0;
 	 }
 
+	 return velocity;
+ }
+
+ Vector3 Player::slowPlayer(Vector3 velocity)
+ {
+	 if (Input::getInput().mouseBeingPressed(Input::MouseKeys::LeftButton))
+	 {
+		 Vector3 normal = velocity;
+		 normal.Normalize();
+		 velocity -= 10.0f * m_frameTime * normal;
+	 }
 	 return velocity;
  }
 
