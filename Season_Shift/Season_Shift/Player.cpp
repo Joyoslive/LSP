@@ -436,14 +436,18 @@ using namespace DirectX::SimpleMath;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
 			 cameraRight.x = fabs(cameraRight.x);
+			 cameraRight.y = fabs(cameraRight.y);
 			 cameraRight.z = fabs(cameraRight.z);
 			 Vector3 normal = cameraRight * m_normal;
 
 			 normal.Normalize();
 
 			 velocity += normal * wallPushSpeed;
-			 velocity.y += wallJumpSpeed;
+			 velocity.y = wallJumpSpeed;
 			 m_walljump = false;
+
+			 //m_doubleJump = true;
+			 m_jetPackFuel = m_jetPackFuelMax;
 		 }
 		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 else if (m_waitForJump && !m_checkCollideJump && !m_ground)
@@ -558,13 +562,22 @@ using namespace DirectX::SimpleMath;
 		 {
 			 m_roll -= normal.x * m_frameTime * rollModifier;
 		 }
-
+		 if (m_roll > -rollWallCheck && normal.z > 0)
+		 {
+			 m_roll -= normal.z * m_frameTime * rollModifier;
+		 }
+		 else if (m_roll < rollWallCheck && normal.z < 0)
+		 {
+			 m_roll -= normal.z * m_frameTime * rollModifier;
+		 }
 	 }
  }
 
  //Debug feature
  Vector3 Player::playerFly(Vector3 velocity)
  {
+	 constexpr float flySpeed = 100.0f;
+
 	 if (m_fly)
 	 {
 		 velocity = Vector3::Zero;
@@ -573,27 +586,27 @@ using namespace DirectX::SimpleMath;
 		 Vector3 cameraRight = m_playerCamera->getRight();
 		 if (Input::getInput().keyBeingPressed(Input::W))
 		 {
-			 position += 100.0f * m_frameTime * cameraForward;
+			 position += flySpeed * m_frameTime * cameraForward;
 		 }
 		 if (Input::getInput().keyBeingPressed(Input::A))
 		 {
-			 position -= 100.0f * m_frameTime * cameraRight;
+			 position -= flySpeed * m_frameTime * cameraRight;
 		 }
 		 if (Input::getInput().keyBeingPressed(Input::S))
 		 {
-			 position -= 100.0f * m_frameTime * cameraForward;
+			 position -= flySpeed * m_frameTime * cameraForward;
 		 }
 		 if (Input::getInput().keyBeingPressed(Input::D))
 		 {
-			 position += 100.0f * m_frameTime * cameraRight;
+			 position += flySpeed * m_frameTime * cameraRight;
 		 }
 		 if (Input::getInput().keyBeingPressed(Input::Space))
 		 {
-			 position.y += 100.0f * m_frameTime;
+			 position.y += flySpeed * m_frameTime;
 		 }
 		 if (Input::getInput().keyBeingPressed(Input::Shift))
 		 {
-			 position.y -= 100.0f * m_frameTime;
+			 position.y -= flySpeed * m_frameTime;
 		 }
 		 m_transform->setPosition(position);
 	 }
