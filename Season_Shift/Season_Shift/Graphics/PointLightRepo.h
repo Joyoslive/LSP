@@ -15,6 +15,7 @@ private:
 
 
 	bool m_rebuildBuffer;
+	bool m_updateBuffer;
 	size_t m_latestUsedLightIndex;
 	D3D11_SUBRESOURCE_DATA m_subresData;
 
@@ -44,6 +45,7 @@ public:
 
 private:
 	void createBuffer();
+	void updateBuffer();
 	void replacePointLightResource(PointLight::PointLightResource data, int index);
 	void turnOnOff(bool on, int index);
 };

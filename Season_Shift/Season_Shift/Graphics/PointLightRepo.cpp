@@ -4,6 +4,7 @@ PointLightRepo::PointLightRepo(std::shared_ptr<DXDevice> dxDev)//cosnt ref
 {
 	m_latestUsedLightIndex = 0;
 	m_rebuildBuffer = true;
+	m_updateBuffer = false;
 	m_dxDev = dxDev;
 	ZeroMemory(&m_subresData, sizeof(D3D11_SUBRESOURCE_DATA));
 }
@@ -57,6 +58,10 @@ std::shared_ptr<DXBuffer> PointLightRepo::getStructuredLightBuffer()
 	{
 		createBuffer();
 	}
+	else if(m_updateBuffer)
+	{
+		updateBuffer();
+	}
 
 	return m_structuredBuffer;
 }
@@ -83,6 +88,13 @@ void PointLightRepo::createBuffer()
 	m_structuredBuffer = m_dxDev->createStructuredBuffer(count, sizeof(PointLight::PointLightResource), true, false, &m_subresData);
 
 	m_rebuildBuffer = false;
+	m_updateBuffer = false;
+}
+
+void PointLightRepo::updateBuffer()
+{
+	m_structuredBuffer->updateMapUnmap(m_pointLightResourceVector.data(), m_pointLightResourceVector.size() * sizeof(PointLight::PointLightResource));
+	m_updateBuffer = false;
 }
 
 void PointLightRepo::replacePointLightResource(PointLight::PointLightResource data, int index)
@@ -91,10 +103,7 @@ void PointLightRepo::replacePointLightResource(PointLight::PointLightResource da
 	if (m_pointLightVector[index].second != -1) // update resource vector if it has owns a copy of the resource
 	{
 		m_pointLightResourceVector[m_pointLightVector[index].second] = data;
-
-		//UPDATE DXBUFFER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//m_subresData.pSysMem = m_pointLightResourceVector.data();
-		//map/unmap
+		m_updateBuffer = true;
 	}
 }
 
