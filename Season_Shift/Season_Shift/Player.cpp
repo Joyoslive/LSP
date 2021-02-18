@@ -178,13 +178,12 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (/*collider->getGameObject()->getName() == "brickCube" && */m_normal.Dot(Vector3::Up) > 0.8f)
+	 if (m_normal.Dot(Vector3::Up) > 0.8f)
 	 {
 		 m_ground = true;
 		 m_walljump = false;
 		 m_doubleJump = true;
 		 m_jetPackFuel = m_jetPackFuelMax;
-		 m_roll = 0.0f;
 		 if (m_checkCollideJump)
 		 {
 			 m_checkCollideJump = false;
@@ -369,9 +368,9 @@ using namespace DirectX::SimpleMath;
 
  void Player::gravityChange(const Vector3& velocity)
  {
-	 constexpr float changeGVelocity = 20.0f;//10.0f)//5.0f)
-	 constexpr float bigG = 80.0f;//55);//45);
-	 constexpr float smallG = 55.0f;//35);
+	 constexpr float changeGVelocity = 20.0f;
+	 constexpr float bigG = 80.0f;
+	 constexpr float smallG = 55.0f;
 	 if (m_walljump == true)
 		 m_rb->setGravity(30.0);
 	 else if (velocity.y < changeGVelocity)
@@ -456,7 +455,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 Vector3 normal = velocity;
 		 normal.Normalize();
-		 velocity -= 10.0f * m_frameTime * normal;
+		 velocity -= 100.0f * m_frameTime * normal;
 	 }
 	 return velocity;
  }
@@ -493,7 +492,7 @@ using namespace DirectX::SimpleMath;
 	 m_timer.start();
  }
 
- void Player::wallRunning(DirectX::SimpleMath::Vector3 velocity) {
+ void Player::wallRunning(const Vector3& velocity) {
 	 //Clown Code need fixing afap
 	 if (m_walljump == false) {
 		 if (m_roll > 0)
@@ -511,18 +510,21 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else
 	 {
-		 if (m_roll > -0.3 && m_normal.x > 0)
+		 Vector3 cameraForward = m_playerCamera->getRight();
+		 Vector3 normal = cameraForward * m_normal;
+		 normal.Normalize();
+		 if (m_roll > -0.3 && normal.x > 0)
 		 {
-			 m_roll += -1 * m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll += -1 * normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
 		 }
-		 else if (m_roll < 0.3 && m_normal.x < 0)
+		 else if (m_roll < 0.3 && normal.x < 0)
 		 {
-			 m_roll += -1 * m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll += -1 * normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
 		 }
 
 	 }
-	 //////////////////////////////////////////
  }
+
  //Debug feature
  Vector3 Player::playerFly(Vector3 velocity)
  {
