@@ -36,7 +36,6 @@ private:
 	long double m_oldFrameTime;
 	long double m_wallTimer;
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
-	float m_lerp;
 
 private:
 	void lookAround();

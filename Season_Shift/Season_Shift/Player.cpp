@@ -45,7 +45,6 @@ using namespace DirectX::SimpleMath;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
-	 m_lerp = 0.96f;
  }
 
  Player::~Player()
@@ -132,7 +131,8 @@ using namespace DirectX::SimpleMath;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
-	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * m_lerp);
+	constexpr float lerpMoveDirection = 0.96f;
+	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
 
@@ -180,12 +180,15 @@ using namespace DirectX::SimpleMath;
 
  void Player::onCollision(Ref<Collider> collider)
  {
+	 constexpr float floorCheck = 0.8f;
+	 constexpr float wallCheck = 0.8f;
+
 	 m_normal = m_capsuleCollider->getCollisionNormal();
 	 if (m_waitForJump)
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (m_normal.Dot(Vector3::Up) > 0.8f)
+	 if (m_normal.Dot(Vector3::Up) > floorCheck)
 	 {
 		 m_oldCollider = NULL;
 		 m_ground = true;
@@ -198,7 +201,7 @@ using namespace DirectX::SimpleMath;
 			 m_jumpWhenLanding = true;
 		 }
 	 }
-	 if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f && m_oldCollider != collider)
+	 if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider)
 	 {
 		 m_walljump = true;
 		 m_oldCollider = collider;
@@ -217,7 +220,7 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 constexpr float modifierRun = 2.4f;
-	 constexpr float modifierFlyStop = 1.f / 5.f;//1.f/9.f;
+	 constexpr float modifierFlyStop = 1.f / 5.f;
 	 constexpr float modifierFly = 1.1f;
 
 	 Vector3 velocityNormal = velocity;
@@ -369,11 +372,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_cooldownDash > 0.0f)
 	 {
-		 m_cooldownDash -= 1 * m_frameTime;
-	 }
-	 if (m_wallTimer > 0.0f)
-	 {
-		 m_wallTimer -= m_frameTime;
+		 m_cooldownDash -= m_frameTime;
 	 }
 	 return velocity;
  }
@@ -427,21 +426,26 @@ using namespace DirectX::SimpleMath;
 
 	 if (Input::getInput().keyPressed(Input::Space) || m_jumpWhenLanding)
 	 {
-		 //Checks if the player is in the air and if the playerTrigger has collided with an object
+		 constexpr float wallTime = 0.04f;
+		 constexpr float wallJumpSpeed = 25.0f;
+		 constexpr float wallPushSpeed = 60.0f;
+
 		 if (m_walljump == true)
 		 {
-			 m_wallTimer = 0.04;
-			 Vector3 cameraForward = m_playerCamera->getRight();
-			 cameraForward.x = fabs(cameraForward.x);
-			 cameraForward.z = fabs(cameraForward.z);
-			 Vector3 normal = cameraForward * m_normal;
+			 m_wallTimer = wallTime;
+
+			 Vector3 cameraRight = m_playerCamera->getRight();
+			 cameraRight.x = fabs(cameraRight.x);
+			 cameraRight.z = fabs(cameraRight.z);
+			 Vector3 normal = cameraRight * m_normal;
 
 			 normal.Normalize();
 
-			 velocity += normal * 60.0;
-			 velocity.y += 25;
+			 velocity += normal * wallPushSpeed;
+			 velocity.y += wallJumpSpeed;
 			 m_walljump = false;
 		 }
+		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 else if (m_waitForJump && !m_checkCollideJump && !m_ground)
 		 {
 			 m_checkCollideJump = true;
@@ -515,16 +519,26 @@ using namespace DirectX::SimpleMath;
 	 m_timer.start();
  }
 
- void Player::wallRunning(const Vector3& velocity) {
+ void Player::wallRunning(const Vector3& velocity) 
+ {
+	 constexpr float minRollOff = 0.01f;
+	 constexpr float rollWallCheck = 0.3f;
+	 constexpr float rollModifier = DirectX::XM_PI * 5.f / 7.f;
+
+	 if (m_wallTimer > 0.0f)
+	 {
+		 m_wallTimer -= m_frameTime;
+	 }
+	 
 	 //Clown Code need fixing afap
 	 if (m_walljump == false) {
-		 if (m_roll > 0.01)
+		 if (m_roll > minRollOff)
 		 {
-			 m_roll -= 0.1 * m_frameTime * 10;
+			 m_roll -= m_frameTime;
 		 }
-		 else if (m_roll < -0.01 )
+		 else if (m_roll < -minRollOff)
 		 {
-			 m_roll += 0.1 * m_frameTime * 10;
+			 m_roll += m_frameTime;
 		 }
 		 else
 		 {
@@ -536,13 +550,13 @@ using namespace DirectX::SimpleMath;
 		 Vector3 cameraForward = m_playerCamera->getRight();
 		 Vector3 normal = cameraForward * m_normal;
 		 normal.Normalize();
-		 if (m_roll > -0.3 && normal.x > 0)
+		 if (m_roll > -rollWallCheck && normal.x > 0)
 		 {
-			 m_roll += -1 * normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll -= normal.x * m_frameTime * rollModifier;
 		 }
-		 else if (m_roll < 0.3 && normal.x < 0)
+		 else if (m_roll < rollWallCheck && normal.x < 0)
 		 {
-			 m_roll += -1 * normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+			 m_roll -= normal.x * m_frameTime * rollModifier;
 		 }
 
 	 }
