@@ -44,11 +44,9 @@ Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT
 
     // Init ImGUI
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    auto ctx = ImGui::CreateContext();
     ImGui_ImplWin32_Init(m_hwnd);
     ImGui::StyleColorsDark();
-
-
 };
 
 Window::~Window()
