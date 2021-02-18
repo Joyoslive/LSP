@@ -430,9 +430,15 @@ using namespace DirectX::SimpleMath;
 		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 if (m_walljump == true)
 		 {
-			 m_wallTimer = 0.01;
-			 Vector3 tt = m_playerCamera->getRight();
-			 velocity += tt * 60.0;
+			 m_wallTimer = 0.04;
+			 Vector3 cameraForward = m_playerCamera->getRight();
+			 cameraForward.x = fabs(cameraForward.x);
+			 cameraForward.z = fabs(cameraForward.z);
+			 Vector3 normal = cameraForward * m_normal;
+
+			 normal.Normalize();
+
+			 velocity += normal * 60.0;
 			 velocity.y += 25;
 			 m_walljump = false;
 		 }
