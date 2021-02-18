@@ -31,6 +31,11 @@ float RigidBody::getMass() const
 	return m_mass;
 }
 
+float RigidBody::getGravity() const
+{
+	return m_gravity;
+}
+
 void RigidBody::addForce(DirectX::SimpleMath::Vector3 force)
 {
 	m_force += force;

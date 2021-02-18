@@ -10,8 +10,10 @@ private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	Ref<CapsuleCollider> m_capsuleCollider;
+	Ref<Collider> m_oldCollider;
 	Timer m_timer;
 	float m_pitch, m_yaw, m_roll;
+	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 respawn;
 	bool m_disable;
@@ -31,7 +33,8 @@ private:
 	float m_jetPackSpeed;
 	float m_cooldownDash;
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
-
+	long double m_oldFrameTime;
+	long double m_wallTimer;
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	float m_lerp;
 
@@ -47,7 +50,9 @@ private:
 	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
 	void getTime(std::wstring msg);
+	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 public:
 	Player();
 	~Player();
