@@ -448,6 +448,7 @@ using namespace DirectX::SimpleMath;
 
 			 //m_doubleJump = true;
 			 m_jetPackFuel = m_jetPackFuelMax;
+			 m_ground = false;
 		 }
 		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 else if (m_waitForJump && !m_checkCollideJump && !m_ground)
