@@ -9,4 +9,3 @@ public:
 	~Scene5() = default;
 	void setUpScene() override;
 };
-s
