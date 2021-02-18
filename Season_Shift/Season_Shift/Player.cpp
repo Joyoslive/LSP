@@ -429,7 +429,8 @@ using namespace DirectX::SimpleMath;
 		 if (m_walljump == true)
 		 {
 			 m_wallTimer = 0.01;
-			 velocity.x += m_jumpSpeed * m_roll * -1 * 9;
+			 Vector3 tt = m_playerCamera->getRight();
+			 velocity += tt * 60.0;
 			 velocity.y += 25;
 			 m_walljump = false;
 		 }
@@ -509,13 +510,13 @@ using namespace DirectX::SimpleMath;
  void Player::wallRunning(const Vector3& velocity) {
 	 //Clown Code need fixing afap
 	 if (m_walljump == false) {
-		 if (m_roll > 0 && m_roll <! 0)
+		 if (m_roll > 0.01)
 		 {
-			 m_roll -= 0.3 * m_frameTime * 2.5;
+			 m_roll -= 0.1 * m_frameTime * 10;
 		 }
-		 else if (m_roll < 0 && m_roll >! 0)
+		 else if (m_roll < -0.01 )
 		 {
-			 m_roll += 0.3 * m_frameTime * 2.5;
+			 m_roll += 0.1 * m_frameTime * 10;
 		 }
 		 else
 		 {
