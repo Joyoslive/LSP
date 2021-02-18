@@ -28,8 +28,6 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 
 	// Initialize ImGUI
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-
 	ImGui_ImplDX11_Init(m_device.Get(), m_immediateContext.Get());
 	ImGui::StyleColorsDark();
 

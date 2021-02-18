@@ -197,10 +197,12 @@
     <ClCompile Include="Graphics\PointLight.cpp" />
     <ClCompile Include="Graphics\PointLightRepo.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scenes\Scene5.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="SceneManagerObserver.cpp" />
+    <ClCompile Include="SceneReader.cpp" />
     <ClCompile Include="Scenes\Scene1.cpp" />
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\Skybox.cpp" />
@@ -229,6 +231,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="CameraSwitch.h" />
+    <ClInclude Include="Libraries\inc\json\json.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
@@ -241,11 +244,13 @@
     <ClInclude Include="Graphics\PointLight.h" />
     <ClInclude Include="Graphics\PointLightRepo.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scenes\Scene5.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Graphics\ResourceRepository.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="SceneManagerObserver.h" />
+    <ClInclude Include="SceneReader.h" />
     <ClInclude Include="Scenes\Scene1.h" />
     <ClInclude Include="Scenes\Scene2.h" />
     <ClInclude Include="Graphics\Skybox.h" />
@@ -320,6 +325,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <None Include="packages.config" />
+    <None Include="Scenes\SceneJSONs\scene.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
