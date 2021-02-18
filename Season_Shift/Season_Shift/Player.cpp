@@ -373,7 +373,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_wallTimer > 0.0f)
 	 {
-		 m_wallTimer -= 1 * m_frameTime;
+		 m_wallTimer -= m_frameTime;
 	 }
 	 return velocity;
  }
@@ -383,8 +383,10 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 20.0f;
 	 constexpr float bigG = 80.0f;
 	 constexpr float smallG = 55.0f;
+	 constexpr float wallJumpG = 30.0f;
+
 	 if (m_walljump == true)
-		 m_rb->setGravity(30.0);
+		 m_rb->setGravity(wallJumpG);
 	 else if (velocity.y < changeGVelocity)
 		 m_rb->setGravity(bigG);
 	 else
