@@ -33,6 +33,9 @@ private:
 	float m_cooldownDash;
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 
+	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
+	float m_lerp;
+
 private:
 	void lookAround();
 	void detectDeath(float death);

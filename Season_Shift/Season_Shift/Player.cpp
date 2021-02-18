@@ -39,6 +39,9 @@ using namespace DirectX::SimpleMath;
 	 m_checkCollideJump = false;
 	 m_timer = Timer();
 	 m_timer.start();
+
+	 m_oldMoveDirection = Vector3::Zero;
+	 m_lerp = 0.96f;
  }
 
  Player::~Player()
@@ -67,6 +70,8 @@ using namespace DirectX::SimpleMath;
 	 velocityNormal.y = 0;
 	 float saveY = velocity.y;
 	 velocity.y = 0;
+	
+	 //Not true anymore 
 	 //When the player stops moving the antiMovement gets bigger
 	 float antiMoveSize = m_maxAntiMoveSize;
 
@@ -121,18 +126,18 @@ using namespace DirectX::SimpleMath;
 		 return 1;
  }
 
- //Checks if you change direction in movement and sets the previous velocity to zero
+ //Checks if you change direction in movement and changes the speed or velocity
  Vector3 Player::checkDirection(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
  {
 	 constexpr float flyDirectionSize = 125.0f;
 	 constexpr float groundDirectionSize = 2500.0f;
-	 constexpr float speedChange = 200.0f;
+	 constexpr float speedChange = 100.0f;
 
 	 float changeDirectionSize = groundDirectionSize;
 	 if (!onGround)
 		 changeDirectionSize = flyDirectionSize;
 
-	 if (velocity.Dot(moveDirection) < 0.5f && velocity.Length() > m_maxSpeed / 3.0f)
+	 if (m_oldMoveDirection.Dot(moveDirection) < 0.0f && velocity.Length() > m_maxSpeed / 3.0f)
 	 {
 		 m_flySpeed -= speedChange * velocity.Length() * m_frameTime;
 		 m_groundSpeed -= speedChange * velocity.Length() * m_frameTime;
@@ -296,6 +301,8 @@ using namespace DirectX::SimpleMath;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
+	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * m_lerp);
+
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
 
@@ -328,6 +335,8 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
 		ImGui::Text("Speed: %f", velocity.Length());
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
+		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
+		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
  }
