@@ -12,6 +12,7 @@ private:
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Timer m_timer;
 	float m_pitch, m_yaw, m_roll;
+	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 respawn;
 	bool m_disable;
@@ -32,6 +33,7 @@ private:
 	float m_chargeJump;
 	float m_cooldownDash;
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
+	long double m_oldFrameTime;
 
 private:
 	void lookAround();
@@ -45,6 +47,7 @@ private:
 	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
 	void getTime(std::wstring msg);
+	void wallRunning(DirectX::SimpleMath::Vector3 moveDirection);
 public:
 	Player();
 	~Player();

@@ -9,6 +9,7 @@ using namespace DirectX::SimpleMath;
 	 m_pitch = 0.0f;
 	 m_roll = 0.0f;
 	 respawn = { 0, 10, 0 };
+	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
@@ -38,6 +39,8 @@ using namespace DirectX::SimpleMath;
 	 m_checkCollideJump = false;
 	 m_timer = Timer();
 	 m_timer.start();
+	 m_walljump = false;
+	 m_oldFrameTime = 0.0f;
  }
 
  Player::~Player()
@@ -53,7 +56,7 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
 
-	 m_rb->setGravity(20.0);
+	 m_rb->setGravity(55.0);
  }	
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
@@ -220,8 +223,9 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 20.0f;//10.0f)//5.0f)
 	 constexpr float bigG = 80.0f;//55);//45);
 	 constexpr float smallG = 55.0f;//35);
-
-	 if (velocity.y < changeGVelocity)
+	 if (m_walljump == true)
+		 m_rb->setGravity(30.0);
+	 else if (velocity.y < changeGVelocity)
 		 m_rb->setGravity(bigG);
 	 else
 		 m_rb->setGravity(smallG);
@@ -291,7 +295,7 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
-	m_walljump = false;
+
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -312,29 +316,32 @@ using namespace DirectX::SimpleMath;
 	velocity = velocitySkipY;
 
 	gravityChange(velocity);
-
+	wallRunning(velocity);
 	m_rb->setVelocity(velocity);
 
 	m_playerCamera->update();
 
 	velocitySkipY.y = 0;
 	char msgbuf[1000];
-	sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
-	//OutputDebugStringA(msgbuf);
+	Vector3 dot = { 1, 0, 1 };
+	sprintf_s(msgbuf, "My variable is %i\n", signOf(dot.Dot(velocity)));
+	OutputDebugStringA(msgbuf);
  }
 
  void Player::onCollision(Ref<Collider> collider)
  {
-	 Vector3 normal = m_capsuleCollider->getCollisionNormal();
+	 m_normal = m_capsuleCollider->getCollisionNormal();
 	 if (m_waitForJump)
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (/*collider->getGameObject()->getName() == "brickCube" && */normal.Dot(Vector3::Up) > 0.8f)
+	 if (/*collider->getGameObject()->getName() == "brickCube" && */m_normal.Dot(Vector3::Up) > 0.8f)
 	 {
 		 m_ground = true;
+		 m_walljump = false;
 		 m_doubleJump = true;
 		 m_jetPackFuel = m_jetPackFuelMax;
+		 m_roll = 0.0f;
 		 if (m_checkCollideJump)
 		 {
 			 m_checkCollideJump = false;
@@ -345,6 +352,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_walljump = true;
 	 }
+
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
@@ -392,7 +400,13 @@ using namespace DirectX::SimpleMath;
 	 if (Input::getInput().keyPressed(Input::Space) || m_jumpWhenLanding)
 	 {
 		 //Checks if the player is in the air and if the playerTrigger has collided with an object
-		 if (m_waitForJump && !m_checkCollideJump && !m_ground)
+		 if (m_walljump == true)
+		 {
+			 velocity.x += m_jumpSpeed * m_roll * -1 * 9;
+			 velocity.y += 25;
+			 m_walljump = false;
+		 }
+		 else if (m_waitForJump && !m_checkCollideJump && !m_ground)
 		 {
 			 m_checkCollideJump = true;
 			 m_waitForJump = false;
@@ -410,10 +424,6 @@ using namespace DirectX::SimpleMath;
 		 {
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
-		 }
-		 else if (m_walljump == true)
-		 {
-			 velocity.y = 30;
 		 }
 		 m_jumpWhenLanding = false;
 	 }
@@ -433,6 +443,7 @@ using namespace DirectX::SimpleMath;
 
  void Player::setFrametime(long double dt)
  {
+	 m_oldFrameTime = m_frameTime;
 	 m_frameTime = dt;
  }
 
@@ -455,4 +466,35 @@ using namespace DirectX::SimpleMath;
 	 m_timer.stop();
 	 m_timer.print(msg);
 	 m_timer.start();
+ }
+
+ void Player::wallRunning(DirectX::SimpleMath::Vector3 velocity) {
+	 //Clown Code need fixing afap
+	 if (m_walljump == false) {
+		 if (m_roll > 0)
+		 {
+			 m_roll -= 0.3 * m_frameTime*2.5;
+		 }
+		 else if (m_roll < 0 )
+		 {
+			 m_roll += 0.3 * m_frameTime*2.5;
+		 }
+		 else
+		 {
+			 m_roll = 0.0;
+		 }
+	 }
+	 else
+	 {
+		 if (m_roll > -0.3 && m_normal.x > 0)
+		 {
+			 m_roll += -1 *  m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+		 }
+		 else if (m_roll < 0.3 && m_normal.x < 0 )
+		 {
+			 m_roll += -1 *   m_normal.x * DirectX::XM_PI / 7 * m_frameTime * 5;
+		 }
+
+	 }
+	 //////////////////////////////////////////
  }

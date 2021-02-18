@@ -115,17 +115,66 @@ void Scene4::setUpScene()
 	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 
 	//Winter
-	Ref<GameObject> winterBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, 10.0f+(20*2)/2), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f)*2));
+	Ref<GameObject> winterBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, 10.0f+(20*10)/2), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f)*10));
 	winterBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	winterBox1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20*2)));
+	winterBox1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20*10)));
 
-	Ref<GameObject> winterBox2 = createGameObject("brickCube", Vector3(-5.0, 10.0f, 20.0f + (20 * 6) / 2), Vector3((1.0f / 10.0f)/6, 1*9, (1.0f / 10.0f)));
+	Ref<GameObject> winterBox2 = createGameObject("wall", Vector3(-10.0, 25.0f, 20.0f + (20 * 12) / 2), Vector3((1.0f / 10.0f)/5, 1*19, (1.0f / 10.0f)*5));
 	winterBox2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	winterBox2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20/6, 2*9, 20)));
-
-	Ref<GameObject> winterBox3 = createGameObject("brickCube", Vector3(5.0, 10.0f, 20.0f + (20 * 8) / 2), Vector3((1.0f / 10.0f) / 6, 1 * 9, (1.0f / 10.0f)));
+	winterBox2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20/5, 2*19, 20*5)));
+	
+	Ref<GameObject> winterBox3 = createGameObject("wall", Vector3(10.0, 25.0f, 20.0f + (20 * 18) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 5));
 	winterBox3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	winterBox3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 6, 2 * 9, 20)));
+	winterBox3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 5)));
+
+	Ref<GameObject> winterBox4 = createGameObject("wall", Vector3(-10.0, 50.0f, 20.0f + (20 * 24) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 5));
+	winterBox4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 5)));
+
+	Ref<GameObject> winterBox5 = createGameObject("wall", Vector3(10.0, 50.0f, 20.0f + (20 * 30) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 5));
+	winterBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 5)));
+
+	Ref<GameObject> winterTower = createGameObject("brickCube", Vector3(0, 60.0f, 20.0f + (20 * 55) / 2), Vector3(1.0f / 10.0f, 1, (1.0f / 10.0f) * 4));
+	winterTower->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterTower->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20*4)));
+
+	Ref<GameObject> winterTowerWall = createGameObject("wall", Vector3(13, 60.0f+39, 20.0f + (20 * 55) / 2), Vector3(1.0f / 10.0f/5, 1*40, (1.0f / 10.0f) *4));
+	winterTowerWall->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterTowerWall->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20/5, 2*50, 20*4)));
+
+	Ref<GameObject> winterTowerWall2 = createGameObject("wall", Vector3(-13, 60.0f + 39, 20.0f + (20 * 55) / 2), Vector3(1.0f / 10.0f / 5, 1 * 40, (1.0f / 10.0f) * 4));
+	winterTowerWall2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterTowerWall2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 50, 20*4)));
+
+	Ref<GameObject> winterTower2 = createGameObject("brickCube", Vector3(0, 60.0f+ 80, 20.0f + (20 * 45) / 2), Vector3(1.0f / 10.0f, 1, (1.0f / 10.0f) * 2));
+	winterTower2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterTower2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20 * 2)));
+
+	Ref<GameObject> winterBox6 = createGameObject("wall", Vector3(-10.0, 50.0f+140, 20.0f + (20 * 28) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 8));
+	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
+
+	Ref<GameObject> winterBox7 = createGameObject("wall", Vector3(10.0, 50.0f+140, 20.0f + (20 * 28) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 8));
+	winterBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
+
+	Ref<GameObject> winterBox8 = createGameObject("wall", Vector3(-10.0, 25.0f+140, 20.0f + (20 * 38) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 8));
+	winterBox8->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox8->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
+
+	Ref<GameObject> winterBox9 = createGameObject("wall", Vector3(10.0, 25.0f+140, 20.0f + (20 * 38) / 2), Vector3((1.0f / 10.0f) / 5, 1 * 19, (1.0f / 10.0f) * 8));
+	winterBox9->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxWinter/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	winterBox9->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
+
+	Ref<GameObject> start2 = createGameObject("brickCube", Vector3(0, 180.0f, 0.0f), Vector3(1.0f / 10.0f, 1, 1.0f / 10.0f));
+	start2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	start2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
+
+	Ref<GameObject> go3 = createGameObject("goal", Vector3(0, 200.0f, 0.0f));
+	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+
 
 	//Summer
 	Ref<GameObject> summerBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, -(10.0f + (20 * 2)/2)), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f) * 2));
@@ -173,7 +222,7 @@ void Scene4::setUpScene()
 	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 
 	//Fall
-	Ref<GameObject> fallBox1 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 2) / 2), 5.0f,0), Vector3((1.0f / 10.0f)*2, 1, (1.0f / 10.0f)));
+	Ref<GameObject> fallBox1 = createGameObject("wall", Vector3(-(10.0f + (20 * 2) / 2), 5.0f,0), Vector3((1.0f / 10.0f)*2, 1, (1.0f / 10.0f)));
 	fallBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	fallBox1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20*2, 2, 20)));
 
