@@ -18,8 +18,8 @@ private:
 	bool m_disable;
 	bool m_ground;
 	bool m_doubleJump;
-	bool m_addSpeed;
 	bool m_walljump;
+	bool m_fly;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
@@ -30,10 +30,12 @@ private:
 	float m_jetPackFuel;
 	float m_jetPackFuelMax;
 	float m_jetPackSpeed;
-	float m_chargeJump;
 	float m_cooldownDash;
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 	long double m_oldFrameTime;
+
+	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
+	float m_lerp;
 
 private:
 	void lookAround();
@@ -48,6 +50,8 @@ private:
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
 	void getTime(std::wstring msg);
 	void wallRunning(DirectX::SimpleMath::Vector3 moveDirection);
+	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 public:
 	Player();
 	~Player();
