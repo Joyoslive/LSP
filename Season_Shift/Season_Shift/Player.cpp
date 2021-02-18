@@ -42,7 +42,8 @@ using namespace DirectX::SimpleMath;
 	 m_timer = Timer();
 	 m_timer.start();
 	 m_oldFrameTime = 0.0f;
-
+	 m_wallTimer = 0.0f;
+	 m_oldCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_lerp = 0.96f;
  }
@@ -124,6 +125,10 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
+	if(m_wallTimer <= 0)
+	{
+		m_oldCollider = NULL;
+	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -166,6 +171,8 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Speed: %f", velocity.Length());
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
+		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
+		ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
@@ -180,6 +187,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_normal.Dot(Vector3::Up) > 0.8f)
 	 {
+		 m_oldCollider = NULL;
 		 m_ground = true;
 		 m_walljump = false;
 		 m_doubleJump = true;
@@ -190,9 +198,10 @@ using namespace DirectX::SimpleMath;
 			 m_jumpWhenLanding = true;
 		 }
 	 }
-	 if (collider->getGameObject()->getName() == "wall")
+	 if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f && m_oldCollider != collider)
 	 {
 		 m_walljump = true;
+		 m_oldCollider = collider;
 	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
@@ -362,7 +371,10 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_cooldownDash -= 1 * m_frameTime;
 	 }
-
+	 if (m_wallTimer > 0.0f)
+	 {
+		 m_wallTimer -= 1 * m_frameTime;
+	 }
 	 return velocity;
  }
 
@@ -416,6 +428,7 @@ using namespace DirectX::SimpleMath;
 		 //Checks if the player is in the air and if the playerTrigger has collided with an object
 		 if (m_walljump == true)
 		 {
+			 m_wallTimer = 0.01;
 			 velocity.x += m_jumpSpeed * m_roll * -1 * 9;
 			 velocity.y += 25;
 			 m_walljump = false;
@@ -495,11 +508,11 @@ using namespace DirectX::SimpleMath;
  void Player::wallRunning(const Vector3& velocity) {
 	 //Clown Code need fixing afap
 	 if (m_walljump == false) {
-		 if (m_roll > 0)
+		 if (m_roll > 0 && m_roll <! 0)
 		 {
 			 m_roll -= 0.3 * m_frameTime * 2.5;
 		 }
-		 else if (m_roll < 0)
+		 else if (m_roll < 0 && m_roll >! 0)
 		 {
 			 m_roll += 0.3 * m_frameTime * 2.5;
 		 }

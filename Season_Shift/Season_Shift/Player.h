@@ -10,6 +10,7 @@ private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	Ref<CapsuleCollider> m_capsuleCollider;
+	Ref<Collider> m_oldCollider;
 	Timer m_timer;
 	float m_pitch, m_yaw, m_roll;
 	DirectX::SimpleMath::Vector3 m_normal;
@@ -33,7 +34,7 @@ private:
 	float m_cooldownDash;
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 	long double m_oldFrameTime;
-
+	long double m_wallTimer;
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	float m_lerp;
 
