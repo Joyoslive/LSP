@@ -382,7 +382,7 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 20.0f;
 	 constexpr float bigG = 80.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 30.0f;
+	 constexpr float wallJumpG = 30.0f*2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -446,7 +446,7 @@ using namespace DirectX::SimpleMath;
 			 velocity.y = wallJumpSpeed;
 			 m_walljump = false;
 
-			 //m_doubleJump = true;
+			 m_doubleJump = true;
 			 m_jetPackFuel = m_jetPackFuelMax;
 			 m_ground = false;
 		 }
