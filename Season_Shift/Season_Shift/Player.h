@@ -35,6 +35,10 @@ private:
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 	long double m_oldFrameTime;
 	long double m_wallTimer;
+	bool m_hooked;
+	float m_hookDist;
+	DirectX::SimpleMath::Vector3 m_hookPoint;
+
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 
 private:

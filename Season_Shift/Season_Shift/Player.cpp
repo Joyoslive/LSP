@@ -45,6 +45,10 @@ using namespace DirectX::SimpleMath;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
+	 m_hooked = false;
+	 m_hookDist = 0;
+	 m_hookPoint = Vector3(0, 0, 0);
+
  }
 
  Player::~Player()
@@ -59,7 +63,7 @@ using namespace DirectX::SimpleMath;
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
-
+	
 	 m_rb->setGravity(55.0);
  }	
 
@@ -115,6 +119,58 @@ using namespace DirectX::SimpleMath;
 		if (Input::getInput().keyPressed(Input::F))
 		{
 			m_fly = !m_fly;
+		}
+		if (Input::getInput().mousePressed(Input::LeftButton))
+		{
+			//cast ray
+
+			//this belongs in physics but who cares
+			std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+			float dist = 10000;
+			for (auto& go : scene)
+			{
+				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				if (obb != nullptr)
+				{
+					float d = 10000000000000;
+					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), cameraLook, d))
+					{
+						if (d < dist) dist = d;
+					}
+				}
+			}
+			cameraLook.Normalize(); //vem vet filip kanske inte tänkte på det
+			Vector3 attachmentPoint = m_playerCamera->getCamera()->getPosition();
+			if (dist < 10000)
+			{
+				attachmentPoint += dist * cameraLook;
+				m_hookPoint = attachmentPoint;
+				m_hooked = true;
+				m_hookDist = dist;
+			}
+			else
+			{
+				m_hooked = false;
+			}
+		}
+		if (Input::getInput().mouseReleased(Input::LeftButton))
+		{
+			m_hooked = false;
+		}
+
+		if (m_hooked)
+		{
+				Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+				Vector3 dir = m_hookPoint - getTransform()->getPosition();
+				dir.Normalize();
+				Vector3 velocity = rg->getVelocity();
+				velocity = velocity - (dir.Dot(velocity)) * dir;
+
+				Vector3 force = dir * velocity.Length() * velocity.Length() / m_hookDist;
+
+				rg->addForce(force);
+
+				Logger::getLogger().debugLog(std::to_string(force.Length()) + "\n");
 		}
 
 		velocity = jumpPlayer(velocity);
