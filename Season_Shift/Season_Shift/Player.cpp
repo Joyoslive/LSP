@@ -158,7 +158,7 @@ using namespace DirectX::SimpleMath;
 			m_hooked = false;
 		}
 
-		if (m_hooked)
+		if (m_hooked && (getTransform()->getPosition() - m_hookPoint).Length() > m_hookDist)
 		{
 				Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 				Vector3 dir = m_hookPoint - getTransform()->getPosition();
@@ -169,6 +169,8 @@ using namespace DirectX::SimpleMath;
 				Vector3 force = dir * velocity.Length() * velocity.Length() / m_hookDist;
 
 				rg->addForce(force);
+
+				getTransform()->setPosition(m_hookPoint - m_hookDist * dir);
 
 				Logger::getLogger().debugLog(std::to_string(force.Length()) + "\n");
 		}
