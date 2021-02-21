@@ -11,6 +11,9 @@ RigidBody::RigidBody(float mass)
 	m_force = Vector3(0,0,0);
 	m_acceleration = Vector3(0, 0, 0);
 	m_velocity = Vector3(0, 0, 0);
+	m_pendelLength = 0;
+	m_pendelMotion = false;
+	m_pendelPoint = Vector3(0, 0, 0);
 
 	m_componentType = ComponentEnum::RIGID_BODY;
 }
@@ -34,6 +37,11 @@ float RigidBody::getMass() const
 float RigidBody::getGravity() const
 {
 	return m_gravity;
+}
+
+const DirectX::SimpleMath::Vector3& RigidBody::getForce() const
+{
+	return m_force;
 }
 
 void RigidBody::addForce(DirectX::SimpleMath::Vector3 force)
@@ -65,6 +73,18 @@ void RigidBody::stop()
 	m_force = Vector3(0, 0, 0);
 	m_acceleration = Vector3(0, 0, 0);
 	m_velocity = Vector3(m_velocity.x, 0, m_velocity.z);
+}
+
+void RigidBody::startPendelMotion(const DirectX::SimpleMath::Vector3& pendelPoint, float length)
+{
+	m_pendelMotion = true;
+	m_pendelPoint = pendelPoint;
+	m_pendelLength = length;
+}
+
+void RigidBody::stopPendelMotion()
+{
+	m_pendelMotion = false;
 }
 
 void RigidBody::update()

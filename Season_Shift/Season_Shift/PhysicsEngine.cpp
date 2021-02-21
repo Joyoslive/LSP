@@ -2,6 +2,7 @@
 
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
+#include <assert.h>
 
 
 
@@ -32,25 +33,25 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(const Ref<Collider>& collider)
 	vector<Ref<Collider>> colliderVec;
 	for (auto& go : m_scene->getSceneGameObjects())
 	{
-		Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
-		if (other != nullptr)
+	Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
+	if (other != nullptr)
+	{
+		if (collider.get() == other.get()) continue; //skip if to avoid self collision check
+		if (collider->collide(other))
 		{
-			if (collider.get() == other.get()) continue; //skip if to avoid self collision check
-			if (collider->collide(other))
+			Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+			if (logic != nullptr)
 			{
-				Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
-				if (logic != nullptr)
-				{
-					logic->onCollision(collider);
-				}
-				logic = collider->getGameObject()->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
-				if (logic != nullptr)
-				{
-					logic->onCollision(other);
-				}
-				colliderVec.push_back(other);
+				logic->onCollision(collider);
 			}
+			logic = collider->getGameObject()->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+			if (logic != nullptr)
+			{
+				logic->onCollision(other);
+			}
+			colliderVec.push_back(other);
 		}
+	}
 	}
 	return colliderVec;
 }
@@ -93,14 +94,37 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 }
 
 
- 
+
 Vector3 PhysicsEngine::calcPos(const Ref<RigidBody>& rigidBody)
 {
 	rigidBody->m_acceleration = rigidBody->m_force / rigidBody->m_mass;
 	rigidBody->m_acceleration.y -= rigidBody->m_gravity;
+	//rigidBody->m_acceleration.y -= 70;
 
+
+
+	//pendelMotion
+	if (rigidBody->m_pendelMotion)
+	{
+		Vector3 pos = rigidBody->getTransform()->getPosition();
+		Vector3 vel = rigidBody->m_velocity;
+		Vector3 acc = rigidBody->m_acceleration;
+
+		Vector3 newVel = vel + acc * (float)m_timeStep; //use next velocity???
+		Vector3 newPos = pos + newVel * (float)m_timeStep;
+
+		Vector3 pendelDir = rigidBody->m_pendelPoint - newPos;
+		pendelDir.Normalize();
+
+		if ((newPos - rigidBody->m_pendelPoint).Length() > rigidBody->m_pendelLength)
+		{
+			Vector3 correctedPos = rigidBody->m_pendelPoint - pendelDir * rigidBody->m_pendelLength;
+			Vector3 correctedVel = (correctedPos - pos) / (float)m_timeStep; //Problem eftersom |currentPos pos| < |newPos - pos| => correctedVel minskar 
+			Vector3 correctedAcc = (correctedVel - vel) / (float)m_timeStep;
+			rigidBody->m_acceleration = correctedAcc;
+		}
+	}
 	rigidBody->m_velocity += rigidBody->m_acceleration * (float)m_timeStep;
-
 	return rigidBody->m_transform->getPosition() + rigidBody->m_velocity * (float)m_timeStep;
 }
 
