@@ -144,11 +144,14 @@ using namespace DirectX::SimpleMath;
 			if (dist < 10000)
 			{
 				attachmentPoint += dist * cameraLook;
+
+				//fix camera offset
+				m_hookDist = (attachmentPoint - getTransform()->getPosition()).Length();
+
 				m_hookPoint = attachmentPoint;
 				m_hooked = true;
-				m_hookDist = dist;
 				Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-				rg->startPendelMotion(attachmentPoint, dist);
+				rg->startPendelMotion(m_hookPoint, m_hookDist);
 			}
 			else
 			{
