@@ -40,7 +40,7 @@ void Scene4::setUpScene()
 	start->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	start->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 0; ++i)
 	{
 		Ref<GameObject> springBox1 = createGameObject("brickCube", Vector3(10.0f + (20 * 5) / 2 + i, 5.0f, 0.0f), Vector3((1.0f / 10.0f) * 5, 1, 1.0f / 10.0f), Vector3(0.0f, 0.0f, 0.0f));
 		springBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSpring/", "200x2x200Box.obj", GfxShader::DEFAULT));

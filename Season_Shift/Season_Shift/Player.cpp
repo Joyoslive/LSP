@@ -601,6 +601,32 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
+		 //cast ray
+
+		//this belongs in physics but who cares
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = 0.3f;
+		 for (auto& go : scene)
+		 {
+			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+			 if (obb != nullptr)
+			 {
+				 float d = 10000000000000;
+				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+				 {
+					 if (d < dist) dist = d;
+				 }
+			 }
+		 }
+		 char msgbuf[1000];
+		 sprintf_s(msgbuf, "My variable is %f\n", dist);
+		 OutputDebugStringA(msgbuf);
+		 if (dist > 0.3f)
+		 {
+			 m_walljump = false;
+			 return;
+		 }
+
 		 Vector3 cameraForward = m_playerCamera->getRight();
 		 Vector3 normal = cameraForward * m_normal;
 		 normal.Normalize();
