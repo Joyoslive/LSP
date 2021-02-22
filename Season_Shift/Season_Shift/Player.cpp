@@ -602,10 +602,11 @@ using namespace DirectX::SimpleMath;
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
 		 //cast ray
-
+		 constexpr float maxDist = 0.7f;
 		//this belongs in physics but who cares
 		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		 float dist = 0.3f;
+		 float dist = maxDist;
+		 bool noHit = true;
 		 for (auto& go : scene)
 		 {
 			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
@@ -614,14 +615,12 @@ using namespace DirectX::SimpleMath;
 				 float d = 10000000000000;
 				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
 				 {
-					 if (d < dist) dist = d;
+					 if (d > dist) dist = d;
+					 noHit = false;
 				 }
 			 }
 		 }
-		 char msgbuf[1000];
-		 sprintf_s(msgbuf, "My variable is %f\n", dist);
-		 OutputDebugStringA(msgbuf);
-		 if (dist > 0.3f)
+		 if (dist > maxDist || noHit)
 		 {
 			 m_walljump = false;
 			 return;
