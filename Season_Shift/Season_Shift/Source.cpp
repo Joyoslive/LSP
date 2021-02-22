@@ -13,6 +13,18 @@
 
 using namespace DirectX::SimpleMath;
 
+constexpr int resHeight = 720;
+constexpr int resWidth = 1280;
+
+//constexpr int resHeight = 1080;
+//constexpr int resWidth = 1920;
+
+//constexpr int resHeight = 1440;
+//constexpr int resWidth = 2560;
+
+//constexpr int resHeight = 2160;
+//constexpr int resWidth = 3840;
+
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
 	//_CrtDumpMemoryLeaks(); //memory leak detection
@@ -23,7 +35,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//_CrtSetBreakAlloc(809);
 
 
-	Window win(inst, L"Season Shift", 1280, 720);	
+	Window win(inst, L"Season Shift", resWidth, resHeight);	
 
 	Graphics gph(win.getHWND(), win.getClientWidth(), win.getClientHeight());
 
@@ -81,7 +93,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	Timer m_timer = Timer();
 
-	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, 1280, 720);
+	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, resWidth, resHeight);
 	
 	DebugCamera debugCamera(cam);
 
