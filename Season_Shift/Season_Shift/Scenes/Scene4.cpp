@@ -24,7 +24,7 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
-	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	player->AddComponent(std::make_shared<CapsuleCollider>(2, 2));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2,2,2));
