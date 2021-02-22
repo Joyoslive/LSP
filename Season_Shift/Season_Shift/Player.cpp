@@ -55,7 +55,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
-	 m_playerCamera->setOffset(0, 3.0f, 0);
+	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
@@ -201,7 +201,7 @@ using namespace DirectX::SimpleMath;
 			 m_jumpWhenLanding = true;
 		 }
 	 }
-	 if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider)
+	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider)
 	 {
 		 m_walljump = true;
 		 m_oldCollider = collider;
@@ -382,7 +382,7 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 20.0f;
 	 constexpr float bigG = 80.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 30.0f;
+	 constexpr float wallJumpG = 30.0f*2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -446,7 +446,7 @@ using namespace DirectX::SimpleMath;
 			 velocity.y = wallJumpSpeed;
 			 m_walljump = false;
 
-			 //m_doubleJump = true;
+			 m_doubleJump = true;
 			 m_jetPackFuel = m_jetPackFuelMax;
 			 m_ground = false;
 		 }
@@ -458,7 +458,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
-			 velocity.y += m_jumpSpeed;
+			 velocity.y = m_jumpSpeed;
 			 m_ground = false;
 			 m_checkCollideJump = false;
 			 m_waitForJump = false;
@@ -550,7 +550,7 @@ using namespace DirectX::SimpleMath;
 			 m_roll = 0.0;
 		 }
 	 }
-	 else
+	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
 		 Vector3 cameraForward = m_playerCamera->getRight();
 		 Vector3 normal = cameraForward * m_normal;
@@ -571,6 +571,11 @@ using namespace DirectX::SimpleMath;
 		 {
 			 m_roll -= normal.z * m_frameTime * rollModifier;
 		 }
+	 }
+	 else
+	 {
+		 m_walljump = false;
+		 m_oldCollider = nullptr;
 	 }
  }
 
