@@ -32,7 +32,7 @@ private:
 	void updateRepo();
 public:
 
-	PointLight(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Vector3 color, float strength, std::string name = "");
+	PointLight(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& color, float strength, const std::string& name = "");
 	PointLight(DirectX::SimpleMath::Vector3 position, std::string name = "");
 	~PointLight() = default;
 
