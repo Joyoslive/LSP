@@ -75,7 +75,7 @@ using namespace DirectX::SimpleMath;
 		 lookAround();
 	 }
 
-	detectDeath(-35.0f);
+	detectDeath(-950.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -532,7 +532,7 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::slowPlayer(Vector3 velocity)
  {
 	 constexpr float slowModifier = 50.0f;
-	 if (Input::getInput().mouseBeingPressed(Input::MouseKeys::LeftButton))
+	 if (Input::getInput().mouseBeingPressed(Input::MouseKeys::RightButton))
 	 {
 		 Vector3 normalVelocity = velocity;
 		 normalVelocity.Normalize();
