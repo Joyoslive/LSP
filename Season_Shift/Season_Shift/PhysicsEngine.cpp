@@ -84,9 +84,15 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 		if (rigidBodyCollider != nullptr)
 		{
 			vector<Ref<Collider>> otherColliders = checkCollide(rigidBodyCollider);
-			for (auto& other : otherColliders)
+			if (!rigidBodyCollider->m_trigger)
 			{
-				collisionResponse(rigidBody, rigidBodyCollider, other);
+				for (auto& other : otherColliders)
+				{
+					if (!other->m_trigger)
+					{
+						collisionResponse(rigidBody, rigidBodyCollider, other);
+					}
+				}
 			}
 		}
 		m_deltaTime -= m_timeStep;
