@@ -180,8 +180,12 @@ void Scene4::setUpScene()
 
 	Ref<GameObject> go3 = createGameObject("goal", Vector3(0, 200.0f, 0.0f));
 	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
-	go3->AddComponent(std::make_shared<SphereCollider>(5.0f));
+	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 
+	Ref<GameObject> go4 = createGameObject("goal", Vector3(0, 100.0f, 0.0f));
+	go4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r = go4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
+	
 
 	//Summer
 	Ref<GameObject> summerBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, -(10.0f + (20 * 2)/2)), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f) * 2));
