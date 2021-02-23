@@ -129,6 +129,8 @@
     <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\PostProcessVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\PostProcessPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
