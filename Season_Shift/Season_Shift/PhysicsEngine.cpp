@@ -84,11 +84,11 @@ void PhysicsEngine::internalSimulate(const Ref<RigidBody>& rigidBody, long doubl
 		if (rigidBodyCollider != nullptr)
 		{
 			vector<Ref<Collider>> otherColliders = checkCollide(rigidBodyCollider);
-			if (rigidBodyCollider->m_trigger)
+			if (!rigidBodyCollider->m_trigger)
 			{
 				for (auto& other : otherColliders)
 				{
-					if (other->m_trigger)
+					if (!other->m_trigger)
 					{
 						collisionResponse(rigidBody, rigidBodyCollider, other);
 					}
