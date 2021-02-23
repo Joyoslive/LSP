@@ -64,7 +64,7 @@ void GameObject::update()
 	}
 }
 
-int GameObject::AddComponent(Ref<Component> component)
+const Ref<Component>& GameObject::AddComponent(Ref<Component> component)
 {
 	if (typeid(*component) == typeid(Transform))
 	{
@@ -81,7 +81,7 @@ int GameObject::AddComponent(Ref<Component> component)
 		}
 		else
 		{
-			return -1; // only one transform is allowed
+			assert(false); // only one transform is allowed
 		}
 	}
 	m_componentVector.push_back(component);
@@ -90,7 +90,7 @@ int GameObject::AddComponent(Ref<Component> component)
 	component->setTransform(m_transform);
 
 	component->initialize();
-	return 0;
+	return component;
 }
 
 const Ref<Transform>& GameObject::getTransform() const
