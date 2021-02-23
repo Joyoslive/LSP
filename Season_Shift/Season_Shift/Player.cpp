@@ -267,7 +267,11 @@ using namespace DirectX::SimpleMath;
 		 getTime(msg);
 		
 	 }
+	 if (collider->getGameObject()->getName() == "checkpoint")
+	 {
+		 respawn = collider->getGameObject()->getTransform()->getPosition();
 
+	 }
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
