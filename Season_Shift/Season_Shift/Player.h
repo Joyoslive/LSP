@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "CameraComponent.h"
 #include "Timer.h"
+#include "PlayerCameraMovement.h"
 
 class Player : public Logic
 {
@@ -11,6 +12,7 @@ private:
 	Ref<RigidBody> m_rb;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
+	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
 	float m_pitch, m_yaw, m_roll;
 	DirectX::SimpleMath::Vector3 m_normal;

@@ -63,6 +63,8 @@ using namespace DirectX::SimpleMath;
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
+	 
+	 //m_logicPlayerCamera = m_gameObject->getMultipleComponentType<PlayerCameraMovement>();
 	
 	 m_rb->setGravity(55.0);
  }	
