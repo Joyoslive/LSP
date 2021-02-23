@@ -23,6 +23,7 @@ public:
 		CAPSULE_COLLIDER = 64,
 		MODEL = 128,
 		CAMERA = 256,
+		SOUND = 512,
 	};
 
 	friend inline ComponentEnum operator &(ComponentEnum l, ComponentEnum r)
