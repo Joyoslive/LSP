@@ -269,6 +269,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(respawn);
 		 std::wstring msg = L"Your Time was";
 		 getTime(msg);
