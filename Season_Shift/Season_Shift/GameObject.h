@@ -7,6 +7,7 @@
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
 #include "CapsuleCollider.h"
+#include "Sound.h"
 #include "Graphics/Model.h"
 #include "Scene.h"
 #include <vector>

@@ -64,6 +64,7 @@
     <ClCompile Include="Graphics\PointLightRepo.cpp" />
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="PlayerCameraMovement.cpp" />
+    <ClCompile Include="Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Graphics\PointLightRepo.h" />
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="PlayerCameraMovement.h" />
+    <ClInclude Include="Sound.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -133,6 +135,8 @@
     <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\PostProcessVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\PostProcessPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

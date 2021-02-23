@@ -210,6 +210,7 @@
     <ClCompile Include="Graphics\Skybox.cpp" />
     <ClCompile Include="Scenes\Scene3.cpp" />
     <ClCompile Include="Scenes\Scene4.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="Graphics\Skybox.h" />
     <ClInclude Include="Scenes\Scene3.h" />
     <ClInclude Include="Scenes\Scene4.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
@@ -295,6 +297,16 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shaders\PostProcessPS.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shaders\PostProcessVS.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Graphics\CompiledShaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Graphics\Shaders\SkyboxPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

@@ -122,10 +122,11 @@ Vector3 PhysicsEngine::calcPos(const Ref<RigidBody>& rigidBody)
 		Vector3 pendelDir = rigidBody->m_pendelPoint - newPos;
 		pendelDir.Normalize();
 
+		//check if rope is streached, else don't to shit
 		if ((newPos - rigidBody->m_pendelPoint).Length() > rigidBody->m_pendelLength)
 		{
-			Vector3 correctedPos = rigidBody->m_pendelPoint - pendelDir * rigidBody->m_pendelLength;
-			Vector3 correctedVel = (correctedPos - pos) / (float)m_timeStep; //Problem eftersom |currentPos pos| < |newPos - pos| => correctedVel minskar 
+			Vector3 correctedPos = rigidBody->m_pendelPoint - pendelDir * rigidBody->m_pendelLength; //clamp pos to inside rope radius
+			Vector3 correctedVel = (correctedPos - pos) / (float)m_timeStep; //solve new vel and acc to move into corrected pos
 			Vector3 correctedAcc = (correctedVel - vel) / (float)m_timeStep;
 			rigidBody->m_acceleration = correctedAcc;
 		}
