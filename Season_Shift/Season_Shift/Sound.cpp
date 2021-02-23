@@ -21,4 +21,5 @@ Sound::Sound()
 
 Sound::~Sound()
 {
+	m_audioEngine.Suspend();
 }
