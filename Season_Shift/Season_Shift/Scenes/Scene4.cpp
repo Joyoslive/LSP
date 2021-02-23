@@ -182,11 +182,11 @@ void Scene4::setUpScene()
 	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 
-	Ref<GameObject> go4 = createGameObject("goal", Vector3(0, 100.0f, 0.0f));
+	Ref<GameObject> go4 = createGameObject("checkpoint", Vector3(0.0, 18.0f, -(10.0f + (20 * 32) / 2)));
 	go4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
-	Ref<OrientedBoxCollider> r = go4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
-	
-
+	Ref<OrientedBoxCollider> r = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
+	r->SetTriggerCollider(true);
+	go4->AddComponent(r);
 	//Summer
 	Ref<GameObject> summerBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, -(10.0f + (20 * 2)/2)), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f) * 2));
 	summerBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
