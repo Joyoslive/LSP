@@ -3,6 +3,7 @@
 #include "../Player.h"
 #include "../CameraComponent.h"
 #include "../PlayerJumpTrigger.h"
+#include "../Rotate.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -187,6 +188,7 @@ void Scene4::setUpScene()
 	Ref<OrientedBoxCollider> r = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
 	r->SetTriggerCollider(true);
 	go4->AddComponent(r);
+	go4->AddComponent(std::make_shared<Rotate>());
 	//Summer
 	Ref<GameObject> summerBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, -(10.0f + (20 * 2)/2)), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f) * 2));
 	summerBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
