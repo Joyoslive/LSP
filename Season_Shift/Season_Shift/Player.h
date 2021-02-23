@@ -14,7 +14,6 @@ private:
 	Ref<Collider> m_oldCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
-	//float m_pitch, m_yaw, m_roll;
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 respawn;
@@ -44,7 +43,6 @@ private:
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 
 private:
-	void lookAround();
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	DirectX::SimpleMath::Vector3 checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
@@ -65,7 +63,7 @@ public:
 	void start() override;
 	void update() override;
 	void onCollision(Ref<Collider> collider) override;
-	void setRespawn(DirectX::SimpleMath::Vector3 incomingRespawn);
+	void setRespawn(const DirectX::SimpleMath::Vector3& incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
 	bool getOnGround();
