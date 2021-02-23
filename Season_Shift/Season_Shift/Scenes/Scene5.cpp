@@ -16,15 +16,20 @@ void Scene5::setUpScene()
 
 	for (auto& object : vec)
 	{
-		auto go = createGameObject(object.name, object.position, object.scale/2, object.rotation);
-		auto model = m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT);
-		auto collider = std::make_shared<OrientedBoxCollider>(object.scale);
+		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
+		auto model = m_graphics->getResourceDevice()->createModel(object.meshDirectory, object.meshFileName, GfxShader::DEFAULT);
 		go->AddComponent(model);
-		go->AddComponent(collider);
+
+		auto temp = object.boxCollider.x + object.boxCollider.y + object.boxCollider.z;
+		if (!(-0.0001 < temp && temp < 0.0001))
+		{
+			auto collider = std::make_shared<OrientedBoxCollider>(object.boxCollider);
+			go->AddComponent(collider);
+		}
 	}
 	
 	// Post setup, like cameras and logic
-	auto player = createGameObject("player", Vector3(0, 10, 0));
+	auto player = createGameObject("player", Vector3(0, 12, 0));
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
