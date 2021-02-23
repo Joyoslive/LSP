@@ -40,7 +40,7 @@ private:
 
 	std::shared_ptr<Skybox> m_skybox;
 
-	bool usePostProcessing = false; // temporary assignment
+	bool m_usePostProcessing = false; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
 	FullscreenQuad m_postProcessQuad;
 	std::shared_ptr<DXTexture> m_prePostTexture;
