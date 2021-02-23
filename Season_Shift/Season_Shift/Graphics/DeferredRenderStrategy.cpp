@@ -8,9 +8,8 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	IRenderStrategy(renderer)
 {
 	setupGeometryPass();
-	setupLightPass();
 	setupPostProcessPass();
-
+	setupLightPass();
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
@@ -79,7 +78,14 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 
-	dev->bindRenderTargets({ m_renderer->getDXDevice()->getBackbuffer() }, nullptr);
+	dev->bindRenderTargets({ dev->getBackbuffer() }, nullptr);
+
+	if (m_usePostProcessing)
+	{
+		m_postProcessPass->bind(dev);
+		dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
+		dev->drawIndexed(6, 0, 0);
+	}
 }
 
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
@@ -96,8 +102,8 @@ void DeferredRenderStrategy::setDirLight(std::shared_ptr<DirectionalLight> light
 void DeferredRenderStrategy::setUp()
 {
 	setupGeometryPass();
+	setupPostProcessPass(); // This before because it generates the prePostTexture
 	setupLightPass();
-	setupPostProcessPass();
 }
 
 void DeferredRenderStrategy::present()
@@ -262,11 +268,81 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass->attachInputTexture(2, m_gbuffers.gbUV);
 	m_lightPass->attachInputTexture(3, m_gbuffers.gbDiffuse);
 	m_lightPass->attachViewports({lpVP});
-	m_lightPass->attachOutputTargets({dev->getBackbuffer()});
+	if (m_usePostProcessing)
+		m_lightPass->attachOutputTargets({m_prePostTexture});
+	else
+		m_lightPass->attachOutputTargets({dev->getBackbuffer()});
 	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
 	m_lightPass->attachInputConstantBuffer(1, m_cameraBuffer);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()
 {
+	auto dev = m_renderer->getDXDevice();
+
+	auto vsShader = dev->createShader("PostProcessVS.cso", DXShader::Type::VS);
+	auto psShader = dev->createShader("PostProcessPS.cso", DXShader::Type::PS);
+
+	// Define the input layout
+	std::vector<D3D11_INPUT_ELEMENT_DESC> ilDesc;
+	ilDesc.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA , 0});
+	ilDesc.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
+	ilDesc.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
+	auto inputLayout = dev->createInputLayout(ilDesc, vsShader->getShaderData());
+
+	// Create a texture sampler
+	/******************************************************/
+	/* --- Might not want to use point sampler here!! --- */
+	/******************************************************/
+	D3D11_SAMPLER_DESC sDesc = { };
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.MipLODBias = 0;
+	sDesc.MaxAnisotropy = 0;
+	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sDesc.MinLOD = 0;
+	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	auto samplerState = dev->createSamplerState(sDesc);
+
+	// Setup pipeline state
+	auto ppPipeline = std::make_shared<DXPipeline>();
+	ppPipeline->attachInputLayout(inputLayout);
+	ppPipeline->setInputTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	ppPipeline->attachVS(vsShader);
+	ppPipeline->attachPS(psShader);
+
+	// Setup a viewport
+	D3D11_VIEWPORT ppVP = {};
+	ppVP.TopLeftX = 0;
+	ppVP.TopLeftY = 0;
+	ppVP.Width = dev->getClientWidth();
+	ppVP.Height = dev->getClientHeight();
+	ppVP.MinDepth = 0.0;
+	ppVP.MaxDepth = 1.0;
+
+	DXTexture::Desc pptDesc = { };
+	pptDesc.type = DXTexture::Type::TEX2D;
+	pptDesc.desc2D.Width = dev->getClientWidth();
+	pptDesc.desc2D.Height = dev->getClientHeight();
+	pptDesc.desc2D.MipLevels = 1;
+	pptDesc.desc2D.ArraySize = 1;
+	pptDesc.desc2D.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	pptDesc.desc2D.SampleDesc.Count = 1;
+	pptDesc.desc2D.SampleDesc.Quality = 0;
+	pptDesc.desc2D.Usage = D3D11_USAGE_DEFAULT;
+	pptDesc.desc2D.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	pptDesc.desc2D.CPUAccessFlags = 0;
+	pptDesc.desc2D.MiscFlags = 0;
+	m_prePostTexture = dev->createTexture(pptDesc, nullptr);
+
+	// Setup the render pass
+	// Add textures here if they are needed for a post processing effect
+	m_postProcessPass = std::make_shared<DXRenderPass>();
+	m_postProcessPass->attachPipeline(ppPipeline);
+	m_postProcessPass->attachViewports({ppVP});
+	m_postProcessPass->attachSampler(0, samplerState);
+	m_postProcessPass->attachInputTexture(0, m_prePostTexture);
+	m_postProcessPass->attachOutputTargets({dev->getBackbuffer()});
 }
