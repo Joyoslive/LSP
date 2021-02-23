@@ -27,7 +27,7 @@ public:
 	void operator=(Input const&) = delete;
 	~Input();
 	static Input &getInput();
-	static void initInput(HWND wndHandle);
+	static void initInput(HWND wndHandle, int width, int height);
 
 	DirectX::SimpleMath::Vector2 mousePos();
 	void mouseMovement(float &m_pitch, float &m_yaw);
@@ -43,6 +43,9 @@ private:
 	static Input instance;
 	float m_mouseY;
 	float m_mouseX;
+	int m_width;
+	int m_height;
+	HWND m_hwnd;
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;
 	DirectX::Keyboard::KeyboardStateTracker m_keys;

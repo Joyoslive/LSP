@@ -75,7 +75,7 @@ using namespace DirectX::SimpleMath;
 		 lookAround();
 	 }
 
-	detectDeath(-950.0f);
+	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -429,7 +429,7 @@ using namespace DirectX::SimpleMath;
  void Player::gravityChange(const Vector3& velocity)
  {
 	 constexpr float changeGVelocity = 20.0f;
-	 constexpr float bigG = 80.0f;
+	 constexpr float bigG = 95.0f;//80.0f;
 	 constexpr float smallG = 55.0f;
 	 constexpr float wallJumpG = 30.0f*2.5f;
 
@@ -602,10 +602,9 @@ using namespace DirectX::SimpleMath;
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
 		 //cast ray
-		 constexpr float maxDist = 0.7f;
-		//this belongs in physics but who cares
+		 constexpr float maxDist = 1.25f;
 		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		 float dist = maxDist;
+		 float dist = FLT_MAX;
 		 bool noHit = true;
 		 for (auto& go : scene)
 		 {
@@ -615,7 +614,7 @@ using namespace DirectX::SimpleMath;
 				 float d = 10000000000000;
 				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
 				 {
-					 if (d > dist) dist = d;
+					 if (d < dist) dist = d;
 					 noHit = false;
 				 }
 			 }
@@ -626,8 +625,8 @@ using namespace DirectX::SimpleMath;
 			 return;
 		 }
 
-		 Vector3 cameraForward = m_playerCamera->getRight();
-		 Vector3 normal = cameraForward * m_normal;
+		 Vector3 cameraRight = m_playerCamera->getRight();
+		 Vector3 normal = cameraRight * m_normal;
 		 normal.Normalize();
 		 if (m_roll > -rollWallCheck && normal.x > 0)
 		 {

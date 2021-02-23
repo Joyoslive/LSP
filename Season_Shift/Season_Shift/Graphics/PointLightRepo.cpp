@@ -100,7 +100,7 @@ void PointLightRepo::updateBuffer()
 	m_updateBuffer = false;
 }
 
-void PointLightRepo::replacePointLightResource(PointLight::PointLightResource data, int index)
+void PointLightRepo::replacePointLightResource(const PointLight::PointLightResource& data, int index)
 {
 	m_pointLightVector[index].first.m_PointLightData = data; // update PointLight
 	if (m_pointLightVector[index].second != -1) // update resource vector if it has owns a copy of the resource
