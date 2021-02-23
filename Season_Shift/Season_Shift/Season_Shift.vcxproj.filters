@@ -63,6 +63,7 @@
     <ClCompile Include="Graphics\PointLight.cpp" />
     <ClCompile Include="Graphics\PointLightRepo.cpp" />
     <ClCompile Include="Rotate.cpp" />
+    <ClCompile Include="PlayerCameraMovement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -121,6 +122,7 @@
     <ClInclude Include="Graphics\PointLight.h" />
     <ClInclude Include="Graphics\PointLightRepo.h" />
     <ClInclude Include="Rotate.h" />
+    <ClInclude Include="PlayerCameraMovement.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
