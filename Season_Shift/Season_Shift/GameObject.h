@@ -76,6 +76,6 @@ public:
 	const std::string& getName() const;
 	const Ref<Scene>& getScene() const;
 
-	int AddComponent(Ref<Component> component);
+	const Ref<Component>& AddComponent(Ref<Component> component);
 };
 
