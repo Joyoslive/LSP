@@ -617,7 +617,7 @@ using namespace DirectX::SimpleMath;
  //Debug feature
  Vector3 Player::playerFly(Vector3 velocity)
  {
-	 constexpr float flySpeed = 100.0f;
+	 constexpr float flySpeed = 500.0f;
 
 	 if (m_fly)
 	 {
