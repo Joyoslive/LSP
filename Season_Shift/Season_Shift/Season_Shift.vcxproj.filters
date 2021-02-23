@@ -134,5 +134,6 @@
     <None Include="packages.config" />
     <ClInclude Include="Logger.h" />
     <None Include="Scenes\SceneJSONs\scene.json" />
+    <None Include="Tools\SceneReader\SceneReader.cs" />
   </ItemGroup>
 </Project>
