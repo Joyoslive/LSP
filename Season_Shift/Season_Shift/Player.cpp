@@ -92,21 +92,36 @@ using namespace DirectX::SimpleMath;
 	}
 	if (m_disable == false)
 	{
+		//Checks for wallRunning direction the player should Move
+		Vector3 up = Vector3::Up;
+		Vector3 cross = up.Cross(m_normal);
+		float dot = cross.Dot(cameraForward);
+		if (dot < 0)
+			cross *= -1;
+
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
-			moveDirection += cameraForward;
+			if (m_walljump)
+				moveDirection += cross;
+			else
+				moveDirection += cameraForward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
-			moveDirection -= cameraForward;
+			if (m_walljump)
+				moveDirection -= cross;
+			else
+				moveDirection -= cameraForward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
-			moveDirection -= cameraRight;
+			if (!m_walljump)
+				moveDirection -= cameraRight;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
-			moveDirection += cameraRight;
+			if (!m_walljump)
+				moveDirection += cameraRight;
 		}
 		if (Input::getInput().keyPressed(Input::Esc))
 		{
@@ -431,7 +446,7 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 20.0f;
 	 constexpr float bigG = 95.0f;//80.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 30.0f*2.5f;
+	 constexpr float wallJumpG = 60.0f;//30.0f*2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -576,23 +591,26 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_logicPlayerCamera->wallRunning(m_walljump, Vector3(0,0,0), m_frameTime);
 	 }
-	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
+	 else //if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
 		 //cast ray
 		 constexpr float maxDist = 1.25f;
 		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
 		 float dist = FLT_MAX;
 		 bool noHit = true;
-		 for (auto& go : scene)
+		 if (m_normal.Length() != 0)
 		 {
-			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-			 if (obb != nullptr)
+			 for (auto& go : scene)
 			 {
-				 float d = 10000000000000;
-				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+				 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				 if (obb != nullptr)
 				 {
-					 if (d < dist) dist = d;
-					 noHit = false;
+					 float d = 10000000000000;
+					 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					 {
+						 if (d < dist) dist = d;
+						 noHit = false;
+					 }
 				 }
 			 }
 		 }
@@ -605,13 +623,16 @@ using namespace DirectX::SimpleMath;
 		 Vector3 cameraRight = m_playerCamera->getRight();
 		 Vector3 normal = cameraRight * m_normal;
 		 normal.Normalize();
-		 m_logicPlayerCamera->wallRunning(m_walljump, normal, m_frameTime);
+		 bool wallRunning = m_walljump;
+		 if (fabs(m_normal.Dot(m_playerCamera->getRight())) <= 0.8f)
+			 wallRunning = false;
+		 m_logicPlayerCamera->wallRunning(wallRunning, normal, m_frameTime);
 	 }
-	 else
+	 /*else
 	 {
 		 m_walljump = false;
 		 m_oldCollider = nullptr;
-	 }
+	 }*/
  }
 
  //Debug feature
