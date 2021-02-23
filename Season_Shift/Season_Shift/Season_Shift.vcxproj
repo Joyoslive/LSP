@@ -326,6 +326,7 @@
     </FxCompile>
     <None Include="packages.config" />
     <None Include="Scenes\SceneJSONs\scene.json" />
+    <None Include="Tools\SceneReader\SceneReader.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
