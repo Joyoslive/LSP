@@ -180,7 +180,7 @@ void Scene4::setUpScene()
 
 	Ref<GameObject> go3 = createGameObject("goal", Vector3(0, 200.0f, 0.0f));
 	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
-	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+	go3->AddComponent(std::make_shared<SphereCollider>(5.0f));
 
 
 	//Summer
