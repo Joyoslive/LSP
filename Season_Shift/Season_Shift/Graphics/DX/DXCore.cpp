@@ -1,5 +1,5 @@
 #include "DXCore.h"
-
+#include "../../Logger.h"
 
 
 DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
@@ -168,5 +168,55 @@ void DXCore::onResize(UINT width, UINT height)
 
 	// Create SRV for backbuffer
 	HRCHECK(m_device->CreateShaderResourceView(m_backbufferTexture.Get(), NULL, m_backbufferSRV.GetAddressOf()));
+
+
+	//get desplay modes
+
+	/*IDXGIOutput* outPut = nullptr;
+	hr = this->m_swapChain->GetContainingOutput(&outPut);
+	assert(SUCCEEDED(hr)); 
+
+	DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	
+	UINT numModes = 0;
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, 0);
+	assert(SUCCEEDED(hr));
+	DXGI_MODE_DESC* modeList = new DXGI_MODE_DESC[numModes];
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, modeList);
+	assert(SUCCEEDED(hr));
+	Logger log = Logger::getLogger();
+	log.setFile("modeList.txt");
+	for (int i = 0; i < numModes; i++)
+	{
+		log.addLog("width:\t\t" + std::to_string(modeList[i].Width) + "\n");
+		log.addLog("height:\t\t" + std::to_string(modeList[i].Height) + "\n");
+		log.addLog("RefreshRate:\t" + std::to_string((float)modeList[i].RefreshRate.Numerator/(float)modeList->RefreshRate.Denominator) + "\n");
+		log.addLog("Scaling:\t\t" + std::to_string(modeList[i].Scaling) + "\n");
+		log.addLog("ScanlineOrdering:\t" + std::to_string(modeList[i].ScanlineOrdering) + "\n");
+		log.addLog("Format:\t\t" + std::to_string(modeList[i].Format) + "\n\n");
+		
+	}
+	log.dumpLogs();
+	delete[] modeList;*/
+
+
+
+
+	//något annat
+	/*DXGI_MODE_DESC modeDesc = {};
+
+	DXGI_MODE_DESC prefModeDesc = {};
+
+	prefModeDesc.Width = width;
+	prefModeDesc.Height = height;
+	prefModeDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	prefModeDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+	hr = outPut->FindClosestMatchingMode(&prefModeDesc, &modeDesc, this->m_device.Get());
+	assert(SUCCEEDED(hr));
+
+
+	BOOL fullscreen;
+	hr = this->m_swapChain.Get()->GetFullscreenState(&fullscreen, nullptr);
+	assert(SUCCEEDED(hr));*/
 }
 

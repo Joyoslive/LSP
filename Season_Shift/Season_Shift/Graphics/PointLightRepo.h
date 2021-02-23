@@ -45,7 +45,7 @@ public:
 private:
 	void createBuffer();
 	void updateBuffer();
-	void replacePointLightResource(PointLight::PointLightResource data, int index);
+	void replacePointLightResource(const PointLight::PointLightResource& data, int index);
 	void turnOnOff(bool on, int index);
 };
 

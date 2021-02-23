@@ -24,7 +24,7 @@ void PointLight::updateRepo()
 	}
 }
 
-PointLight::PointLight(Vector3 position, Vector3 color, float strength, std::string name) : PointLight(position, name)
+PointLight::PointLight(const Vector3& position, const Vector3& color, float strength, const std::string& name) : PointLight(position, name)
 {
 	m_PointLightData.m_color = color;
 	m_PointLightData.m_strength = strength;
