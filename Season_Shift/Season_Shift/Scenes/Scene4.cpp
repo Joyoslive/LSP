@@ -184,7 +184,7 @@ void Scene4::setUpScene()
 
 	Ref<GameObject> go4 = createGameObject("goal", Vector3(0, 100.0f, 0.0f));
 	go4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
-	Ref<OrientedBoxCollider> r = go4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
+	//Ref<OrientedBoxCollider> r = go4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 	
 
 	//Summer

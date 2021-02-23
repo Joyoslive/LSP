@@ -193,6 +193,7 @@
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerCameraMovement.cpp" />
     <ClCompile Include="PlayerJumpTrigger.cpp" />
     <ClCompile Include="Graphics\PointLight.cpp" />
     <ClCompile Include="Graphics\PointLightRepo.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerCameraMovement.h" />
     <ClInclude Include="PlayerJumpTrigger.h" />
     <ClInclude Include="Graphics\PointLight.h" />
     <ClInclude Include="Graphics\PointLightRepo.h" />

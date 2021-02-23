@@ -6,9 +6,9 @@ using namespace DirectX::SimpleMath;
 
  Player::Player()
  {
-	 m_yaw = DirectX::XM_2PI/2;
+	 /*m_yaw = DirectX::XM_2PI/2;
 	 m_pitch = 0.0f;
-	 m_roll = 0.0f;
+	 m_roll = 0.0f;*/
 	 respawn = { 0, 10, 0 };
 	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
@@ -61,10 +61,12 @@ using namespace DirectX::SimpleMath;
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 //m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 m_playerCamera->setRotation(0,0,0);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
-	 
-	 //m_logicPlayerCamera = m_gameObject->getMultipleComponentType<PlayerCameraMovement>();
+	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
+	 m_gameObject->AddComponent(m_logicPlayerCamera);
+	 m_logicPlayerCamera->start();
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -223,7 +225,7 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
 		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
-		ImGui::Text("Roll: %f", m_roll);
+		//ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
@@ -445,8 +447,9 @@ using namespace DirectX::SimpleMath;
 
  void Player::lookAround() 
  {
-	 Input::getInput().mouseMovement(m_pitch, m_yaw);
-	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 //m_logicPlayerCamera->updatePlayerCamera();
+	 //Input::getInput().mouseMovement(m_pitch, m_yaw);
+	 //m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
  }
 
  void Player::detectDeath(float death) 
@@ -454,9 +457,10 @@ using namespace DirectX::SimpleMath;
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
-		 m_roll = 0.0f;
+		 m_logicPlayerCamera->resetCamera();
+		 /*m_roll = 0.0f;
 		 m_pitch = 0.0f;
-		 m_yaw = 0.0f;
+		 m_yaw = 0.0f;*/
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
 	 }
@@ -577,29 +581,25 @@ using namespace DirectX::SimpleMath;
 
  void Player::wallRunning(const Vector3& velocity) 
  {
-	 constexpr float minRollOff = 0.01f;
-	 constexpr float rollWallCheck = 0.3f;
-	 constexpr float rollModifier = DirectX::XM_PI * 5.f / 7.f;
-
 	 if (m_wallTimer > 0.0f)
 	 {
 		 m_wallTimer -= m_frameTime;
 	 }
 	 
-	 //Clown Code need fixing afap
 	 if (m_walljump == false) {
-		 if (m_roll > minRollOff)
-		 {
-			 m_roll -= m_frameTime;
-		 }
-		 else if (m_roll < -minRollOff)
-		 {
-			 m_roll += m_frameTime;
-		 }
-		 else
-		 {
-			 m_roll = 0.0;
-		 }
+		 //if (m_roll > minRollOff)
+		 //{
+			// m_roll -= m_frameTime;
+		 //}
+		 //else if (m_roll < -minRollOff)
+		 //{
+			// m_roll += m_frameTime;
+		 //}
+		 //else
+		 //{
+			// m_roll = 0.0;
+		 //}
+		 m_logicPlayerCamera->wallRunning(m_walljump, Vector3(0,0,0), m_frameTime);
 	 }
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
@@ -630,22 +630,23 @@ using namespace DirectX::SimpleMath;
 		 Vector3 cameraRight = m_playerCamera->getRight();
 		 Vector3 normal = cameraRight * m_normal;
 		 normal.Normalize();
-		 if (m_roll > -rollWallCheck && normal.x > 0)
-		 {
-			 m_roll -= normal.x * m_frameTime * rollModifier;
-		 }
-		 else if (m_roll < rollWallCheck && normal.x < 0)
-		 {
-			 m_roll -= normal.x * m_frameTime * rollModifier;
-		 }
-		 if (m_roll > -rollWallCheck && normal.z > 0)
-		 {
-			 m_roll -= normal.z * m_frameTime * rollModifier;
-		 }
-		 else if (m_roll < rollWallCheck && normal.z < 0)
-		 {
-			 m_roll -= normal.z * m_frameTime * rollModifier;
-		 }
+		 //if (m_roll > -rollWallCheck && normal.x > 0)
+		 //{
+			// m_roll -= normal.x * m_frameTime * rollModifier;
+		 //}
+		 //else if (m_roll < rollWallCheck && normal.x < 0)
+		 //{
+			// m_roll -= normal.x * m_frameTime * rollModifier;
+		 //}
+		 //if (m_roll > -rollWallCheck && normal.z > 0)
+		 //{
+			// m_roll -= normal.z * m_frameTime * rollModifier;
+		 //}
+		 //else if (m_roll < rollWallCheck && normal.z < 0)
+		 //{
+			// m_roll -= normal.z * m_frameTime * rollModifier;
+		 //}
+		 m_logicPlayerCamera->wallRunning(m_walljump, normal, m_frameTime);
 	 }
 	 else
 	 {

@@ -14,7 +14,7 @@ private:
 	Ref<Collider> m_oldCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
-	float m_pitch, m_yaw, m_roll;
+	//float m_pitch, m_yaw, m_roll;
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 respawn;
