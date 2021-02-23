@@ -44,7 +44,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//Input input = Input(win.getHWND());
 	//Ref<Input> input = std::make_shared<Input>(win.getHWND());
 	//Init singleton with window handler
-	Input::initInput(win.getHWND());
+	Input::initInput(win.getHWND(), resWidth, resHeight);
 
 	// Material
 

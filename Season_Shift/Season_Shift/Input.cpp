@@ -16,7 +16,7 @@ Input& Input::getInput()
 	return instance;
 }
 
-void Input::initInput(HWND wndHandle)
+void Input::initInput(HWND wndHandle, int width, int height)
 {
 	instance.m_keyboard = std::make_unique<DirectX::Keyboard>();
 	instance.m_mouse = std::make_unique<DirectX::Mouse>();
@@ -26,6 +26,10 @@ void Input::initInput(HWND wndHandle)
 	instance.m_mouseY = 0.0f;
 	instance.mouse = instance.m_mouse->GetState();
 	instance.m_frameTime = 0.0f;
+	instance.m_width = width;
+	instance.m_height = height;
+	instance.m_hwnd = wndHandle;
+	SetCursorPos(width/2, height/2);
 }
 
 bool Input::keyBeingPressed(Keys key) 
@@ -175,8 +179,17 @@ void Input::update(long double dt)
 	m_frameTime = dt;
 	auto kb = m_keyboard->GetState();
 	mouse = m_mouse->GetState();
+	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE) 
+	{
+		POINT ref_p;
+		ref_p.x = m_width / 2;
+		ref_p.y = m_height / 2;
+		ClientToScreen(m_hwnd, &ref_p);
+		SetCursorPos(ref_p.x, ref_p.y);
+	}
 	m_mouseY = mouse.y;
 	m_mouseX = mouse.x;
+
 	m_keys.Update(kb);
 	m_mouseButtons.Update(mouse);
 }
