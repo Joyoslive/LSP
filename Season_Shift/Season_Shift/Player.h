@@ -41,6 +41,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
+	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
 
 private:
 	void detectDeath(float death);

@@ -216,6 +216,7 @@ using namespace DirectX::SimpleMath;
 	wallRunning(velocity);
 	m_rb->setVelocity(velocity);
 
+	m_oldVelocity = velocity;
 
 	m_playerCamera->update();
 
@@ -266,6 +267,7 @@ using namespace DirectX::SimpleMath;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
+	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
@@ -557,6 +559,7 @@ using namespace DirectX::SimpleMath;
  {
 	 m_oldFrameTime = m_frameTime;
 	 m_frameTime = dt;
+	 m_logicPlayerCamera->updateFrameTime(m_frameTime);
  }
 
  void Player::setWaitForJump()
@@ -589,7 +592,7 @@ using namespace DirectX::SimpleMath;
 	 
 	 if (m_walljump == false) 
 	 {
-		 m_logicPlayerCamera->wallRunning(m_walljump, Vector3(0,0,0), m_frameTime);
+		 m_logicPlayerCamera->wallRunning(m_walljump, Vector3(0,0,0));
 	 }
 	 else //if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
 	 {
@@ -626,7 +629,7 @@ using namespace DirectX::SimpleMath;
 		 bool wallRunning = m_walljump;
 		 if (fabs(m_normal.Dot(m_playerCamera->getRight())) <= 0.8f)
 			 wallRunning = false;
-		 m_logicPlayerCamera->wallRunning(wallRunning, normal, m_frameTime);
+		 m_logicPlayerCamera->wallRunning(wallRunning, normal);
 	 }
 	 /*else
 	 {
