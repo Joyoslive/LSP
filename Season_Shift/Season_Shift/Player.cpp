@@ -252,7 +252,7 @@ using namespace DirectX::SimpleMath;
 			 m_jumpWhenLanding = true;
 		 }
 	 }
-	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider)
+	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider && collider->getGameObject()->getName() != "checkpoint")
 	 {
 		 m_walljump = true;
 		 m_oldCollider = collider;
