@@ -63,6 +63,7 @@ const DirectX::SimpleMath::Matrix& Transform::getRotationMatrix() const
 
 void Transform::setPosition(const DirectX::SimpleMath::Vector3& position)
 {
+	m_oldposition = m_position;
 	m_position = position;
 	setPositionMatrix();
 }
@@ -82,6 +83,11 @@ void Transform::setRotation(const DirectX::SimpleMath::Vector3& rotation)
 const DirectX::SimpleMath::Vector3& Transform::getPosition() const
 {
 	return m_position;
+}
+
+const DirectX::SimpleMath::Vector3& Transform::getDeltaPosition() const
+{
+	return (m_oldposition-m_position);
 }
 
 const DirectX::SimpleMath::Vector3& Transform::getScale() const

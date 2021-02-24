@@ -37,7 +37,10 @@ private:
 	long double m_oldFrameTime;
 	long double m_wallTimer;
 	bool m_hooked;
+	bool m_movObj;
+	bool m_movSpeed;
 	float m_hookDist;
+	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;

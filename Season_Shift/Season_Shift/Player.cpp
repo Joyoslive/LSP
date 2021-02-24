@@ -43,8 +43,10 @@ using namespace DirectX::SimpleMath;
 	 m_oldCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
+	 m_movObj = false;
 	 m_hookDist = 0;
 	 m_hookPoint = Vector3(0, 0, 0);
+	 m_deltaPos = Vector3(0, 0, 0);
 
  }
 
@@ -187,6 +189,10 @@ using namespace DirectX::SimpleMath;
 	{
 		m_oldCollider = NULL;
 	}
+	if (m_movObj == true)
+	{
+		moveDirection -= m_deltaPos;
+	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -281,6 +287,16 @@ using namespace DirectX::SimpleMath;
 	 {
 		 respawn = collider->getGameObject()->getTransform()->getPosition();
 
+	 }
+	 if (collider->getGameObject()->getName() == "moving")
+	 {
+		 m_movObj = true;
+		 m_deltaPos = collider->getGameObject()->getTransform()->getDeltaPosition();
+
+	 }
+	 else
+	 {
+		 m_movObj = false;
 	 }
  }
 

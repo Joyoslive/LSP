@@ -37,3 +37,14 @@ void Move::update()
 	m_move += m_speed* m_direction;
 	m_gameObject->getTransform()->setPosition(m_move);
 }
+
+float Move::getSpeed() {
+	if (m_speed.x > 0)
+		return m_speed.x;
+	else if (m_speed.y > 0)
+		return m_speed.y;
+	else if (m_speed.z > 0)
+		return m_speed.z;
+	else
+		return 0;
+}
