@@ -38,7 +38,14 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_geometryPassSolid->bind(dev);
 	m_geometryPassSolid->clearAttachedDepthTarget(dev);
 
-	DirectX::XMMATRIX matrices[3] = { {}, mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix() };
+	//Update the matrices of the previous frame for motionblur
+	DirectX::XMMATRIX prevMatrices[2] = {m_gpMatrices[1], m_gpMatrices[2]};
+	m_prevMatrices->updateMapUnmap(&prevMatrices, sizeof(DirectX::XMMATRIX) * 2);
+
+	m_gpMatrices[0] = {};
+	m_gpMatrices[1] = mainCamera->getViewMatrix();
+	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
+
 	for (auto& mod : models)
 	{
 		for (auto& mat : mod->getSubsetsMaterial())
@@ -47,9 +54,9 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			mat.material->bindTextures(dev);
 			mat.material->bindBuffers(dev);
 
-			matrices[0] = mod->getTransform()->getWorldMatrix();
+			m_gpMatrices[0] = mod->getTransform()->getWorldMatrix();
 
-			m_gpMatrixBuffer->updateMapUnmap(matrices, sizeof(matrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
+			m_gpMatrixBuffer->updateMapUnmap(m_gpMatrices, sizeof(m_gpMatrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
 
 			dev->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_gpMatrixBuffer);
 
@@ -86,6 +93,9 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 		dev->drawIndexed(6, 0, 0);
 	}
+
+	dev->bindShaderTexture(DXShader::Type::PS, 0, nullptr);
+	dev->bindShaderTexture(DXShader::Type::PS, 1, nullptr);
 }
 
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
@@ -296,9 +306,9 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	/******************************************************/
 	D3D11_SAMPLER_DESC sDesc = { };
 	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	sDesc.MipLODBias = 0;
 	sDesc.MaxAnisotropy = 0;
 	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
@@ -337,6 +347,9 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	pptDesc.desc2D.MiscFlags = 0;
 	m_prePostTexture = dev->createTexture(pptDesc, nullptr);
 
+	// Previous view-proj
+	m_prevMatrices = dev->createConstantBuffer(sizeof(DirectX::XMMATRIX) * 2, true, true);
+
 	// Setup the render pass
 	// Add textures here if they are needed for a post processing effect
 	m_postProcessPass = std::make_shared<DXRenderPass>();
@@ -344,5 +357,8 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	m_postProcessPass->attachViewports({ppVP});
 	m_postProcessPass->attachSampler(0, samplerState);
 	m_postProcessPass->attachInputTexture(0, m_prePostTexture);
+	m_postProcessPass->attachInputTexture(1, m_gbuffers.gbPosWS);
+	m_postProcessPass->attachInputConstantBuffer(0, m_gpMatrixBuffer);
+	m_postProcessPass->attachInputConstantBuffer(1, m_prevMatrices);
 	m_postProcessPass->attachOutputTargets({dev->getBackbuffer()});
 }
