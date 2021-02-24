@@ -21,7 +21,7 @@ protected:
 public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	virtual ~IRenderStrategy();
-	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
+	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};

@@ -141,7 +141,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		camSwitch.update(m_timer.dt());
 		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(m_timer.dt());
 		
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera(), m_timer.dt());
 		m_timer.stop();
 
 	}

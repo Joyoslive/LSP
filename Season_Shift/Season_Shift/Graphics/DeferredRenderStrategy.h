@@ -3,6 +3,19 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
+struct alignas(16) PostProcessVariables
+{
+	float elapsedTime;
+	float deltaTime;
+	int clientWidth;
+	int clientHeight;
+	double randomNumber;
+
+	float speedlineRAD;
+	float speedlineThickness;
+	float speedlineSpeedFactor;
+};
+
 class DeferredRenderStrategy final : public IRenderStrategy
 {
 private:
@@ -40,10 +53,13 @@ private:
 
 	std::shared_ptr<Skybox> m_skybox;
 
-	bool m_usePostProcessing = false; // temporary assignment
+	bool m_usePostProcessing = true; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
 	FullscreenQuad m_postProcessQuad;
 	std::shared_ptr<DXTexture> m_prePostTexture;
+	PostProcessVariables m_postProcessVariables;
+	std::shared_ptr<DXBuffer> m_postProcessVariableBuffer;
+	float m_resetTimer;
 
 	void setupGeometryPass();
 	void setupLightPass();
@@ -53,7 +69,7 @@ public:
 	DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	~DeferredRenderStrategy() = default;
 
-	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) override;
+	void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt) override;
 
 	void setSkybox(std::shared_ptr<Skybox> skybox) override;
 

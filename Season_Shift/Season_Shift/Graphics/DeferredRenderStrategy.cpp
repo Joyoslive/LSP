@@ -1,5 +1,6 @@
 #include "DeferredRenderStrategy.h"
 #include "Skybox.h"
+#include <random>
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
@@ -10,9 +11,10 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupGeometryPass();
 	setupPostProcessPass();
 	setupLightPass();
+
 }
 
-void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
+void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
 {
 	/*
 	m_geometryPass->bind()
@@ -82,6 +84,29 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_usePostProcessing)
 	{
+		m_postProcessVariables.clientHeight = dev->getClientHeight();
+		m_postProcessVariables.clientWidth= dev->getClientWidth();
+		m_postProcessVariables.deltaTime = dt;
+		m_postProcessVariables.elapsedTime += dt;
+		m_resetTimer += dt;
+
+		//if (m_resetTimer > 1.f)	// new random num every second
+		//{
+		std::random_device rd;  //Will be used to obtain a seed for the random number engine
+		std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+		std::uniform_real_distribution<> dis(0.0, 1.0);
+
+		m_postProcessVariables.randomNumber = dis(gen);
+		m_resetTimer = 0.f;
+		//}
+
+		m_postProcessVariables.speedlineRAD = 0.34;
+		m_postProcessVariables.speedlineThickness = 0.00003;
+		m_postProcessVariables.speedlineSpeedFactor = 1.4;
+;
+
+		m_postProcessVariableBuffer->updateMapUnmap(&m_postProcessVariables, sizeof(m_postProcessVariables));
+
 		m_postProcessPass->bind(dev);
 		dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 		dev->drawIndexed(6, 0, 0);
@@ -185,8 +210,8 @@ void DeferredRenderStrategy::setupGeometryPass()
 	D3D11_VIEWPORT gbVP = {};
 	gbVP.TopLeftX = 0;
 	gbVP.TopLeftY = 0;
-	gbVP.Width = dev->getClientWidth();
-	gbVP.Height = dev->getClientHeight();
+	gbVP.Width = static_cast<float>(dev->getClientWidth());
+	gbVP.Height = static_cast<float>(dev->getClientHeight());
 	gbVP.MinDepth = 0.0;
 	gbVP.MaxDepth = 1.0;
 
@@ -248,8 +273,8 @@ void DeferredRenderStrategy::setupLightPass()
 	D3D11_VIEWPORT lpVP = {};
 	lpVP.TopLeftX = 0;
 	lpVP.TopLeftY = 0;
-	lpVP.Width = dev->getClientWidth();
-	lpVP.Height = dev->getClientHeight();
+	lpVP.Width = static_cast<float>(dev->getClientWidth());
+	lpVP.Height = static_cast<float>(dev->getClientHeight());
 	lpVP.MinDepth = 0.0;
 	lpVP.MaxDepth = 1.0;
 
@@ -317,15 +342,15 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	D3D11_VIEWPORT ppVP = {};
 	ppVP.TopLeftX = 0;
 	ppVP.TopLeftY = 0;
-	ppVP.Width = dev->getClientWidth();
-	ppVP.Height = dev->getClientHeight();
+	ppVP.Width = static_cast<float>(dev->getClientWidth());
+	ppVP.Height = static_cast<float>(dev->getClientHeight());
 	ppVP.MinDepth = 0.0;
 	ppVP.MaxDepth = 1.0;
 
 	DXTexture::Desc pptDesc = { };
 	pptDesc.type = DXTexture::Type::TEX2D;
-	pptDesc.desc2D.Width = dev->getClientWidth();
-	pptDesc.desc2D.Height = dev->getClientHeight();
+	pptDesc.desc2D.Width = static_cast<float>(dev->getClientWidth());
+	pptDesc.desc2D.Height = static_cast<float>(dev->getClientHeight());
 	pptDesc.desc2D.MipLevels = 1;
 	pptDesc.desc2D.ArraySize = 1;
 	pptDesc.desc2D.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -337,12 +362,24 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	pptDesc.desc2D.MiscFlags = 0;
 	m_prePostTexture = dev->createTexture(pptDesc, nullptr);
 
+	// Setup constant buffer
+	m_postProcessVariableBuffer = dev->createConstantBuffer(sizeof(PostProcessVariables), true, true, nullptr);
+
+
+
+	m_postProcessVariables.elapsedTime = 0.;
+	m_postProcessVariables.deltaTime = 0.;
+	m_postProcessVariables.clientHeight = dev->getClientHeight();
+	m_postProcessVariables.clientWidth = dev->getClientWidth();
+
+
 	// Setup the render pass
 	// Add textures here if they are needed for a post processing effect
 	m_postProcessPass = std::make_shared<DXRenderPass>();
 	m_postProcessPass->attachPipeline(ppPipeline);
 	m_postProcessPass->attachViewports({ppVP});
 	m_postProcessPass->attachSampler(0, samplerState);
+	m_postProcessPass->attachInputConstantBuffer(0, m_postProcessVariableBuffer);
 	m_postProcessPass->attachInputTexture(0, m_prePostTexture);
 	m_postProcessPass->attachOutputTargets({dev->getBackbuffer()});
 }
