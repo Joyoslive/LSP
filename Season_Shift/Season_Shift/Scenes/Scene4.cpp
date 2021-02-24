@@ -4,6 +4,7 @@
 #include "../CameraComponent.h"
 #include "../PlayerJumpTrigger.h"
 #include "../Rotate.h"
+#include "../Move.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -212,7 +213,6 @@ void Scene4::setUpScene()
 	Ref<GameObject> summerBox3 = createGameObject("brickCube", Vector3(0.0, 11.0f, -(10.0f + (20 * 22) / 2)), Vector3((1.0f / 10.0f) * 0.90, 1, (1.0f / 10.0f) * 1.6));
 	summerBox3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	summerBox3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.90, 2, 20 * 1.6)));
-	summerBox3->AddComponent(std::make_shared<Rotate>(0.9, 0, 0));
 
 	Ref<GameObject> summerBox4 = createGameObject("brickCube", Vector3(0.0, 14.0f, -(10.0f + (20 * 32) / 2)), Vector3((1.0f / 10.0f) * 0.85, 1, (1.0f / 10.0f) * 1.4));
 	summerBox4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
@@ -221,12 +221,10 @@ void Scene4::setUpScene()
 	Ref<GameObject> summerBox5 = createGameObject("brickCube", Vector3(0.0, 17.0f, -(10.0f + (20 * 42) / 2)), Vector3((1.0f / 10.0f) * 0.80, 1, (1.0f / 10.0f) * 1.2));
 	summerBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	summerBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.80, 2, 20 * 1.2)));
-	summerBox5->AddComponent(std::make_shared<Rotate>(0, 0.09, 0));
 
 	Ref<GameObject> summerBox6 = createGameObject("brickCube", Vector3(0.0, 20.0f, -(10.0f + (20 * 52) / 2)), Vector3((1.0f / 10.0f) * 0.75, 1, (1.0f / 10.0f) * 1.0));
 	summerBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	summerBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
-	summerBox6->AddComponent(std::make_shared<Rotate>(0, 0, 0.09));
 
 	Ref<GameObject> summerBox7 = createGameObject("brickCube", Vector3(0.0, 23.0f, -(10.0f + (20 * 62) / 2)), Vector3((1.0f / 10.0f) * 0.70, 1, (1.0f / 10.0f) * 0.8));
 	summerBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxSummer/", "200x2x200Box.obj", GfxShader::DEFAULT));
@@ -252,6 +250,36 @@ void Scene4::setUpScene()
 	Ref<GameObject> fallBox1 = createGameObject("wall", Vector3(-(10.0f + (20 * 2) / 2), 5.0f,0), Vector3((1.0f / 10.0f)*2, 1, (1.0f / 10.0f)));
 	fallBox1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	fallBox1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20*2, 2, 20)));
+
+	Ref<GameObject> fallBox2 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 12) / 2), 11.0f, 0), Vector3((1.0f / 10.0f) * 0.90, 1, (1.0f / 10.0f) * 1.6));
+	fallBox2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.90, 2, 20 * 1.6)));
+	fallBox2->AddComponent(std::make_shared<Rotate>(0.2, 0, 0));
+
+	Ref<GameObject> fallBox3 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 22) / 2), 17.0f, 0), Vector3((1.0f / 10.0f) * 0.80, 1, (1.0f / 10.0f) * 1.2));
+	fallBox3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.80, 2, 20 * 1.2)));
+	fallBox3->AddComponent(std::make_shared<Rotate>(0, 0.2, 0));
+
+	Ref<GameObject> fallBox4 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 32) / 2), 20.0f, 0), Vector3((1.0f / 10.0f) * 0.75, 1, (1.0f / 10.0f) * 1.0));
+	fallBox4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
+	fallBox4->AddComponent(std::make_shared<Rotate>(0, 0, 0.2));
+	
+	Ref<GameObject> fallBox5 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 42) / 2), 20.0f, 0), Vector3((1.0f / 10.0f) * 0.75, 1, (1.0f / 10.0f) * 1.0));
+	fallBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
+	fallBox5->AddComponent(std::make_shared<Move>(Vector3(0.4, 0.0f, 0.0f), Vector3(50, 0.0f, 0.0f)));
+
+	Ref<GameObject> fallBox6 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 52) / 2), 20.0f, 0), Vector3((1.0f / 10.0f) * 0.75, 1, (1.0f / 10.0f) * 1.0));
+	fallBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
+	fallBox6->AddComponent(std::make_shared<Move>(Vector3(0, 0.4f, 0.0f), Vector3(0, 50.0f, 0.0f)));
+
+	Ref<GameObject> fallBox7 = createGameObject("brickCube", Vector3(-(10.0f + (20 * 62) / 2), 20.0f, 0), Vector3((1.0f / 10.0f) * 0.75, 1, (1.0f / 10.0f) * 1.0));
+	fallBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	fallBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
+	fallBox7->AddComponent(std::make_shared<Move>(Vector3(0, 0.0f, 0.4f), Vector3(0, 0.0f, 50.0f)));
 
 	m_graphics->setLightDirection({-1, -1, 1});
 }

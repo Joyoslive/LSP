@@ -65,6 +65,7 @@
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="PlayerCameraMovement.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="PlayerCameraMovement.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="Move.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
