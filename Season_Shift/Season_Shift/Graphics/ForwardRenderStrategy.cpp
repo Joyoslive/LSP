@@ -1,5 +1,5 @@
 #include "ForwardRenderStrategy.h"
-
+#include "../Camera.h"
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 

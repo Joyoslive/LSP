@@ -2,9 +2,10 @@
 #include "GfxRenderer.h"
 #include "Model.h"
 #include "DX/DXRenderPass.h"
-#include "../Camera.h"
+//#include "../Camera.h"
 #include "DirectionalLight.h"
 
+class Camera;
 class Skybox;
 /*
 

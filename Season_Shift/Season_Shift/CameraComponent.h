@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Camera.h"
+//#include "Camera.h"
 
 class CameraComponent : public Component
 {

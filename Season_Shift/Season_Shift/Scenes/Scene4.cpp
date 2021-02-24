@@ -1,9 +1,6 @@
 #include "Scene4.h"
-#include "../Graphics/Graphics.h"
-#include "../Player.h"
-#include "../CameraComponent.h"
-#include "../PlayerJumpTrigger.h"
-#include "../Rotate.h"
+#include "../GameObject.h"
+
 
 using namespace DirectX::SimpleMath;
 
@@ -27,7 +24,8 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
-	//player->AddComponent(std::make_shared<Sound>());
+	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
+	std::dynamic_pointer_cast<Sound>(s)->play();*/
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2,2,2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));

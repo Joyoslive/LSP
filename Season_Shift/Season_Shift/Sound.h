@@ -15,6 +15,6 @@ public:
 	Sound();
 	~Sound();
 
-	void play();
+	size_t play();
 };
 

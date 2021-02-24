@@ -1,5 +1,6 @@
 #include "DeferredRenderStrategy.h"
 #include "Skybox.h"
+#include "../Camera.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;

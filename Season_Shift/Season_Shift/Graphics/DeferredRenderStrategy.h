@@ -3,6 +3,8 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
+class SkyBox;
+
 class DeferredRenderStrategy final : public IRenderStrategy
 {
 private:

@@ -17,7 +17,8 @@ Sound::~Sound()
 	m_audioEngine.Suspend();
 }
 
-void Sound::play()
+size_t Sound::play()
 {
 	m_sound->Play();
+	return m_sound->GetSampleDuration();
 }
