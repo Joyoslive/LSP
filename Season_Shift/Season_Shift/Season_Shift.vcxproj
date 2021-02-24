@@ -188,6 +188,7 @@
     <ClCompile Include="Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="Libraries\inc\json\json.hpp" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
