@@ -9,6 +9,10 @@ void PlayerCameraMovement::start()
 	m_pitch = 0.0f;
 	m_roll = 0.0f;
 	m_goToRoll = 0.0f;
+	m_landShake = false;
+	m_stop = true;
+	m_secondTime = false;
+
 
 	m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
@@ -39,9 +43,10 @@ void PlayerCameraMovement::update()
 			{
 				setGoToRoll(m_secondTime);
 			}
-			m_stop = m_secondTime;
+			if (m_landShake)
+				m_stop = m_secondTime;
 			m_roll = 0;
-			m_shake = !m_secondTime;
+			m_landShake = !m_secondTime;
 			m_secondTime = !m_secondTime;
 		}
 	}
@@ -51,6 +56,7 @@ void PlayerCameraMovement::update()
 	{
 		ImGui::Text("GoToRoll %f", m_goToRoll);
 		ImGui::Text("Roll %f", m_roll);
+		ImGui::Text("RunRoll %f", m_runRoll);
 		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
 	}
 	ImGui::End();
@@ -75,7 +81,7 @@ void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& n
 	constexpr float rollWallCheck = 0.3f;
 	constexpr float rollModifier = DirectX::XM_PI * 5.f / 7.f;
 
-	if (m_shake)
+	if (m_landShake || m_runShake)
 		return;
 
 	if (!wallRunning)
@@ -121,7 +127,7 @@ void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 	if (velocity.y < minVelocity)
 	{
 		m_stop = false;
-		m_shake = true;
+		m_landShake = true;
 		m_secondTime = false;
 		setGoToRoll(!m_secondTime);
 		m_velocityY = velocity.y;
@@ -140,18 +146,85 @@ void PlayerCameraMovement::setDirection(const float& roll)
 
 void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
 {
-	constexpr float rollAngle = DirectX::XM_PI / 36.0f;
+	constexpr float rollLandShake = DirectX::XM_PI / 36.0f;
 	constexpr float modifier = 100.0f;
 
 	if (firstTime)
 	{
 		if (m_direction != 0)
-			m_goToRoll = rollAngle * m_direction * fabs(m_velocityY) / modifier;
+			m_goToRoll = rollLandShake * m_direction * fabs(m_velocityY) / modifier;
 		else
-			m_goToRoll = -rollAngle * fabs(m_velocityY) / modifier;
+			m_goToRoll = -rollLandShake * fabs(m_velocityY) / modifier;
 	}
 	else
-		m_goToRoll = rollAngle * -1 * m_direction * fabs(m_velocityY) / modifier;
+		m_goToRoll = rollLandShake * -1 * m_direction * fabs(m_velocityY) / modifier;
 
 	setDirection(m_goToRoll);
 }
+
+void PlayerCameraMovement::setRunRoll(const bool& firstTime)
+{
+	constexpr float rollRunShake = DirectX::XM_PI / 26.0f;
+	if (firstTime)
+	{
+		if (m_direction != 0)
+			m_runRoll = rollRunShake * m_direction;
+		else
+			m_runRoll = -rollRunShake;
+	}
+	else
+	{
+		if (m_direction != 0)
+			m_runRoll = rollRunShake * -1 * m_direction;
+		else
+			m_runRoll = rollRunShake;
+	}
+
+	char msgbuf[1000];
+	sprintf_s(msgbuf, "My variable is %f\n", m_runRoll);
+	OutputDebugStringA(msgbuf);
+
+	setDirection(m_runRoll);
+}
+
+void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning)
+{
+	return;
+
+	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
+	{
+		if (m_runRoll == 0)
+			setRunRoll(m_secondTime);
+
+		if (m_roll < m_runRoll)
+		{
+			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
+		else if (m_roll > m_runRoll)
+		{
+			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
+
+		/*if ((m_runRoll < 0 && m_runRoll >= m_roll) || (m_runRoll > 0 && m_runRoll <= m_roll))
+			m_runRoll = 0;*/
+
+		if ((m_direction > 0 && m_roll < 0) || (m_direction < 0 && m_roll > 0))
+		{
+			/*if (!m_secondTime)
+			{
+				setRunRoll(!m_secondTime);
+			}*/
+			setRunRoll(!m_secondTime);
+			m_roll = 0;
+			m_secondTime = !m_secondTime;
+		}
+		m_runShake = true;
+	}
+	else
+		m_runShake = 0;
+}
+
+
+//char msgbuf[1000];
+//sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
+//OutputDebugStringA(msgbuf);
