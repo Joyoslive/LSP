@@ -27,7 +27,7 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
-	player->AddComponent(std::make_shared<Sound>());
+	//player->AddComponent(std::make_shared<Sound>());
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2,2,2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
