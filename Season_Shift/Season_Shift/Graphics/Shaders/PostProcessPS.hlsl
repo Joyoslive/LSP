@@ -3,14 +3,55 @@
 #define THICKNESS 0.00003
 #define BASE_SPEED_FAC 1.3    // change to lower value to see the ease-out easier
 
+#define MOBLUR_SAMPLES 3
+
 SamplerState g_sampler : register(s0);
 Texture2D g_bbTex : register(t0);
+Texture2D g_worldPosTex : register(t1);
+
+cbuffer MatrixBuffer : register(b0)
+{
+	matrix g_wMatrix;
+	matrix g_vMatrix;
+	matrix g_pMatrix;
+};
+
+cbuffer PrevMatrices : register(b1)
+{
+	matrix g_prevView;
+	matrix g_prevProj;
+};
 
 struct PS_IN
 {
 	float4 pos : SV_POSITION;
 	float2 uv : TEXCOORD;
 };
+
+float4 motionBlur(float4 worldPos, float2 uv)
+{
+	// Detect skybox
+	if (worldPos.w == 0)
+	{
+		return g_bbTex.Sample(g_sampler, uv);
+	}
+	float4 currentPos = mul(g_pMatrix, mul(g_vMatrix, worldPos));
+	currentPos /= currentPos.w;
+
+	float4 prevPos = mul(g_prevProj, mul(g_prevView, worldPos));
+	prevPos /= prevPos.w;
+
+	float4 velocity = (currentPos - prevPos) / 2.0;
+
+	float4 color = g_bbTex.Sample(g_sampler, uv);
+	uv += velocity;
+	for (int i = 1; i < MOBLUR_SAMPLES; ++i, uv += velocity)
+	{
+		color += g_bbTex.Sample(g_sampler, uv);
+	}
+
+	return color / (float)MOBLUR_SAMPLES;
+}
 
 float drawLine(float2 P, float2 A, float2 B)
 {
@@ -80,6 +121,8 @@ float4 main(PS_IN input) : SV_TARGET
 
 	col = max(float3(uv, 0.), speedLine);
 
+	float4 worldPos = g_worldPosTex.Sample(g_sampler, input.uv);
+	float4 moBlur = motionBlur(worldPos, input.uv);
 
-	return float4(col, 1.);
+	return saturate(moBlur + float4(col,1));
 }
