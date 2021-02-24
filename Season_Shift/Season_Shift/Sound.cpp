@@ -24,8 +24,6 @@ Sound::Sound()
 
 Sound::~Sound()
 {
-<<<<<<< Updated upstream
-=======
 
 }
 
@@ -43,5 +41,4 @@ Sound::SoundEngine::SoundEngine()
 Sound::SoundEngine::~SoundEngine()
 {
 	m_audioEngine.Suspend();
->>>>>>> Stashed changes
 }
