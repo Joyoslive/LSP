@@ -1,5 +1,8 @@
 #include "Sound.h"
 
+
+Sound::SoundEngine Sound::SoundEngine::s_soundEngine;
+
 float explodeDelay = 30.0f;
 
 void Sound::update()
@@ -14,11 +17,31 @@ void Sound::update()
 
 Sound::Sound()
 {
-	m_audioEngine = DirectX::AudioEngine();
-	m_sound = std::make_shared<DirectX::SoundEffect>(&m_audioEngine, L"Sounds/Explo4.wav");
+	
+	//m_sound = std::make_shared<DirectX::SoundEffect>(&SoundEngine::s_soundEngine.m_audioEngine, L"Sounds/Explo4.wav");
 	m_componentType = ComponentEnum::SOUND;
 }
 
 Sound::~Sound()
 {
+<<<<<<< Updated upstream
+=======
+
+}
+
+DirectX::AudioEngine& Sound::SoundEngine::getAudioEngine()
+{
+	return s_soundEngine.m_audioEngine;
+}
+
+Sound::SoundEngine::SoundEngine()
+{
+	s_soundEngine.m_audioEngine = DirectX::AudioEngine();
+	hej = 2;
+}
+
+Sound::SoundEngine::~SoundEngine()
+{
+	m_audioEngine.Suspend();
+>>>>>>> Stashed changes
 }
