@@ -15,5 +15,6 @@ public:
 	Sound();
 	~Sound();
 
+	void play();
 };
 

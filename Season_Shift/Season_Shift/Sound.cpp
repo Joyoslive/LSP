@@ -1,15 +1,8 @@
 #include "Sound.h"
 
-float explodeDelay = 30.0f;
 
 void Sound::update()
 {
-	explodeDelay -= 0.01; //dt??
-	if (explodeDelay < 0.f)
-	{
-		m_sound->Play();
-		explodeDelay = 5.0;
-	}
 }
 
 Sound::Sound()
@@ -22,4 +15,9 @@ Sound::Sound()
 Sound::~Sound()
 {
 	m_audioEngine.Suspend();
+}
+
+void Sound::play()
+{
+	m_sound->Play();
 }
