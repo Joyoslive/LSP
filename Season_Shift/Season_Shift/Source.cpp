@@ -10,6 +10,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "CameraSwitch.h"
+#include "Rotate.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -100,6 +101,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	CameraSwitch camSwitch;
 	camSwitch.Init(&debugCamera, player, cam);
 
+
 	// ImGUI
 	int a = 500;
 	bool b = false;
@@ -138,6 +140,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		//input->update();
 		camSwitch.update(m_timer.dt());
 		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(m_timer.dt());
+		
 		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
 		m_timer.stop();
 

@@ -6,9 +6,6 @@ using namespace DirectX::SimpleMath;
 
  Player::Player()
  {
-	 m_yaw = DirectX::XM_2PI/2;
-	 m_pitch = 0.0f;
-	 m_roll = 0.0f;
 	 respawn = { 0, 10, 0 };
 	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
@@ -59,10 +56,13 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
-	 m_playerCamera->setOffset(0, 3.0f, 0);
+	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
+	 m_playerCamera->setRotation(0,0,0);
 	 m_capsuleCollider = m_gameObject->getComponentType<CapsuleCollider>(Component::ComponentEnum::CAPSULE_COLLIDER);
+	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
+	 m_gameObject->AddComponent(m_logicPlayerCamera);
+	 m_logicPlayerCamera->start();
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -70,12 +70,8 @@ using namespace DirectX::SimpleMath;
 
  void Player::update()
  {
-	 if (m_disable == false)
-	 {
-		 lookAround();
-	 }
 
-	detectDeath(-950.0f);
+	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -96,21 +92,36 @@ using namespace DirectX::SimpleMath;
 	}
 	if (m_disable == false)
 	{
+		//Checks for wallRunning direction the player should Move
+		Vector3 up = Vector3::Up;
+		Vector3 cross = up.Cross(m_normal);
+		float dot = cross.Dot(cameraForward);
+		if (dot < 0)
+			cross *= -1;
+
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
-			moveDirection += cameraForward;
+			if (m_walljump)
+				moveDirection += cross;
+			else
+				moveDirection += cameraForward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
-			moveDirection -= cameraForward;
+			if (m_walljump)
+				moveDirection -= cross;
+			else
+				moveDirection -= cameraForward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
-			moveDirection -= cameraRight;
+			if (!m_walljump)
+				moveDirection -= cameraRight;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
-			moveDirection += cameraRight;
+			if (!m_walljump)
+				moveDirection += cameraRight;
 		}
 		if (Input::getInput().keyPressed(Input::Esc))
 		{
@@ -205,6 +216,7 @@ using namespace DirectX::SimpleMath;
 	wallRunning(velocity);
 	m_rb->setVelocity(velocity);
 
+	m_oldVelocity = velocity;
 
 	m_playerCamera->update();
 
@@ -221,7 +233,7 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
 		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
-		ImGui::Text("Roll: %f", m_roll);
+		//ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
@@ -250,20 +262,26 @@ using namespace DirectX::SimpleMath;
 			 m_jumpWhenLanding = true;
 		 }
 	 }
-	 if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider)
+	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider && collider->getGameObject()->getName() != "checkpoint")
 	 {
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
+	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(respawn);
 		 std::wstring msg = L"Your Time was";
 		 getTime(msg);
 		
 	 }
+	 if (collider->getGameObject()->getName() == "checkpoint")
+	 {
+		 respawn = collider->getGameObject()->getTransform()->getPosition();
 
+	 }
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
@@ -429,9 +447,9 @@ using namespace DirectX::SimpleMath;
  void Player::gravityChange(const Vector3& velocity)
  {
 	 constexpr float changeGVelocity = 20.0f;
-	 constexpr float bigG = 80.0f;
+	 constexpr float bigG = 95.0f;//80.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 30.0f;
+	 constexpr float wallJumpG = 60.0f;//30.0f*2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -441,20 +459,12 @@ using namespace DirectX::SimpleMath;
 		 m_rb->setGravity(smallG);
  }
 
- void Player::lookAround() 
- {
-	 Input::getInput().mouseMovement(m_pitch, m_yaw);
-	 m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
- }
-
  void Player::detectDeath(float death) 
  {
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(respawn);
-		 m_roll = 0.0f;
-		 m_pitch = 0.0f;
-		 m_yaw = 0.0f;
+		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
 	 }
@@ -495,7 +505,7 @@ using namespace DirectX::SimpleMath;
 			 velocity.y = wallJumpSpeed;
 			 m_walljump = false;
 
-			 //m_doubleJump = true;
+			 m_doubleJump = true;
 			 m_jetPackFuel = m_jetPackFuelMax;
 			 m_ground = false;
 		 }
@@ -507,7 +517,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
-			 velocity.y += m_jumpSpeed;
+			 velocity.y = m_jumpSpeed;
 			 m_ground = false;
 			 m_checkCollideJump = false;
 			 m_waitForJump = false;
@@ -541,7 +551,7 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
- void Player::setRespawn(Vector3 incomingRespawn)
+ void Player::setRespawn(const Vector3& incomingRespawn)
  {
 	 respawn = incomingRespawn;
  }
@@ -550,6 +560,7 @@ using namespace DirectX::SimpleMath;
  {
 	 m_oldFrameTime = m_frameTime;
 	 m_frameTime = dt;
+	 m_logicPlayerCamera->updateFrameTime(m_frameTime);
  }
 
  void Player::setWaitForJump()
@@ -575,58 +586,63 @@ using namespace DirectX::SimpleMath;
 
  void Player::wallRunning(const Vector3& velocity) 
  {
-	 constexpr float minRollOff = 0.01f;
-	 constexpr float rollWallCheck = 0.3f;
-	 constexpr float rollModifier = DirectX::XM_PI * 5.f / 7.f;
-
 	 if (m_wallTimer > 0.0f)
 	 {
 		 m_wallTimer -= m_frameTime;
 	 }
 	 
-	 //Clown Code need fixing afap
-	 if (m_walljump == false) {
-		 if (m_roll > minRollOff)
-		 {
-			 m_roll -= m_frameTime;
-		 }
-		 else if (m_roll < -minRollOff)
-		 {
-			 m_roll += m_frameTime;
-		 }
-		 else
-		 {
-			 m_roll = 0.0;
-		 }
-	 }
-	 else
+	 if (m_walljump == false) 
 	 {
-		 Vector3 cameraForward = m_playerCamera->getRight();
-		 Vector3 normal = cameraForward * m_normal;
-		 normal.Normalize();
-		 if (m_roll > -rollWallCheck && normal.x > 0)
-		 {
-			 m_roll -= normal.x * m_frameTime * rollModifier;
-		 }
-		 else if (m_roll < rollWallCheck && normal.x < 0)
-		 {
-			 m_roll -= normal.x * m_frameTime * rollModifier;
-		 }
-		 if (m_roll > -rollWallCheck && normal.z > 0)
-		 {
-			 m_roll -= normal.z * m_frameTime * rollModifier;
-		 }
-		 else if (m_roll < rollWallCheck && normal.z < 0)
-		 {
-			 m_roll -= normal.z * m_frameTime * rollModifier;
-		 }
+		 m_logicPlayerCamera->wallRunning(m_walljump, Vector3(0,0,0));
 	 }
+	 else //if (fabs(m_normal.Dot(m_playerCamera->getRight())) > 0.8f)
+	 {
+		 //cast ray
+		 constexpr float maxDist = 1.25f;
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = FLT_MAX;
+		 bool noHit = true;
+		 if (m_normal.Length() != 0)
+		 {
+			 for (auto& go : scene)
+			 {
+				 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				 if (obb != nullptr)
+				 {
+					 float d = 10000000000000;
+					 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					 {
+						 if (d < dist) dist = d;
+						 noHit = false;
+					 }
+				 }
+			 }
+		 }
+		 if (dist > maxDist || noHit)
+		 {
+			 m_walljump = false;
+			 return;
+		 }
+
+		 Vector3 cameraRight = m_playerCamera->getRight();
+		 Vector3 normal = cameraRight * m_normal;
+		 normal.Normalize();
+		 bool wallRunning = m_walljump;
+		 if (fabs(m_normal.Dot(m_playerCamera->getRight())) <= 0.8f)
+			 wallRunning = false;
+		 m_logicPlayerCamera->wallRunning(wallRunning, normal);
+	 }
+	 /*else
+	 {
+		 m_walljump = false;
+		 m_oldCollider = nullptr;
+	 }*/
  }
 
  //Debug feature
  Vector3 Player::playerFly(Vector3 velocity)
  {
-	 constexpr float flySpeed = 100.0f;
+	 constexpr float flySpeed = 500.0f;
 
 	 if (m_fly)
 	 {

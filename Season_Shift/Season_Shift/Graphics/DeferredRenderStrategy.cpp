@@ -80,7 +80,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	dev->bindRenderTargets({ dev->getBackbuffer() }, nullptr);
 
-	if (usePostProcessing)
+	if (m_usePostProcessing)
 	{
 		m_postProcessPass->bind(dev);
 		dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
@@ -268,7 +268,7 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass->attachInputTexture(2, m_gbuffers.gbUV);
 	m_lightPass->attachInputTexture(3, m_gbuffers.gbDiffuse);
 	m_lightPass->attachViewports({lpVP});
-	if (usePostProcessing)
+	if (m_usePostProcessing)
 		m_lightPass->attachOutputTargets({m_prePostTexture});
 	else
 		m_lightPass->attachOutputTargets({dev->getBackbuffer()});
