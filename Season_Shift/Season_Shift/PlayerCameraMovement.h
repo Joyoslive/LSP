@@ -9,6 +9,16 @@ private:
 	float m_pitch, m_yaw, m_roll;
 	float m_frameTime;
 	float m_goToRoll;
+	float m_direction;
+	bool m_stop;
+	bool m_shake;
+	bool m_secondTime;
+	
+	float m_velocityY;
+	float temp = 50.0f;
+private:
+	void setDirection(const float& roll);
+	void setGoToRoll(const bool& firstTime);
 public:
 	PlayerCameraMovement() = default;
 	~PlayerCameraMovement() = default;

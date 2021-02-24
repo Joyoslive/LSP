@@ -47,6 +47,7 @@ private:
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	DirectX::SimpleMath::Vector3 checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 checkYMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	DirectX::SimpleMath::Vector3 checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);

@@ -19,23 +19,39 @@ void PlayerCameraMovement::update()
 	Input::getInput().mouseMovement(m_pitch, m_yaw);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 
-	/*if (m_roll < m_goToRoll)
+	if (!m_stop)
 	{
-		m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-	}
-	else if (m_roll > m_goToRoll)
-	{
-		m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-	}
+		if (m_roll < m_goToRoll)
+		{
+			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
+		else if (m_roll > m_goToRoll)
+		{
+			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
 
-	if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
-		m_goToRoll = 0;*/
+		if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
+			m_goToRoll = 0;
+
+		if ((m_direction > 0 && m_roll < 0) || (m_direction < 0 && m_roll > 0))
+		{
+			if (!m_secondTime)
+			{
+				setGoToRoll(m_secondTime);
+			}
+			m_stop = m_secondTime;
+			m_roll = 0;
+			m_shake = !m_secondTime;
+			m_secondTime = !m_secondTime;
+		}
+	}
 
 
 	ImGui::Begin("Player Camera");
 	{
 		ImGui::Text("GoToRoll %f", m_goToRoll);
 		ImGui::Text("Roll %f", m_roll);
+		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
 	}
 	ImGui::End();
 }
@@ -58,6 +74,9 @@ void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& n
 	constexpr float minRollOff = 0.01f;
 	constexpr float rollWallCheck = 0.3f;
 	constexpr float rollModifier = DirectX::XM_PI * 5.f / 7.f;
+
+	if (m_shake)
+		return;
 
 	if (!wallRunning)
 	{
@@ -97,22 +116,42 @@ void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& n
 
 void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 {
+	constexpr float minVelocity = -50.0f;
 	velocity = normal * velocity;
-	char msgbuf[1000];
-	sprintf_s(msgbuf, "My variable is %f, %f, %f\n", velocity.x, velocity.y, velocity.z);
-	OutputDebugStringA(msgbuf);
-	if (velocity.y < 0)
+	if (velocity.y < minVelocity)
 	{
-		OutputDebugStringA("Fisk\n");
-		m_goToRoll = -DirectX::XM_PI * 5.f / 7.f;
-		//m_roll = DirectX::XM_PI * 5.f / 7.f;
-		/*if (m_roll < 0.3f)
-		{
-			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-		}
-		else if (m_roll > -0.3f)
-		{
-			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-		}*/
+		m_stop = false;
+		m_shake = true;
+		m_secondTime = false;
+		setGoToRoll(!m_secondTime);
+		m_velocityY = velocity.y;
 	}
+}
+
+void PlayerCameraMovement::setDirection(const float& roll)
+{
+	if (roll < 0)
+		m_direction = -1;
+	else if (roll > 0)
+		m_direction = 1;
+	else
+		m_direction = 0;
+}
+
+void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
+{
+	constexpr float rollAngle = DirectX::XM_PI / 36.0f;
+	constexpr float modifier = 100.0f;
+
+	if (firstTime)
+	{
+		if (m_direction != 0)
+			m_goToRoll = rollAngle * m_direction * fabs(m_velocityY) / modifier;
+		else
+			m_goToRoll = -rollAngle * fabs(m_velocityY) / modifier;
+	}
+	else
+		m_goToRoll = rollAngle * -1 * m_direction * fabs(m_velocityY) / modifier;
+
+	setDirection(m_goToRoll);
 }

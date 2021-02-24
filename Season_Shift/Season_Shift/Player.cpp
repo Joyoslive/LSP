@@ -53,6 +53,14 @@ using namespace DirectX::SimpleMath;
 
  }
 
+ int signOf(const float& value)
+ {
+	 if (value < 0)
+		 return -1;
+	 else
+		 return 1;
+ }
+
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
@@ -207,10 +215,11 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
 
-	velocitySkipY = checkMaxSpeed(velocitySkipY);
+	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 	velocitySkipY.y += velocity.y;
 	velocity = velocitySkipY;
+	velocity = checkYMaxSpeed(velocity);
 
 	gravityChange(velocity);
 	wallRunning(velocity);
@@ -335,19 +344,19 @@ using namespace DirectX::SimpleMath;
 	 return velocity;
  }
 
+ Vector3 Player::checkYMaxSpeed(Vector3 velocity)
+ {
+	 constexpr float maxYSpeed = 100.0f;
+	 if (fabs(velocity.y) > maxYSpeed)
+		 velocity.y = signOf(velocity.y) * maxYSpeed;
+	 return velocity;
+ }
+
  Vector3 Player::checkMinSpeed(const Vector3& velocity)
  {
 	 if (velocity.Length() < m_minSpeed)
 		 return Vector3::Zero;
 	 return velocity;
- }
-
- int signOf(const float& value)
- {
-	 if (value < 0)
-		 return -1;
-	 else
-		 return 1;
  }
 
  //Checks if you change direction in movement and changes the speed or velocity
@@ -457,6 +466,9 @@ using namespace DirectX::SimpleMath;
 		 m_rb->setGravity(bigG);
 	 else
 		 m_rb->setGravity(smallG);
+
+	 if (m_fly)
+		 m_rb->setGravity(0.0f);
  }
 
  void Player::detectDeath(float death) 
