@@ -48,6 +48,8 @@ private:
 	float m_velocityY;
 	float m_movPos;
 	float m_maxYSpeed;
+	//Speedlines
+	float m_sLT, m_sLR, m_sLS;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
