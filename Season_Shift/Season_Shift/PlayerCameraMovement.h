@@ -37,6 +37,6 @@ public:
 
 	void wallRunning(const bool& wallRunning, const DirectX::SimpleMath::Vector3& normal);
 	void shake(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& normal);
-	void runShake(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning);
+	void runShake(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed);
 };
 

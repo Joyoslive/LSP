@@ -211,8 +211,6 @@ using namespace DirectX::SimpleMath;
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
-	m_logicPlayerCamera->runShake(moveDirection, m_ground, m_walljump);
-
 	constexpr float lerpMoveDirection = 0.96f;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
@@ -220,6 +218,8 @@ using namespace DirectX::SimpleMath;
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
+
+	m_logicPlayerCamera->runShake(moveDirection, m_ground, m_walljump, velocitySkipY.Length(), m_maxSpeed);
 
 	velocitySkipY = checkDirection(velocitySkipY, moveDirection, m_ground);
 

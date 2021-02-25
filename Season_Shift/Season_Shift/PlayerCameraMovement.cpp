@@ -167,7 +167,7 @@ void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
 
 void PlayerCameraMovement::setRunRoll(const bool& firstTime)
 {
-	constexpr float rollRunShake = DirectX::XM_PI / 26.0f;
+	constexpr float rollRunShake = DirectX::XM_PI / 128.0f;//36.0f;
 	if (firstTime)
 	{
 		if (m_direction != 0)
@@ -183,17 +183,15 @@ void PlayerCameraMovement::setRunRoll(const bool& firstTime)
 			m_runRoll = rollRunShake;
 	}
 
-	char msgbuf[1000];
-	sprintf_s(msgbuf, "My variable is %f\n", m_runRoll);
-	OutputDebugStringA(msgbuf);
-
 	setDirection(m_runRoll);
 }
 
-void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning)
+void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed)
 {
-	return;
+	if (m_landShake)
+		return;
 
+	float rollSpeed = DirectX::XM_PI / 7.31f * speed / maxSpeed;//DirectX::XM_PI * 5.f / 7.f;
 	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
 	{
 		if (m_runRoll == 0)
@@ -201,30 +199,23 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 
 		if (m_roll < m_runRoll)
 		{
-			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll += m_frameTime * rollSpeed;
 		}
 		else if (m_roll > m_runRoll)
 		{
-			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll -= m_frameTime * rollSpeed;
 		}
 
-		/*if ((m_runRoll < 0 && m_runRoll >= m_roll) || (m_runRoll > 0 && m_runRoll <= m_roll))
-			m_runRoll = 0;*/
-
-		if ((m_direction > 0 && m_roll < 0) || (m_direction < 0 && m_roll > 0))
+		if ((m_runRoll < 0 && m_runRoll >= m_roll) || (m_runRoll > 0 && m_runRoll <= m_roll))
 		{
-			/*if (!m_secondTime)
-			{
-				setRunRoll(!m_secondTime);
-			}*/
 			setRunRoll(!m_secondTime);
-			m_roll = 0;
+			//m_runRoll = 0;
 			m_secondTime = !m_secondTime;
 		}
 		m_runShake = true;
 	}
 	else
-		m_runShake = 0;
+		m_runShake = false;
 }
 
 
