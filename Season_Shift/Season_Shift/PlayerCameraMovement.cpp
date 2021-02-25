@@ -29,34 +29,7 @@ void PlayerCameraMovement::update()
 	Input::getInput().mouseMovement(m_pitch, m_yaw);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 
-	if (!m_stop)
-	{
-		if (m_roll < m_goToRoll)
-		{
-			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-		}
-		else if (m_roll > m_goToRoll)
-		{
-			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
-		}
-
-		if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
-			m_goToRoll = 0;
-
-		if ((m_direction > 0 && m_roll <= 0) || (m_direction < 0 && m_roll >= 0) || m_direction == 0)
-		{
-			if (!m_secondTime)
-			{
-				setGoToRoll(m_secondTime);
-			}
-			if (m_landShake)
-				m_stop = m_secondTime;
-			m_roll = 0;
-			m_landShake = !m_secondTime;
-			m_secondTime = !m_secondTime;
-		}
-	}
-
+	landShake();
 
 	ImGui::Begin("Player Camera");
 	{
@@ -85,6 +58,37 @@ void PlayerCameraMovement::resetCamera()
 void PlayerCameraMovement::updateFrameTime(const float& frameTime)
 {
 	m_frameTime = frameTime;
+}
+
+void PlayerCameraMovement::landShake()
+{
+	if (!m_stop)
+	{
+		if (m_roll < m_goToRoll)
+		{
+			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
+		else if (m_roll > m_goToRoll)
+		{
+			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+		}
+
+		if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
+			m_goToRoll = 0;
+
+		if ((m_direction > 0 && m_roll <= 0) || (m_direction < 0 && m_roll >= 0) || m_direction == 0)
+		{
+			if (!m_secondTime)
+			{
+				setGoToRoll(m_secondTime);
+			}
+			if (m_landShake)
+				m_stop = m_secondTime;
+			m_roll = 0;
+			m_landShake = !m_secondTime;
+			m_secondTime = !m_secondTime;
+		}
+	}
 }
 
 void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& normal)

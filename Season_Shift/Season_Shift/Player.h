@@ -47,6 +47,7 @@ private:
 	float m_hookDist;
 	float m_velocityY;
 	float m_movPos;
+	float m_maxYSpeed;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
@@ -68,6 +69,7 @@ private:
 	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
+	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 public:
 	Player();
 	~Player();

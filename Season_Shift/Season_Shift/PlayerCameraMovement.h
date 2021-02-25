@@ -31,6 +31,7 @@ private:
 	void setGoToRoll(const bool& firstTime);
 	void setRunRoll(const bool& firstTime);
 	void setRunMoveY(const bool& firstTime);
+	void landShake();
 public:
 	PlayerCameraMovement() = default;
 	~PlayerCameraMovement() = default;
