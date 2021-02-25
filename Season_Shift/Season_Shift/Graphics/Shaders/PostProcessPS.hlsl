@@ -142,7 +142,6 @@ float4 main(PS_IN input) : SV_TARGET
 
 	float3 speedLine = drawSpeedLine(uv, 2, 1., 1.);
 	float3 inTex = g_bbTex.Sample(g_sampler, input.uv).xyz;
-
 	
 	int t2 = int(g_elapsedTime);
 	float speedFac = g_speedlineSpeedFactor * (nextFloat(g_elapsedTime) * 0.5 + 0.5);
@@ -160,15 +159,14 @@ float4 main(PS_IN input) : SV_TARGET
 		lines += drawSpeedLine(uv, seed, speedFac, nextFloat(seed) * 0.3 + 1.);
 	}
 
-	//col = max(float3(uv, 0.), lines);
-	col = max(inTex, lines);
+	col = float3(lines, lines, lines);
 
+	// Crosshair
 	float2 arFixedUv = float2(uv.x * (float(g_clientWidth)/float(g_clientHeight)), uv.y);
-
 	float crosshairRadius = 0.007;
 	if (arFixedUv.x * arFixedUv.x + arFixedUv.y * arFixedUv.y <= crosshairRadius * crosshairRadius)
 	{
-		col = float3(1., 0., 0.);
+		return float4(1., 0., 0., 1.);
 	}
 
 	// motion blur
