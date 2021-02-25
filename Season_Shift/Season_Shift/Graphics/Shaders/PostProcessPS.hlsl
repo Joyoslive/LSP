@@ -3,8 +3,6 @@
 //#define THICKNESS 0.00003
 //#define BASE_SPEED_FAC 1.4    // change to lower value to see the ease-out easier
 
-#define MOBLUR_SAMPLES 3
-
 SamplerState g_sampler : register(s0);
 Texture2D g_bbTex : register(t0);
 Texture2D g_worldPosTex : register(t1);
@@ -34,6 +32,8 @@ cbuffer PostProcessVariables : register(b2)
 	float g_speedlineRAD;
 	float g_speedlineThickness;
 	float g_speedlineSpeedFactor;
+
+	int g_motionBlurSamples;
 };
 
 struct PS_IN
@@ -86,13 +86,14 @@ float4 motionBlur(float4 worldPos, float2 uv)
 	float4 velocity = (currentPos - prevPos) / 2.0;
 
 	float4 color = g_bbTex.Sample(g_sampler, uv);
-	uv += velocity;
-	for (int i = 1; i < MOBLUR_SAMPLES; ++i, uv += velocity)
+	uv += velocity.xy;
+	for (int i = 1; i < 20; ++i, uv += velocity.xy)
 	{
+		if (i >= g_motionBlurSamples) break;
 		color += g_bbTex.Sample(g_sampler, uv);
 	}
 
-	return color / (float)MOBLUR_SAMPLES;
+	return color / (float)g_motionBlurSamples;
 }
 
 float drawLine(float2 P, float2 A, float2 B)

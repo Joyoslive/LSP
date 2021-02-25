@@ -8,6 +8,7 @@
 #include "CapsuleCollider.h"
 #include "Transform.h"
 #include <imgui_impl_win32.h>
+#include "Graphics/Graphics.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -56,7 +57,8 @@ using namespace DirectX::SimpleMath;
 	 m_deltaPos = Vector3(0, 0, 0);
 	 m_velocityY = 0;
 	 m_movPos = 0;
-
+	 m_maxYSpeed = 100.0f;
+	 m_sLR = m_sLS = m_sLT = 0;
  }
 
  Player::~Player()
@@ -277,8 +279,10 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY.y = 0;
 
+	speedLines(velocitySkipY, velocity.y);
+
 	//char msgbuf[1000];
-	//sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
+	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
 
 	ImGui::Begin("Player Info");
@@ -402,9 +406,8 @@ using namespace DirectX::SimpleMath;
 
  Vector3 Player::checkYMaxSpeed(Vector3 velocity)
  {
-	 constexpr float maxYSpeed = 100.0f;
-	 if (fabs(velocity.y) > maxYSpeed)
-		 velocity.y = signOf(velocity.y) * maxYSpeed;
+	 if (fabs(velocity.y) > m_maxYSpeed)
+		 velocity.y = signOf(velocity.y) * m_maxYSpeed;
 	 return velocity;
  }
 
@@ -482,7 +485,7 @@ using namespace DirectX::SimpleMath;
  Vector3 Player::dash(Vector3 velocity, Vector3 cameraLook)
  {
 	 constexpr float minYVelocity = 10.0f;
-	 constexpr float maxYVelocity = 50.0f;
+	 constexpr float maxYVelocity = 30.0f;
 
 	 //Dash
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
@@ -535,6 +538,11 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
+		 m_rb->setVelocity(Vector3::Zero);
+		 m_flySpeed = 0;
+		 m_groundSpeed = 0;
+		 m_hooked = false;
+		 m_rb->stopPendelMotion();
 	 }
  }
 
@@ -644,6 +652,8 @@ using namespace DirectX::SimpleMath;
 		 m_waitForJump = false;
  }
 
+
+
  bool Player::getOnGround()
  {
 	 return m_ground;
@@ -749,4 +759,50 @@ using namespace DirectX::SimpleMath;
 		 m_transform->setPosition(position);
 	 }
 	 return velocity;
+ }
+
+ void Player::clearJumpFromTrigger()
+ {
+	 m_waitForJump = false;
+	 m_checkCollideJump = false;
+	 m_jumpWhenLanding = false;
+ }
+
+ float lerp(float a, float b, float f)
+ {
+	 return a + f * (b - a);
+ }
+
+ void Player::speedLines(const Vector3& velocityXZ, const float& velocityY)
+ {
+	 constexpr float velocityXZModifier = 0.95f;
+	 constexpr float velocityYModifier = 0.7f;
+	 constexpr float speedLinesThicknessModifier = 0.00012f;
+	 constexpr float speedLinesRadiusValue = 1.27f;
+	 constexpr float speedLinesSpeedFactor = 1.4f;
+
+	 //Speedlines
+	 float speedLineThickness = std::clamp(velocityXZ.Length() * velocityXZModifier / m_maxSpeed + std::fabs(velocityY) * velocityYModifier / m_maxYSpeed, 0.0f, 1.0f);
+	 if (speedLineThickness > 0.6f)
+		 m_sLT = lerp(m_sLT, speedLineThickness, m_frameTime);
+	 else
+		 m_sLT = speedLineThickness;
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineThickness(m_sLT * speedLinesThicknessModifier);
+
+	 float speedlineRadius = std::clamp(speedLinesRadiusValue - m_sLT, speedLinesRadiusValue - 1.0f, 1.f);
+	 if (speedlineRadius > speedLinesRadiusValue / 2.1166f)
+		 m_sLR = lerp(m_sLR, speedlineRadius, m_frameTime);
+	 else
+		 m_sLR = speedlineRadius;
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineRadius(m_sLR);
+
+	 float speedLineSpeed = speedLinesSpeedFactor - 1.0f + m_sLT;
+	 if (speedLineSpeed > speedLinesSpeedFactor / 2.3333f)
+		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * 0.5f);
+	 else
+		 m_sLS = speedLineSpeed;
+	 char msgbuf[1000];
+	 sprintf_s(msgbuf, "My variable is %f\n", m_sLS);
+	 //OutputDebugStringA(msgbuf);
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedFactor);
  }
