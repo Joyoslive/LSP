@@ -28,6 +28,12 @@ void PlayerJumpTrigger::update()
 void PlayerJumpTrigger::onCollision(Ref<Collider> collider)
 {
 	if (m_oldCollider == collider)
+	{
 		m_player->setWaitForJump();
+	}
+	else
+	{
+		m_player->clearJumpFromTrigger();
+	}
 	m_oldCollider = collider;
 }

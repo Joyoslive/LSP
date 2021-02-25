@@ -78,5 +78,6 @@ public:
 	void setRespawn(const DirectX::SimpleMath::Vector3& incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
+	void clearJumpFromTrigger();
 	bool getOnGround();
 };

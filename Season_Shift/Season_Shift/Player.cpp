@@ -8,6 +8,7 @@
 #include "CapsuleCollider.h"
 #include "Transform.h"
 #include <imgui_impl_win32.h>
+#include "Graphics/Graphics.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -277,6 +278,9 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY.y = 0;
 
+	//m_gameObject->getScene()->getGraphics()->setSpeedlineRadius(2.0f);
+	//m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(velocitySkipY.Length()/m_maxSpeed);
+
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
 	//OutputDebugStringA(msgbuf);
@@ -535,6 +539,7 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
+		 m_rb->setVelocity(Vector3::Zero);
 	 }
  }
 
@@ -644,6 +649,8 @@ using namespace DirectX::SimpleMath;
 		 m_waitForJump = false;
  }
 
+
+
  bool Player::getOnGround()
  {
 	 return m_ground;
@@ -749,4 +756,11 @@ using namespace DirectX::SimpleMath;
 		 m_transform->setPosition(position);
 	 }
 	 return velocity;
+ }
+
+ void Player::clearJumpFromTrigger()
+ {
+	 m_waitForJump = false;
+	 m_checkCollideJump = false;
+	 m_jumpWhenLanding = false;
  }
