@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DXDevice.h"
 
 using Microsoft::WRL::ComPtr;

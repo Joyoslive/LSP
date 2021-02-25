@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "PlayerJumpTrigger.h"
 #include "GameObject.h"
 #include "Transform.h"

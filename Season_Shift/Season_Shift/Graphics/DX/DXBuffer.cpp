@@ -1,4 +1,4 @@
-
+#include "pch.h"
 #include "DXBuffer.h"
 
 DXBuffer::DXBuffer(std::shared_ptr<DXCore> core, Microsoft::WRL::ComPtr<ID3D11Buffer> buffer, const D3D11_BUFFER_DESC& desc, DXBuffer::Type type, unsigned int elementCount, unsigned int elementStride) :

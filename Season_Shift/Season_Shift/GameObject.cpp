@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GameObject.h"
 #include "Logic.h"
 #include "Transform.h"

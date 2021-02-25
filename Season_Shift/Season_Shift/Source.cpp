@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Window.h"
 #include "Graphics/Graphics.h"
 #include <string>
@@ -26,6 +28,10 @@ constexpr int resWidth = 1280;
 //constexpr int resHeight = 2160;
 //constexpr int resWidth = 3840;
 
+extern "C" {
+	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
+
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
 	//_CrtDumpMemoryLeaks(); //memory leak detection
@@ -51,7 +57,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	SceneManager sceneManager = SceneManager(&gph);
 
-	sceneManager.changeScene(3);
+	sceneManager.changeScene(4);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->getGameObject("player");
@@ -141,7 +147,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		camSwitch.update(m_timer.dt());
 		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(m_timer.dt());
 		
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera());
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera(), m_timer.dt());
 		m_timer.stop();
 
 	}

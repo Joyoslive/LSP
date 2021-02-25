@@ -1,9 +1,11 @@
+#include "pch.h"
 #include "Scene5.h"
 #include "../SceneReader.h"
 #include "../Player.h"
 #include "../GameObject.h"
 #include "../PlayerJumpTrigger.h"
 #include "../Graphics/Graphics.h"
+#include "../Rotate.h"
 
 #include "../Graphics/Graphics.h"
 #include "../Player.h"
@@ -32,6 +34,16 @@ void Scene5::setUpScene()
 
 	for (auto& object : vec)
 	{
+		if (object.name == "Checkpoint")
+		{
+			Ref<GameObject> cp1 = createGameObject("checkpoint", object.position);
+			cp1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
+			Ref<OrientedBoxCollider> r1 = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
+			r1->SetTriggerCollider(true);
+			cp1->AddComponent(r1);
+			cp1->AddComponent(std::make_shared<Rotate>());
+			continue;
+		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
 		auto model = m_graphics->getResourceDevice()->createModel(object.meshDirectory, object.meshFileName, GfxShader::DEFAULT);
 		go->AddComponent(model);
@@ -55,4 +67,6 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
+
+	m_graphics->setLightDirection({1.8, -1, -1});
 }

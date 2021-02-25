@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Transform.h"
 
 Transform::Transform(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation)

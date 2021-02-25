@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Rotate.h"
 #include "GameObject.h"
 #include "Transform.h"

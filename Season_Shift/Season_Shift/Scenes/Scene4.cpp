@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Scene4.h"
 #include "../Graphics/Graphics.h"
 #include "../Player.h"

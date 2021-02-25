@@ -1,4 +1,5 @@
-	#include "DebugCamera.h"
+#include "pch.h"
+#include "DebugCamera.h"
 
 using namespace DirectX; // For multiplying m_speed
 

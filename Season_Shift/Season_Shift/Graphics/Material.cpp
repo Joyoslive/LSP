@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Material.h"
 
 Material::Material(ShaderSet shaders, PhongMaps maps, size_t textureHash, size_t shaderHash)

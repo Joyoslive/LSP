@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ForwardRenderStrategy.h"
 #include "../Camera.h"
 using namespace DirectX::SimpleMath;
@@ -62,7 +63,7 @@ ForwardRenderStrategy::~ForwardRenderStrategy()
 {
 }
 
-void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera)
+void ForwardRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
 {
 	auto dev = m_renderer->getDXDevice();
 	dev->clearScreen();

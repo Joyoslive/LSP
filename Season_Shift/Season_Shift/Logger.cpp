@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Logger.h"
 #include <chrono>
 #include <time.h>
