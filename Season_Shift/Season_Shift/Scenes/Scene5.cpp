@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Scene5.h"
 #include "../SceneReader.h"
 #include "../Player.h"

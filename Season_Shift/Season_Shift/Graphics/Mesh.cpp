@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Mesh.h"
 
 Mesh::Mesh(std::shared_ptr<DXBuffer> vb, std::shared_ptr<DXBuffer> ib) :

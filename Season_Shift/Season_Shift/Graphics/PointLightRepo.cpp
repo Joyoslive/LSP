@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "PointLightRepo.h"
 
 PointLightRepo::PointLightRepo(std::shared_ptr<DXDevice> dxDev)//cosnt ref

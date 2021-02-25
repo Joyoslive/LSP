@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DXCore.h"
 #include "../../Logger.h"
 

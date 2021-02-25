@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GraphicsUtils.h"
 
 #define STB_IMAGE_IMPLEMENTATION

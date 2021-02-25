@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Model.h"
 
 Model::Model(std::shared_ptr<Mesh> mesh, std::vector<SubsetMaterial> materials) :

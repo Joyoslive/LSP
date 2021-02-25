@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ForwardRenderStrategy.h"
 #include "../Camera.h"
 using namespace DirectX::SimpleMath;

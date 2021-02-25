@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "PointLight.h"
 #include "PointLightRepo.h"
 #include <assert.h>

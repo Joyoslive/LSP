@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Graphics.h"
 #include <random>
 #include <imgui_impl_win32.h>

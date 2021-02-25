@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GfxRenderer.h"
 
 GfxRenderer::GfxRenderer(std::shared_ptr<DXDevice> dev) :

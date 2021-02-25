@@ -73,16 +73,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <ExecutablePath>E:\Github\LSP\Season_Shift\x64\Debug;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <ExecutablePath>E:\Github\LSP\Season_Shift\x64\Debug;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -91,7 +95,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Gunnar\Documents\GitHub\LSP\Season_Shift\Season_Shift\pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +115,9 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Gunnar\Documents\GitHub\LSP\Season_Shift\Season_Shift\pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,7 +136,9 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Gunnar\Documents\GitHub\LSP\Season_Shift\Season_Shift\pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,7 +156,9 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Gunnar\Documents\GitHub\LSP\Season_Shift\Season_Shift\pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,6 +201,12 @@
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -209,7 +227,12 @@
     <ClCompile Include="Scenes\Scene2.cpp" />
     <ClCompile Include="Graphics\Skybox.cpp" />
     <ClCompile Include="Scenes\Scene3.cpp" />
-    <ClCompile Include="Scenes\Scene4.cpp" />
+    <ClCompile Include="Scenes\Scene4.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -238,6 +261,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
+    <ClInclude Include="pch\pch.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="Graphics\DX\GraphicsUtils.h" />
     <ClInclude Include="Graphics\Mesh.h" />

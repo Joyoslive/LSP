@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "SceneReader.h"
 #include "json/json.hpp"
 #include <fstream>
