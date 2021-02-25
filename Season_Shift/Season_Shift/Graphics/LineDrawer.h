@@ -1,32 +1,47 @@
 #pragma once
 #include <memory>
-#include "DX/DXDevice.h"
+#include "GfxRenderer.h"
 
 class Camera;
 
 class LineDrawer
 {
 private:
-	std::shared_ptr<DXBuffer> m_pointVB;		// dynamic vb
+	std::shared_ptr<DXBuffer> m_pointsVB;		// dynamic vb
+	std::shared_ptr<DXBuffer> m_camInfoCB;
 
-	DirectX::SimpleMath::Vector2 m_currStartPos;
-	DirectX::SimpleMath::Vector2 m_currEndPos;
+	struct alignas(16) 
+	{
+		DirectX::SimpleMath::Vector3 currStartPos;
+		DirectX::SimpleMath::Vector3 currEndPos;
+	} m_linePoints;
+
+	struct alignas(16) CamInfo
+	{
+		DirectX::SimpleMath::Matrix viewMat;
+		DirectX::SimpleMath::Matrix projMat;
+	};
 
 	// Specific line shader
 	std::shared_ptr<DXShader> m_vs;
 	std::shared_ptr<DXShader> m_gs;
 	std::shared_ptr<DXShader> m_ps;
 
-	std::shared_ptr<DXDevice> m_dev;
 
+	std::shared_ptr<GfxRenderer> m_renderer;
+
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_il;
 
 public:
-	LineDrawer(std::shared_ptr<DXDevice> dev);
+	LineDrawer(std::shared_ptr<GfxRenderer> renderer);
 	~LineDrawer();
 
 	void draw(const std::shared_ptr<Camera>& cam);
 
-	void setPoints(DirectX::SimpleMath::Vector2 worldP0, DirectX::SimpleMath::Vector2 worldP1);
+	/*
+	This should be called every frame!
+	*/
+	void setPoints(const DirectX::SimpleMath::Vector3& worldP0, const DirectX::SimpleMath::Vector3& worldP1);
 
 
 

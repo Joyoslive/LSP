@@ -5,6 +5,7 @@
 
 
 class SkyBox;
+class LineDrawer;
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -44,6 +45,8 @@ private:
 
 	std::shared_ptr<Skybox> m_skybox;
 
+	std::shared_ptr<LineDrawer> m_lineDrawer;
+
 	bool m_usePostProcessing = true; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
 	FullscreenQuad m_postProcessQuad;
@@ -57,8 +60,6 @@ private:
 	void setupGeometryPass();
 	void setupLightPass();
 	void setupPostProcessPass();
-
-	void drawLine(Vector2 start, Vector2 end);
 
 public:
 	DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer);

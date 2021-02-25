@@ -2,6 +2,7 @@
 #include "DeferredRenderStrategy.h"
 #include "Skybox.h"
 #include <random>
+#include "LineDrawer.h"
 #include "../Camera.h"
 
 using namespace DirectX::SimpleMath;
@@ -14,6 +15,7 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupPostProcessPass();
 	setupLightPass();
 
+	m_lineDrawer = std::make_shared<LineDrawer>(renderer);
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
@@ -52,11 +54,11 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		}
 	}
 
-	if (m_lineDrawer != nullptr)
-		m_lineDrawer->draw(mainCamera);
-
 	if (m_skybox != nullptr)
 		m_skybox->draw(mainCamera);
+
+	if (m_lineDrawer != nullptr)
+		m_lineDrawer->draw(mainCamera);
 
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
