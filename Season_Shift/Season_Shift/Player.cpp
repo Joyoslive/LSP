@@ -553,6 +553,7 @@ using namespace DirectX::SimpleMath;
 			 m_checkCollideJump = false;
 			 m_waitForJump = false;
 			 m_jumpWhenLanding = false;
+			 m_movObj = false;
 		 }
 		 else if (m_doubleJump == true)
 		 {

@@ -269,7 +269,7 @@ void Scene4::setUpScene()
 	Ref<GameObject> fallBox5 = createGameObject("moving", Vector3(-(10.0f + (20 * 12) / 2), 5.0f, 10), Vector3((1.0f / 10.0f) * 2, 1, (1.0f / 10.0f) * 2.0));
 	fallBox5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	fallBox5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 2, 2, 20 * 2.0)));
-	fallBox5->AddComponent(std::make_shared<Move>(Vector3(0.03, 0.0f, 0.0f), Vector3(50, 0.0f, 0.0f)));
+	fallBox5->AddComponent(std::make_shared<Move>(Vector3(0.3, 0.0f, 0.0f), Vector3(50, 0.0f, 0.0f)));
 
 	Ref<GameObject> fallBox8 = createGameObject("moving", Vector3(-(10.0f + (20 * 12) / 2), 25.0f, 10), Vector3((1.0f / 10.0f) * 2, 1, (1.0f / 10.0f) * 2.0));
 	fallBox8->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
