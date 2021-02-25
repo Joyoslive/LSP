@@ -2,15 +2,24 @@
 #include "Sound.h"
 
 
+using namespace std;
+
 void Sound::update()
 {
 }
 
-Sound::Sound()
+Sound::Sound(vector<string>& fileNames)
 {
 	m_audioEngine = DirectX::AudioEngine();
-	m_sound = std::make_shared<DirectX::SoundEffect>(&m_audioEngine, L"Sounds/Explo4.wav");
 	m_componentType = ComponentEnum::SOUND;
+
+	std::wstring ws;
+	for (int i = 0; i < fileNames.size(); ++i)
+	{
+		ws = std::wstring(fileNames[i].begin(), fileNames[i].end());
+		m_sounds.emplace_back(&m_audioEngine, ws.c_str());
+		m_map[fileNames[i]] = i;
+	}
 }
 
 Sound::~Sound()
@@ -20,6 +29,6 @@ Sound::~Sound()
 
 size_t Sound::play()
 {
-	m_sound->Play();
-	return m_sound->GetSampleDuration();
+	m_sounds[0].Play();
+	return m_sounds[0].GetSampleDuration();
 }
