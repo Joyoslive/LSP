@@ -80,6 +80,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 cameraLook = m_playerCamera->getLookDirection();
 	
 	Vector3 moveDirection = Vector3::Zero;
+	Vector3 moveDirection2 = Vector3::Zero;
 	
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -191,7 +192,7 @@ using namespace DirectX::SimpleMath;
 	}
 	if (m_movObj == true)
 	{
-		moveDirection -= m_deltaPos;
+		moveDirection2 -= m_deltaPos;
 	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
@@ -208,7 +209,7 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-	velocitySkipY += moveDirection * m_frameTime * m_speed;
+	velocitySkipY += moveDirection * m_frameTime * m_speed + moveDirection2*14.4;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
