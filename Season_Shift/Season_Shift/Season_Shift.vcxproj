@@ -136,7 +136,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Gunnar\Documents\GitHub\LSP\Season_Shift\Season_Shift\pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)pch;$(ProjectDir)Libraries\inc\stbi;$(ProjectDir)Libraries\inc\imgui;$(ProjectDir)Libraries\inc\DirectXTK;$(ProjectDir)Libraries\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
