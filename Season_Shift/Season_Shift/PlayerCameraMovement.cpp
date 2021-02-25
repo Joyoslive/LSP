@@ -15,9 +15,11 @@ void PlayerCameraMovement::start()
 	m_landShake = false;
 	m_stop = true;
 	m_secondTime = false;
-
+	m_goToY = 0;
 
 	m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
+	m_baseCamPosY = 2.0f;
+	m_camPosY = m_baseCamPosY;
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 }
 
@@ -167,7 +169,7 @@ void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
 
 void PlayerCameraMovement::setRunRoll(const bool& firstTime)
 {
-	constexpr float rollRunShake = DirectX::XM_PI / 128.0f;//36.0f;
+	constexpr float rollRunShake = DirectX::XM_PI / 512.0f;//256.0f;
 	if (firstTime)
 	{
 		if (m_direction != 0)
@@ -191,7 +193,7 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 	if (m_landShake)
 		return;
 
-	float rollSpeed = DirectX::XM_PI / 7.31f * speed / maxSpeed;//DirectX::XM_PI * 5.f / 7.f;
+	float rollSpeed = DirectX::XM_PI / 50.f * speed / maxSpeed;
 	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
 	{
 		if (m_runRoll == 0)
@@ -209,15 +211,66 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 		if ((m_runRoll < 0 && m_runRoll >= m_roll) || (m_runRoll > 0 && m_runRoll <= m_roll))
 		{
 			setRunRoll(!m_secondTime);
-			//m_runRoll = 0;
 			m_secondTime = !m_secondTime;
 		}
 		m_runShake = true;
 	}
 	else
 		m_runShake = false;
+
+	runMoveY(moveDirection, onGround, wallRunning, speed, maxSpeed);
 }
 
+void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed)
+{
+	constexpr float moveYSpeed = 2.0f;
+
+	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
+	{
+		if (m_goToY == 0)
+			setRunMoveY(m_secondTime);
+
+		if (m_camPosY < m_goToY)
+		{
+			m_camPosY += m_frameTime * moveYSpeed;
+		}
+		else if (m_camPosY > m_goToY)
+		{
+			m_camPosY -= m_frameTime * moveYSpeed;
+		}
+
+		if ((m_camPosY < m_goToY && m_direction < 0) || (m_camPosY > m_goToY && m_direction > 0))
+		{
+			setRunMoveY(m_secondTime);
+			m_secondTime = !m_secondTime;
+		}
+
+		m_playerCamera->setOffset(0.0f, m_camPosY, 0.0f);
+	}
+	else
+		m_playerCamera->setOffset(0.0f, m_baseCamPosY, 0.0f);
+}
+
+void PlayerCameraMovement::setRunMoveY(const bool& firstTime)
+{
+	constexpr float changeYPos = 0.2f;
+	if (firstTime)
+	{
+		if (m_direction != 0)
+			m_goToY = m_baseCamPosY + changeYPos * m_direction;
+		else
+			m_goToY = m_baseCamPosY + -changeYPos;
+	}
+	else
+	{
+		if (m_direction != 0)
+			m_goToY = m_baseCamPosY + changeYPos * -1 * m_direction;
+		else
+			m_goToY = m_baseCamPosY + changeYPos;
+	}
+
+	setDirection(m_goToY - m_baseCamPosY);
+}
 
 //char msgbuf[1000];
 //sprintf_s(msgbuf, "My variable is %f\n", velocitySkipY.Length());
