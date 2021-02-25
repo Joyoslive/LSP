@@ -803,6 +803,6 @@ using namespace DirectX::SimpleMath;
 		 m_sLS = speedLineSpeed;
 	 char msgbuf[1000];
 	 sprintf_s(msgbuf, "My variable is %f\n", m_sLS);
-	 OutputDebugStringA(msgbuf);
+	 //OutputDebugStringA(msgbuf);
 	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedFactor);
  }
