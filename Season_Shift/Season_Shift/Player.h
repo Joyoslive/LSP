@@ -42,7 +42,12 @@ private:
 	long double m_oldFrameTime;
 	long double m_wallTimer;
 	bool m_hooked;
+	bool m_movObj;
+	bool m_movSpeed;
 	float m_hookDist;
+	float m_velocityY;
+	float m_movPos;
+	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
@@ -52,6 +57,7 @@ private:
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	DirectX::SimpleMath::Vector3 checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 checkYMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	DirectX::SimpleMath::Vector3 checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);
