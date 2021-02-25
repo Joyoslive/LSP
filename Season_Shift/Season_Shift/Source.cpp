@@ -28,6 +28,10 @@ constexpr int resWidth = 1280;
 //constexpr int resHeight = 2160;
 //constexpr int resWidth = 3840;
 
+extern "C" {
+	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
+
 int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWSTR cmdLine, _In_ int showCmd)
 {
 	//_CrtDumpMemoryLeaks(); //memory leak detection
