@@ -53,6 +53,7 @@ using namespace DirectX::SimpleMath;
 	 m_hookDist = 0;
 	 m_hookPoint = Vector3(0, 0, 0);
 	 m_deltaPos = Vector3(0, 0, 0);
+	 m_velocityY = 0;
 
  }
 
@@ -207,7 +208,33 @@ using namespace DirectX::SimpleMath;
 	if (m_movObj == true)
 	{
 		moveDirection2 -= m_deltaPos;
+		//cast ray
+		constexpr float maxDist = 1.25f;
+		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		float dist = FLT_MAX;
+		bool noHit = true;
+		if (m_normal.Length() != 0)
+		{
+			for (auto& go : scene)
+			{
+				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				if (obb != nullptr)
+				{
+					float d = 10000000000000;
+					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					{
+						if (d < dist) dist = d;
+						noHit = false;
+					}
+				}
+			}
+		}
+		if (dist > maxDist || noHit)
+		{
+			m_movObj = false;
+		}
 	}
+
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -225,14 +252,16 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-	velocitySkipY += moveDirection * m_frameTime * m_speed + moveDirection2*14.4;
+	velocitySkipY += moveDirection * m_frameTime * m_speed + Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
 
 	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
+	velocitySkipY.y += moveDirection2.y * 14.4;
 	velocitySkipY.y += velocity.y;
+	m_velocityY = velocitySkipY.y;
 	velocity = velocitySkipY;
 	velocity = checkYMaxSpeed(velocity);
 
@@ -554,11 +583,15 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
-			 velocity.y = m_jumpSpeed;
+ 			 if(m_movObj == true)
+				 velocity.y = m_jumpSpeed + m_velocityY;
+			 else
+				 velocity.y = m_jumpSpeed;
 			 m_ground = false;
 			 m_checkCollideJump = false;
 			 m_waitForJump = false;
 			 m_jumpWhenLanding = false;
+			 m_movObj = false;
 		 }
 		 else if (m_doubleJump == true)
 		 {
