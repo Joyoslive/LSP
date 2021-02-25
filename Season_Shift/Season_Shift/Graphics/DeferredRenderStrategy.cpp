@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DeferredRenderStrategy.h"
 #include "Skybox.h"
 #include "../Camera.h"

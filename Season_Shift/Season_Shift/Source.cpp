@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Window.h"
 #include "Graphics/Graphics.h"
 #include <string>
