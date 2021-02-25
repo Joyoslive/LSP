@@ -1,22 +1,147 @@
 [
   {
     "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (12)",
+    "pos": {
+      "x": 1582.3,
+      "y": 285.4,
+      "z": -861.9
+    },
+    "rot": {
+      "x": -0,
+      "y": 5.00000143,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.1051305,
+      "y": 3.659091,
+      "z": 0.109494194
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (13)",
+    "pos": {
+      "x": 1547.8,
+      "y": 280.599976,
+      "z": -1187
+    },
+    "rot": {
+      "x": -0,
+      "y": 5.00000143,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.101408042,
+      "y": 3.659091,
+      "z": 0.106121615
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (11)",
+    "pos": {
+      "x": 1561.3,
+      "y": 285.4,
+      "z": -1102.5
+    },
+    "rot": {
+      "x": -0,
+      "y": 5.00000143,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.1051305,
+      "y": 3.659091,
+      "z": 0.109494194
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (15)",
+    "pos": {
+      "x": 1575.1,
+      "y": 299,
+      "z": -1164.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 30.0000076,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 11.5959806,
+      "z": 19.8272133
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (14)",
+    "pos": {
+      "x": 1461.2,
+      "y": 299.1,
+      "z": -1269.3
+    },
+    "rot": {
+      "x": -0,
+      "y": 74.99999,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 11.5959806,
+      "z": 19.8272133
+    }
+  },
+  {
+    "boxCollider": {
       "x": 0,
       "y": 0,
       "z": 0
     },
-    "meshDirectory": "Models/nanosuit",
-    "meshFileName": "nanosuit.obj",
-    "name": "nanosuit",
+    "meshDirectory": "",
+    "meshFileName": "",
+    "name": "Checkpoint",
     "pos": {
-      "x": -1.21,
-      "y": 5.29,
-      "z": -14.3138428
+      "x": 1338.8,
+      "y": 286.18,
+      "z": -1259.3
     },
     "rot": {
       "x": -0,
-      "y": -0,
-      "z": -0
+      "y": 0,
+      "z": 0
     },
     "scale": {
       "x": 1,
@@ -32,21 +157,21 @@
     },
     "meshDirectory": "Models/boxSpring",
     "meshFileName": "200x2x200Box.obj",
-    "name": "200x2x200Box (1)",
+    "name": "Ground (9)",
     "pos": {
-      "x": 0,
-      "y": -3.5,
-      "z": -243
+      "x": 940.199951,
+      "y": 220.699982,
+      "z": -1337.2
     },
     "rot": {
-      "x": -0,
-      "y": -0,
-      "z": -0
+      "x": 0,
+      "y": 345,
+      "z": 0
     },
     "scale": {
-      "x": 0.5,
-      "y": 25,
-      "z": 1
+      "x": 0.07380517,
+      "y": 6.83505058,
+      "z": 0.07735957
     }
   },
   {
@@ -57,10 +182,810 @@
     },
     "meshDirectory": "Models/boxSpring",
     "meshFileName": "200x2x200Box.obj",
-    "name": "200x2x200Box",
+    "name": "Ground (8)",
+    "pos": {
+      "x": 1380.2,
+      "y": 280.599976,
+      "z": -1264.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 7.500003,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.5823635,
+      "y": 3.659091,
+      "z": 0.172529221
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (13)",
+    "pos": {
+      "x": 1272.79993,
+      "y": 311.5,
+      "z": -1235
+    },
+    "rot": {
+      "x": 0,
+      "y": 255,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 36.88662,
+      "z": 33.8256
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (12)",
+    "pos": {
+      "x": 1229.79993,
+      "y": 289.3,
+      "z": -1270.20007
+    },
+    "rot": {
+      "x": 0,
+      "y": 255,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 36.88662,
+      "z": 33.8256
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (7)",
+    "pos": {
+      "x": 1109,
+      "y": 306,
+      "z": -1292
+    },
+    "rot": {
+      "x": 0,
+      "y": 345,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 6.83505058,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (11)",
+    "pos": {
+      "x": 774.7,
+      "y": 160.6,
+      "z": -1411.3
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (10)",
+    "pos": {
+      "x": 762,
+      "y": 160.6,
+      "z": -1408.1
+    },
+    "rot": {
+      "x": -0,
+      "y": 120.000008,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (9)",
+    "pos": {
+      "x": 752.4,
+      "y": 160.6,
+      "z": -1398.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 150,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (8)",
+    "pos": {
+      "x": 748.5,
+      "y": 160.6,
+      "z": -1385.5
+    },
+    "rot": {
+      "x": -0,
+      "y": 180,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (6)",
+    "pos": {
+      "x": 835.899963,
+      "y": 150.5,
+      "z": -1368.4
+    },
+    "rot": {
+      "x": 0,
+      "y": 345,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.507361948,
+      "y": 3.659091,
+      "z": 0.174978971
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (7)",
+    "pos": {
+      "x": 762.1,
+      "y": 149,
+      "z": -1379
+    },
+    "rot": {
+      "x": -0,
+      "y": 180,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (6)",
+    "pos": {
+      "x": 758.5,
+      "y": 149,
+      "z": -1365.7
+    },
+    "rot": {
+      "x": -0,
+      "y": 150,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (5)",
+    "pos": {
+      "x": 749.82,
+      "y": 149,
+      "z": -1356.4
+    },
+    "rot": {
+      "x": -0,
+      "y": 120.000008,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (4)",
+    "pos": {
+      "x": 737.26,
+      "y": 149,
+      "z": -1352.9
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.69693923,
+      "y": 12.36136,
+      "z": 7.206135
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (5)",
+    "pos": {
+      "x": 678.3,
+      "y": 133.6,
+      "z": -1379.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.563209832,
+      "y": 3.659091,
+      "z": 0.30674386
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (3)",
+    "pos": {
+      "x": 546.1,
+      "y": 139,
+      "z": -1379.2
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground (1)",
+    "pos": {
+      "x": 403.8,
+      "y": 133.6,
+      "z": -1373.5
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.563209832,
+      "y": 3.659091,
+      "z": 0.30674386
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (3)",
+    "pos": {
+      "x": 334.7,
+      "y": 144.4,
+      "z": -1434.1
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 16.21675,
+      "z": 32.92056
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (2)",
+    "pos": {
+      "x": 292.1,
+      "y": 137.5,
+      "z": -1410.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 16.21675,
+      "z": 34.77762
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall (1)",
+    "pos": {
+      "x": 250.7,
+      "y": 128.1,
+      "z": -1434.1
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 16.21675,
+      "z": 33.8256
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 4.8,
+      "y": 57,
+      "z": -1052
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.3029119,
+      "y": 8.923585,
+      "z": 1.19421422
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "meshDirectory": "",
+    "meshFileName": "",
+    "name": "Checkpoint",
+    "pos": {
+      "x": 117.84,
+      "y": 109.3,
+      "z": -1412
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall",
+    "pos": {
+      "x": 42.9,
+      "y": 109.9,
+      "z": -1384.8
+    },
+    "rot": {
+      "x": -0,
+      "y": 320.811859,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 16.21675,
+      "z": 54
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": -1.6,
+      "y": 144.1,
+      "z": -813.7
+    },
+    "rot": {
+      "x": -0,
+      "y": 44.9999962,
+      "z": 0
+    },
+    "scale": {
+      "x": 0.107070915,
+      "y": 9.765448,
+      "z": 0.107070938
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall",
+    "pos": {
+      "x": -7.6,
+      "y": 45.9,
+      "z": -373.4
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 26.263,
+      "z": 54
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 1.4,
+      "y": 57,
+      "z": -1265.9
+    },
+    "rot": {
+      "x": -0,
+      "y": 358.521,
+      "z": 0.3030038
+    },
+    "scale": {
+      "x": 0.314453542,
+      "y": 8.923585,
+      "z": 0.5612809
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": -20.2,
+      "y": 16.1,
+      "z": -183.4
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 0.3,
+      "y": 4.4,
+      "z": -57.9
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall",
+    "pos": {
+      "x": 29.3,
+      "y": 97.2,
+      "z": -1317.3
+    },
+    "rot": {
+      "x": -0,
+      "y": 328.771759,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 16.7597446,
+      "z": 41.676136
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": -21.1,
+      "y": 3.9,
+      "z": -93.2
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": -8.2,
+      "y": 38.1,
+      "z": -609
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.3029119,
+      "y": 8.923585,
+      "z": 1.19421422
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall",
+    "pos": {
+      "x": -8,
+      "y": 80,
+      "z": -1308
+    },
+    "rot": {
+      "x": -0,
+      "y": 328.771759,
+      "z": 0
+    },
+    "scale": {
+      "x": 1.2921,
+      "y": 14.6878643,
+      "z": 29.9052
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 8.2,
+      "y": 7.2,
+      "z": -121.1
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
     "pos": {
       "x": 0,
-      "y": -19.5,
+      "y": 0,
       "z": 0
     },
     "rot": {
@@ -69,9 +994,134 @@
       "z": -0
     },
     "scale": {
-      "x": 1,
-      "y": 25,
-      "z": 1
+      "x": 0.2062,
+      "y": 2.34471035,
+      "z": 0.32958
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": -20.2,
+      "y": 12.7,
+      "z": -135.7
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 2,
+      "y": 2,
+      "z": 2
+    },
+    "meshDirectory": "Models/Cube",
+    "meshFileName": "Cube.obj",
+    "name": "Wall",
+    "pos": {
+      "x": 15.4,
+      "y": 75.9,
+      "z": -405.7
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 1.801307,
+      "y": 55.2179565,
+      "z": 54
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 11,
+      "y": 13.4,
+      "z": -179.5
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.07380517,
+      "y": 1.5,
+      "z": 0.07735957
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 6,
+      "y": 18,
+      "z": -340.7
+    },
+    "rot": {
+      "x": -0,
+      "y": -0,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.2565459,
+      "y": 1.5,
+      "z": 1.19421422
+    }
+  },
+  {
+    "boxCollider": {
+      "x": 200,
+      "y": 2,
+      "z": 200
+    },
+    "meshDirectory": "Models/boxSpring",
+    "meshFileName": "200x2x200Box.obj",
+    "name": "Ground",
+    "pos": {
+      "x": 150.3,
+      "y": 104.2,
+      "z": -1414.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 2.09113526,
+      "z": -0
+    },
+    "scale": {
+      "x": 0.563209832,
+      "y": 3.659091,
+      "z": 0.30674386
     }
   }
 ]
