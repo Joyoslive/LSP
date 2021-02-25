@@ -45,6 +45,7 @@ private:
 	bool m_movObj;
 	bool m_movSpeed;
 	float m_hookDist;
+	float m_velocityY;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
