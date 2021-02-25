@@ -17,4 +17,5 @@ public:
 	Move(DirectX::SimpleMath::Vector3 speed, DirectX::SimpleMath::Vector3 range);
 	~Move();
 	void update() override;
+	float getSpeed();
 };

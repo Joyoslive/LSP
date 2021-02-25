@@ -49,8 +49,10 @@ using namespace DirectX::SimpleMath;
 	 m_oldCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
+	 m_movObj = false;
 	 m_hookDist = 0;
 	 m_hookPoint = Vector3(0, 0, 0);
+	 m_deltaPos = Vector3(0, 0, 0);
 
  }
 
@@ -92,6 +94,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 cameraLook = m_playerCamera->getLookDirection();
 	
 	Vector3 moveDirection = Vector3::Zero;
+	Vector3 moveDirection2 = Vector3::Zero;
 	
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -201,6 +204,10 @@ using namespace DirectX::SimpleMath;
 	{
 		m_oldCollider = NULL;
 	}
+	if (m_movObj == true)
+	{
+		moveDirection2 -= m_deltaPos;
+	}
 	moveDirection.y = 0;
 	moveDirection.Normalize();
 
@@ -218,7 +225,7 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-	velocitySkipY += moveDirection * m_frameTime * m_speed;
+	velocitySkipY += moveDirection * m_frameTime * m_speed + moveDirection2*14.4;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
@@ -298,6 +305,16 @@ using namespace DirectX::SimpleMath;
 	 {
 		 respawn = collider->getGameObject()->getTransform()->getPosition();
 
+	 }
+	 if (collider->getGameObject()->getName() == "moving")
+	 {
+		 m_movObj = true;
+		 m_deltaPos = collider->getGameObject()->getTransform()->getDeltaPosition();
+
+	 }
+	 else
+	 {
+		 m_movObj = false;
 	 }
  }
 

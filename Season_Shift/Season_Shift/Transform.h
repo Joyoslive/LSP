@@ -8,6 +8,7 @@ class Transform : public Component
 {
 private:
 	DirectX::SimpleMath::Vector3 m_position;
+	DirectX::SimpleMath::Vector3 m_oldposition;
 	DirectX::SimpleMath::Vector3 m_scale;
 	DirectX::SimpleMath::Vector3 m_rotation;
 
@@ -37,6 +38,7 @@ public:
 	void setScale(const DirectX::SimpleMath::Vector3& scale);
 	void setRotation(const DirectX::SimpleMath::Vector3& rotation);
 	const DirectX::SimpleMath::Vector3& getPosition() const;
+	const DirectX::SimpleMath::Vector3& getDeltaPosition() const;
 	const DirectX::SimpleMath::Vector3& getScale() const;
 	const DirectX::SimpleMath::Vector3& getRotation() const;
 	const DirectX::SimpleMath::Matrix& getWorldMatrix() const;
