@@ -62,15 +62,17 @@ void PlayerCameraMovement::updateFrameTime(const float& frameTime)
 
 void PlayerCameraMovement::landShake()
 {
+	constexpr float rollSpeed = DirectX::XM_PI * 5.f / 7.f;
+
 	if (!m_stop)
 	{
 		if (m_roll < m_goToRoll)
 		{
-			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll += m_frameTime * rollSpeed;
 		}
 		else if (m_roll > m_goToRoll)
 		{
-			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll -= m_frameTime * rollSpeed;
 		}
 
 		if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
