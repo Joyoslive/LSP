@@ -1,5 +1,9 @@
+#include "pch.h"
 #include "GameObject.h"
+#include "Logic.h"
+#include "Transform.h"
 #include <typeinfo>
+#include <assert.h>
 
 
 GameObject::GameObject(std::string name, Ref<Scene> scene)

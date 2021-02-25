@@ -1,4 +1,7 @@
+#include "pch.h"
 #include "Logic.h"
+#include "Transform.h"
+#include <SimpleMath.h>
 
 
 Logic::Logic()

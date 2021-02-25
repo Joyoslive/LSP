@@ -1,5 +1,12 @@
+#include "pch.h"
 #include "Player.h"
 #include "Logger.h"
+#include "CameraComponent.h"
+#include "GameObject.h"
+#include "RigidBody.h"
+#include "OrientedBoxCollider.h"
+#include "CapsuleCollider.h"
+#include "Transform.h"
 #include <imgui_impl_win32.h>
 
 using namespace DirectX::SimpleMath;

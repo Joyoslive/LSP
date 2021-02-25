@@ -1,6 +1,8 @@
+#include "pch.h"
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
 #include "GameObject.h"
+#include "Transform.h"
 
 SphereCollider::SphereCollider(float radius)
 {

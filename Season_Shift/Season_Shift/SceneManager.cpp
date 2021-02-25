@@ -1,9 +1,12 @@
+#include "pch.h"
 #include "SceneManager.h"
 #include "Scenes/Scene1.h"
 #include "Scenes/Scene2.h"
 #include "Scenes/Scene3.h"
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
+
+#include <assert.h>
 
 SceneManager::SceneManager(Graphics *graphics)
 {

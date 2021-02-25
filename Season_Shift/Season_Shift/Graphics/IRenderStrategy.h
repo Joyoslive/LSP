@@ -2,9 +2,23 @@
 #include "GfxRenderer.h"
 #include "Model.h"
 #include "DX/DXRenderPass.h"
-#include "../Camera.h"
+//#include "../Camera.h"
 #include "DirectionalLight.h"
 
+struct alignas(16) PostProcessVariables
+{
+	float elapsedTime;
+	float deltaTime;
+	int clientWidth;
+	int clientHeight;
+	double randomNumber;
+
+	float speedlineRAD;
+	float speedlineThickness;
+	float speedlineSpeedFactor;
+};
+
+class Camera;
 class Skybox;
 /*
 
@@ -21,10 +35,11 @@ protected:
 public:
 	IRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
 	virtual ~IRenderStrategy();
-	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera) = 0;
+	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
+	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
 	virtual void setUp() = 0;
 };
 

@@ -1,5 +1,9 @@
+#include "pch.h"
 #include "PlayerCameraMovement.h"
 #include "Input.h"
+#include "GameObject.h"
+#include "CameraComponent.h"
+#include <imgui_impl_dx11.h>
 
 using namespace DirectX::SimpleMath;
 

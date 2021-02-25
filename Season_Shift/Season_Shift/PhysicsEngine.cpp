@@ -1,8 +1,14 @@
+#include "pch.h"
 #include "PhysicsEngine.h"
 
 #include "SphereCollider.h"
 #include "OrientedBoxCollider.h"
+#include "RigidBody.h"
+#include "Logic.h"
+#include "Transform.h"
 #include <assert.h>
+#include "Logger.h"
+#include "CapsuleCollider.h"
 
 
 
