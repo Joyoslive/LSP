@@ -54,6 +54,7 @@ using namespace DirectX::SimpleMath;
 	 m_hookPoint = Vector3(0, 0, 0);
 	 m_deltaPos = Vector3(0, 0, 0);
 	 m_velocityY = 0;
+	 m_movPos = 0;
 
  }
 
@@ -259,9 +260,9 @@ using namespace DirectX::SimpleMath;
 
 	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
-	velocitySkipY.y += moveDirection2.y * 14.4;
+	//velocitySkipY.y += moveDirection2.y * 14.4;
 	velocitySkipY.y += velocity.y;
-	m_velocityY = velocitySkipY.y;
+	m_velocityY = moveDirection2.y * 14.4;
 	velocity = velocitySkipY;
 	velocity = checkYMaxSpeed(velocity);
 
@@ -583,10 +584,10 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
- 			 if(m_movObj == true)
-				 velocity.y = m_jumpSpeed + m_velocityY;
+			 if (m_movObj == true)
+				 velocity.y = m_jumpSpeed + m_velocityY*6;
 			 else
-				 velocity.y = m_jumpSpeed;
+ 				velocity.y = m_jumpSpeed;
 			 m_ground = false;
 			 m_checkCollideJump = false;
 			 m_waitForJump = false;
