@@ -8,7 +8,7 @@ void Sound::update()
 {
 }
 
-Sound::Sound(vector<string>& fileNames)
+Sound::Sound(const vector<string>& fileNames)
 {
 	m_audioEngine = DirectX::AudioEngine();
 	m_componentType = ComponentEnum::SOUND;
@@ -27,8 +27,8 @@ Sound::~Sound()
 	m_audioEngine.Suspend();
 }
 
-size_t Sound::play()
+size_t Sound::play(const std::string& soundName)
 {
-	m_sounds[0].Play();
-	return m_sounds[0].GetSampleDuration();
+	m_sounds[m_map[soundName]].Play();
+	return m_sounds[m_map[soundName]].GetSampleDuration();
 }

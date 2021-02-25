@@ -13,9 +13,9 @@ private:
 	void update() override;
 
 public:
-	Sound(std::vector<std::string>& fileName);
+	Sound(const std::vector<std::string>& fileName);
 	~Sound();
 
-	size_t play();
+	size_t play(const std::string& soundname);
 };
 

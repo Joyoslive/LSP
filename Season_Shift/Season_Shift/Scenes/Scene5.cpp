@@ -72,7 +72,7 @@ void Scene5::setUpScene()
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
 		playerJumpTrigger->AddComponent(std::make_shared<Sound>(v))
 		);
-	sound->play(); //sorry
+	sound->play("Sounds/Explo4.wav"); //sorry
 
 	m_graphics->setLightDirection({1.8, -1, -1});
 }
