@@ -1,6 +1,9 @@
 #pragma once
 #include "Logic.h"
-#include "CameraComponent.h"
+#include <d3d11.h>
+#include <SimpleMath.h>
+//#include "CameraComponent.h"
+class CameraComponent;
 
 class PlayerCameraMovement : public Logic
 {

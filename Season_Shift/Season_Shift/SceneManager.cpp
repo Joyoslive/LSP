@@ -5,6 +5,8 @@
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
 
+#include <assert.h>
+
 SceneManager::SceneManager(Graphics *graphics)
 {
 	createScenes(graphics);

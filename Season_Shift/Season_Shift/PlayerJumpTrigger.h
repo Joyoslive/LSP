@@ -2,6 +2,8 @@
 #include "Logic.h"
 #include "Player.h"
 
+class Collider;
+
 class PlayerJumpTrigger : public Logic
 {
 private:

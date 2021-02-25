@@ -2,7 +2,9 @@
 #include <DirectXMath.h>
 #include <memory>
 
-#include "GameObject.h"
+//#include "GameObject.h"
+
+class GameObject;
 
 class Camera
 {

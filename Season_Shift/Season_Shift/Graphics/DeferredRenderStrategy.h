@@ -15,6 +15,7 @@ struct alignas(16) PostProcessVariables
 	float speedlineThickness;
 	float speedlineSpeedFactor;
 };
+class SkyBox;
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -41,6 +42,7 @@ private:
 		}
 	} m_gbuffers;
 
+	DirectX::XMMATRIX m_gpMatrices[3];
 	std::shared_ptr<DXBuffer> m_gpMatrixBuffer;
 	std::shared_ptr<DXRenderPass> m_geometryPassSolid;
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
@@ -60,6 +62,7 @@ private:
 	PostProcessVariables m_postProcessVariables;
 	std::shared_ptr<DXBuffer> m_postProcessVariableBuffer;
 	float m_resetTimer;
+	std::shared_ptr<DXBuffer> m_prevMatrices;
 
 	void setupGeometryPass();
 	void setupLightPass();

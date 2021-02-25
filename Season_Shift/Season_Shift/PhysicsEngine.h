@@ -3,11 +3,21 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
+#include "Collider.h"
+#include "RigidBody.h"
 #include "SceneManagerObserver.h"
+#include <d3d11.h>
+#include <SimpleMath.h>
 #include <vector>
 
 class PhysicsEngine : public SceneManagerObserver
 {
+public:
+	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
+	~PhysicsEngine();
+
+
+
 private:
 	Ref<Scene> m_scene;
 
@@ -29,9 +39,6 @@ private:
 	DirectX::SimpleMath::Vector3 capsuleCollideObb(const Ref<Collider>& capsule, const Ref<Collider>& obb);
 
 public:
-	PhysicsEngine(long double timeStepSeconds = 1.0 / 120.0);
-	~PhysicsEngine();
-
 	void updateScene(Ref<Scene> activeScene) override;
 	void simulate(long double dt);
 };
