@@ -1,5 +1,10 @@
 #include "Move.h"
-
+#include "CameraComponent.h"
+#include "GameObject.h"
+#include "RigidBody.h"
+#include "OrientedBoxCollider.h"
+#include "CapsuleCollider.h"
+#include "Transform.h"
 
 Move::Move()
 {
