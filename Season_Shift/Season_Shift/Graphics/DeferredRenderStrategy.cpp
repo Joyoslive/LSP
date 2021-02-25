@@ -18,23 +18,6 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
 {
-	/*
-	m_geometryPass->bind()
-	render geom to multiple render targets
-
-	m_lightPass->bind();
-	gBuffer->bind();		// dif, normal, depth
-	// bind other resources needed for light 
-	drawQuad();	--> output to texture (will be used for postproc)
-
-
-	m_postprocPass->bind();
-	bindFinalLitTexture();
-	bindPostProcBuffers();		// various postproc buffers (user postproc)
-
-	drawQuad();		--> draw final texture AFTER screen space postprocess!
-	*/
-
 	auto dev = m_renderer->getDXDevice();
 	dev->clearScreen();
 
@@ -68,8 +51,13 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
 		}
 	}
+
+	if (m_lineDrawer != nullptr)
+		m_lineDrawer->draw(mainCamera);
+
 	if (m_skybox != nullptr)
 		m_skybox->draw(mainCamera);
+
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 

@@ -287,7 +287,6 @@ using namespace DirectX::SimpleMath;
 	 if (collider->getGameObject()->getName() == "checkpoint")
 	 {
 		 respawn = collider->getGameObject()->getTransform()->getPosition();
-
 	 }
  }
 

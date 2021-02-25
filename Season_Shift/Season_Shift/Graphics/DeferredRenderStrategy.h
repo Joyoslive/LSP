@@ -53,9 +53,12 @@ private:
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
 
+
 	void setupGeometryPass();
 	void setupLightPass();
 	void setupPostProcessPass();
+
+	void drawLine(Vector2 start, Vector2 end);
 
 public:
 	DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer);

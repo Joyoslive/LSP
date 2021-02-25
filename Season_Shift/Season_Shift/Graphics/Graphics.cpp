@@ -38,7 +38,7 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	m_postProcessVariables.randomNumber = 0.;
 	m_postProcessVariables.speedlineRAD = 0.34;
 	m_postProcessVariables.speedlineThickness = 0.00003;
-	m_postProcessVariables.speedlineSpeedFactor = 1.4;
+	m_postProcessVariables.speedlineSpeedFactor = 0.8;
 
 }
 
@@ -51,7 +51,7 @@ void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const s
 {
 	// view frustum culling is done outside this! --> Makes use of the bounding box and camera, non-graphical components.
 	
-	// post proc
+	// general post proc variables
 	m_postProcessVariables.clientHeight = m_clientHeight;
 	m_postProcessVariables.clientWidth = m_clientWidth;
 	m_postProcessVariables.deltaTime = dt;
