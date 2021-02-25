@@ -7,14 +7,15 @@ class Sound : public Component
 {
 private:
 	DirectX::AudioEngine m_audioEngine;
-	Ref<DirectX::SoundEffect> m_sound;
+	std::map<std::string, int> m_map;
+	std::vector<DirectX::SoundEffect> m_sounds;
 private:
 	void update() override;
 
 public:
-	Sound();
+	Sound(const std::vector<std::string>& fileName);
 	~Sound();
 
-	size_t play();
+	size_t play(const std::string& soundname);
 };
 

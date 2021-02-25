@@ -67,6 +67,12 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
+	
+	std::vector<std::string> v = { "Sounds/Explo4.wav" };
+	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
+		playerJumpTrigger->AddComponent(std::make_shared<Sound>(v))
+		);
+	sound->play("Sounds/Explo4.wav"); //sorry
 
 	m_graphics->setLightDirection({1.8, -1, -1});
 }
