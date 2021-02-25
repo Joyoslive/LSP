@@ -1,8 +1,29 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
+#include <string>
+#include <d3d11.h>
+#include <SimpleMath.h>
+#include "Component.h"
+//#include "GameObject.h"
 
+//#include "Graphics/Graphics.h"
+//#include "Player.h"
+//#include "CameraComponent.h"
+//#include "PlayerJumpTrigger.h"
+//#include "Rotate.h"
+//#include "RigidBody.h"
+//#include "Transform.h"
+//#include "Logic.h"
+//#include "Collider.h"
+//#include "SphereCollider.h"
+//#include "OrientedBoxCollider.h"
+//#include "CapsuleCollider.h"
+//#include "Sound.h"
+//#include "Graphics/Model.h"
+
+class GameObject;
 class Graphics;
+class Model;
 
 class Scene : public std::enable_shared_from_this<Scene>
 {

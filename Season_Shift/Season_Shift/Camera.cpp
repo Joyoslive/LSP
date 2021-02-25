@@ -1,5 +1,6 @@
 #include "Camera.h"
-
+#include "GameObject.h"
+#include "Transform.h"
 #include <stdexcept>
 
 using namespace DirectX;

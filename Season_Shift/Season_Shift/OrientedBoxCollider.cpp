@@ -1,6 +1,8 @@
 #include "OrientedBoxCollider.h"
 #include "SphereCollider.h"
 #include "GameObject.h"
+#include "CapsuleCollider.h"
+#include "Transform.h"
 
 
 using namespace DirectX::SimpleMath;
