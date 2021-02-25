@@ -1,14 +1,14 @@
 #pragma once
 #include "Component.h"
-#include "RigidBody.h"
 #include "Transform.h"
-#include "Logic.h"
-#include "Collider.h"
-#include "SphereCollider.h"
-#include "OrientedBoxCollider.h"
-#include "CapsuleCollider.h"
-#include "Sound.h"
-#include "Graphics/Model.h"
+//#include "RigidBody.h"
+//#include "Logic.h"
+//#include "Collider.h"
+//#include "SphereCollider.h"
+//#include "OrientedBoxCollider.h"
+//#include "CapsuleCollider.h"
+//#include "Sound.h"
+//#include "Graphics/Model.h"
 #include "Scene.h"
 #include <vector>
 #include <memory>
@@ -35,7 +35,7 @@ public:
 	template<typename T>
 	Ref<T> getComponentType(Component::ComponentEnum componentType)
 	{
-		if (typeid(T) == typeid(Transform))
+		if ((int)(componentType & Component::ComponentEnum::TRANSFORM))
 		{
 			return std::dynamic_pointer_cast<T>(m_transform);
 		}

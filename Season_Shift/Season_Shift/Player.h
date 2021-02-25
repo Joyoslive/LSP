@@ -1,9 +1,14 @@
 #pragma once
 #include "Logic.h"
 #include "Input.h"
-#include "CameraComponent.h"
+//#include "CameraComponent.h"
 #include "Timer.h"
 #include "PlayerCameraMovement.h"
+
+class CameraComponent;
+class Collider;
+class CapsuleCollider;
+class RigidBody;
 
 class Player : public Logic
 {

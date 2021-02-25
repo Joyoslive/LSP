@@ -1,6 +1,9 @@
 #pragma once
 #include "Logic.h"
 
+#include <d3d11.h>
+#include <SimpleMath.h>
+//#include "Timer.h"
 
 class Rotate : public Logic
 {

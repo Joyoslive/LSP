@@ -3,6 +3,8 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
+class SkyBox;
+
 class DeferredRenderStrategy final : public IRenderStrategy
 {
 private:
@@ -28,6 +30,7 @@ private:
 		}
 	} m_gbuffers;
 
+	DirectX::XMMATRIX m_gpMatrices[3];
 	std::shared_ptr<DXBuffer> m_gpMatrixBuffer;
 	std::shared_ptr<DXRenderPass> m_geometryPassSolid;
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
@@ -44,6 +47,7 @@ private:
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
 	FullscreenQuad m_postProcessQuad;
 	std::shared_ptr<DXTexture> m_prePostTexture;
+	std::shared_ptr<DXBuffer> m_prevMatrices;
 
 	void setupGeometryPass();
 	void setupLightPass();

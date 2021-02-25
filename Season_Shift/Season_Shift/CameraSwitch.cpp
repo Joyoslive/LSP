@@ -1,4 +1,5 @@
 #include "CameraSwitch.h"
+#include "GameObject.h"
 
 CameraSwitch::CameraSwitch()
 {

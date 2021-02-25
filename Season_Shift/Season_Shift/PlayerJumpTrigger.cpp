@@ -1,4 +1,6 @@
 #include "PlayerJumpTrigger.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 PlayerJumpTrigger::PlayerJumpTrigger(Ref<GameObject> gameObject)
 {
