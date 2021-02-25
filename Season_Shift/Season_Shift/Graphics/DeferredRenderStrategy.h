@@ -3,18 +3,7 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 
-struct alignas(16) PostProcessVariables
-{
-	float elapsedTime;
-	float deltaTime;
-	int clientWidth;
-	int clientHeight;
-	double randomNumber;
 
-	float speedlineRAD;
-	float speedlineThickness;
-	float speedlineSpeedFactor;
-};
 class SkyBox;
 
 class DeferredRenderStrategy final : public IRenderStrategy
@@ -77,6 +66,8 @@ public:
 	void setSkybox(std::shared_ptr<Skybox> skybox) override;
 
 	void setDirLight(std::shared_ptr<DirectionalLight> light) override;
+
+	void setPostProcessVariables(PostProcessVariables ppVar) override;
 
 	void setUp() override;
 

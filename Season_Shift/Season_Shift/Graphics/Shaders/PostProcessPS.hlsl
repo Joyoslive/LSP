@@ -72,10 +72,11 @@ float nextFloat(int seed) {
 float4 motionBlur(float4 worldPos, float2 uv)
 {
 	// Detect skybox
-	if (worldPos.w == 0)
+	if (worldPos.w == 0.f)
 	{
 		return g_bbTex.Sample(g_sampler, uv);
 	}
+
 	float4 currentPos = mul(g_pMatrix, mul(g_vMatrix, worldPos));
 	currentPos /= currentPos.w;
 
@@ -113,7 +114,7 @@ float drawLine(float2 P, float2 A, float2 B)
 
 float3 drawSpeedLine(float2 uv, int seed, float speedFac, float easeOffset)
 {
-	float circVal = nextFloat(seed) * 3.14 * 6.;
+	float circVal = nextFloat(seed) * 3.14 * 2.;
 
 	float2 endPoint = g_speedlineRAD * float2(cos(circVal), sin(circVal));
 	float2 dir = normalize(endPoint - float2(0., 0.));

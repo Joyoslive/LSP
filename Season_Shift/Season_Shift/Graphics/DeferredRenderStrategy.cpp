@@ -92,27 +92,18 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_usePostProcessing)
 	{
-		m_postProcessVariables.clientHeight = dev->getClientHeight();
-		m_postProcessVariables.clientWidth= dev->getClientWidth();
-		m_postProcessVariables.deltaTime = dt;
-		m_postProcessVariables.elapsedTime += dt;
-		m_resetTimer += dt;
+		//m_postProcessVariables.clientHeight = dev->getClientHeight();
+		//m_postProcessVariables.clientWidth= dev->getClientWidth();
+		//m_postProcessVariables.deltaTime = dt;
+		//m_postProcessVariables.elapsedTime += dt;
+		//m_resetTimer += dt;
 
-		//if (m_resetTimer > 1.f)	// new random num every second
-		//{
-		std::random_device rd;  //Will be used to obtain a seed for the random number engine
-		std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-		std::uniform_real_distribution<> dis(0.0, 1.0);
+		//std::random_device rd;
+		//std::mt19937 gen(rd());
+		//std::uniform_real_distribution<> dis(0.0, 1.0);
 
-		m_postProcessVariables.randomNumber = dis(gen);
-		m_resetTimer = 0.f;
-		//}
-
-		m_postProcessVariables.speedlineRAD = 0.34;
-		m_postProcessVariables.speedlineThickness = 0.00003;
-		m_postProcessVariables.speedlineSpeedFactor = 1.4;
-;
-
+		//m_postProcessVariables.randomNumber = dis(gen);
+		//m_resetTimer = 0.f;
 		m_postProcessVariableBuffer->updateMapUnmap(&m_postProcessVariables, sizeof(m_postProcessVariables));
 
 		m_postProcessPass->bind(dev);
@@ -134,6 +125,10 @@ void DeferredRenderStrategy::setDirLight(std::shared_ptr<DirectionalLight> light
 	m_dirLight = light;
 }
 
+void DeferredRenderStrategy::setPostProcessVariables(PostProcessVariables ppVar)
+{
+	m_postProcessVariables = ppVar;
+}
 
 void DeferredRenderStrategy::setUp()
 {

@@ -5,6 +5,19 @@
 //#include "../Camera.h"
 #include "DirectionalLight.h"
 
+struct alignas(16) PostProcessVariables
+{
+	float elapsedTime;
+	float deltaTime;
+	int clientWidth;
+	int clientHeight;
+	double randomNumber;
+
+	float speedlineRAD;
+	float speedlineThickness;
+	float speedlineSpeedFactor;
+};
+
 class Camera;
 class Skybox;
 /*
@@ -26,6 +39,7 @@ public:
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
+	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
 	virtual void setUp() = 0;
 };
 

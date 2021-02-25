@@ -49,14 +49,16 @@ private:
 
 	// Model Loader --> Mesh, Amb, Diff, Spec, Nor
 	// AssimpLoader
+	UINT m_clientWidth;
+	UINT m_clientHeight;
 
 	// Rendering components
 	std::shared_ptr<GfxRenderer> m_renderer;
 	std::unique_ptr<IRenderStrategy> m_currRenderStrat;
 
-
 	std::shared_ptr<Skybox> m_skybox;
 	std::shared_ptr<DirectionalLight> m_dirLight;
+	PostProcessVariables m_postProcessVariables;
 
 public:
 	Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight);
@@ -87,6 +89,14 @@ public:
 	Change the direction of the global directional light
 	*/
 	void setLightDirection(const DirectX::SimpleMath::Vector3& direction);
+
+	void setSpeedlineRadius(float radius);
+
+	void setSpeedlineSpeedFactor(float factor);
+
+	void setSpeedlineThickness(float thickness);
+
+
 
 	/*
 	
