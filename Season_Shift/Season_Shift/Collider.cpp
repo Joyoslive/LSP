@@ -18,3 +18,8 @@ void Collider::SetTriggerCollider(bool trigger)
 {
 	m_trigger = trigger;
 }
+
+bool Collider::GetTrigger() const
+{
+	return m_trigger;
+}

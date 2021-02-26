@@ -149,6 +149,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     float pen = 0;
     if (m_capsule.radius - (closestPoint1 - closestPointOnObb2).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb1;
         m_collisionInfo.m_segmentPoint = closestPoint1;
         m_collisionInfo.m_normal = collisionNormal1;
@@ -157,6 +158,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     }
     if (m_capsule.radius - (closestPoint2 - closestPointOnObb2).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb2;
         m_collisionInfo.m_segmentPoint = closestPoint2;
         m_collisionInfo.m_normal = collisionNormal2;
@@ -165,6 +167,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     }
     if (m_capsule.radius - (closestPoint3 - closestPointOnObb3).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb3;
         m_collisionInfo.m_segmentPoint = closestPoint3;
         m_collisionInfo.m_normal = collisionNormal3;
