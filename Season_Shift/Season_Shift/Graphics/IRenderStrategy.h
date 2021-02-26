@@ -16,6 +16,8 @@ struct alignas(16) PostProcessVariables
 	float speedlineRAD;
 	float speedlineThickness;
 	float speedlineSpeedFactor;
+
+	int motionBlurSamples;
 };
 
 class Camera;

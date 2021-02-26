@@ -143,3 +143,8 @@ std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()
 {
 	return m_sceneGameObjects;
 }
+
+Graphics* Scene::getGraphics() const
+{
+	return m_graphics;
+}

@@ -65,6 +65,7 @@
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="PlayerCameraMovement.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Graphics\LineDrawer.cpp" />
   </ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="PlayerCameraMovement.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="pch\pch.h" />
     <ClInclude Include="Graphics\LineDrawer.h" />
   </ItemGroup>

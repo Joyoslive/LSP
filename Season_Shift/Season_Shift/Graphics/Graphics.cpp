@@ -38,7 +38,8 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	m_postProcessVariables.randomNumber = 0.;
 	m_postProcessVariables.speedlineRAD = 0.34;
 	m_postProcessVariables.speedlineThickness = 0.00003;
-	m_postProcessVariables.speedlineSpeedFactor = 0.8;
+	m_postProcessVariables.speedlineSpeedFactor = 1.4;
+	m_postProcessVariables.motionBlurSamples = 2;
 
 }
 

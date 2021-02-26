@@ -159,9 +159,12 @@ void PhysicsEngine::collisionResponse(const Ref<RigidBody>& rigidBody, const Ref
 	}
 	//project velocity on plane normal to collision
 	velocity = rigidBody->getVelocity();
-	velocity = velocity - (normal.Dot(velocity)) * normal;
-	rigidBody->stop();
-	rigidBody->m_velocity = velocity;
+	if (normal.Dot(velocity) < 0)
+	{
+		velocity = velocity - (normal.Dot(velocity)) * normal;
+		rigidBody->stop();
+		rigidBody->m_velocity = velocity;
+	}
 }
 
 

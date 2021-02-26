@@ -42,7 +42,15 @@ private:
 	long double m_oldFrameTime;
 	long double m_wallTimer;
 	bool m_hooked;
+	bool m_movObj;
+	bool m_movSpeed;
 	float m_hookDist;
+	float m_velocityY;
+	float m_movPos;
+	float m_maxYSpeed;
+	//Speedlines
+	float m_sLT, m_sLR, m_sLS;
+	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
@@ -52,6 +60,7 @@ private:
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	DirectX::SimpleMath::Vector3 checkMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
+	DirectX::SimpleMath::Vector3 checkYMaxSpeed(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 checkMinSpeed(const DirectX::SimpleMath::Vector3& velocity);
 	DirectX::SimpleMath::Vector3 checkDirection(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);
 	void checkSpeeds(const DirectX::SimpleMath::Vector3& moveDirection);
@@ -62,6 +71,7 @@ private:
 	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
+	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 public:
 	Player();
 	~Player();
@@ -72,5 +82,6 @@ public:
 	void setRespawn(const DirectX::SimpleMath::Vector3& incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
+	void clearJumpFromTrigger();
 	bool getOnGround();
 };

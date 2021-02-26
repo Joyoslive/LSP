@@ -201,6 +201,7 @@
     <ClCompile Include="Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -262,6 +263,7 @@
     <ClInclude Include="Graphics\LineDrawer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="pch\pch.h" />
     <ClInclude Include="PhysicsEngine.h" />
