@@ -43,10 +43,11 @@ private:
 	long double m_wallTimer;
 	bool m_hooked;
 	bool m_movObj;
-	bool m_movSpeed;
+	DirectX::SimpleMath::Vector3 m_movSpeed;
 	float m_hookDist;
 	float m_velocityY;
 	float m_movPos;
+	float m_movAlt;
 	float m_maxYSpeed;
 	//Speedlines
 	float m_sLT, m_sLR, m_sLS;
