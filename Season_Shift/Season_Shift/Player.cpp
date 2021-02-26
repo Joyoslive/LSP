@@ -101,6 +101,21 @@ using namespace DirectX::SimpleMath;
 	Vector3 moveDirection = Vector3::Zero;
 	Vector3 moveDirection2 = Vector3::Zero;
 	
+	if (m_hooked)
+	{
+		/*
+		Render Line!
+		*/
+		m_gameObject->getScene()->getGraphics()->renderLine(m_transform->getPosition(), m_hookPoint, true);
+	}
+	else
+	{
+		/*
+		Don't render line!
+		*/
+		m_gameObject->getScene()->getGraphics()->renderLine(Vector3::Zero, Vector3::Zero, false);
+	}
+
 	if (Input::getInput().keyPressed(Input::X))
 	{
 		if (m_disable == false)
@@ -185,6 +200,7 @@ using namespace DirectX::SimpleMath;
 				m_hooked = true;
 				Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 				rg->startPendelMotion(m_hookPoint, m_hookDist);
+
 			}
 			else
 			{

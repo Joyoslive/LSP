@@ -42,6 +42,7 @@ public:
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
+	virtual void setLineRenderSetttings(const DirectX::SimpleMath::Vector3 startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender) {};
 	virtual void setUp() = 0;
 };
 

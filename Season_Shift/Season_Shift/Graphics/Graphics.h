@@ -96,6 +96,12 @@ public:
 
 	void setSpeedlineThickness(float thickness);
 
+	/*
+	Render line -- Change to "setRopeRenderSettings" just like for post process.
+	*/
+	void renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender);
+
+
 
 
 	/*

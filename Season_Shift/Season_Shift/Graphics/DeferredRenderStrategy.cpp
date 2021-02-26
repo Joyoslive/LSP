@@ -121,6 +121,12 @@ void DeferredRenderStrategy::setPostProcessVariables(PostProcessVariables ppVar)
 	m_postProcessVariables = ppVar;
 }
 
+void DeferredRenderStrategy::setLineRenderSetttings(const DirectX::SimpleMath::Vector3 startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender)
+{
+	m_lineDrawer->setPoints(startPos, endPos);
+	m_lineDrawer->setRenderState(shouldRender);
+}
+
 void DeferredRenderStrategy::setUp()
 {
 	setupGeometryPass();

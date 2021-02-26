@@ -111,6 +111,11 @@ void Graphics::setSpeedlineThickness(float thickness)
 
 }
 
+void Graphics::renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender)
+{
+	m_currRenderStrat->setLineRenderSetttings(startPos, endPos, shouldRender);
+}
+
 void Graphics::onResize(UINT width, UINT height)
 {
 	m_dxDev->onResize(width, height);

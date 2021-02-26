@@ -73,6 +73,8 @@ public:
 
 	void setPostProcessVariables(PostProcessVariables ppVar) override;
 
+	void setLineRenderSetttings(const DirectX::SimpleMath::Vector3 startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender) override;
+
 	void setUp() override;
 
 	void present() override;
