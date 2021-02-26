@@ -48,6 +48,9 @@ private:
 	float m_velocityY;
 	float m_movPos;
 	float m_movAlt;
+	float m_maxYSpeed;
+	//Speedlines
+	float m_sLT, m_sLR, m_sLS;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
 	DirectX::SimpleMath::Vector3 m_hookPoint;
 
@@ -69,6 +72,7 @@ private:
 	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
+	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 public:
 	Player();
 	~Player();
@@ -79,5 +83,6 @@ public:
 	void setRespawn(const DirectX::SimpleMath::Vector3& incomingRespawn);
 	void setFrametime(long double dt);
 	void setWaitForJump();
+	void clearJumpFromTrigger();
 	bool getOnGround();
 };

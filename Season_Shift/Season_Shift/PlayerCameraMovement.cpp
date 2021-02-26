@@ -29,21 +29,56 @@ void PlayerCameraMovement::update()
 	Input::getInput().mouseMovement(m_pitch, m_yaw);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 
+	landShake();
+
+	ImGui::Begin("Player Camera");
+	{
+		ImGui::Text("GoToRoll %f", m_goToRoll);
+		ImGui::Text("Roll %f", m_roll);
+		ImGui::Text("RunRoll %f", m_runRoll);
+		ImGui::Text("MoveY %f", m_camPosY);
+		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
+	}
+	ImGui::End();
+}
+
+void PlayerCameraMovement::resetCamera()
+{
+	m_roll = 0.0f;
+	m_pitch = 0.0f;
+	m_yaw = DirectX::XM_2PI / 2;
+	m_goToRoll = 0.0f;
+	m_runMoveY = 0;
+	m_runRoll = 0;
+	m_runShake = false;
+	m_landShake = false;
+	m_secondTime = false;
+}
+
+void PlayerCameraMovement::updateFrameTime(const float& frameTime)
+{
+	m_frameTime = frameTime;
+}
+
+void PlayerCameraMovement::landShake()
+{
+	constexpr float rollSpeed = DirectX::XM_PI * 5.f / 7.f;
+
 	if (!m_stop)
 	{
 		if (m_roll < m_goToRoll)
 		{
-			m_roll += m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll += m_frameTime * rollSpeed;
 		}
 		else if (m_roll > m_goToRoll)
 		{
-			m_roll -= m_frameTime * DirectX::XM_PI * 5.f / 7.f;
+			m_roll -= m_frameTime * rollSpeed;
 		}
 
 		if ((m_goToRoll < 0 && m_goToRoll >= m_roll) || (m_goToRoll > 0 && m_goToRoll <= m_roll))
 			m_goToRoll = 0;
 
-		if ((m_direction > 0 && m_roll < 0) || (m_direction < 0 && m_roll > 0))
+		if ((m_direction > 0 && m_roll <= 0) || (m_direction < 0 && m_roll >= 0) || m_direction == 0)
 		{
 			if (!m_secondTime)
 			{
@@ -56,29 +91,6 @@ void PlayerCameraMovement::update()
 			m_secondTime = !m_secondTime;
 		}
 	}
-
-
-	ImGui::Begin("Player Camera");
-	{
-		ImGui::Text("GoToRoll %f", m_goToRoll);
-		ImGui::Text("Roll %f", m_roll);
-		ImGui::Text("RunRoll %f", m_runRoll);
-		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
-	}
-	ImGui::End();
-}
-
-void PlayerCameraMovement::resetCamera()
-{
-	m_roll = 0.0f;
-	m_pitch = 0.0f;
-	m_yaw = 0.0f;
-	m_goToRoll = 0.0f;
-}
-
-void PlayerCameraMovement::updateFrameTime(const float& frameTime)
-{
-	m_frameTime = frameTime;
 }
 
 void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& normal)
@@ -135,6 +147,7 @@ void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 		m_stop = false;
 		m_landShake = true;
 		m_secondTime = false;
+		m_runShake = false;
 		setGoToRoll(!m_secondTime);
 		m_velocityY = velocity.y;
 	}
@@ -163,7 +176,7 @@ void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
 			m_goToRoll = -rollLandShake * fabs(m_velocityY) / modifier;
 	}
 	else
-		m_goToRoll = rollLandShake * -1 * m_direction * fabs(m_velocityY) / modifier;
+		m_goToRoll = rollLandShake * -1 * m_direction * fabs(m_velocityY) / (modifier * 2.0f);
 
 	setDirection(m_goToRoll);
 }
@@ -224,7 +237,7 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 
 void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed)
 {
-	constexpr float moveYSpeed = 2.0f;
+	constexpr float moveYSpeed = 1.0f;
 
 	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
 	{
@@ -245,18 +258,20 @@ void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& on
 			setRunMoveY(m_secondTime);
 			m_secondTime = !m_secondTime;
 		}
-
-		m_playerCamera->setOffset(0.0f, m_camPosY, 0.0f);
 	}
 	else
-		m_playerCamera->setOffset(0.0f, m_baseCamPosY, 0.0f);
+		m_camPosY = m_baseCamPosY;
+
+	m_playerCamera->setOffset(0.0f, m_camPosY, 0.0f);
 }
 
 void PlayerCameraMovement::setRunMoveY(const bool& firstTime)
 {
-	constexpr float changeYPos = 0.2f;
+	float changeYPos = 0.2f;
 	if (firstTime)
 	{
+		if (m_direction < 0)
+			changeYPos /= 2;
 		if (m_direction != 0)
 			m_goToY = m_baseCamPosY + changeYPos * m_direction;
 		else
@@ -264,6 +279,8 @@ void PlayerCameraMovement::setRunMoveY(const bool& firstTime)
 	}
 	else
 	{
+		if (m_direction > 0)
+			changeYPos /= 2;
 		if (m_direction != 0)
 			m_goToY = m_baseCamPosY + changeYPos * -1 * m_direction;
 		else

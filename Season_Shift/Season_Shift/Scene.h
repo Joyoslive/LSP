@@ -52,5 +52,6 @@ public:
 	Ref<GameObject> getGameObject(const std::string& gameObjectName);
 	std::vector<Ref<Model>>& getSceneModels();
 	std::vector<Ref<GameObject>>& getSceneGameObjects();
+	Graphics* getGraphics() const;
 };
 
