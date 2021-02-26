@@ -113,7 +113,6 @@ void PlayerCameraMovement::changeFOV(const Vector3& velocity, const float& maxSp
 	if (diff < m_cameraFov - m_baseCameraFov)
 		delta = m_frameTime * 6.0f;
 	m_cameraFov = lerp(m_cameraFov, m_baseCameraFov + diff * 0.5f, delta);
-	//m_cameraFov = m_baseCameraFov + diff;
 	m_playerCamera->setFieldOfView(m_cameraFov);
 }
 
