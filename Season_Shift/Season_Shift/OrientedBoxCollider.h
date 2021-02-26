@@ -9,7 +9,7 @@ class OrientedBoxCollider : public Collider, public std::enable_shared_from_this
 	friend PhysicsEngine;
 private:
 	DirectX::BoundingOrientedBox m_obb;
-
+	float m_radius;
 	
 
 public:
@@ -18,7 +18,7 @@ public:
 
 	bool collide(const Ref<Collider>& collider) override;
 	void update() override;
-
+	const float& getRadius() const;
 	void initialize() override;
 
 	const DirectX::BoundingOrientedBox& getInternalCollider() const;

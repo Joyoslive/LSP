@@ -12,6 +12,7 @@ using namespace DirectX;
 OrientedBoxCollider::OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions)
 {
 	m_obb.Extents = dimensions / 2;
+	m_radius = 0;
 	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }
 
@@ -23,6 +24,9 @@ void OrientedBoxCollider::initialize()
 {
 	m_obb.Center = m_transform->getPosition();
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
+	DirectX::XMFLOAT3 corners[8];
+	m_obb.GetCorners(corners);
+	m_radius = (m_obb.Center - corners[0]).Length();
 }
 
 bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
@@ -51,6 +55,11 @@ void OrientedBoxCollider::update()
 {
 	m_obb.Center = m_transform->getPosition();
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
+}
+
+const float& OrientedBoxCollider::getRadius() const
+{
+	return m_radius;
 }
 
 const BoundingOrientedBox& OrientedBoxCollider::getInternalCollider() const
