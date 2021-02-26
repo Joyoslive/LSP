@@ -43,10 +43,11 @@ private:
 	long double m_wallTimer;
 	bool m_hooked;
 	bool m_movObj;
-	bool m_movSpeed;
+	DirectX::SimpleMath::Vector3 m_movSpeed;
 	float m_hookDist;
 	float m_velocityY;
 	float m_movPos;
+	float m_movAlt;
 	float m_maxYSpeed;
 	//Speedlines
 	float m_sLT, m_sLR, m_sLS;
@@ -72,6 +73,7 @@ private:
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
+	float lerp(float a, float b, float f);
 public:
 	Player();
 	~Player();

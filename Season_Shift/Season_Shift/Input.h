@@ -39,6 +39,7 @@ public:
 	bool mouseReleased(MouseKeys key);
 	void lockMouse();
 	void update(long double dt);
+	long double getTime();
 private:
 	static Input instance;
 	float m_mouseY;

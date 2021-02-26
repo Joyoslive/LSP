@@ -24,6 +24,9 @@ public:
 	void rotateAroundAxis(DirectX::XMFLOAT3 axis, float angle);
 	void rotateAroundSetAxis(Camera::Axis axis, float angle);
 
+	void setFieldOfView(const float& fov);
+	const float& getFieldOfView() const;
+
 	DirectX::CXMMATRIX getViewMatrix();
 	DirectX::CXMMATRIX getProjectionMatrix();
 	DirectX::CXMMATRIX getOrthographicMatrix();

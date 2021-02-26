@@ -6,6 +6,7 @@
 #include "OrientedBoxCollider.h"
 #include "CapsuleCollider.h"
 #include "Transform.h"
+#include "Input.h"
 
 Move::Move()
 {
@@ -39,18 +40,11 @@ void Move::update()
 	{
 		m_direction = 1;
 	}
-
-	m_move += m_speed* m_direction;
+	long double frameTime = Input::getInput().getTime();
+	m_move += m_speed* m_direction*frameTime;
 	m_gameObject->getTransform()->setPosition(m_move);
 }
 
-float Move::getSpeed() {
-	if (m_speed.x > 0)
-		return m_speed.x;
-	else if (m_speed.y > 0)
-		return m_speed.y;
-	else if (m_speed.z > 0)
-		return m_speed.z;
-	else
-		return 0;
+DirectX::SimpleMath::Vector3 Move::getSpeed() {
+	return m_speed*m_direction;
 }

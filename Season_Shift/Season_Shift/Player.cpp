@@ -7,6 +7,7 @@
 #include "OrientedBoxCollider.h"
 #include "CapsuleCollider.h"
 #include "Transform.h"
+#include "Move.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 
@@ -57,6 +58,9 @@ using namespace DirectX::SimpleMath;
 	 m_deltaPos = Vector3(0, 0, 0);
 	 m_velocityY = 0;
 	 m_movPos = 0;
+	 m_movAlt = 1033.33;
+	 m_movSpeed = { 0, 0, 0 };
+
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
  }
@@ -100,6 +104,7 @@ using namespace DirectX::SimpleMath;
 	
 	Vector3 moveDirection = Vector3::Zero;
 	Vector3 moveDirection2 = Vector3::Zero;
+	Vector3 moveSpeed = Vector3::Zero;
 	
 	if (m_hooked)
 	{
@@ -187,7 +192,7 @@ using namespace DirectX::SimpleMath;
 					}
 				}
 			}
-			cameraLook.Normalize(); //vem vet filip kanske inte tänkte på det
+			cameraLook.Normalize(); //vem vet filip kanske inte tï¿½nkte pï¿½ det
 			Vector3 attachmentPoint = m_playerCamera->getCamera()->getPosition();
 			if (dist < 10000)
 			{
@@ -228,8 +233,9 @@ using namespace DirectX::SimpleMath;
 	if (m_movObj == true)
 	{
 		moveDirection2 -= m_deltaPos;
+		moveSpeed = m_movSpeed;
 		//cast ray
-		constexpr float maxDist = 1.25f;
+		constexpr float maxDist = 3.25f;
 		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
 		float dist = FLT_MAX;
 		bool noHit = true;
@@ -272,7 +278,16 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
-	velocitySkipY += moveDirection * m_frameTime * m_speed + Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	if (m_movObj == true)
+	{
+		moveSpeed.y = 0;
+		if (velocitySkipY.Length() < moveSpeed.Length()) 
+		{
+			velocitySkipY = moveSpeed;
+		}
+	
+	}
+	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
@@ -282,6 +297,12 @@ using namespace DirectX::SimpleMath;
 	//velocitySkipY.y += moveDirection2.y * 14.4;
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
+	if (m_velocityY < 0) {
+		Vector3 hold = m_transform->getPosition();
+		hold -= m_deltaPos;
+		m_transform->setPosition(hold);
+	}
+		
 	velocity = velocitySkipY;
 	velocity = checkYMaxSpeed(velocity);
 
@@ -296,6 +317,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 
 	speedLines(velocitySkipY, velocity.y);
+	m_logicPlayerCamera->changeFOV(velocity, m_maxSpeed, m_maxYSpeed);
 
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
@@ -308,6 +330,7 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
 		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
+		ImGui::SliderFloat("Speed", &m_movAlt, 1000.0, 1050.0);
 		//ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
@@ -360,12 +383,10 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_movObj = true;
 		 m_deltaPos = collider->getGameObject()->getTransform()->getDeltaPosition();
+		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
-	 else
-	 {
-		 m_movObj = false;
-	 }
+
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
@@ -786,7 +807,7 @@ using namespace DirectX::SimpleMath;
 	 m_jumpWhenLanding = false;
  }
 
- float lerp(float a, float b, float f)
+ float Player::lerp(float a, float b, float f)
  {
 	 return a + f * (b - a);
  }
@@ -819,8 +840,18 @@ using namespace DirectX::SimpleMath;
 		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * 0.5f);
 	 else
 		 m_sLS = speedLineSpeed;
-	 char msgbuf[1000];
-	 sprintf_s(msgbuf, "My variable is %f\n", m_sLS);
-	 //OutputDebugStringA(msgbuf);
-	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedFactor);
+	 
+	 float speedLinesSpeedChanger = 0.0f;
+	 if (0.0f < m_sLS && m_sLS < 0.9f)
+		 speedLinesSpeedChanger = 0.2f;
+	 else if (0.9f < m_sLS && m_sLS < 1.2f)
+		 speedLinesSpeedChanger = 0.6f;
+	 else if (m_sLS < 1.4f)
+		 speedLinesSpeedChanger = 0.8f;
+
+	 /*char msgbuf[1000];
+	 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sLS, speedLinesSpeedChanger);
+	 OutputDebugStringA(msgbuf);*/
+
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedChanger);
  }

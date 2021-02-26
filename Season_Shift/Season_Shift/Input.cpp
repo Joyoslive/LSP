@@ -194,3 +194,7 @@ void Input::update(long double dt)
 	m_keys.Update(kb);
 	m_mouseButtons.Update(mouse);
 }
+
+long double Input::getTime() {
+	return m_frameTime;
+}

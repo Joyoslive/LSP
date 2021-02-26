@@ -49,6 +49,16 @@ void CameraComponent::rotateAroundSetAxis(Camera::Axis axis, float angle)
 	m_camera.rotateAroundSetAxis(axis, angle);
 }
 
+void CameraComponent::setFieldOfView(const float& fov)
+{
+	m_camera.setFieldOfView(fov);
+}
+
+const float& CameraComponent::getFieldOfView() const
+{
+	return m_camera.getFieldOfView();
+}
+
 DirectX::CXMMATRIX CameraComponent::getViewMatrix()
 {
 	return m_camera.getViewMatrix();
