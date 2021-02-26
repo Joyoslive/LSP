@@ -67,6 +67,12 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
+    //pre test
+    if (obb->getRadius() + (m_length + 2 * m_capsule.radius) < (obb->getTransform()->getPosition() - getTransform()->getPosition()).Length())
+    {
+        return false; //free fps
+    }
+
     //unit vectors from obb
     Vector3 obbUnitX;
     obbUnitX.x = obb->getTransform()->getWorldMatrix().m[0][0];

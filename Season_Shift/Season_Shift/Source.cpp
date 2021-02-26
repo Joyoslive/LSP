@@ -64,7 +64,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	
 	//sceneManager.getActiveScene()->start();
 
-	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/200.0);
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/300.0);
 	sceneManager.addObserver(physicsEng);
 
 	//// Material

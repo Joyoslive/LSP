@@ -55,7 +55,7 @@ void Scene5::setUpScene()
 			go->AddComponent(collider);
 		}
 	}
-	
+
 	// Post setup, like cameras and logic
 	auto player = createGameObject("player", Vector3(0, 12, 0));
 	player->AddComponent(std::make_shared<CameraComponent>());
@@ -67,10 +67,16 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
+
 	
-	std::vector<std::string> v = { "Sounds/Explo4.wav" };
+
+	auto audioObject = createGameObject("audio", Vector3(-4, 8, 0));
+	std::vector<std::string> v;
+	v.push_back("Sounds/Explo4.wav");
+	v.push_back("Sounds/Explo1.wav");
+	v.push_back("Sounds/NightAmbienceSimple_02.wav");
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
-		playerJumpTrigger->AddComponent(std::make_shared<Sound>(v))
+		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	sound->play("Sounds/Explo4.wav"); //sorry
 
