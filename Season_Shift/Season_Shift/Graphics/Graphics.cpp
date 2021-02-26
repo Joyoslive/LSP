@@ -60,8 +60,9 @@ void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const s
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(0.0, 1.0);
 	m_postProcessVariables.randomNumber = dis(gen);
-
+	
 	m_currRenderStrat->setPostProcessVariables(m_postProcessVariables);
+
 	m_currRenderStrat->render(models, mainCamera, dt);
 
 	ImGui::ShowDemoWindow();

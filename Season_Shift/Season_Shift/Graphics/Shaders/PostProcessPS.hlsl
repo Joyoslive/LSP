@@ -126,11 +126,7 @@ float3 drawSpeedLine(float2 uv, int seed, float speedFac, float easeOffset)
 	endPoint += dir * easeOutMagnitude;
 
 	return drawLine(uv, startPoint, endPoint);
-
-
 }
-
-
 
 float4 main(PS_IN input) : SV_TARGET
 {
@@ -145,18 +141,23 @@ float4 main(PS_IN input) : SV_TARGET
 	float3 inTex = g_bbTex.Sample(g_sampler, input.uv).xyz;
 	
 	int t2 = int(g_elapsedTime);
-	float speedFac = g_speedlineSpeedFactor * (nextFloat(g_elapsedTime) * 0.5 + 0.5);
-	speedFac = g_speedlineSpeedFactor;
+	//float speedFac = g_speedlineSpeedFactor * (nextFloat(g_elapsedTime) * 0.5 + 0.5);
+	float speedFac = g_speedlineSpeedFactor;
 
 	int seed = 0;
 	float lines = 0.;
-	lines += speedLine;
+
 
 	// mod in time for seed may solve the sometimes occurring repeating circular pattern 
 	// (not verified)
 	for (int i = 0; i < 75; ++i)
 	{
 		seed = int(fmod((fmod(g_elapsedTime, 7.)) * speedFac, speedFac)) * i * i * i + 5 * i;
+		//seed = int(fmod((fmod(g_elapsedTime, 7.)) * speedFac, speedFac)) * i + 3 * i;
+		//seed = int(fmod((fmod(g_elapsedTime, 7.)) * speedFac, speedFac)) * i + 3 * g_randomNumber;
+
+		//seed = int(fmod(g_elapsedTime, 7.))  * i * i * i + 5 * i;
+
 		lines += drawSpeedLine(uv, seed, speedFac, nextFloat(seed) * 0.3 + 1.);
 	}
 
