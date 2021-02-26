@@ -19,5 +19,6 @@ public:
 	virtual ~Collider();
 	virtual bool collide(const Ref<Collider>& collider) = 0;
 	void SetTriggerCollider(bool trigger);
+	bool GetTrigger() const;
 };
 

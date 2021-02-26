@@ -151,7 +151,7 @@ void PhysicsEngine::collisionResponse(const Ref<RigidBody>& rigidBody, const Ref
 	Vector3 normal, velocity;
 	if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
 	{
-		normal = capsuleCollideObb(rigidBodyCollider, obb);
+		normal = capsuleCollideObb(rigidBodyCollider, obb); //använder bara infor från den senaste krocken SÅ DET FUNKAR INTE OM MAN KOLLIDERAR MED FLERA SA
 	}
 	else if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
 	{
