@@ -62,6 +62,9 @@ public:
 	void setOffset(float x, float y, float z);
 	void updatePosition();
 
+	void setFieldOfView(const float& fov);
+	const float& getFieldOfView() const;
+
 	DirectX::CXMMATRIX getViewMatrix() const;
 	DirectX::CXMMATRIX getProjectionMatrix() const;
 	DirectX::CXMMATRIX getOrthographicMatrix() const;

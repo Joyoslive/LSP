@@ -183,6 +183,18 @@ void Camera::updatePosition()
 	setPosition(pos_f.x, pos_f.y, pos_f.z);
 }
 
+void Camera::setFieldOfView(const float& fov)
+{
+	resetCamera(false, false, true);
+	m_fieldOfView = fov;
+	calculateProjectionMatrix();
+}
+
+const float& Camera::getFieldOfView() const
+{
+	return m_fieldOfView;
+}
+
 FXMVECTOR Camera::getPosition() {
 	return m_position;
 }

@@ -21,6 +21,10 @@ void PlayerCameraMovement::start()
 	m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	m_baseCamPosY = 2.0f;
 	m_camPosY = m_baseCamPosY;
+
+	m_baseCameraFov = m_playerCamera->getCamera()->getFieldOfView();
+	m_cameraFov = m_baseCameraFov;
+
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 }
 
@@ -28,7 +32,6 @@ void PlayerCameraMovement::update()
 {
 	Input::getInput().mouseMovement(m_pitch, m_yaw);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
-
 	landShake();
 
 	ImGui::Begin("Player Camera");
@@ -37,6 +40,7 @@ void PlayerCameraMovement::update()
 		ImGui::Text("Roll %f", m_roll);
 		ImGui::Text("RunRoll %f", m_runRoll);
 		ImGui::Text("MoveY %f", m_camPosY);
+		ImGui::Text("FOV %f", m_cameraFov);
 		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
 	}
 	ImGui::End();
@@ -91,6 +95,26 @@ void PlayerCameraMovement::landShake()
 			m_secondTime = !m_secondTime;
 		}
 	}
+}
+
+float lerp(float a, float b, float f)
+{
+	return a + f * (b - a);
+}
+
+void PlayerCameraMovement::changeFOV(const Vector3& velocity, const float& maxSpeedXZ, const float& maxSpeedY)
+{
+	Vector3 velocityXZ = velocity;
+	velocityXZ.y = 0;
+	Vector3 velocityY = velocity;
+	velocityY.x = velocityY.z = 0;
+	float diff = std::clamp(velocityXZ.Length() * 0.95f / maxSpeedXZ + velocityY.Length() * 0.7f / maxSpeedY, 0.0f, 1.0f);
+	float delta = m_frameTime * 3.0f;
+	if (diff < m_cameraFov - m_baseCameraFov)
+		delta = m_frameTime * 6.0f;
+	m_cameraFov = lerp(m_cameraFov, m_baseCameraFov + diff * 0.5f, delta);
+	//m_cameraFov = m_baseCameraFov + diff;
+	m_playerCamera->setFieldOfView(m_cameraFov);
 }
 
 void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& normal)
@@ -153,14 +177,26 @@ void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 	}
 }
 
-void PlayerCameraMovement::setDirection(const float& roll)
+void PlayerCameraMovement::setDirection(const float& roll, const bool& moveCam)
 {
-	if (roll < 0)
-		m_direction = -1;
-	else if (roll > 0)
-		m_direction = 1;
+	if (!moveCam)
+	{
+		if (roll < 0)
+			m_direction = -1;
+		else if (roll > 0)
+			m_direction = 1;
+		else
+			m_direction = 0;
+	}
 	else
-		m_direction = 0;
+	{
+		if (roll < 0)
+			m_camMoveDirection = -1;
+		else if (roll > 0)
+			m_camMoveDirection = 1;
+		else
+			m_camMoveDirection = 0;
+	}
 }
 
 void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
@@ -253,7 +289,7 @@ void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& on
 			m_camPosY -= m_frameTime * moveYSpeed;
 		}
 
-		if ((m_camPosY < m_goToY && m_direction < 0) || (m_camPosY > m_goToY && m_direction > 0))
+		if ((m_camPosY < m_goToY && m_camMoveDirection < 0) || (m_camPosY > m_goToY && m_camMoveDirection > 0))
 		{
 			setRunMoveY(m_secondTime);
 			m_secondTime = !m_secondTime;
@@ -270,24 +306,24 @@ void PlayerCameraMovement::setRunMoveY(const bool& firstTime)
 	float changeYPos = 0.2f;
 	if (firstTime)
 	{
-		if (m_direction < 0)
+		if (m_camMoveDirection < 0)
 			changeYPos /= 2;
-		if (m_direction != 0)
-			m_goToY = m_baseCamPosY + changeYPos * m_direction;
+		if (m_camMoveDirection != 0)
+			m_goToY = m_baseCamPosY + changeYPos * m_camMoveDirection;
 		else
 			m_goToY = m_baseCamPosY + -changeYPos;
 	}
 	else
 	{
-		if (m_direction > 0)
+		if (m_camMoveDirection > 0)
 			changeYPos /= 2;
-		if (m_direction != 0)
-			m_goToY = m_baseCamPosY + changeYPos * -1 * m_direction;
+		if (m_camMoveDirection != 0)
+			m_goToY = m_baseCamPosY + changeYPos * -1 * m_camMoveDirection;
 		else
 			m_goToY = m_baseCamPosY + changeYPos;
 	}
 
-	setDirection(m_goToY - m_baseCamPosY);
+	setDirection(m_goToY - m_baseCamPosY, true);
 }
 
 //char msgbuf[1000];

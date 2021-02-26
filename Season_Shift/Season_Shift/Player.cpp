@@ -219,7 +219,7 @@ using namespace DirectX::SimpleMath;
 		moveDirection2 -= m_deltaPos;
 		moveSpeed = m_movSpeed;
 		//cast ray
-		constexpr float maxDist = 20.25f;
+		constexpr float maxDist = 3.25f;
 		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
 		float dist = FLT_MAX;
 		bool noHit = true;
@@ -267,7 +267,6 @@ using namespace DirectX::SimpleMath;
 		moveSpeed.y = 0;
 		if (velocitySkipY.Length() < moveSpeed.Length()) 
 		{
-			
 			velocitySkipY = moveSpeed;
 		}
 	
@@ -302,6 +301,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 
 	speedLines(velocitySkipY, velocity.y);
+	m_logicPlayerCamera->changeFOV(velocity, m_maxSpeed, m_maxYSpeed);
 
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
@@ -789,7 +789,7 @@ using namespace DirectX::SimpleMath;
 	 m_jumpWhenLanding = false;
  }
 
- float lerp(float a, float b, float f)
+ float Player::lerp(float a, float b, float f)
  {
 	 return a + f * (b - a);
  }
