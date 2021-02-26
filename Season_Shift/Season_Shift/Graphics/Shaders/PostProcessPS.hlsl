@@ -3,7 +3,7 @@
 //#define THICKNESS 0.00003
 //#define BASE_SPEED_FAC 1.4    // change to lower value to see the ease-out easier
 
-#define MOBLUR_SAMPLES 3
+#define MOBLUR_SAMPLES 1
 
 SamplerState g_sampler : register(s0);
 Texture2D g_bbTex : register(t0);
