@@ -165,7 +165,7 @@ void PlayerCameraMovement::setDirection(const float& roll)
 
 void PlayerCameraMovement::setGoToRoll(const bool& firstTime)
 {
-	constexpr float rollLandShake = DirectX::XM_PI / 36.0f;
+	constexpr float rollLandShake = DirectX::XM_PI / 26.0f;//36.0f;
 	constexpr float modifier = 100.0f;
 
 	if (firstTime)
@@ -228,11 +228,11 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 			m_secondTime = !m_secondTime;
 		}
 		m_runShake = true;
+		runMoveY(moveDirection, onGround, wallRunning, speed, maxSpeed);
 	}
 	else
 		m_runShake = false;
 
-	runMoveY(moveDirection, onGround, wallRunning, speed, maxSpeed);
 }
 
 void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed)

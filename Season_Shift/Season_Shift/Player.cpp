@@ -801,8 +801,18 @@ using namespace DirectX::SimpleMath;
 		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * 0.5f);
 	 else
 		 m_sLS = speedLineSpeed;
-	 char msgbuf[1000];
-	 sprintf_s(msgbuf, "My variable is %f\n", m_sLS);
-	 //OutputDebugStringA(msgbuf);
-	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedFactor);
+	 
+	 float speedLinesSpeedChanger = 0.0f;
+	 if (0.0f < m_sLS && m_sLS < 0.9f)
+		 speedLinesSpeedChanger = 0.2f;
+	 else if (0.9f < m_sLS && m_sLS < 1.2f)
+		 speedLinesSpeedChanger = 0.6f;
+	 else if (m_sLS < 1.4f)
+		 speedLinesSpeedChanger = 0.8f;
+
+	 /*char msgbuf[1000];
+	 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sLS, speedLinesSpeedChanger);
+	 OutputDebugStringA(msgbuf);*/
+
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedChanger);
  }
