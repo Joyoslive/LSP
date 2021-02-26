@@ -547,6 +547,9 @@ using namespace DirectX::SimpleMath;
 	 else
 		 m_rb->setGravity(smallG);
 
+	 if (m_hooked)
+		 m_rb->setGravity(bigG);
+
 	 if (m_fly)
 		 m_rb->setGravity(0.0f);
  }
