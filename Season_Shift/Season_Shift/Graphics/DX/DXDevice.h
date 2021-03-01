@@ -8,6 +8,8 @@
 #include "DXTexture.h"
 #include "DXShader.h"
 #include <SimpleMath.h>
+#include <DirectXTK/SpriteBatch.h>
+#include <DirectXTK/SpriteFont.h>
 
 #define COMPILED_SHADERS_DIRECTORY "Graphics/CompiledShaders/"
 
@@ -104,6 +106,10 @@ public:
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> createRasterizerState(D3D11_RASTERIZER_DESC desc);
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> createDepthStencilState(D3D11_DEPTH_STENCIL_DESC desc);
 	Microsoft::WRL::ComPtr<ID3D11BlendState> createBlendState(D3D11_BLEND_DESC desc);
+
+	// 2D Helpers
+	std::shared_ptr<DirectX::SpriteBatch> createSpriteBatch();
+	std::shared_ptr<DirectX::SpriteFont> createSpriteFont(const std::wstring& fontPath);
 
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);

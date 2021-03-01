@@ -2,6 +2,7 @@
 #include "IRenderStrategy.h"
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
+#include "2D/SpriteRenderer.h"
 
 
 class SkyBox;
@@ -56,10 +57,14 @@ private:
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
 
+	bool m_viewUI = true;
+	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
+	std::vector<std::shared_ptr<ISprite>> m_sprites;
 
 	void setupGeometryPass();
 	void setupLightPass();
 	void setupPostProcessPass();
+	void setupUIRenderer();
 
 public:
 	DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer);

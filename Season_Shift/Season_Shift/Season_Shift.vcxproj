@@ -174,6 +174,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Graphics\2D\Text.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -245,6 +247,7 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Graphics\2D\Text.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="CameraSwitch.h" />
+    <ClInclude Include="Graphics\2D\ISprite.h" />
     <ClInclude Include="Libraries\inc\json\json.hpp" />
     <ClInclude Include="Graphics\LineDrawer.h" />
     <ClInclude Include="Logger.h" />
@@ -291,6 +295,7 @@
     <ClInclude Include="Scenes\Scene4.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Graphics\2D\SpriteRenderer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Graphics\DX\DXShader.h" />
@@ -462,6 +467,7 @@
     </FxCompile>
     <None Include="packages.config" />
     <None Include="Scenes\SceneJSONs\scene.json" />
+    <None Include="Textures\Sprites\Fonts\font.spritefont" />
     <None Include="Tools\SceneReader\SceneReader.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
