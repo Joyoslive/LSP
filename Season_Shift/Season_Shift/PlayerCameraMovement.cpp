@@ -15,7 +15,7 @@ void PlayerCameraMovement::start()
 	m_goToRoll = 0.0f;
 	m_landShake = false;
 	m_stop = true;
-	m_secondTime = false;
+	m_rollSecondTime = false;
 	m_goToY = 0;
 
 	m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
@@ -56,7 +56,7 @@ void PlayerCameraMovement::resetCamera()
 	m_runRoll = 0;
 	m_runShake = false;
 	m_landShake = false;
-	m_secondTime = false;
+	m_rollSecondTime = false;
 }
 
 void PlayerCameraMovement::updateFrameTime(const float& frameTime)
@@ -67,6 +67,9 @@ void PlayerCameraMovement::updateFrameTime(const float& frameTime)
 void PlayerCameraMovement::landShake()
 {
 	constexpr float rollSpeed = DirectX::XM_PI * 5.f / 7.f;
+	constexpr float moveYSpeed = 12.0f;
+	//Half of max velocityY of player
+	constexpr float moveYPosModifier = 50.0f;
 
 	if (!m_stop)
 	{
@@ -84,17 +87,57 @@ void PlayerCameraMovement::landShake()
 
 		if ((m_direction > 0 && m_roll <= 0) || (m_direction < 0 && m_roll >= 0) || m_direction == 0)
 		{
-			if (!m_secondTime)
+			if (!m_rollSecondTime)
 			{
-				setGoToRoll(m_secondTime);
+				setGoToRoll(m_rollSecondTime);
 			}
-			if (m_landShake)
-				m_stop = m_secondTime;
+			if (m_rollLandShake)
+			{
+				m_stop = m_rollSecondTime;
+			}
 			m_roll = 0;
-			m_landShake = !m_secondTime;
-			m_secondTime = !m_secondTime;
+			m_rollLandShake = !m_rollSecondTime;
+			m_rollSecondTime = !m_rollSecondTime;
 		}
 	}
+
+	if (!m_moveStop)
+	{
+
+		if (m_goToY == 0)
+			setRunMoveY(!m_moveSecondTime, fabs(m_velocityY) / moveYPosModifier);
+
+		if (m_camPosY < m_goToY)
+		{
+			m_camPosY += m_frameTime * moveYSpeed;
+		}
+		else if (m_camPosY > m_goToY)
+		{
+			m_camPosY -= m_frameTime * moveYSpeed;
+		}
+
+		if ((m_camPosY < m_goToY && m_camMoveDirection < 0) || (m_camPosY > m_goToY && m_camMoveDirection > 0))
+		{
+			if (!m_moveSecondTime)
+			{
+				setRunMoveY(m_moveSecondTime, 0.001f);
+			}
+			if (m_moveLandShake)
+			{
+				m_moveStop = m_moveSecondTime;
+				if (m_moveStop)
+				{
+					m_goToY = 0;
+					m_camPosY = m_baseCamPosY;
+				}
+			}
+			m_moveLandShake = !m_moveSecondTime;
+			m_moveSecondTime = !m_moveSecondTime;
+		}
+		m_playerCamera->setOffset(0.0f, m_camPosY, 0.0f);
+	}
+
+	m_landShake = m_moveLandShake || m_rollLandShake;
 }
 
 float lerp(float a, float b, float f)
@@ -104,15 +147,26 @@ float lerp(float a, float b, float f)
 
 void PlayerCameraMovement::changeFOV(const Vector3& velocity, const float& maxSpeedXZ, const float& maxSpeedY)
 {
+	constexpr float minYVelocity = 30.0f;
+	constexpr float velocityXZModifier = 0.95f;
+	constexpr float velocityYModifier = 0.7f;
+	constexpr float diffModifier = 0.5;
+	constexpr float deltaMinModifier = 3.0f;
+	constexpr float deltaMaxModifier = 6.0f;
+
 	Vector3 velocityXZ = velocity;
 	velocityXZ.y = 0;
 	Vector3 velocityY = velocity;
 	velocityY.x = velocityY.z = 0;
-	float diff = std::clamp(velocityXZ.Length() * 0.95f / maxSpeedXZ + velocityY.Length() * 0.7f / maxSpeedY, 0.0f, 1.0f);
-	float delta = m_frameTime * 3.0f;
+
+	if (velocityY.Length() < minYVelocity)
+		velocityY.y = 0;
+
+	float diff = std::clamp(velocityXZ.Length() * velocityXZModifier / maxSpeedXZ + velocityY.Length() * velocityYModifier / maxSpeedY, 0.0f, 1.0f);
+	float delta = m_frameTime * deltaMinModifier;
 	if (diff < m_cameraFov - m_baseCameraFov)
-		delta = m_frameTime * 6.0f;
-	m_cameraFov = lerp(m_cameraFov, m_baseCameraFov + diff * 0.5f, delta);
+		delta = m_frameTime * deltaMaxModifier;
+	m_cameraFov = lerp(m_cameraFov, m_baseCameraFov + diff * diffModifier, delta);
 	m_playerCamera->setFieldOfView(m_cameraFov);
 }
 
@@ -168,11 +222,18 @@ void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 	if (velocity.y < minVelocity)
 	{
 		m_stop = false;
+		m_moveStop = false;
 		m_landShake = true;
-		m_secondTime = false;
+		m_rollSecondTime = false;
 		m_runShake = false;
-		setGoToRoll(!m_secondTime);
+		m_rollLandShake = true;
+		m_moveLandShake = true;
+		setGoToRoll(!m_rollSecondTime);
 		m_velocityY = velocity.y;
+		m_moveSecondTime = false;
+		m_goToY = 0.0f;
+		m_camMoveDirection = 0;
+		m_camPosY = m_baseCamPosY;
 	}
 }
 
@@ -246,7 +307,7 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
 	{
 		if (m_runRoll == 0)
-			setRunRoll(m_secondTime);
+			setRunRoll(m_rollSecondTime);
 
 		if (m_roll < m_runRoll)
 		{
@@ -259,8 +320,8 @@ void PlayerCameraMovement::runShake(const Vector3& moveDirection, const bool& on
 
 		if ((m_runRoll < 0 && m_runRoll >= m_roll) || (m_runRoll > 0 && m_runRoll <= m_roll))
 		{
-			setRunRoll(!m_secondTime);
-			m_secondTime = !m_secondTime;
+			setRunRoll(!m_rollSecondTime);
+			m_rollSecondTime = !m_rollSecondTime;
 		}
 		m_runShake = true;
 		runMoveY(moveDirection, onGround, wallRunning, speed, maxSpeed);
@@ -277,7 +338,7 @@ void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& on
 	if (moveDirection != Vector3::Zero && onGround && !wallRunning && !m_landShake)
 	{
 		if (m_goToY == 0)
-			setRunMoveY(m_secondTime);
+			setRunMoveY(m_moveSecondTime);
 
 		if (m_camPosY < m_goToY)
 		{
@@ -290,8 +351,8 @@ void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& on
 
 		if ((m_camPosY < m_goToY && m_camMoveDirection < 0) || (m_camPosY > m_goToY && m_camMoveDirection > 0))
 		{
-			setRunMoveY(m_secondTime);
-			m_secondTime = !m_secondTime;
+			setRunMoveY(m_moveSecondTime);
+			m_moveSecondTime = !m_moveSecondTime;
 		}
 	}
 	else
@@ -300,9 +361,8 @@ void PlayerCameraMovement::runMoveY(const Vector3& moveDirection, const bool& on
 	m_playerCamera->setOffset(0.0f, m_camPosY, 0.0f);
 }
 
-void PlayerCameraMovement::setRunMoveY(const bool& firstTime)
+void PlayerCameraMovement::setRunMoveY(const bool& firstTime, float changeYPos)
 {
-	float changeYPos = 0.2f;
 	if (firstTime)
 	{
 		if (m_camMoveDirection < 0)

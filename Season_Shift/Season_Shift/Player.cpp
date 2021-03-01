@@ -158,50 +158,8 @@ using namespace DirectX::SimpleMath;
 		{
 			m_fly = !m_fly;
 		}
-		if (Input::getInput().mousePressed(Input::LeftButton))
-		{
-			//cast ray
-
-			//this belongs in physics but who cares
-			std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-			float dist = 10000;
-			for (auto& go : scene)
-			{
-				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-				if (obb != nullptr)
-				{
-					float d = 10000000000000;
-					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), cameraLook, d))
-					{
-						if (d < dist) dist = d;
-					}
-				}
-			}
-			cameraLook.Normalize(); //vem vet filip kanske inte t�nkte p� det
-			Vector3 attachmentPoint = m_playerCamera->getCamera()->getPosition();
-			if (dist < 10000)
-			{
-				attachmentPoint += dist * cameraLook;
-
-				//fix camera offset
-				m_hookDist = (attachmentPoint - getTransform()->getPosition()).Length();
-
-				m_hookPoint = attachmentPoint;
-				m_hooked = true;
-				Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-				rg->startPendelMotion(m_hookPoint, m_hookDist);
-			}
-			else
-			{
-				m_hooked = false;
-			}
-		}
-		if (Input::getInput().mouseReleased(Input::LeftButton))
-		{
-			m_hooked = false;
-			Ref<RigidBody> rg = getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
-			rg->stopPendelMotion();
-		}
+		
+		grappleHook(cameraLook);
 
 		velocity = jumpPlayer(velocity);
 
@@ -315,6 +273,7 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
 		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
 		ImGui::SliderFloat("Speed", &m_movAlt, 1000.0, 1050.0);
+		ImGui::Text("On Ground %d", m_ground);
 		//ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
@@ -331,7 +290,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (m_normal.Dot(Vector3::Up) > floorCheck)
+	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
 		 m_oldCollider = NULL;
 		 m_ground = true;
@@ -804,25 +763,29 @@ using namespace DirectX::SimpleMath;
 	 constexpr float speedLinesThicknessModifier = 0.00012f;
 	 constexpr float speedLinesRadiusValue = 1.27f;
 	 constexpr float speedLinesSpeedFactor = 1.4f;
+	 constexpr float lerpMin = 0.6f;
+	 constexpr float maxSpeedLinesRadiusValue = speedLinesRadiusValue - 1.0f;
+	 constexpr float speedLinesSpeedFactorValue = speedLinesSpeedFactor - 1.0f;
+	 constexpr float speedLinesSpeedLerpModifier = 0.5f;
 
 	 //Speedlines
 	 float speedLineThickness = std::clamp(velocityXZ.Length() * velocityXZModifier / m_maxSpeed + std::fabs(velocityY) * velocityYModifier / m_maxYSpeed, 0.0f, 1.0f);
-	 if (speedLineThickness > 0.6f)
+	 if (speedLineThickness > lerpMin)
 		 m_sLT = lerp(m_sLT, speedLineThickness, m_frameTime);
 	 else
 		 m_sLT = speedLineThickness;
 	 m_gameObject->getScene()->getGraphics()->setSpeedlineThickness(m_sLT * speedLinesThicknessModifier);
 
-	 float speedlineRadius = std::clamp(speedLinesRadiusValue - m_sLT, speedLinesRadiusValue - 1.0f, 1.f);
-	 if (speedlineRadius > speedLinesRadiusValue / 2.1166f)
+	 float speedlineRadius = std::clamp(speedLinesRadiusValue - m_sLT, maxSpeedLinesRadiusValue, 1.f);
+	 if (speedlineRadius > speedLinesRadiusValue * lerpMin)
 		 m_sLR = lerp(m_sLR, speedlineRadius, m_frameTime);
 	 else
 		 m_sLR = speedlineRadius;
 	 m_gameObject->getScene()->getGraphics()->setSpeedlineRadius(m_sLR);
 
-	 float speedLineSpeed = speedLinesSpeedFactor - 1.0f + m_sLT;
-	 if (speedLineSpeed > speedLinesSpeedFactor / 2.3333f)
-		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * 0.5f);
+	 float speedLineSpeed = speedLinesSpeedFactorValue + m_sLT;
+	 if (speedLineSpeed > speedLinesSpeedFactor * lerpMin)
+		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * speedLinesSpeedLerpModifier);
 	 else
 		 m_sLS = speedLineSpeed;
 	 
@@ -834,9 +797,52 @@ using namespace DirectX::SimpleMath;
 	 else if (m_sLS < 1.4f)
 		 speedLinesSpeedChanger = 0.8f;
 
-	 /*char msgbuf[1000];
-	 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sLS, speedLinesSpeedChanger);
-	 OutputDebugStringA(msgbuf);*/
-
 	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedChanger);
+ }
+
+ void Player::grappleHook(Vector3 cameraLook)
+ {
+	 if (Input::getInput().mousePressed(Input::LeftButton))
+	 {
+		 //cast ray
+
+		 //this belongs in physics but who cares
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = 10000;
+		 for (auto& go : scene)
+		 {
+			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+			 if (obb != nullptr)
+			 {
+				 float d = 10000000000000;
+				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), cameraLook, d))
+				 {
+					 if (d < dist) dist = d;
+				 }
+			 }
+		 }
+		 cameraLook.Normalize(); //vem vet filip kanske inte t�nkte p� det
+		 Vector3 attachmentPoint = m_playerCamera->getCamera()->getPosition();
+		 if (dist < 10000)
+		 {
+			 attachmentPoint += dist * cameraLook;
+
+			 //fix camera offset
+			 m_hookDist = (attachmentPoint - getTransform()->getPosition()).Length();
+
+			 m_hookPoint = attachmentPoint;
+			 m_hooked = true;
+			 m_ground = false;
+			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
+		 }
+		 else
+		 {
+			 m_hooked = false;
+		 }
+	 }
+	 if (Input::getInput().mouseReleased(Input::LeftButton))
+	 {
+		 m_hooked = false;
+		 m_rb->stopPendelMotion();
+	 }
  }
