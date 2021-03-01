@@ -109,14 +109,13 @@ void DeferredRenderStrategy::setPostProcessVariables(PostProcessVariables ppVar)
 	m_postProcessVariables = ppVar;
 }
 
-void DeferredRenderStrategy::setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender,
-	const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness)
+void DeferredRenderStrategy::setLineRenderSetttings(const LineVariables& settings)
 {
-	m_lineDrawer->setPoints(startPos, endPos);																																																																																																																																																																																																																																																																																																																																																																																																								
-	m_lineDrawer->setRenderState(shouldRender);
-	m_lineDrawer->setOffset(offset);
-	m_lineDrawer->setColor(color);
-	m_lineDrawer->setThickness(thickness);
+	m_lineDrawer->setPoints(settings.startPos, settings.endPos);
+	m_lineDrawer->setRenderState(true);
+	m_lineDrawer->setOffset(settings.offset);
+	m_lineDrawer->setColor(settings.color);
+	m_lineDrawer->setThickness(settings.thickness);
 }
 
 void DeferredRenderStrategy::setUp()

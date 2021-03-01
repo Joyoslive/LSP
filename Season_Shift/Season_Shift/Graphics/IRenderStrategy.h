@@ -20,6 +20,15 @@ struct alignas(16) PostProcessVariables
 	int motionBlurSamples;
 };
 
+struct LineVariables
+{
+	DirectX::SimpleMath::Vector3 startPos;
+	DirectX::SimpleMath::Vector3 endPos;
+	DirectX::SimpleMath::Vector3 offset;
+	DirectX::SimpleMath::Vector3 color;
+	DirectX::SimpleMath::Vector2 thickness;
+};
+
 class Camera;
 class Skybox;
 /*
@@ -42,8 +51,7 @@ public:
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
-	virtual void setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender,
-		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness) {};
+	virtual void setLineRenderSetttings(const LineVariables& settings) {};
 	virtual void setUp() = 0;
 };
 

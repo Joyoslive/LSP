@@ -101,8 +101,7 @@ public:
 	- Offset is in View Space!
 	- Color is between 0 and 1
 	*/	
-	void renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, 
-		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness);
+	void renderLine(const LineVariables& settings);
 
 
 
