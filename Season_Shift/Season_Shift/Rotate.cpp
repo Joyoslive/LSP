@@ -2,6 +2,7 @@
 #include "Rotate.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "Input.h"
 
 Rotate::Rotate()
 {
@@ -25,8 +26,9 @@ Rotate::~Rotate()
 
 void Rotate::update() 
 {
-	rot.x += m_x;
-	rot.y += m_y;
-	rot.z += m_z;
+	long double frameTime = Input::getInput().getTime();
+	rot.x += m_x* frameTime;
+	rot.y += m_y* frameTime;
+	rot.z += m_z*frameTime;
 	m_gameObject->getTransform()->setRotation( rot);
 }
