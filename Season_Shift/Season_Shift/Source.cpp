@@ -57,7 +57,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 	SceneManager sceneManager = SceneManager(&gph);
 
-	sceneManager.changeScene(3);
+	sceneManager.changeScene(4);
 	Ref<Scene> scene = sceneManager.getActiveScene();
 
 	Ref<GameObject> player = scene->getGameObject("player");
@@ -134,7 +134,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			ImGui::Text("DisplaySize = %f, %f", ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y);
 			ImGui::Checkbox("My Checkbox", &b);
 			ImGui::SliderFloat3("Float3", myFloats, 0.0, 5.0);
-
 		}
 		ImGui::End();
 
