@@ -19,6 +19,7 @@
 #include "../CapsuleCollider.h"
 #include "../Sound.h"
 #include "../Graphics/Model.h"
+#include "../ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -49,6 +50,13 @@ void Scene1::setUpScene()
 	gObj->AddComponent(test);
 	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
 	//destroyGameObject(gObj);
+
+	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(12, 4, 6));
+	Ref<ParticleSystem> partSys = std::dynamic_pointer_cast<ParticleSystem>(
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>("",""))
+		);
+
+
 
 	Ref<GameObject> sphere = createGameObject("sphere", Vector3(0, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	sphere->AddComponent(std::make_shared<SphereCollider>(1.0f));

@@ -2,6 +2,8 @@
 #include "IRenderStrategy.h"
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
+#include "ParticleSystem.h"
+#include "2D/SpriteRenderer.h"
 
 
 class SkyBox;
@@ -45,6 +47,7 @@ private:
 
 	std::shared_ptr<Skybox> m_skybox;
 
+	std::vector<std::shared_ptr<ParticleSystem>> m_partSysVec;
 	std::shared_ptr<LineDrawer> m_lineDrawer;
 
 	bool m_usePostProcessing = true; // temporary assignment
@@ -56,10 +59,14 @@ private:
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
 
+	bool m_viewUI = true;
+	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
+	std::vector<std::shared_ptr<ISprite>> m_sprites;
 
 	void setupGeometryPass();
 	void setupLightPass();
 	void setupPostProcessPass();
+	void setupUIRenderer();
 
 public:
 	DeferredRenderStrategy(std::shared_ptr<GfxRenderer> renderer);
@@ -73,8 +80,9 @@ public:
 
 	void setPostProcessVariables(PostProcessVariables ppVar) override;
 
-	void setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender, 
-		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness) override;
+	void setLineRenderSetttings(const LineVariables& settings) override;
+
+	void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) override;
 
 	void setUp() override;
 

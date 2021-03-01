@@ -4,6 +4,7 @@
 #include <random>
 #include "LineDrawer.h"
 #include "../Camera.h"
+#include "2D/Text.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
@@ -14,6 +15,7 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupGeometryPass();
 	setupPostProcessPass();
 	setupLightPass();
+	setupUIRenderer();
 
 	m_lineDrawer = std::make_shared<LineDrawer>(renderer);
 }
@@ -60,6 +62,11 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	if (m_lineDrawer != nullptr)
 		m_lineDrawer->draw(mainCamera);
 
+	for (auto& p : m_partSysVec)
+	{
+		p->SimulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+	}
+
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
@@ -92,6 +99,12 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	dev->bindShaderTexture(DXShader::Type::PS, 0, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 1, nullptr);
+
+	if (m_viewUI)
+	{
+		m_spriteRenderer->queueDraw(m_sprites[0]);
+		m_spriteRenderer->drawQueued(dev);
+	}
 }
 
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
@@ -109,14 +122,18 @@ void DeferredRenderStrategy::setPostProcessVariables(PostProcessVariables ppVar)
 	m_postProcessVariables = ppVar;
 }
 
-void DeferredRenderStrategy::setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender,
-	const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness)
+void DeferredRenderStrategy::setLineRenderSetttings(const LineVariables& settings)
 {
-	m_lineDrawer->setPoints(startPos, endPos);																																																																																																																																																																																																																																																																																																																																																																																																								
-	m_lineDrawer->setRenderState(shouldRender);
-	m_lineDrawer->setOffset(offset);
-	m_lineDrawer->setColor(color);
-	m_lineDrawer->setThickness(thickness);
+	m_lineDrawer->setPoints(settings.startPos, settings.endPos);
+	m_lineDrawer->setRenderState(true);
+	m_lineDrawer->setOffset(settings.offset);
+	m_lineDrawer->setColor(settings.color);
+	m_lineDrawer->setThickness(settings.thickness);
+}
+
+void DeferredRenderStrategy::addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem)
+{
+	m_partSysVec.push_back(particleSystem);
 }
 
 void DeferredRenderStrategy::setUp()
@@ -382,4 +399,22 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	m_postProcessPass->attachInputConstantBuffer(1, m_prevMatrices);
 	m_postProcessPass->attachInputConstantBuffer(2, m_postProcessVariableBuffer);
 	m_postProcessPass->attachOutputTargets({dev->getBackbuffer()});
+}
+
+void DeferredRenderStrategy::setupUIRenderer()
+{
+	auto dev = m_renderer->getDXDevice();
+	m_spriteRenderer = std::make_shared<SpriteRenderer>(dev);
+
+	// Create a font with the text "xD" to render
+	auto tempFont = std::make_shared<Text>();
+	tempFont->setFont(dev->createSpriteFont(L"Textures/Sprites/Fonts/font.spritefont"));
+	tempFont->setText("This is some text");
+	tempFont->setColor(DirectX::SimpleMath::Color(0.6, 0, 1, 1));
+
+	float midWidth = dev->getBackbufferViewport()->Width / 2;
+	float midHeight = 16.f; // dev->getBackbufferViewport()->Height / 2;
+	tempFont->setPosition({midWidth, midHeight});
+
+	m_sprites.push_back(tempFont);
 }

@@ -112,10 +112,16 @@ void Graphics::setSpeedlineThickness(float thickness)
 }
 
 
-void Graphics::renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos,
-	const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness)
+void Graphics::renderLine(const LineVariables& settings)
 {
-	m_currRenderStrat->setLineRenderSetttings(startPos, endPos, true, offset, color, thickness);
+	m_currRenderStrat->setLineRenderSetttings(settings);
+}
+
+std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& simShader, const std::string& emittShader)
+{
+	std::shared_ptr<ParticleSystem> partSys = std::make_shared<ParticleSystem>(m_renderer, simShader, emittShader);
+	m_currRenderStrat->addParticleSystem(partSys);
+	return partSys;
 }
 
 void Graphics::onResize(UINT width, UINT height)

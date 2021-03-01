@@ -24,6 +24,7 @@ public:
 		MODEL = 128,
 		CAMERA = 256,
 		SOUND = 512,
+		PARTICLE_SYSTEM = 1024,
 	};
 
 	friend inline ComponentEnum operator &(ComponentEnum l, ComponentEnum r)

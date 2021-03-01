@@ -67,9 +67,13 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Graphics\ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystemComponent.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\LineDrawer.cpp" />
     <ClCompile Include="TableOfTimes.cpp" />
     <ClCompile Include="GoalLogic.cpp" />
+    <ClCompile Include="Graphics\2D\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -132,9 +136,14 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="pch\pch.h" />
+    <ClInclude Include="Graphics\ParticleSystem.h" />
+    <ClInclude Include="ParticleSystemComponent.h" />
+    <ClInclude Include="Graphics\2D\SpriteRenderer.h" />
+    <ClInclude Include="Graphics\2D\ISprite.h" />
     <ClInclude Include="Graphics\LineDrawer.h" />
     <ClInclude Include="TableOfTimes.h" />
     <ClInclude Include="GoalLogic.h" />
+    <ClInclude Include="Graphics\2D\Text.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -150,11 +159,17 @@
     <FxCompile Include="Graphics\Shaders\LineVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LinePS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LineGS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleQuadGS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticlePS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleDefaultSimCS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleDefaultEmittCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <ClInclude Include="Logger.h" />
     <None Include="Scenes\SceneJSONs\scene.json" />
     <None Include="Tools\SceneReader\SceneReader.cs" />
+    <None Include="Textures\Sprites\Fonts\font.spritefont" />
   </ItemGroup>
 </Project>
