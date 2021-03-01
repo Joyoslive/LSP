@@ -68,6 +68,8 @@
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Graphics\LineDrawer.cpp" />
+    <ClCompile Include="TableOfTimes.cpp" />
+    <ClCompile Include="GoalLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -131,6 +133,8 @@
     <ClInclude Include="Move.h" />
     <ClInclude Include="pch\pch.h" />
     <ClInclude Include="Graphics\LineDrawer.h" />
+    <ClInclude Include="TableOfTimes.h" />
+    <ClInclude Include="GoalLogic.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

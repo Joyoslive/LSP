@@ -7,6 +7,8 @@
 #include "../Rotate.h"
 #include "../Move.h"
 #include "../GameObject.h"
+#include "../TableOfTimes.h"
+#include "../GoalLogic.h"
 
 
 using namespace DirectX::SimpleMath;
@@ -197,6 +199,10 @@ void Scene4::setUpScene()
 	Ref<GameObject> go3 = createGameObject("goal", Vector3(0, 200.0f, 0.0f));
 	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
+	Ref<Component> r3 = go3->AddComponent(std::make_shared<GoalLogic>());
+	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r3)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Fantastic", 1.0f);
+	goalTableOfTimes->addGrade("Bad", 2.0f);
 
 	
 	Ref<GameObject> cp1 = createGameObject("checkpoint", Vector3(0.0, 18.0f, -(10.0f + (20 * 32) / 2)));

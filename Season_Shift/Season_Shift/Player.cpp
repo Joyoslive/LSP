@@ -338,8 +338,8 @@ using namespace DirectX::SimpleMath;
 	 {
 		 respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(respawn);
-		 std::wstring msg = L"Your Time was";
-		 getTime(msg);
+		 /*std::wstring msg = L"Your Time was";
+		 getTime(msg);*/
 		
 	 }
 	 if (collider->getGameObject()->getName() == "checkpoint")
@@ -670,6 +670,13 @@ using namespace DirectX::SimpleMath;
 	 m_timer.stop();
 	 m_timer.print(msg);
 	 m_timer.start();
+ }
+
+ long double Player::timerGetTime()
+ {
+	 m_timer.stop();
+	 m_timer.start();
+	 return m_timer.getTime(Timer::Duration::SECONDS);
  }
 
  void Player::wallRunning(const Vector3& velocity) 

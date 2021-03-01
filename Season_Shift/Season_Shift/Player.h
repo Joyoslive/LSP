@@ -68,7 +68,6 @@ private:
 	DirectX::SimpleMath::Vector3 jumpPlayer(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
-	void getTime(std::wstring msg);
 	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
@@ -87,4 +86,6 @@ public:
 	void setWaitForJump();
 	void clearJumpFromTrigger();
 	bool getOnGround();
+	void getTime(std::wstring msg);
+	long double  timerGetTime();
 };
