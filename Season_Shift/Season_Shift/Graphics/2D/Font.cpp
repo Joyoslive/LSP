@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Font.h"
 
+Font::Font(const std::shared_ptr<DXDevice>& dev)
+{
+}
+
 Font::Font(const std::shared_ptr<DXDevice>& dev, const std::wstring& fontPath)
 {
 	m_font = dev->createSpriteFont(fontPath);

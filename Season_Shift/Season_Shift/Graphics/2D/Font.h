@@ -9,7 +9,7 @@ private:
 	std::string m_text;
 
 public:
-	Font(const std::shared_ptr<DXDevice>& dev);
+	explicit Font(const std::shared_ptr<DXDevice>& dev);
 	Font(const std::shared_ptr<DXDevice>& dev, const std::wstring& fontPath);
 	~Font() = default;
 
