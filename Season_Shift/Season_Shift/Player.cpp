@@ -265,10 +265,13 @@ using namespace DirectX::SimpleMath;
 	if (m_movObj == true)
 	{
 		moveSpeed.y = 0;
-		if (velocitySkipY.Length() < moveSpeed.Length()) 
-		{
-			velocitySkipY = moveSpeed;
-		}
+
+			if ( (moveDirection.x == 0 && moveDirection.z == 0 ))
+			{
+				velocitySkipY = moveSpeed;
+			}
+			
+		
 	
 	}
 	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
