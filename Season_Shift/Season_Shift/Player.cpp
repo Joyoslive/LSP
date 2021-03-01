@@ -92,9 +92,11 @@ using namespace DirectX::SimpleMath;
 	 m_rb->setGravity(55.0);
  }	
 
- static float Tthickness[2] = { 0.1, 0.5 };
- static float Tcolor[3] = { 0.0, 0.0, 0.0 };
- static float Toffset[3] = { 0.0, 0.0, 0.0 };
+
+ // Line Debug (Nadhif: Du kan använda detta för att ändra med ImGUI)
+ //static float Tthickness[2] = { 0.1, 0.5 };
+ //static float Tcolor[3] = { 0.0, 0.0, 0.0 };
+ //static float Toffset[3] = { 0.0, 0.0, 0.0 };
 
  void Player::update()
  {
@@ -109,32 +111,23 @@ using namespace DirectX::SimpleMath;
 	Vector3 moveDirection2 = Vector3::Zero;
 	Vector3 moveSpeed = Vector3::Zero;
 	
-	// Line Debug
-	ImGui::Begin("Line");
+	// Line Debug (Nadhif: Du kan använda detta för att ändra med ImGUI)
+	//ImGui::Begin("Line");
 
-	ImGui::SliderFloat3("color", Tcolor, 0.0, 1.0);
-	ImGui::SliderFloat2("thickness", Tthickness, 0.01, 2.0);
-	ImGui::SliderFloat3("offset", Toffset, -4.0, 4.0);
+	//ImGui::SliderFloat3("color", Tcolor, 0.0, 1.0);
+	//ImGui::SliderFloat2("thickness", Tthickness, 0.01, 2.0);
+	//ImGui::SliderFloat3("offset", Toffset, -4.0, 4.0);
 
-	ImGui::End();
-	Vector3 testCol = Vector3(Tcolor[0], Tcolor[1], Tcolor[2]);
-	Vector3 testOffset = Vector3(Toffset[0], Toffset[1], Toffset[2]);
+	//ImGui::End();
+	//Vector3 testCol = Vector3(Tcolor[0], Tcolor[1], Tcolor[2]);
+	//Vector3 testOffset = Vector3(Toffset[0], Toffset[1], Toffset[2]);
 
 	if (m_hooked)
 	{
+		// Line Debug (Nadhif: Du kan använda detta för att ändra med ImGUI)
+		//m_gameObject->getScene()->getGraphics()->renderLine(m_transform->getPosition(), m_hookPoint, testOffset, testCol, Vector2(Tthickness[0], Tthickness[1]));
 
-
-		/*
-		Render Line!
-		*/
-		//m_gameObject->getScene()->getGraphics()->renderLine(m_transform->getPosition(), m_hookPoint, true, Vector3(1.0, 0.4, 0.0), Vector3::Zero, 0.1);
-		m_gameObject->getScene()->getGraphics()->renderLine(m_transform->getPosition(), m_hookPoint, true, testOffset, testCol, Vector2(Tthickness[0], Tthickness[1]));
-	}
-	else
-	{
-		/*
-		Don't render line!
-		*/
+		m_gameObject->getScene()->getGraphics()->renderLine(m_transform->getPosition(), m_hookPoint, Vector3(1.0, 0.4, 0.0), Vector3::Zero, Vector2(0.1, 0.1));
 	}
 
 	if (Input::getInput().keyPressed(Input::X))

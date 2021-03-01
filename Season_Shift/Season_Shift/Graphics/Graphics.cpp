@@ -111,10 +111,11 @@ void Graphics::setSpeedlineThickness(float thickness)
 
 }
 
-void Graphics::renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender,
+
+void Graphics::renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos,
 	const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness)
 {
-	m_currRenderStrat->setLineRenderSetttings(startPos, endPos, shouldRender, offset, color, thickness);
+	m_currRenderStrat->setLineRenderSetttings(startPos, endPos, true, offset, color, thickness);
 }
 
 void Graphics::onResize(UINT width, UINT height)
