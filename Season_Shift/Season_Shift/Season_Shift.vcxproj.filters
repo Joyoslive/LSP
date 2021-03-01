@@ -69,6 +69,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Graphics\ParticleSystem.cpp" />
     <ClCompile Include="Graphics\LineDrawer.cpp" />
+    <ClCompile Include="ParticleSystemComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="pch\pch.h" />
     <ClInclude Include="Graphics\ParticleSystem.h" />
     <ClInclude Include="Graphics\LineDrawer.h" />
+    <ClInclude Include="ParticleSystemComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
