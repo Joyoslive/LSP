@@ -17,13 +17,17 @@ private:
 	float m_camMoveDirection;
 	bool m_stop;
 	bool m_landShake;
+	bool m_rollLandShake;
 	bool m_runShake;
-	bool m_secondTime;
+	bool m_rollSecondTime;
 
 	bool m_runMoveY;
 	float m_goToY;
 	float m_baseCamPosY;
 	float m_camPosY;
+	bool m_moveSecondTime;
+	bool m_moveStop;
+	bool m_moveLandShake;
 	
 	float m_cameraFov;
 	float m_baseCameraFov;
@@ -34,7 +38,7 @@ private:
 	void setDirection(const float& roll, const bool& camMove = false);
 	void setGoToRoll(const bool& firstTime);
 	void setRunRoll(const bool& firstTime);
-	void setRunMoveY(const bool& firstTime);
+	void setRunMoveY(const bool& firstTime, float changeYPos = 0.2f);
 	void landShake();
 	void runMoveY(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed);
 public:
