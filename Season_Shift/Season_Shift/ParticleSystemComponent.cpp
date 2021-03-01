@@ -5,21 +5,29 @@
 
 void ParticleSystemComponent::initialize()
 {
+	m_partSys = getGameObject()->getScene()->getGraphics()->addParticleSystem(m_simShaderFile, m_emittShaderFile);
 }
 
 void ParticleSystemComponent::update()
 {
+
 }
 
 ParticleSystemComponent::ParticleSystemComponent()
 {
+	m_simShaderFile = "";
+	m_emittShaderFile = "";
+	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-ParticleSystemComponent::ParticleSystemComponent(std::string simShader, std::string emittShader)
+ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, const std::string& emittShader)
 {
-	//getGameObject()->getScene()->getGraphics()->
+	m_simShaderFile = simShader;
+	m_emittShaderFile = emittShader;
+	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
 ParticleSystemComponent::~ParticleSystemComponent()
 {
+	
 }

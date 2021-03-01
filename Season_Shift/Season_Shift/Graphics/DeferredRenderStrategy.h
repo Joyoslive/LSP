@@ -77,6 +77,8 @@ public:
 	void setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender, 
 		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness) override;
 
+	void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) override;
+
 	void setUp() override;
 
 	void present() override;

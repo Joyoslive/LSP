@@ -32,7 +32,7 @@ private:
 	void draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj);
 
 public:
-	ParticleSystem(std::shared_ptr<GfxRenderer> renderer, std::string simShader = "ParticleDefaultSimCS.cso", std::string emittShader = "ParticleDefaultEmittCS.cso");
+	ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader);
 	~ParticleSystem();
 
 	void SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt);

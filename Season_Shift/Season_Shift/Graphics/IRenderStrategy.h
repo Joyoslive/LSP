@@ -22,6 +22,7 @@ struct alignas(16) PostProcessVariables
 
 class Camera;
 class Skybox;
+class ParticleSystem;
 /*
 
 Works as an interface to be able to select different rendering implementations (e.g forward or deferred)
@@ -39,6 +40,7 @@ public:
 	virtual ~IRenderStrategy();
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
+	virtual void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) {};
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};

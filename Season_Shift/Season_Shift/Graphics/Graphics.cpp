@@ -118,6 +118,13 @@ void Graphics::renderLine(const DirectX::SimpleMath::Vector3& startPos, const Di
 	m_currRenderStrat->setLineRenderSetttings(startPos, endPos, true, offset, color, thickness);
 }
 
+std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& simShader, const std::string& emittShader)
+{
+	std::shared_ptr<ParticleSystem> partSys = std::make_shared<ParticleSystem>(m_renderer, simShader, emittShader);
+	m_currRenderStrat->addParticleSystem(partSys);
+	return partSys;
+}
+
 void Graphics::onResize(UINT width, UINT height)
 {
 	m_dxDev->onResize(width, height);

@@ -105,6 +105,8 @@ public:
 		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness);
 
 
+	std::shared_ptr<ParticleSystem> addParticleSystem(const std::string& simShader, const std::string& emittShader);
+
 
 
 	/*

@@ -60,6 +60,11 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	if (m_lineDrawer != nullptr)
 		m_lineDrawer->draw(mainCamera);
 
+	for (auto& p : m_partSysVec)
+	{
+		p->SimulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+	}
+
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
@@ -117,6 +122,11 @@ void DeferredRenderStrategy::setLineRenderSetttings(const DirectX::SimpleMath::V
 	m_lineDrawer->setOffset(offset);
 	m_lineDrawer->setColor(color);
 	m_lineDrawer->setThickness(thickness);
+}
+
+void DeferredRenderStrategy::addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem)
+{
+	m_partSysVec.push_back(particleSystem);
 }
 
 void DeferredRenderStrategy::setUp()
