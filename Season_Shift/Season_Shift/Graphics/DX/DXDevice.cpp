@@ -354,12 +354,12 @@ Microsoft::WRL::ComPtr<ID3D11BlendState> DXDevice::createBlendState(D3D11_BLEND_
 
 std::shared_ptr<DirectX::SpriteBatch> DXDevice::createSpriteBatch()
 {
-	return std::make_shared<DirectX::SpriteBatch>(m_core->getImmediateContext());
+	return std::make_shared<DirectX::SpriteBatch>(m_core->getImmediateContext().Get());
 }
 
 std::shared_ptr<DirectX::SpriteFont> DXDevice::createSpriteFont(const std::wstring& fontPath)
 {
-	return std::make_shared<DirectX::SpriteFont>(m_core->getDevice(), fontPath.c_str());
+	return std::make_shared<DirectX::SpriteFont>(m_core->getDevice().Get(), fontPath.c_str());
 }
 
 /* Bind methods */
