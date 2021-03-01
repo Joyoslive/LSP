@@ -831,7 +831,8 @@ using namespace DirectX::SimpleMath;
 
 		 //this belongs in physics but who cares
 		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		 float dist = 10000;
+		 float dist = 200;
+		 bool hitObj = false;
 		 for (auto& go : scene)
 		 {
 			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
@@ -840,13 +841,17 @@ using namespace DirectX::SimpleMath;
 				 float d = 10000000000000;
 				 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), cameraLook, d))
 				 {
-					 if (d < dist) dist = d;
+					 if (d < dist)
+					 {
+						 dist = d;
+						 hitObj = true;
+					 }
 				 }
 			 }
 		 }
 		 cameraLook.Normalize(); //vem vet filip kanske inte t�nkte p� det
 		 Vector3 attachmentPoint = m_playerCamera->getCamera()->getPosition();
-		 if (dist < 10000)
+		 if (dist < 10000 && hitObj)
 		 {
 			 attachmentPoint += dist * cameraLook;
 
