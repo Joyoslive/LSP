@@ -7,6 +7,7 @@
 #include <memory>
 #include <functional>
 #include <fstream>
+#include <algorithm>
 
 #include <DirectXMath.h>
 
