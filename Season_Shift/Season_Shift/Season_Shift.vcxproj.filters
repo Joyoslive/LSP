@@ -67,7 +67,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Graphics\ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -130,7 +130,7 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="pch\pch.h" />
-    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Graphics\ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
