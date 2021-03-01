@@ -2,7 +2,7 @@
 #include "IRenderStrategy.h"
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
-
+#include "ParticleSystem.h"
 
 class SkyBox;
 
@@ -43,6 +43,8 @@ private:
 	std::shared_ptr<DXBuffer> m_cameraBuffer;
 
 	std::shared_ptr<Skybox> m_skybox;
+
+	std::vector<std::shared_ptr<ParticleSystem>> m_partSysVec;
 
 	bool m_usePostProcessing = true; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
