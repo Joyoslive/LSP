@@ -104,7 +104,7 @@ public:
 	void renderLine(const LineVariables& settings);
 
 
-	std::shared_ptr<ParticleSystem> addParticleSystem(const std::string& simShader, const std::string& emittShader);
+	std::shared_ptr<ParticleSystem> addParticleSystem(const std::string& simShader, const std::string& emittShader, unsigned int maxCount);
 
 
 

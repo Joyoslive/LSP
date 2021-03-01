@@ -53,7 +53,7 @@ void Scene1::setUpScene()
 
 	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(12, 4, 6));
 	Ref<ParticleSystem> partSys = std::dynamic_pointer_cast<ParticleSystem>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>("",""))
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(200))
 		);
 
 

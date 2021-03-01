@@ -117,9 +117,9 @@ void Graphics::renderLine(const LineVariables& settings)
 	m_currRenderStrat->setLineRenderSetttings(settings);
 }
 
-std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& simShader, const std::string& emittShader)
+std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& simShader, const std::string& emittShader, unsigned int maxCount)
 {
-	std::shared_ptr<ParticleSystem> partSys = std::make_shared<ParticleSystem>(m_renderer, simShader, emittShader);
+	std::shared_ptr<ParticleSystem> partSys = std::make_shared<ParticleSystem>(m_renderer, simShader, emittShader, maxCount);
 	m_currRenderStrat->addParticleSystem(partSys);
 	return partSys;
 }
