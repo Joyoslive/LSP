@@ -148,6 +148,11 @@
     <FxCompile Include="Graphics\Shaders\LineVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LinePS.hlsl" />
     <FxCompile Include="Graphics\Shaders\LineGS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleQuadGS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticlePS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleDefaultSimCS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleDefaultEmittCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
