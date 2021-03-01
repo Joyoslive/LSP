@@ -5,11 +5,14 @@
 /*constexpr*/ unsigned int uavCount = (unsigned int)-1;
 /*constexpr*/ unsigned int empty = (unsigned int)0;
 
-void ParticleSystem::emitt(DirectX::SimpleMath::Vector3 pos)
+void ParticleSystem::emitt(EmittStructure emittData)
 {
+	m_emittCBuffer->updateMapUnmap(&emittData, sizeof(EmittStructure));
+
 
 	m_renderer->getDXDevice()->bindShader(m_emittShader, m_emittShader->getType());
-	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, uavCount, m_consumeBuffer);
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer);
 	
 }
 
@@ -19,6 +22,11 @@ void ParticleSystem::simulate(float dt)
 
 void ParticleSystem::draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
 {
+
+
+
+
+
 }
 
 void ParticleSystem::swapBuffers()
@@ -47,7 +55,7 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 	else
 		m_emittShader = dev->createShader(emittShader, DXShader::Type::CS);
 
-
+	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true);
 
 	m_appendBuffer = dev->createAppendConsumeBuffer(maxCount, sizeof(Particle), false, true, nullptr);
 	m_consumeBuffer = dev->createAppendConsumeBuffer(maxCount, sizeof(Particle), false, true, nullptr);
@@ -63,6 +71,11 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 ParticleSystem::~ParticleSystem()
 {
 
+}
+
+int ParticleSystem::addEmitter(float emitterLifeTime, EmittStructure emittData)
+{
+	//m_emittVec.push_back(emittData);
 }
 
 void ParticleSystem::SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt)
