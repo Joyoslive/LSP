@@ -350,6 +350,20 @@ Microsoft::WRL::ComPtr<ID3D11BlendState> DXDevice::createBlendState(D3D11_BLEND_
 	return bs;
 }
 
+/* 2D Helper Methods */
+
+std::shared_ptr<DirectX::SpriteBatch> DXDevice::createSpriteBatch()
+{
+	return std::make_shared<DirectX::SpriteBatch>(m_core->getImmediateContext());
+}
+
+std::shared_ptr<DirectX::SpriteFont> DXDevice::createSpriteFont(const std::wstring& fontPath)
+{
+	return std::make_shared<DirectX::SpriteFont>(m_core->getDevice(), fontPath.c_str());
+}
+
+/* Bind methods */
+
 void DXDevice::bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage)
 {
 
