@@ -67,6 +67,12 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
 
+    //pre test
+    if (obb->getRadius() + (m_length + 2.0f * m_capsule.radius)*0.5f < (obb->getTransform()->getPosition() - (m_capsule.PointA + m_capsule.PointB)*0.5f).Length())
+    {
+        return false; //free fps
+    }
+
     //unit vectors from obb
     Vector3 obbUnitX;
     obbUnitX.x = obb->getTransform()->getWorldMatrix().m[0][0];
@@ -143,6 +149,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     float pen = 0;
     if (m_capsule.radius - (closestPoint1 - closestPointOnObb2).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb1;
         m_collisionInfo.m_segmentPoint = closestPoint1;
         m_collisionInfo.m_normal = collisionNormal1;
@@ -151,6 +158,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     }
     if (m_capsule.radius - (closestPoint2 - closestPointOnObb2).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb2;
         m_collisionInfo.m_segmentPoint = closestPoint2;
         m_collisionInfo.m_normal = collisionNormal2;
@@ -159,6 +167,7 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     }
     if (m_capsule.radius - (closestPoint3 - closestPointOnObb3).Length() > pen)
     {
+        if (collider->GetTrigger()) return true;
         m_collisionInfo.m_collisionPoint = closestPointOnObb3;
         m_collisionInfo.m_segmentPoint = closestPoint3;
         m_collisionInfo.m_normal = collisionNormal3;

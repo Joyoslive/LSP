@@ -219,7 +219,7 @@ using namespace DirectX::SimpleMath;
 		moveDirection2 -= m_deltaPos;
 		moveSpeed = m_movSpeed;
 		//cast ray
-		constexpr float maxDist = 20.25f;
+		constexpr float maxDist = 3.25f;
 		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
 		float dist = FLT_MAX;
 		bool noHit = true;
@@ -267,7 +267,6 @@ using namespace DirectX::SimpleMath;
 		moveSpeed.y = 0;
 		if (velocitySkipY.Length() < moveSpeed.Length()) 
 		{
-			
 			velocitySkipY = moveSpeed;
 		}
 	
@@ -302,6 +301,7 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY.y = 0;
 
 	speedLines(velocitySkipY, velocity.y);
+	m_logicPlayerCamera->changeFOV(velocity, m_maxSpeed, m_maxYSpeed);
 
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
@@ -547,6 +547,9 @@ using namespace DirectX::SimpleMath;
 	 else
 		 m_rb->setGravity(smallG);
 
+	 if (m_hooked)
+		 m_rb->setGravity(bigG);
+
 	 if (m_fly)
 		 m_rb->setGravity(0.0f);
  }
@@ -789,7 +792,7 @@ using namespace DirectX::SimpleMath;
 	 m_jumpWhenLanding = false;
  }
 
- float lerp(float a, float b, float f)
+ float Player::lerp(float a, float b, float f)
  {
 	 return a + f * (b - a);
  }
@@ -822,8 +825,18 @@ using namespace DirectX::SimpleMath;
 		 m_sLS = lerp(m_sLS, speedLineSpeed, m_frameTime * 0.5f);
 	 else
 		 m_sLS = speedLineSpeed;
-	 char msgbuf[1000];
-	 sprintf_s(msgbuf, "My variable is %f\n", m_sLS);
-	 //OutputDebugStringA(msgbuf);
-	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedFactor);
+	 
+	 float speedLinesSpeedChanger = 0.0f;
+	 if (0.0f < m_sLS && m_sLS < 0.9f)
+		 speedLinesSpeedChanger = 0.2f;
+	 else if (0.9f < m_sLS && m_sLS < 1.2f)
+		 speedLinesSpeedChanger = 0.6f;
+	 else if (m_sLS < 1.4f)
+		 speedLinesSpeedChanger = 0.8f;
+
+	 /*char msgbuf[1000];
+	 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sLS, speedLinesSpeedChanger);
+	 OutputDebugStringA(msgbuf);*/
+
+	 m_gameObject->getScene()->getGraphics()->setSpeedlineSpeedFactor(speedLinesSpeedChanger);
  }

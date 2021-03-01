@@ -73,6 +73,7 @@ private:
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
+	float lerp(float a, float b, float f);
 public:
 	Player();
 	~Player();

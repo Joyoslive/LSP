@@ -14,6 +14,7 @@ private:
 	float m_goToRoll;
 	float m_runRoll;
 	float m_direction;
+	float m_camMoveDirection;
 	bool m_stop;
 	bool m_landShake;
 	bool m_runShake;
@@ -24,14 +25,18 @@ private:
 	float m_baseCamPosY;
 	float m_camPosY;
 	
+	float m_cameraFov;
+	float m_baseCameraFov;
+
 	float m_velocityY;
 	float temp = 50.0f;
 private:
-	void setDirection(const float& roll);
+	void setDirection(const float& roll, const bool& camMove = false);
 	void setGoToRoll(const bool& firstTime);
 	void setRunRoll(const bool& firstTime);
 	void setRunMoveY(const bool& firstTime);
 	void landShake();
+	void runMoveY(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed);
 public:
 	PlayerCameraMovement() = default;
 	~PlayerCameraMovement() = default;
@@ -42,9 +47,9 @@ public:
 	void resetCamera();
 	void updateFrameTime(const float& frameTime);
 
+	void changeFOV(const DirectX::SimpleMath::Vector3& velocity, const float& maxSpeedXZ, const float& maxSpeedY);
 	void wallRunning(const bool& wallRunning, const DirectX::SimpleMath::Vector3& normal);
 	void shake(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& normal);
 	void runShake(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed);
-	void runMoveY(const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround, const bool& wallRunning, const float& speed, const float& maxSpeed);
 };
 
