@@ -57,7 +57,7 @@ private:
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
 
-	bool m_viewUI = false;
+	bool m_viewUI = true;
 	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
 	std::vector<std::shared_ptr<ISprite>> m_sprites;
 

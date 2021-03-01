@@ -400,11 +400,11 @@ void DeferredRenderStrategy::setupUIRenderer()
 	// Create a font with the text "xD" to render
 	auto tempFont = std::make_shared<Text>();
 	tempFont->setFont(dev->createSpriteFont(L"Textures/Sprites/Fonts/font.spritefont"));
-	tempFont->setText("xD");
-	tempFont->setColor(DirectX::SimpleMath::Color(1, 0, 1, 1));
+	tempFont->setText("This is some text");
+	tempFont->setColor(DirectX::SimpleMath::Color(0.6, 0, 1, 1));
 
-	auto midWidth = dev->getBackbufferViewport()->Width / 2;
-	auto midHeight = dev->getBackbufferViewport()->Height / 2;
+	float midWidth = dev->getBackbufferViewport()->Width / 2;
+	float midHeight = 16.f; // dev->getBackbufferViewport()->Height / 2;
 	tempFont->setPosition({midWidth, midHeight});
 
 	m_sprites.push_back(tempFont);
