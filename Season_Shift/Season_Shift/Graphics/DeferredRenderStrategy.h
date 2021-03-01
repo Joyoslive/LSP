@@ -5,6 +5,7 @@
 #include "ParticleSystem.h"
 
 class SkyBox;
+class LineDrawer;
 
 class DeferredRenderStrategy final : public IRenderStrategy
 {
@@ -45,6 +46,7 @@ private:
 	std::shared_ptr<Skybox> m_skybox;
 
 	std::vector<std::shared_ptr<ParticleSystem>> m_partSysVec;
+	std::shared_ptr<LineDrawer> m_lineDrawer;
 
 	bool m_usePostProcessing = true; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
@@ -54,6 +56,7 @@ private:
 	std::shared_ptr<DXBuffer> m_postProcessVariableBuffer;
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
+
 
 	void setupGeometryPass();
 	void setupLightPass();
@@ -70,6 +73,9 @@ public:
 	void setDirLight(std::shared_ptr<DirectionalLight> light) override;
 
 	void setPostProcessVariables(PostProcessVariables ppVar) override;
+
+	void setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender, 
+		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness) override;
 
 	void setUp() override;
 

@@ -68,6 +68,7 @@
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Graphics\ParticleSystem.cpp" />
+    <ClCompile Include="Graphics\LineDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Move.h" />
     <ClInclude Include="pch\pch.h" />
     <ClInclude Include="Graphics\ParticleSystem.h" />
+    <ClInclude Include="Graphics\LineDrawer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -143,6 +145,9 @@
     <FxCompile Include="Graphics\Shaders\LightPassVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\PostProcessVS.hlsl" />
     <FxCompile Include="Graphics\Shaders\PostProcessPS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\LineVS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\LinePS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\LineGS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
