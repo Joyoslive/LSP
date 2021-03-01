@@ -78,8 +78,7 @@ public:
 
 	void setPostProcessVariables(PostProcessVariables ppVar) override;
 
-	void setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender, 
-		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness) override;
+	void setLineRenderSetttings(const LineVariables& settings) override;
 
 	void setUp() override;
 
