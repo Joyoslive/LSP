@@ -83,18 +83,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_usePostProcessing)
 	{
-		//m_postProcessVariables.clientHeight = dev->getClientHeight();
-		//m_postProcessVariables.clientWidth= dev->getClientWidth();
-		//m_postProcessVariables.deltaTime = dt;
-		//m_postProcessVariables.elapsedTime += dt;
-		//m_resetTimer += dt;
-
-		//std::random_device rd;
-		//std::mt19937 gen(rd());
-		//std::uniform_real_distribution<> dis(0.0, 1.0);
-
-		//m_postProcessVariables.randomNumber = dis(gen);
-		//m_resetTimer = 0.f;
 		m_postProcessVariableBuffer->updateMapUnmap(&m_postProcessVariables, sizeof(m_postProcessVariables));
 
 		m_postProcessPass->bind(dev);
