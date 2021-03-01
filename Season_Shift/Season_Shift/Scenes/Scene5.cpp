@@ -41,7 +41,7 @@ void Scene5::setUpScene()
 			Ref<OrientedBoxCollider> r1 = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
 			r1->SetTriggerCollider(true);
 			cp1->AddComponent(r1);
-			cp1->AddComponent(std::make_shared<Rotate>());
+			cp1->AddComponent(std::make_shared<Rotate>(0, 0.5, 0));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -57,10 +57,12 @@ void Scene5::setUpScene()
 	}
 
 	// Post setup, like cameras and logic
-	auto player = createGameObject("player", Vector3(0, 12, 0));
+	auto player = createGameObject("player", Vector3(0, 25, 0));
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
-	player->AddComponent(std::make_shared<Player>());
+	auto playerComp = std::make_shared<Player>();
+	playerComp->setRespawn({0, 25, 0});
+	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
