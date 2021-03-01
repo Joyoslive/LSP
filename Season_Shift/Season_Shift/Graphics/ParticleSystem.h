@@ -12,7 +12,7 @@ private:
 	std::shared_ptr<DXShader> m_pixelShader;
 
 public:
-	ParticleSystem(std::shared_ptr<GfxRenderer> renderer, std::string simShader = "ParticleDefaultSimCS.cso", std::string emittShader = "");
+	ParticleSystem(std::shared_ptr<GfxRenderer> renderer, std::string simShader = "ParticleDefaultSimCS.cso", std::string emittShader = "ParticleDefaultEmittCS.cso");
 	~ParticleSystem();
 };
 
