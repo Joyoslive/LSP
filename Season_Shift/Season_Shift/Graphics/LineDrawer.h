@@ -8,19 +8,8 @@ class LineDrawer
 {
 private:
 	std::shared_ptr<DXBuffer> m_pointsVB;		// dynamic vb
-	std::shared_ptr<DXBuffer> m_camInfoCB;
+	std::shared_ptr<DXBuffer> m_lineDrawCB;
 	std::shared_ptr<DXBuffer> m_lineSettingsCB;
-
-	struct alignas(16)
-	{
-		DirectX::SimpleMath::Vector3 topCol;
-		DirectX::SimpleMath::Vector3 bottomCol;
-		DirectX::SimpleMath::Vector3 leftCol;
-		DirectX::SimpleMath::Vector3 rightCol;
-
-		DirectX::SimpleMath::Vector3 startOffset;
-		float thickness;
-	} m_lineData;
 
 	struct alignas(16) 
 	{
@@ -28,11 +17,16 @@ private:
 		DirectX::SimpleMath::Vector3 currEndPos;
 	} m_linePoints;
 
-	struct alignas(16) CamInfo
+	struct alignas(16) LineDrawInfo
 	{
 		DirectX::SimpleMath::Matrix viewMat;
 		DirectX::SimpleMath::Matrix projMat;
-	};
+		DirectX::SimpleMath::Vector3 color;
+		float thicknessStart;
+		DirectX::SimpleMath::Vector3 startOffset;
+		float thicknessEnd;
+
+	} m_lineDrawData;
 
 	// Specific line shader
 	std::shared_ptr<DXShader> m_vs;
@@ -56,6 +50,18 @@ public:
 	void setPoints(const DirectX::SimpleMath::Vector3& worldP0, const DirectX::SimpleMath::Vector3& worldP1);
 
 	void setRenderState(bool shouldRender);
+
+	void setThickness(const DirectX::SimpleMath::Vector2& thickness);
+
+	/*
+	Range: [0, 1]
+	*/
+	void setColor(const DirectX::SimpleMath::Vector3& col);
+
+	/*
+	Offset in viewspace
+	*/
+	void setOffset(const DirectX::SimpleMath::Vector3& offset);
 
 };
 

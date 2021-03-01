@@ -13,8 +13,8 @@ LineDrawer::LineDrawer(std::shared_ptr<GfxRenderer> renderer) :
 	// Setup dynamic vertex buffer
 	m_pointsVB = dev->createVertexBuffer(2, sizeof(Vector3), true, true, false, nullptr);
 
-	m_camInfoCB = dev->createConstantBuffer(sizeof(CamInfo), true, true);
-
+	m_lineDrawCB = dev->createConstantBuffer(sizeof(LineDrawInfo) * 2, true, true);
+	
 	// Setup Shaders
 	m_vs = dev->createShader("LineVS.cso", DXShader::Type::VS);
 	m_gs = dev->createShader("LineGS.cso", DXShader::Type::GS);
@@ -54,22 +54,15 @@ void LineDrawer::draw(const std::shared_ptr<Camera>& cam)
 
 	*/
 
-	ImGui::Begin("Line");
-
-	ImGui::SliderFloat3("startPos: ", startPos, -20., 30.);
-	ImGui::SliderFloat3("endPos: ", endPos, -20., 30.);
-
-	ImGui::End();
-
 	if (m_shouldRender)
 	{
-		//setPoints(Vector3(startPos[0], startPos[1], startPos[2]), Vector3(endPos[0], endPos[1], endPos[2]));
+		m_lineDrawData.viewMat = cam->getViewMatrix();
+		m_lineDrawData.projMat = cam->getProjectionMatrix();
 
-		CamInfo camInfo = { cam->getViewMatrix(), cam->getProjectionMatrix() };
-		m_camInfoCB->updateMapUnmap(&camInfo, sizeof(camInfo));
+		m_lineDrawCB->updateMapUnmap(&m_lineDrawData, sizeof(m_lineDrawData));
 		m_pointsVB->updateMapUnmap(&m_linePoints, sizeof(m_linePoints));
 
-		dev->bindShaderConstantBuffer(DXShader::Type::GS, 0, m_camInfoCB);
+		dev->bindShaderConstantBuffer(DXShader::Type::GS, 0, m_lineDrawCB);
 		dev->bindDrawBuffer(m_pointsVB);
 		dev->bindShader(m_vs, DXShader::Type::VS);
 		dev->bindInputLayout(m_il);
@@ -79,6 +72,7 @@ void LineDrawer::draw(const std::shared_ptr<Camera>& cam)
 		dev->bindInputTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
 		dev->draw(2, 0);
+		m_shouldRender = false;		// m_shouldRender should be continually set to true every frame!
 	}
 }
 
@@ -91,4 +85,20 @@ void LineDrawer::setPoints(const DirectX::SimpleMath::Vector3& worldP0, const Di
 void LineDrawer::setRenderState(bool shouldRender)
 {
 	m_shouldRender = shouldRender;
+}
+
+void LineDrawer::setThickness(const DirectX::SimpleMath::Vector2& thickness)
+{
+	m_lineDrawData.thicknessStart = thickness.x;
+	m_lineDrawData.thicknessEnd = thickness.y;
+}
+
+void LineDrawer::setColor(const DirectX::SimpleMath::Vector3& col)
+{
+	m_lineDrawData.color = col;
+}
+
+void LineDrawer::setOffset(const DirectX::SimpleMath::Vector3& offset)
+{
+	m_lineDrawData.startOffset = offset;
 }

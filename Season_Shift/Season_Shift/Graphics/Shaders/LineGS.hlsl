@@ -8,6 +8,11 @@ cbuffer CamInfo : register(b0)
 {
 	matrix g_camVM;
 	matrix g_camPM;
+	float3 g_color;
+	float g_thicknessStart;
+	float3 g_startOffset;
+	float g_thicknessEnd;
+
 }
 
 
@@ -18,21 +23,24 @@ void main(
 )
 {
 	// move to right hand
-	float thickness = 0.1;
+	//float thickness = 0.1;
 	float4 startOffset = float4(1., 0.4, 0., 0.);
 
+	startOffset = float4(g_startOffset, 1.);
+
 	// start quad
-	float4 tlStart = mul(g_camVM, input[0]) + float4(-thickness, thickness, 0, 0) + startOffset;
-	float4 trStart = mul(g_camVM, input[0]) + float4(thickness, thickness, 0, 0) + startOffset;
-	float4 blStart = mul(g_camVM, input[0]) + float4(-thickness, -thickness, 0, 0) + startOffset;
-	float4 brStart = mul(g_camVM, input[0]) + float4(thickness, -thickness, 0, 0) + startOffset;
+	float4 tlStart = mul(g_camVM, input[0]) + float4(-g_thicknessStart, g_thicknessStart, 0, 0) + startOffset;
+	float4 trStart = mul(g_camVM, input[0]) + float4(g_thicknessStart, g_thicknessStart, 0, 0) + startOffset;
+	float4 blStart = mul(g_camVM, input[0]) + float4(-g_thicknessStart, -g_thicknessStart, 0, 0) + startOffset;
+	float4 brStart = mul(g_camVM, input[0]) + float4(g_thicknessStart, -g_thicknessStart, 0, 0) + startOffset;
 	tlStart = mul(g_camPM, tlStart);
 	trStart = mul(g_camPM, trStart);
 	blStart = mul(g_camPM, blStart);
 	brStart = mul(g_camPM, brStart);
 
 	GSOutput element;
-	element.col = float3(1., 0., 0.);
+	//element.col = float3(1., 0., 0.);
+	element.col = g_color;
 
 	element.pos = tlStart;
 	output.Append(element);
@@ -49,16 +57,17 @@ void main(
 	output.RestartStrip();
 
 	// end quad
-	float4 tlEnd = mul(g_camVM, input[1]) + float4(-thickness, thickness, 0, 0);
-	float4 trEnd = mul(g_camVM, input[1]) + float4(thickness, thickness, 0, 0);
-	float4 blEnd = mul(g_camVM, input[1]) + float4(-thickness, -thickness, 0, 0);
-	float4 brEnd = mul(g_camVM, input[1]) + float4(thickness, -thickness, 0, 0);
+	float4 tlEnd = mul(g_camVM, input[1]) + float4(-g_thicknessEnd, g_thicknessEnd, 0, 0);
+	float4 trEnd = mul(g_camVM, input[1]) + float4(g_thicknessEnd, g_thicknessEnd, 0, 0);
+	float4 blEnd = mul(g_camVM, input[1]) + float4(-g_thicknessEnd, -g_thicknessEnd, 0, 0);
+	float4 brEnd = mul(g_camVM, input[1]) + float4(g_thicknessEnd, -g_thicknessEnd, 0, 0);
 	tlEnd = mul(g_camPM, tlEnd);
 	trEnd = mul(g_camPM, trEnd);
 	blEnd = mul(g_camPM, blEnd);
 	brEnd = mul(g_camPM, brEnd);
 
-	element.col = float3(1., 0., 0.);
+	//element.col = float3(1., 0., 0.);
+	element.col = g_color;
 
 	element.pos = tlEnd;
 	output.Append(element);
@@ -79,7 +88,8 @@ void main(
 	*/
 
 	// right
-	element.col = float3(0., 0., 1.);
+	//element.col = float3(0., 0., 1.);
+	element.col = g_color;
 
 	element.pos = trStart;
 	output.Append(element);
@@ -97,7 +107,8 @@ void main(
 
 
 	// top
-	element.col = float3(0., 1., 1.);
+	//element.col = float3(0., 1., 1.);
+	element.col = g_color;
 
 	element.pos = tlStart;
 	output.Append(element);
@@ -115,7 +126,8 @@ void main(
 
 
 	// bottom
-	element.col = float3(0., 1., 1.);
+	//element.col = float3(0., 1., 1.);
+	element.col = g_color;
 
 	element.pos = blEnd;
 	output.Append(element);
@@ -132,7 +144,8 @@ void main(
 	output.RestartStrip();
 
 	// left
-	element.col = float3(1., 0., 1.);
+	//element.col = float3(1., 0., 1.);
+	element.col = g_color;
 
 	element.pos = tlEnd;
 	output.Append(element);

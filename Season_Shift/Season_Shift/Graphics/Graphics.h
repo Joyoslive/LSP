@@ -99,8 +99,9 @@ public:
 	/*
 	Render line -- Change to "setRopeRenderSettings" just like for post process.
 	--> Expose thickness change, color change and offset change.
-	*/
-	void renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender);
+	*/	
+	void renderLine(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender, 
+		const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness);
 
 
 
