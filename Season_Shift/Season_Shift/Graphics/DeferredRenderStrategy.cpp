@@ -2,6 +2,7 @@
 #include "DeferredRenderStrategy.h"
 #include "Skybox.h"
 #include <random>
+#include "LineDrawer.h"
 #include "../Camera.h"
 
 using namespace DirectX::SimpleMath;
@@ -14,27 +15,11 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupPostProcessPass();
 	setupLightPass();
 
+	m_lineDrawer = std::make_shared<LineDrawer>(renderer);
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
 {
-	/*
-	m_geometryPass->bind()
-	render geom to multiple render targets
-
-	m_lightPass->bind();
-	gBuffer->bind();		// dif, normal, depth
-	// bind other resources needed for light 
-	drawQuad();	--> output to texture (will be used for postproc)
-
-
-	m_postprocPass->bind();
-	bindFinalLitTexture();
-	bindPostProcBuffers();		// various postproc buffers (user postproc)
-
-	drawQuad();		--> draw final texture AFTER screen space postprocess!
-	*/
-
 	auto dev = m_renderer->getDXDevice();
 	dev->clearScreen();
 
@@ -68,8 +53,13 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
 		}
 	}
+
 	if (m_skybox != nullptr)
 		m_skybox->draw(mainCamera);
+
+	if (m_lineDrawer != nullptr)
+		m_lineDrawer->draw(mainCamera);
+
 
 	dev->bindRenderTargets({nullptr, nullptr, nullptr, nullptr}, nullptr);
 
@@ -93,18 +83,6 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_usePostProcessing)
 	{
-		//m_postProcessVariables.clientHeight = dev->getClientHeight();
-		//m_postProcessVariables.clientWidth= dev->getClientWidth();
-		//m_postProcessVariables.deltaTime = dt;
-		//m_postProcessVariables.elapsedTime += dt;
-		//m_resetTimer += dt;
-
-		//std::random_device rd;
-		//std::mt19937 gen(rd());
-		//std::uniform_real_distribution<> dis(0.0, 1.0);
-
-		//m_postProcessVariables.randomNumber = dis(gen);
-		//m_resetTimer = 0.f;
 		m_postProcessVariableBuffer->updateMapUnmap(&m_postProcessVariables, sizeof(m_postProcessVariables));
 
 		m_postProcessPass->bind(dev);
@@ -129,6 +107,16 @@ void DeferredRenderStrategy::setDirLight(std::shared_ptr<DirectionalLight> light
 void DeferredRenderStrategy::setPostProcessVariables(PostProcessVariables ppVar)
 {
 	m_postProcessVariables = ppVar;
+}
+
+void DeferredRenderStrategy::setLineRenderSetttings(const DirectX::SimpleMath::Vector3& startPos, const DirectX::SimpleMath::Vector3& endPos, bool shouldRender,
+	const DirectX::SimpleMath::Vector3& offset, const DirectX::SimpleMath::Vector3& color, const DirectX::SimpleMath::Vector2& thickness)
+{
+	m_lineDrawer->setPoints(startPos, endPos);																																																																																																																																																																																																																																																																																																																																																																																																								
+	m_lineDrawer->setRenderState(shouldRender);
+	m_lineDrawer->setOffset(offset);
+	m_lineDrawer->setColor(color);
+	m_lineDrawer->setThickness(thickness);
 }
 
 void DeferredRenderStrategy::setUp()
