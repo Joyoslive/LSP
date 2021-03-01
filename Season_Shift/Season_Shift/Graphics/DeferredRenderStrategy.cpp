@@ -4,6 +4,7 @@
 #include <random>
 #include "LineDrawer.h"
 #include "../Camera.h"
+#include "2D/Text.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
@@ -14,6 +15,7 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupGeometryPass();
 	setupPostProcessPass();
 	setupLightPass();
+	setupUIRenderer();
 
 	m_lineDrawer = std::make_shared<LineDrawer>(renderer);
 }
@@ -92,6 +94,12 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	dev->bindShaderTexture(DXShader::Type::PS, 0, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 1, nullptr);
+
+	if (m_viewUI)
+	{
+		m_spriteRenderer->queueDraw(m_sprites[0]);
+		m_spriteRenderer->drawQueued(dev);
+	}
 }
 
 void DeferredRenderStrategy::setSkybox(std::shared_ptr<Skybox> skybox)
@@ -382,4 +390,22 @@ void DeferredRenderStrategy::setupPostProcessPass()
 	m_postProcessPass->attachInputConstantBuffer(1, m_prevMatrices);
 	m_postProcessPass->attachInputConstantBuffer(2, m_postProcessVariableBuffer);
 	m_postProcessPass->attachOutputTargets({dev->getBackbuffer()});
+}
+
+void DeferredRenderStrategy::setupUIRenderer()
+{
+	auto dev = m_renderer->getDXDevice();
+	m_spriteRenderer = std::make_shared<SpriteRenderer>(dev);
+
+	// Create a font with the text "xD" to render
+	auto tempFont = std::make_shared<Text>();
+	tempFont->setFont(dev->createSpriteFont(L"Textures/Sprites/Fonts/font.spritefont"));
+	tempFont->setText("xD");
+	tempFont->setColor(DirectX::SimpleMath::Color(1, 0, 1, 1));
+
+	auto midWidth = dev->getBackbufferViewport()->Width / 2;
+	auto midHeight = dev->getBackbufferViewport()->Height / 2;
+	tempFont->setPosition({midWidth, midHeight});
+
+	m_sprites.push_back(tempFont);
 }

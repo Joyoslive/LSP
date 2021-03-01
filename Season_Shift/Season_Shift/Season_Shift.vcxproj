@@ -174,7 +174,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
-    <ClCompile Include="Graphics\2D\Font.cpp" />
+    <ClCompile Include="Graphics\2D\Text.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
     <ClCompile Include="Graphics\DeferredRenderStrategy.cpp" />
@@ -247,7 +247,7 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
-    <ClInclude Include="Graphics\2D\Font.h" />
+    <ClInclude Include="Graphics\2D\Text.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />
     <ClInclude Include="Graphics\DeferredRenderStrategy.h" />
@@ -467,6 +467,7 @@
     </FxCompile>
     <None Include="packages.config" />
     <None Include="Scenes\SceneJSONs\scene.json" />
+    <None Include="Textures\Sprites\Fonts\font.spritefont" />
     <None Include="Tools\SceneReader\SceneReader.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
