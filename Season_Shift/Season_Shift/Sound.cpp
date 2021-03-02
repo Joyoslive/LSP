@@ -56,14 +56,7 @@ void Sound::update()
 
 void Sound::initialize()
 {
-	if (m_listenerCamera != nullptr)
-	{
-		m_emitter.SetPosition(getTransform()->getPosition());
-		m_emitter.SetOrientation(getTransform()->getWorldMatrix().Forward(), getTransform()->getWorldMatrix().Up());
-
-		m_listener.SetPosition(m_listenerCamera->getCamera()->getPosition());
-		m_listener.SetOrientation(m_listenerCamera->getCamera()->getForward(), m_listenerCamera->getCamera()->getUp());
-	}
+	update();
 }
 
 
