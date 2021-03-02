@@ -50,6 +50,8 @@ private:
 	float m_movPos;
 	float m_movAlt;
 	float m_maxYSpeed;
+	bool m_trampoline;
+	DirectX::SimpleMath::Vector3  m_trampolineAngle;
 	//Speedlines
 	float m_sLT, m_sLR, m_sLS;
 	DirectX::SimpleMath::Vector3 m_deltaPos;

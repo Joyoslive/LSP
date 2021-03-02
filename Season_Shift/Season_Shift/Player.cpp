@@ -8,6 +8,7 @@
 #include "CapsuleCollider.h"
 #include "Transform.h"
 #include "Move.h"
+#include "Bounce.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 
@@ -62,7 +63,8 @@ using namespace DirectX::SimpleMath;
 	 m_movPos = 0;
 	 m_movAlt = 1033.33;
 	 m_movSpeed = { 0, 0, 0 };
-
+	 m_trampoline = false;
+	 m_trampolineAngle = { 0, 0, 0 };
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
  }
@@ -238,15 +240,20 @@ using namespace DirectX::SimpleMath;
 	{
 		moveSpeed.y = 0;
 
-			if ( (moveDirection.x == 0 && moveDirection.z == 0 ))
-			{
-				velocitySkipY = moveSpeed;
-			}
+		if ( (moveDirection.x == 0 && moveDirection.z == 0 ) || (signOf(moveDirection.x) == signOf(moveSpeed.x) && signOf(moveDirection.z) == signOf(moveSpeed.z)))
+		{
+			velocitySkipY = moveSpeed;
+		}
 			
-		
-	
 	}
-	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	if (m_trampoline == true)
+	{
+		velocitySkipY += m_trampolineAngle * 100; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	}
+	else
+	{
+		velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	}
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
@@ -281,7 +288,7 @@ using namespace DirectX::SimpleMath;
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
-
+	m_trampoline = false;
 	ImGui::Begin("Player Info");
 	{
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
@@ -348,7 +355,12 @@ using namespace DirectX::SimpleMath;
 		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
+	 if (collider->getGameObject()->getName() == "trampoline")
+	 {
+		 m_trampoline = true;
+		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
 
+	 }
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)

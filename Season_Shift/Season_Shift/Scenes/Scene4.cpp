@@ -6,6 +6,7 @@
 #include "../PlayerJumpTrigger.h"
 #include "../Rotate.h"
 #include "../Move.h"
+#include "../Bounce.h"
 #include "../GameObject.h"
 #include "../TableOfTimes.h"
 #include "../GoalLogic.h"
@@ -313,6 +314,11 @@ void Scene4::setUpScene()
 	fallBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	fallBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
 	fallBox7->AddComponent(std::make_shared<Move>(Vector3(0, 0.0f, 4.0f), Vector3(0, 0.0f, 50.0f)));
+
+	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 20) / 2), 7.0f, 0), Vector3(4, 4, 4));
+	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumber2.obj", GfxShader::DEFAULT));
+	fallBox10->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 4, 4)));
+	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0.5, 0.5, 0)));
 
 
 	m_graphics->setLightDirection({-1, -1, 1});

@@ -74,6 +74,7 @@
     <ClCompile Include="TableOfTimes.cpp" />
     <ClCompile Include="GoalLogic.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
+    <ClCompile Include="Bounce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="TableOfTimes.h" />
     <ClInclude Include="GoalLogic.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
+    <ClInclude Include="Bounce.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

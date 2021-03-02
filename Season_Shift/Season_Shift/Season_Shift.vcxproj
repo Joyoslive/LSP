@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bounce.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
@@ -249,6 +250,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bounce.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="GoalLogic.h" />
