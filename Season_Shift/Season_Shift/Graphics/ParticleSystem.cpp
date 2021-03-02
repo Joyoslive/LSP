@@ -53,7 +53,7 @@ void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 
 
 	//unbind geometryshader
-	//m_renderer->getDXDevice()->bindShader(nullptr, DXShader::Type::GS);
+	m_renderer->getDXDevice()->bindShader(nullptr, DXShader::Type::GS);
 
 }
 

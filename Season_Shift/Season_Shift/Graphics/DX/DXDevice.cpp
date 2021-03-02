@@ -295,11 +295,11 @@ std::shared_ptr<DXBuffer> DXDevice::createAppendConsumeBuffer(unsigned int count
 std::shared_ptr<DXBuffer> DXDevice::createIndirectArgumentBuffer(unsigned int vertexCountPerInstance , unsigned int instanceCount, unsigned int startVertexLocation, unsigned int startInstanceLocation)
 {
 	D3D11_BUFFER_DESC desc = { };
+	desc.BindFlags = 0;
 	desc.ByteWidth = 16;
 	desc.CPUAccessFlags = 0;
 	desc.StructureByteStride = 0;
 	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
 
 	struct IndirectDrawArg
@@ -805,7 +805,7 @@ void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 
 void DXDevice::copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer)
 {
-	assert(constantBuffer->getType() == DXBuffer::Type::Constant && structuredBuffer->getType() == DXBuffer::Type::Structured);
+	assert(structuredBuffer->getType() == DXBuffer::Type::Structured);
 
 	m_core->getImmediateContext()->CopyStructureCount((ID3D11Buffer*)constantBuffer->getResource().Get(), 0, structuredBuffer->getUAV().Get());
 }
