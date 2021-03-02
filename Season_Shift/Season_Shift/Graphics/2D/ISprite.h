@@ -6,7 +6,7 @@ class ISprite
 {
 public:
 	virtual void draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatch) = 0;
-	// Only applicable to Font (probably, but we want his exposed)
+	// Only applicable to Font (probably, but we want this exposed)
 	virtual void setText(const std::string& text) { };
 	virtual void setFont(std::shared_ptr<DirectX::SpriteFont> font) { };
 	virtual void setColor(const DirectX::SimpleMath::Color& col) = 0;
