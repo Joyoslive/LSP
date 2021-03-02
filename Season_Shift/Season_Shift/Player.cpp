@@ -15,7 +15,7 @@ using namespace DirectX::SimpleMath;
 
  Player::Player()
  {
-	 respawn = { 0, 10, 0 };
+	 m_respawn = { 0, 10, 0 };
 	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
@@ -327,15 +327,16 @@ using namespace DirectX::SimpleMath;
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
-		 respawn = { 0, 10, 0 };
-		 m_rb->getTransform()->setPosition(respawn);
+		 m_respawn = { 0, 10, 0 };
+		 m_rb->getTransform()->setPosition(m_respawn);
 		 /*std::wstring msg = L"Your Time was";
 		 getTime(msg);*/
 		
 	 }
 	 if (collider->getGameObject()->getName() == "checkpoint")
 	 {
-		 respawn = collider->getGameObject()->getTransform()->getPosition();
+		 m_respawn = collider->getGameObject()->getTransform()->getPosition();
+		 m_respawn.x += 2;
 	 }
 	 if (collider->getGameObject()->getName() == "moving")
 	 {
@@ -531,7 +532,7 @@ using namespace DirectX::SimpleMath;
  {
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
-		 m_rb->getTransform()->setPosition(respawn);
+		 m_rb->getTransform()->setPosition(m_respawn);
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
@@ -630,7 +631,7 @@ using namespace DirectX::SimpleMath;
 
  void Player::setRespawn(const Vector3& incomingRespawn)
  {
-	 respawn = incomingRespawn;
+	 m_respawn = incomingRespawn;
  }
 
  void Player::setFrametime(long double dt)
