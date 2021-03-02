@@ -13,7 +13,7 @@ public:
 	inline void setPosition(const DirectX::SimpleMath::Vector2 position) { m_position = position; }
 	inline void setShow(bool show) { m_show = show; }
 
-	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { }
+	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;
