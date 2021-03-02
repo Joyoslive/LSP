@@ -238,7 +238,7 @@ using namespace DirectX::SimpleMath;
 	{
 		moveSpeed.y = 0;
 
-		if (moveDirection == Vector3::Zero)
+		if (moveDirection == Vector3::Zero || (moveDirection.Dot(moveSpeed) > 0.9f && velocitySkipY.Length() < moveSpeed.Length()))
 		{
 			velocitySkipY = moveSpeed;
 		}
