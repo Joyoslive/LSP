@@ -37,6 +37,8 @@ private:
 	std::shared_ptr<DXBuffer> m_particleCountCBuffer;
 	std::shared_ptr<DXBuffer> m_simulationCBuffer;
 
+	std::shared_ptr<DXBuffer> m_indirectArgsBuffer;
+
 	struct ParticleCount
 	{
 		unsigned int count;

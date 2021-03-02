@@ -1,4 +1,15 @@
 
+struct Particle
+{
+    float3 pos;
+    float lifeTime;
+    float3 vel;
+    float other;
+};
+
+AppendStructuredBuffer<Particle> appendBuffer : register(u0);
+ConsumeStructuredBuffer<Particle> consumeBuffer : register(u1);
+
 cbuffer SimulationInfo : register(b0)
 {
     float dt;
@@ -19,6 +30,11 @@ void main( uint3 DTid : SV_DispatchThreadID )
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     if (id < particleCount)
     {
+        Particle p = consumeBuffer.Consume();
+        p.vel.y -= dt;
+        p.pos += p.vel * dt;
+        p.lifeTime += dt;
         
+        appendBuffer.Append(p);
     }
 }

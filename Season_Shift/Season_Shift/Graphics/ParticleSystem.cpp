@@ -28,7 +28,7 @@ void ParticleSystem::simulate(float dt)
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_appendBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, uavCount, m_consumeBuffer);
 
-	m_renderer->getDXDevice()->dispatch(10, 1, 1);
+	m_renderer->getDXDevice()->dispatch(16, 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
@@ -38,10 +38,22 @@ void ParticleSystem::simulate(float dt)
 
 void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 {
+	auto context = m_renderer->getDXDevice();
+	//bind shaders
+	m_renderer->getDXDevice()->bindShader(m_vertexShader, DXShader::Type::VS);
+	m_renderer->getDXDevice()->bindShader(m_geometryShader, DXShader::Type::GS);
+	m_renderer->getDXDevice()->bindShader(m_pixelShader, DXShader::Type::PS);
+
+	//bind constantBuffer
+
+	//copy number of particles in the appendBuffer
+	m_renderer->getDXDevice()->copyStructureCount(m_indirectArgsBuffer, m_appendBuffer);
 
 
 
 
+	//unbind geometryshader
+	//m_renderer->getDXDevice()->bindShader(nullptr, DXShader::Type::GS);
 
 }
 
@@ -77,6 +89,9 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true);
 	m_simulationCBuffer = dev->createConstantBuffer(sizeof(SimulationInfo), true, true);
 	m_particleCountCBuffer = dev->createConstantBuffer(sizeof(ParticleCount), true, false);
+
+	//indirectArgBuffer
+	m_indirectArgsBuffer = dev->createIndirectArgumentBuffer(0, 1, 0, 0);
 	
 	//structured buffers
 	m_appendBuffer = dev->createAppendConsumeBuffer(maxCount, sizeof(Particle), false, true, nullptr);
@@ -102,7 +117,7 @@ void ParticleSystem::emitt(EmittStructure emittData)
 	//bind
 	m_renderer->getDXDevice()->bindShader(m_emittShader, m_emittShader->getType());
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
-	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer); //append to consumeBuffer, simulate will consume from this buffer later
 
 	m_renderer->getDXDevice()->dispatch(10, 1, 1);
 
@@ -114,6 +129,7 @@ void ParticleSystem::emitt(EmittStructure emittData)
 void ParticleSystem::SimulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
 {
 	simulate(dt);
+	draw(view, proj);
 	swapBuffers();
 }
 

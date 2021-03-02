@@ -292,6 +292,32 @@ std::shared_ptr<DXBuffer> DXDevice::createAppendConsumeBuffer(unsigned int count
 	return toRet;
 }
 
+std::shared_ptr<DXBuffer> DXDevice::createIndirectArgumentBuffer(unsigned int vertexCountPerInstance , unsigned int instanceCount, unsigned int startVertexLocation, unsigned int startInstanceLocation)
+{
+	D3D11_BUFFER_DESC desc = { };
+	desc.ByteWidth = 16;
+	desc.CPUAccessFlags = 0;
+	desc.StructureByteStride = 0;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
+
+	struct IndirectDrawArg
+	{
+		UINT a, b, c, d;
+	} args = { vertexCountPerInstance, instanceCount, startVertexLocation, startVertexLocation };
+
+	D3D11_SUBRESOURCE_DATA srDataForArg = { 0 };
+	srDataForArg.pSysMem = &args;
+
+	ComPtr<ID3D11Buffer> buf = nullptr;
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, &srDataForArg, buf.GetAddressOf()));
+
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Indirect_args, 4, 4);
+
+	return toRet;
+}
+
 std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, D3D11_SUBRESOURCE_DATA* subres)
 {
 	std::shared_ptr<DXTexture> tex = nullptr;

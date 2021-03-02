@@ -12,7 +12,8 @@ public:
 		Vertex,
 		Index,
 		Constant,
-		Structured
+		Structured,
+		Indirect_args,
 	};
 
 private:
