@@ -238,22 +238,19 @@ using namespace DirectX::SimpleMath;
 	{
 		moveSpeed.y = 0;
 
-			if ( (moveDirection.x == 0 && moveDirection.z == 0 ))
-			{
-				velocitySkipY = moveSpeed;
-			}
-			
-		
-	
+		if (moveDirection == Vector3::Zero)
+		{
+			velocitySkipY = moveSpeed;
+		}
 	}
-	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	velocitySkipY += moveDirection * m_frameTime * m_speed;
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
 
-	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
+	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
-	//velocitySkipY.y += moveDirection2.y * 14.4;
+
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
 	if (m_velocityY < 0) {
@@ -271,7 +268,7 @@ using namespace DirectX::SimpleMath;
 
 	m_oldVelocity = velocity;
 
-	m_playerCamera->update();
+	//m_playerCamera->update();
 
 	velocitySkipY.y = 0;
 
@@ -329,6 +326,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 //Resets the player
 		 detectDeath(FLT_MAX);
 		 m_respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(m_respawn);
@@ -512,10 +510,10 @@ using namespace DirectX::SimpleMath;
 
  void Player::gravityChange(const Vector3& velocity)
  {
-	 constexpr float changeGVelocity = 20.0f;
-	 constexpr float bigG = 95.0f;//80.0f;
+	 constexpr float changeGVelocity = 25.9f;
+	 constexpr float bigG = 95.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 60.0f;//30.0f*2.5f;
+	 constexpr float wallJumpG = 60.0f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -539,7 +537,6 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
-		 //goalTimerGetTime();
 		 m_rb->setVelocity(Vector3::Zero);
 		 m_flySpeed = 0;
 		 m_groundSpeed = 0;
