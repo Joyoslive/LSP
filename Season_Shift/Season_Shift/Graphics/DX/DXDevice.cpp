@@ -138,7 +138,9 @@ std::shared_ptr<DXBuffer> DXDevice::createIndexBuffer(unsigned int size, bool dy
 	return toRet;
 }
 
-std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres)
+//kanske ändra argumenten till gpuWritable-------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres) 
 {
 	if (size % 16 != 0) assert(false);	// Not 16 byte aligned!
 
@@ -773,6 +775,13 @@ void DXDevice::bindDrawBuffer(const std::shared_ptr<DXBuffer>& vb)
 void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 {
 	m_core->getImmediateContext()->RSSetViewports(vps.size(), vps.data());
+}
+
+void DXDevice::copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer)
+{
+	assert(constantBuffer->getType() == DXBuffer::Type::Constant && structuredBuffer->getType() == DXBuffer::Type::Structured);
+
+	m_core->getImmediateContext()->CopyStructureCount((ID3D11Buffer*)constantBuffer->getResource().Get(), 0, structuredBuffer->getUAV().Get());
 }
 
 void DXDevice::draw(unsigned int vtxCount, unsigned int vbStartIdx)

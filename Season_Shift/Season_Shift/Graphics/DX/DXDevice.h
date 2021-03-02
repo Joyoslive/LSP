@@ -134,6 +134,8 @@ public:
 
 	void bindViewports(const std::vector<D3D11_VIEWPORT>& vps);
 
+	void copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer);
+
 	void draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
 	void drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
 	void drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);

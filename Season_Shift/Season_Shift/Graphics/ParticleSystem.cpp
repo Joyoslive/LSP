@@ -10,6 +10,30 @@ using namespace DirectX::SimpleMath;
 
 void ParticleSystem::simulate(float dt)
 {
+	//update constant buffers
+	constexpr float MAXLIFETIME = 10.0f; //FIXA! detta borde inte vara hårdkodat--------------------------------------------------------------------------------------------------
+	SimulationInfo simInfo = { dt, MAXLIFETIME, 0, 0 };
+
+	m_simulationCBuffer->updateMapUnmap(&simInfo, sizeof(SimulationInfo));
+	
+	//copy consumeBuffers size to contantBuffer
+	m_renderer->getDXDevice()->copyStructureCount(m_particleCountCBuffer, m_consumeBuffer);
+
+
+
+	//bind
+	m_renderer->getDXDevice()->bindShader(m_simulationShader, DXShader::Type::CS);
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_simulationCBuffer);
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 1, m_particleCountCBuffer);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_appendBuffer);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, uavCount, m_consumeBuffer);
+
+	m_renderer->getDXDevice()->dispatch(10, 1, 1);
+
+	//unbind
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, 0, nullptr);
+
 }
 
 void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
@@ -30,6 +54,8 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 {
 	
 	m_initialBind = true;
+	m_partCount.count = 1;
+
 	m_renderer = renderer;
 	auto dev = m_renderer->getDXDevice();
 
@@ -47,15 +73,19 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 	else
 		m_emittShader = dev->createShader(emittShader, DXShader::Type::CS);
 
+	//create constant buffers
 	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true);
-
+	m_simulationCBuffer = dev->createConstantBuffer(sizeof(SimulationInfo), true, true);
+	m_particleCountCBuffer = dev->createConstantBuffer(sizeof(ParticleCount), true, false);
+	
+	//structured buffers
 	m_appendBuffer = dev->createAppendConsumeBuffer(maxCount, sizeof(Particle), false, true, nullptr);
 	m_consumeBuffer = dev->createAppendConsumeBuffer(maxCount, sizeof(Particle), false, true, nullptr);
 
-	//to bind with empty
+	//bind with empty to start with empty buffers
 	dev->bindAppendConsumeBuffer(DXShader::Type::CS, 0, empty, m_appendBuffer);
 	dev->bindAppendConsumeBuffer(DXShader::Type::CS, 1, empty, m_consumeBuffer);
-
+	//unbind
 	dev->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
 	dev->bindAppendConsumeBuffer(DXShader::Type::CS, 1, 0, nullptr);
 }
@@ -83,7 +113,8 @@ void ParticleSystem::emitt(EmittStructure emittData)
 
 void ParticleSystem::SimulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
 {
-
+	simulate(dt);
+	swapBuffers();
 }
 
 ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float lifeTime, Vector3 randVec, float other, Vector3 direction, unsigned int count)
