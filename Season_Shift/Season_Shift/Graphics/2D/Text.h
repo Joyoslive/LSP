@@ -19,6 +19,6 @@ public:
 	void setFont(std::shared_ptr<DirectX::SpriteFont> font) override;
 	void setColor(const DirectX::SimpleMath::Color& col) override;
 
-	std::shared_ptr<DirectX::SpriteFont> getFont();
+	std::shared_ptr<DirectX::SpriteFont> getFont() override;
 };
 
