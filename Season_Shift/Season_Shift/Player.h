@@ -21,7 +21,7 @@ private:
 	Timer m_timer;
 	DirectX::SimpleMath::Vector3 m_normal;
 
-	DirectX::SimpleMath::Vector3 respawn;
+	DirectX::SimpleMath::Vector3 m_respawn;
 	bool m_disable;
 	bool m_ground;
 	bool m_doubleJump;
