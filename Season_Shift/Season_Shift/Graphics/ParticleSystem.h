@@ -8,11 +8,12 @@ public:
 	struct EmittStructure
 	{
 		DirectX::SimpleMath::Vector3 pos;
-		float LifeTime;
+		float lifeTime;
 		DirectX::SimpleMath::Vector3 randVec;
 		float other;
 		DirectX::SimpleMath::Vector3 direction;
 		unsigned int count;
+		EmittStructure(DirectX::SimpleMath::Vector3 pos, float lifeTime, DirectX::SimpleMath::Vector3 randVec, float other, DirectX::SimpleMath::Vector3 direction, unsigned int count);
 	};
 
 private:
@@ -38,7 +39,6 @@ private:
 		float other;
 	};
 	std::vector<Particle> m_particleVec;
-	std::vector<EmittStructure> m_emittVec;
 
 private:
 	void emitt(EmittStructure emittData);
@@ -51,7 +51,6 @@ public:
 	ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount);
 	~ParticleSystem();
 
-	int addEmitter(float emitterLifeTime, EmittStructure emittData);
 
 	void SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt);
 };

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ParticleSystem.h"
 
+using namespace DirectX::SimpleMath;
 
 /*constexpr*/ unsigned int uavCount = (unsigned int)-1;
 /*constexpr*/ unsigned int empty = (unsigned int)0;
@@ -20,7 +21,7 @@ void ParticleSystem::simulate(float dt)
 {
 }
 
-void ParticleSystem::draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj)
+void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 {
 
 
@@ -73,12 +74,17 @@ ParticleSystem::~ParticleSystem()
 
 }
 
-int ParticleSystem::addEmitter(float emitterLifeTime, EmittStructure emittData)
+void ParticleSystem::SimulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
 {
-	//m_emittVec.push_back(emittData);
+
 }
 
-void ParticleSystem::SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt)
+ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float lifeTime, Vector3 randVec, float other, Vector3 direction, unsigned int count)
 {
-
+	this->pos = pos;
+	this->lifeTime = lifeTime;
+	this->randVec = randVec;
+	this->other = other;
+	this->direction = direction;
+	this->count = count;
 }
