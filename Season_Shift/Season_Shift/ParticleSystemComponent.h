@@ -1,8 +1,12 @@
 #pragma once
 #include "Component.h"
 #include "Graphics\ParticleSystem.h"
+
+//class ParticleSystem;
+
 class ParticleSystemComponent : public Component
 {
+	//friend ParticleSystem;
 private:
 	struct EmitterMetaData
 	{

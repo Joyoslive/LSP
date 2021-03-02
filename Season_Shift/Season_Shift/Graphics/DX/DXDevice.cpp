@@ -790,6 +790,11 @@ void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int i
 	m_core->getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
 }
 
+void DXDevice::dispatch(unsigned int threadGroupCountX, unsigned int threadGroupCountY, unsigned int threadGroupCountZ)
+{
+	m_core->getImmediateContext()->Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
+}
+
 void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4])
 {
 	if (target->getRTV() == nullptr) assert(false);

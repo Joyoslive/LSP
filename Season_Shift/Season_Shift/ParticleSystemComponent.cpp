@@ -12,7 +12,13 @@ void ParticleSystemComponent::initialize()
 
 void ParticleSystemComponent::update()
 {
-
+	for (auto& e : m_emittVec)
+	{
+		if (e.second.lifeTime > 0)
+		{
+			m_partSys->emitt(e.first);
+		}
+	}
 }
 
 ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles)
@@ -31,7 +37,7 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-int ParticleSystemComponent::addEmitter(unsigned int numParticles, float particleLifeTime, 
+int ParticleSystemComponent::addEmitter(unsigned int numParticles, float particleLifeTime,
 	float emitterLifeTime, DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 offset)
 {
 	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform

@@ -6,16 +6,7 @@ using namespace DirectX::SimpleMath;
 /*constexpr*/ unsigned int uavCount = (unsigned int)-1;
 /*constexpr*/ unsigned int empty = (unsigned int)0;
 
-void ParticleSystem::emitt(EmittStructure emittData)
-{
-	m_emittCBuffer->updateMapUnmap(&emittData, sizeof(EmittStructure));
 
-
-	m_renderer->getDXDevice()->bindShader(m_emittShader, m_emittShader->getType());
-	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
-	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer);
-	
-}
 
 void ParticleSystem::simulate(float dt)
 {
@@ -71,6 +62,22 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 
 ParticleSystem::~ParticleSystem()
 {
+
+}
+
+void ParticleSystem::emitt(EmittStructure emittData)
+{
+	m_emittCBuffer->updateMapUnmap(&emittData, sizeof(EmittStructure));
+
+	//bind
+	m_renderer->getDXDevice()->bindShader(m_emittShader, m_emittShader->getType());
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer);
+
+	m_renderer->getDXDevice()->dispatch(10, 1, 1);
+
+	//unbind
+	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
 
 }
 

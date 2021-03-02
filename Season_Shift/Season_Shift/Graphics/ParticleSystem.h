@@ -41,7 +41,6 @@ private:
 	std::vector<Particle> m_particleVec;
 
 private:
-	void emitt(EmittStructure emittData);
 	void simulate(float dt);
 	void draw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj);
 
@@ -50,6 +49,7 @@ private:
 public:
 	ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount);
 	~ParticleSystem();
+	void emitt(EmittStructure emittData);
 
 
 	void SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt);
