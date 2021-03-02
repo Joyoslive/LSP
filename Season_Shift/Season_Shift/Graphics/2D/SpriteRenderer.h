@@ -24,7 +24,7 @@ public:
 	void queueDraw(const std::shared_ptr<ISprite>& sprite);
 
 	// Warning: Will change the position in the internal state of the sprite!
-	void queueDraw(std::shared_ptr<ISprite>& sprite, float x, float y);
+	void queueDraw(std::shared_ptr<ISprite> sprite, float x, float y);
 
 	void drawQueued(DXDevice* dev);
 };
