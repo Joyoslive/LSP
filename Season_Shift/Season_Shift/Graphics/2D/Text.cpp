@@ -43,3 +43,8 @@ void Text::setColor(const DirectX::SimpleMath::Color& col)
 {
 	m_color = col;
 }
+
+std::shared_ptr<DirectX::SpriteFont> Text::getFont()
+{
+	return m_font;
+}
