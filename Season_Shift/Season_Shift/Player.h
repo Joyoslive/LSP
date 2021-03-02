@@ -19,6 +19,7 @@ private:
 	Ref<Collider> m_oldCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
+	Timer m_goalTimer;
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -87,5 +88,5 @@ public:
 	void clearJumpFromTrigger();
 	bool getOnGround();
 	void getTime(std::wstring msg);
-	long double  timerGetTime();
+	long double goalTimerGetTime();
 };

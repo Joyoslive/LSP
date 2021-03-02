@@ -46,7 +46,9 @@ using namespace DirectX::SimpleMath;
 	 m_walljump = false;
 	 m_fly = false;
 	 m_timer = Timer();
+	 m_goalTimer = Timer();
 	 m_timer.start();
+	 m_goalTimer.start();
 	 m_oldFrameTime = 0.0f;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
@@ -327,6 +329,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 detectDeath(FLT_MAX);
 		 m_respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 /*std::wstring msg = L"Your Time was";
@@ -536,6 +539,7 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
+		 //goalTimerGetTime();
 		 m_rb->setVelocity(Vector3::Zero);
 		 m_flySpeed = 0;
 		 m_groundSpeed = 0;
@@ -664,11 +668,11 @@ using namespace DirectX::SimpleMath;
 	 m_timer.start();
  }
 
- long double Player::timerGetTime()
+ long double Player::goalTimerGetTime()
  {
-	 m_timer.stop();
-	 m_timer.start();
-	 return m_timer.getTime(Timer::Duration::SECONDS);
+	 m_goalTimer.stop();
+	 m_goalTimer.start();
+	 return m_goalTimer.getTime(Timer::Duration::SECONDS);
  }
 
  void Player::wallRunning(const Vector3& velocity) 

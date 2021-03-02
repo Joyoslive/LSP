@@ -19,7 +19,7 @@ const Ref<TableOfTimes>& GoalLogic::getTableOfTimes() const
 char msgbuf[1000];
 void GoalLogic::writeGrade(const Ref<Player>& playerLogic)
 {
-	long double time = playerLogic->timerGetTime();
+	long double time = playerLogic->goalTimerGetTime();
 	Grade grade = m_myTimes->getGrade(time);
 	//Temporary
 	sprintf_s(msgbuf, "\n------------------------------------\nYour Grade was %s and Your Time was %f\n------------------------------------\n", grade.grade.c_str(), time);
