@@ -239,6 +239,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Graphics\ShadowMapper.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="Graphics\Skybox.h" />
     <ClInclude Include="Scenes\Scene3.h" />
     <ClInclude Include="Scenes\Scene4.h" />
+    <ClInclude Include="Graphics\ShadowMapper.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="TableOfTimes.h" />

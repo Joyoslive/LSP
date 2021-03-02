@@ -74,5 +74,7 @@ public:
 	DirectX::FXMVECTOR getForward();
 	DirectX::FXMVECTOR getLookDirection();
 	DirectX::FXMVECTOR getGlobalUp();
+	float getNearPlane();
+	float getFarPlane();
 };
 

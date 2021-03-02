@@ -18,6 +18,10 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 	setupUIRenderer();
 
 	m_lineDrawer = std::make_shared<LineDrawer>(renderer);
+
+	m_shadowCascades = { {}, {}, {} };
+	m_shadowMapper = std::make_shared<ShadowMapper>(renderer);
+
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
@@ -36,6 +40,17 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[0] = {};
 	m_gpMatrices[1] = mainCamera->getViewMatrix();
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
+
+	// Set shadow mapper settings (hardcoded to three cascades)
+	m_shadowCascades[0] = { 40.f + mainCamera->getNearPlane(), 4096 };
+	m_shadowCascades[1] = { 140.f + mainCamera->getNearPlane(), 2048 };
+	m_shadowCascades[2] = { mainCamera->getFarPlane(), 1024 };
+	m_shadowMapper->setCascadeSettings(m_shadowCascades);
+
+	// Generate shadow map
+	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), Vector3(0.0, 1.0, 0.0), m_dirLight->getDirection());
+	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView);
+
 
 	for (auto& mod : models)
 	{

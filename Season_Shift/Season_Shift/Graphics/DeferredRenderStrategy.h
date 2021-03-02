@@ -3,6 +3,7 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 #include "ParticleSystem.h"
+#include "ShadowMapper.h"
 #include "2D/SpriteRenderer.h"
 
 
@@ -62,6 +63,10 @@ private:
 	bool m_viewUI = true;
 	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
 	std::vector<std::shared_ptr<ISprite>> m_sprites;
+
+	std::vector<std::pair<float, unsigned int>> m_shadowCascades;
+	std::shared_ptr<ShadowMapper> m_shadowMapper;
+	std::shared_ptr<Camera> m_mainCamera;
 
 	void setupGeometryPass();
 	void setupLightPass();
