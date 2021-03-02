@@ -21,7 +21,7 @@ void GoalLogic::writeGrade(const Ref<Player>& playerLogic)
 {
 	long double time = playerLogic->goalTimerGetTime();
 	Grade grade = m_myTimes->getGrade(time);
-	//Temporary
+	//Temporary (hook up with text later)
 	sprintf_s(msgbuf, "\n------------------------------------\nYour Grade was %s and Your Time was %f\n------------------------------------\n", grade.grade.c_str(), time);
 	OutputDebugStringA(msgbuf);
 }
