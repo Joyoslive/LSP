@@ -6,6 +6,7 @@
 #include "ResourceRepository.h"
 #include "Model.h"
 #include "AssimpLoader.h"
+#include "2D/Text.h"
 
 /*
 
@@ -35,6 +36,11 @@ enum class GfxShader
 	DEFAULT
 };
 
+enum class ScreenPos
+{
+	MIDDLE,
+};
+
 class GfxResourceDevice
 {
 private:
@@ -45,6 +51,7 @@ private:
 	ResourceRepository<std::size_t, std::shared_ptr<Material>> m_materialRepo;
 	ResourceRepository<std::string, std::shared_ptr<Mesh>> m_meshRepo;
 	ResourceRepository<std::size_t, EngineMeshData> m_modelRepo;
+	ResourceRepository<std::wstring, std::shared_ptr<DirectX::SpriteFont>> m_fontRepo;
 
 	
 private:
@@ -52,6 +59,9 @@ private:
 	std::pair<std::size_t, Material::ShaderSet> loadShader(GfxShader shader);
 	std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> loadBuffers(GfxShader shader);
 
+	std::shared_ptr<Text> createTextElement(const std::string& text, const std::wstring& path);
+	float getXFromScreenPos(ScreenPos pos);
+	float getYFromScreenPos(ScreenPos pos);
 
 public:
 	GfxResourceDevice(std::shared_ptr<DXDevice> dev);
@@ -77,6 +87,14 @@ public:
 	*/
 	std::shared_ptr<Model> createModel(const std::string& modelDirectory, const std::string& modelFileName, GfxShader shader);
 
-
+	// 2D Resources
+	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, float x=0, float y=0);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, float x=0, float y=0);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, float y=0);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, ScreenPos screenPosX, float y=0);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, float x, ScreenPos screenPosY);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, float x, ScreenPos screenPosY);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, ScreenPos screenPosY);
+	std::shared_ptr<ISprite> createSprite(const std::string& text, ScreenPos screenPosX, ScreenPos screenPosY);
 };
 

@@ -4,6 +4,7 @@
 #include "DX/DXRenderPass.h"
 //#include "../Camera.h"
 #include "DirectionalLight.h"
+#include "2D/ISprite.h"
 
 struct alignas(16) PostProcessVariables
 {
@@ -54,6 +55,7 @@ public:
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
 	virtual void setLineRenderSetttings(const LineVariables& settings) {};
+	virtual void addToSpriteBatch(std::shared_ptr<ISprite> sprite) {};
 	virtual void setUp() = 0;
 };
 
