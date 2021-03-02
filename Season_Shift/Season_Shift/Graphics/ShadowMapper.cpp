@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ShadowMapper.h"
+#include "Model.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -16,8 +17,8 @@ void ShadowMapper::createResources()
 {
     auto dev = m_renderer->getDXDevice();
 
-    // Buffer for geometry instance split
-    m_projectionsCB = dev->createConstantBuffer(3 * sizeof(Matrix), true, true);        // Set to 3
+    // Buffer for view matrix for each split
+    m_projectionsCB = dev->createConstantBuffer(sizeof(Matrix) * 3, true, true);
 
 
 }
@@ -76,7 +77,30 @@ void ShadowMapper::setCascadeSettings(const std::vector<std::pair<float, unsigne
 
 const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const std::shared_ptr<Camera>& playerCamera, const DirectX::SimpleMath::Matrix& lightViewMatrix)
 {
-    // Do the stuff
+    // Bind 
+
+
+    // for each cascade, draw all shadow casters
+    for (int i = 0; i < m_cascades.size(); ++i) {
+        for (auto& mod : casters)
+        {
+            for (auto& mat : mod->getSubsetsMaterial())
+            {
+                //mat.material->bindShader(dev);
+                //mat.material->bindTextures(dev);
+
+                //m_gpMatrices[0] = mod->getTransform()->getWorldMatrix();
+                //m_gpMatrixBuffer->updateMapUnmap(m_gpMatrices, sizeof(m_gpMatrices), 0, D3D11_MAP_WRITE_DISCARD, 0);
+                //dev->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_gpMatrixBuffer);
+
+                //dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
+                //dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
+            }
+        }
+    }
+
+
+
 
     // Manipulate m_cascades..
 
