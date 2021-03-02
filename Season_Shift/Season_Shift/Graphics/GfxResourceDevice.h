@@ -88,6 +88,9 @@ public:
 	std::shared_ptr<Model> createModel(const std::string& modelDirectory, const std::string& modelFileName, GfxShader shader);
 
 	// 2D Resources
+	/*
+	Create a text element at a set position with or without a font
+	*/
 	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, float x=0, float y=0);
 	std::shared_ptr<ISprite> createSprite(const std::string& text, float x=0, float y=0);
 	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, float y=0);
