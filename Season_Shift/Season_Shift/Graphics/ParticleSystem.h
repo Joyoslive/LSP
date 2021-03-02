@@ -36,6 +36,7 @@ private:
 	std::shared_ptr<DXBuffer> m_emittCBuffer;
 	std::shared_ptr<DXBuffer> m_particleCountCBuffer;
 	std::shared_ptr<DXBuffer> m_simulationCBuffer;
+	std::shared_ptr<DXBuffer> m_transformMatrixCBuffer;
 
 	std::shared_ptr<DXBuffer> m_indirectArgsBuffer;
 

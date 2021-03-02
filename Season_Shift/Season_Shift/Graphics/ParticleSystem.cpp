@@ -38,13 +38,25 @@ void ParticleSystem::simulate(float dt)
 
 void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 {
-	auto context = m_renderer->getDXDevice();
+	//update constantBuffer
+	Matrix cameraWorldMatrix = view;
+	cameraWorldMatrix = cameraWorldMatrix.Invert();
+
+	auto newData = { cameraWorldMatrix ,view, proj };
+	m_transformMatrixCBuffer->updateMapUnmap(&newData, newData.size());
+
+
+	//bind constantBuffer
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_transformMatrixCBuffer);
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::GS, 0, m_transformMatrixCBuffer);
+
+
 	//bind shaders
 	m_renderer->getDXDevice()->bindShader(m_vertexShader, DXShader::Type::VS);
 	m_renderer->getDXDevice()->bindShader(m_geometryShader, DXShader::Type::GS);
 	m_renderer->getDXDevice()->bindShader(m_pixelShader, DXShader::Type::PS);
 
-	//bind constantBuffer
+	
 
 	//copy number of particles in the appendBuffer
 	m_renderer->getDXDevice()->copyStructureCount(m_indirectArgsBuffer, m_appendBuffer);
@@ -86,9 +98,10 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 		m_emittShader = dev->createShader(emittShader, DXShader::Type::CS);
 
 	//create constant buffers
-	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true);
-	m_simulationCBuffer = dev->createConstantBuffer(sizeof(SimulationInfo), true, true);
-	m_particleCountCBuffer = dev->createConstantBuffer(sizeof(ParticleCount), true, false);
+	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true); //dynamic
+	m_simulationCBuffer = dev->createConstantBuffer(sizeof(SimulationInfo), true, true); //dynamic
+	m_particleCountCBuffer = dev->createConstantBuffer(sizeof(ParticleCount), true, false); //default
+	m_transformMatrixCBuffer = dev->createConstantBuffer(3 * sizeof(DirectX::SimpleMath::Matrix), true, true);
 
 	//indirectArgBuffer
 	m_indirectArgsBuffer = dev->createIndirectArgumentBuffer(0, 1, 0, 0);
