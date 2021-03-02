@@ -21,7 +21,7 @@ private:
 	Timer m_timer;
 	DirectX::SimpleMath::Vector3 m_normal;
 
-	DirectX::SimpleMath::Vector3 respawn;
+	DirectX::SimpleMath::Vector3 m_respawn;
 	bool m_disable;
 	bool m_ground;
 	bool m_doubleJump;
@@ -68,12 +68,12 @@ private:
 	DirectX::SimpleMath::Vector3 jumpPlayer(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 dash(DirectX::SimpleMath::Vector3 velocity, DirectX::SimpleMath::Vector3 cameraLook);
 	void gravityChange(const DirectX::SimpleMath::Vector3& velocity);
-	void getTime(std::wstring msg);
 	void wallRunning(const DirectX::SimpleMath::Vector3& moveDirection);
 	DirectX::SimpleMath::Vector3 playerFly(DirectX::SimpleMath::Vector3 velocity);
 	DirectX::SimpleMath::Vector3 slowPlayer(DirectX::SimpleMath::Vector3 velocity);
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 	float lerp(float a, float b, float f);
+	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
 public:
 	Player();
 	~Player();
@@ -86,4 +86,6 @@ public:
 	void setWaitForJump();
 	void clearJumpFromTrigger();
 	bool getOnGround();
+	void getTime(std::wstring msg);
+	long double  timerGetTime();
 };

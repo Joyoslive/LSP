@@ -71,6 +71,8 @@
     <ClCompile Include="ParticleSystemComponent.cpp" />
     <ClCompile Include="Graphics\2D\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\LineDrawer.cpp" />
+    <ClCompile Include="TableOfTimes.cpp" />
+    <ClCompile Include="GoalLogic.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +141,8 @@
     <ClInclude Include="Graphics\2D\SpriteRenderer.h" />
     <ClInclude Include="Graphics\2D\ISprite.h" />
     <ClInclude Include="Graphics\LineDrawer.h" />
+    <ClInclude Include="TableOfTimes.h" />
+    <ClInclude Include="GoalLogic.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
   </ItemGroup>
   <ItemGroup>
