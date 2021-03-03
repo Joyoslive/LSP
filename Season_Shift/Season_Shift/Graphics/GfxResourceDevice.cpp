@@ -142,6 +142,66 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 	return modToAdd;
 }
 
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, const std::wstring& path, float x, float y)
+{
+	auto t = createTextElement(text, path);
+	t->setPosition({x, y});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, float x, float y)
+{
+	auto t = std::make_shared<Text>();
+	t->setText(text);
+	t->setPosition({x, y});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, float y)
+{
+	auto t = createTextElement(text, path);
+	t->setPosition({getXFromScreenPos(screenPosX), y});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, ScreenPos screenPosX, float y)
+{
+	auto t = std::make_shared<Text>();
+	t->setText(text);
+	t->setPosition({getXFromScreenPos(screenPosX), y});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, const std::wstring& path, float x, ScreenPos screenPosY)
+{
+	auto t = createTextElement(text, path);
+	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, float x, ScreenPos screenPosY)
+{
+	auto t = std::make_shared<Text>();
+	t->setText(text);
+	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, ScreenPos screenPosY)
+{
+	auto t = createTextElement(text, path);
+	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text, ScreenPos screenPosX, ScreenPos screenPosY)
+{
+	auto t = std::make_shared<Text>();
+	t->setText(text);
+	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	return t;
+}
+
 std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxShader shader)
 {
 	std::string vsFileName, psFileName;
@@ -196,6 +256,42 @@ std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> GfxResourceDevic
 	std::shared_ptr<DXBuffer> psBuf = m_dxDev->createConstantBuffer(psDataSize, true, true, nullptr);
 
 	return { vsBuf, psBuf };
+}
+
+std::shared_ptr<Text> GfxResourceDevice::createTextElement(const std::string& text, const std::wstring& path)
+{
+
+	std::shared_ptr<DirectX::SpriteFont> sFont;
+	if (m_fontRepo.exists(path))
+	{
+		sFont = m_fontRepo.find(path);
+	}
+	else
+	{
+		sFont = m_dxDev->createSpriteFont(path);
+		m_fontRepo.add(path, sFont);
+	}
+	auto t = std::make_shared<Text>(sFont);
+	t->setText(text);
+	return t;
+}
+
+float GfxResourceDevice::getXFromScreenPos(ScreenPos pos)
+{
+	switch (pos)
+	{
+	case ScreenPos::MIDDLE:
+		return m_dxDev->getBackbufferViewport()->Width / 2.f;
+	}
+}
+
+float GfxResourceDevice::getYFromScreenPos(ScreenPos pos)
+{
+	switch (pos)
+	{
+	case ScreenPos::MIDDLE:
+		return m_dxDev->getBackbufferViewport()->Height / 2.f;
+	}
 }
 
 std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath)

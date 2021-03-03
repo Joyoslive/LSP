@@ -124,6 +124,11 @@ std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& s
 	return partSys;
 }
 
+void Graphics::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
+{
+	m_currRenderStrat->addToSpriteBatch(sprite);
+}
+
 void Graphics::onResize(UINT width, UINT height)
 {
 	m_dxDev->onResize(width, height);
