@@ -39,6 +39,7 @@ private:
 	std::shared_ptr<DXBuffer> m_gpMatrixBuffer;
 	std::shared_ptr<DXRenderPass> m_geometryPassSolid;
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_gDss;
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
 	FullscreenQuad m_fsQuad;

@@ -600,7 +600,12 @@ void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11Rasterizer
 
 void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget)
 {
-	if (targets.size() == 0)
+	if (targets.size() == 0 && depthTarget != nullptr) 
+	{
+		m_core->getImmediateContext()->OMSetRenderTargets(0, { nullptr }, depthTarget->getDSV().Get());		// depth only pass
+		return;
+	}
+	else if (targets.size() == 0)
 	{
 		m_core->getImmediateContext()->OMSetRenderTargets(0, { nullptr }, nullptr);
 		return;

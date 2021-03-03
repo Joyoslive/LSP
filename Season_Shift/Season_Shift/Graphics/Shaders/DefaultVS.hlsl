@@ -26,7 +26,10 @@ VS_OUT main(VS_IN input)
     // output.pos = float4(input.pos, 1.0);
 
     output.pos = mul(g_pm, mul(g_vm, mul(g_wm, float4(input.pos, 1.0))));
+    //output.pos /= output.pos.w;
+
     output.worldPos = mul(g_wm, float4(input.pos, 1.0)).xyz;
+
     output.uv = input.uv;
     output.nor = mul(g_wm, float4(normalize(input.nor), 0.0)).xyz;
 
