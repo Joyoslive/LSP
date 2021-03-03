@@ -3,6 +3,8 @@ Texture2D g_norTex : register(t1);
 Texture2D g_uvTex : register(t2);
 Texture2D g_difTex : register(t3);
 
+Texture1D g_discTex : register(t10);
+
 SamplerState g_sampler : register(s0);
 
 struct PS_IN
@@ -27,14 +29,21 @@ float4 calcDirLight(float3 normal, float3 worldPos, float4 texColor)
 {
 	float3 lDir = normalize(-g_dlDirection);
 
-	float incidentIntensity = saturate(dot(normal, lDir));
 	float4 amb = saturate(g_dlColor * g_dlAmbIntensity);
+
+	// Diffuse intensity sampled from discretization map
+	float incidentIntensity = saturate(dot(normal, lDir));
+	incidentIntensity = g_discTex.Sample(g_sampler, incidentIntensity);
 	float4 dif = saturate(g_dlColor * incidentIntensity);
 
 	float3 camDir = normalize(g_camPos - worldPos);
 	float3 halfWay = normalize(camDir + lDir);
-	float4 spec = saturate(g_dlColor * pow(max(dot(normal, halfWay), 0), 32));
-	
+
+	// Specular intensity sampled from discretization map
+	float specInt = pow(max(dot(normal, halfWay), 0), 32);
+	specInt = g_discTex.Sample(g_sampler, specInt);
+	float4 spec = saturate(g_dlColor * specInt);	
+
 	return saturate((amb + dif + spec) * texColor);
 }
 

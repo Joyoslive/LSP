@@ -269,6 +269,26 @@ void DeferredRenderStrategy::setupLightPass()
 	ilDesc.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT , D3D11_INPUT_PER_VERTEX_DATA , 0});
 	auto inputLayout = dev->createInputLayout(ilDesc, vsShader->getShaderData());
 
+	// Create the cel-shading discretization texture
+	DXTexture::Desc discDesc = { };
+	discDesc.type = DXTexture::Type::TEX1D;
+	discDesc.desc1D.Width = 5;
+	discDesc.desc1D.MipLevels = 1;
+	discDesc.desc1D.ArraySize = 1;
+	discDesc.desc1D.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	discDesc.desc1D.Usage = D3D11_USAGE_DEFAULT;
+	discDesc.desc1D.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	discDesc.desc1D.CPUAccessFlags = 0;
+	discDesc.desc1D.MiscFlags = 0;
+
+	auto imageData = loadFileToTexture("Textures/CelShading/discretization.png");
+	D3D11_SUBRESOURCE_DATA dat = { };
+	dat.pSysMem = imageData.data;
+
+	auto discTex = dev->createTexture(discDesc, &dat);
+	//Clean up the image
+	free(imageData.data);
+
 	// Create a sampler for the GBuffers
 	D3D11_SAMPLER_DESC sDesc = { };
 	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
@@ -318,6 +338,7 @@ void DeferredRenderStrategy::setupLightPass()
 		m_lightPass->attachOutputTargets({dev->getBackbuffer()});
 	m_lightPass->attachInputConstantBuffer(0, m_dirLightBuffer);
 	m_lightPass->attachInputConstantBuffer(1, m_cameraBuffer);
+	m_lightPass->attachInputTexture(10, discTex);
 }
 
 void DeferredRenderStrategy::setupPostProcessPass()
