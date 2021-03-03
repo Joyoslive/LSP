@@ -105,6 +105,7 @@ public:
 
 
 	std::shared_ptr<ParticleSystem> addParticleSystem(const std::string& simShader, const std::string& emittShader, unsigned int maxCount);
+	void removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem);
 	
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite);
 

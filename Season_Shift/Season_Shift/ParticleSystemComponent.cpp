@@ -10,6 +10,10 @@ void ParticleSystemComponent::initialize()
 {
 	m_partSys = getGameObject()->getScene()->getGraphics()->addParticleSystem(m_simShaderFile, m_emittShaderFile, m_maxParticles);
 }
+void ParticleSystemComponent::clearComponent()
+{
+	getGameObject()->getScene()->getGraphics()->removeParticleSystem(m_partSys);
+}
 float GenRandomFloat(const float& min, const float& max)
 {
 	std::random_device rd;
@@ -70,7 +74,6 @@ void ParticleSystemComponent::reviveEmitter(int id, float lifeTime)
 
 ParticleSystemComponent::~ParticleSystemComponent()
 {
-	
 }
 
 ParticleSystemComponent::EmitterMetaData::EmitterMetaData(float lifeTime)

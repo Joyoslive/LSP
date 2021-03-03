@@ -138,6 +138,22 @@ void DeferredRenderStrategy::addParticleSystem(std::shared_ptr<ParticleSystem> p
 	m_partSysVec.push_back(particleSystem);
 }
 
+void DeferredRenderStrategy::removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem)
+{
+	if (particleSystem == nullptr) return;
+	int index = -1;
+	for (int i = 0; i < m_partSysVec.size(); i++)
+	{
+		if (m_partSysVec[i].get() == particleSystem.get())
+		{
+			index = i;
+			break;
+		}
+	}
+	if (index == -1) return;
+	m_partSysVec.erase(m_partSysVec.begin() + index);
+}
+
 void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 {
 	m_sprites.push_back(sprite);

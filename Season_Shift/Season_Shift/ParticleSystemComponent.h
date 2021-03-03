@@ -22,6 +22,7 @@ private:
 
 private:
 	void initialize() override;
+	void clearComponent() override;
 	void update() override;
 public:
 	ParticleSystemComponent(unsigned int maxParticles);

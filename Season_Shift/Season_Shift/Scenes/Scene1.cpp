@@ -52,7 +52,11 @@ void Scene1::setUpScene()
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
 	std::dynamic_pointer_cast<Sound>(s)->play();*/
-
+	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
+	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(5))
+		);
+	partSys->addEmitter(1, 0, 60);
 
 	/*Ref<GameObject> sphere = createGameObject("sphere", Vector3(0, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	sphere->AddComponent(std::make_shared<SphereCollider>(1.0f));

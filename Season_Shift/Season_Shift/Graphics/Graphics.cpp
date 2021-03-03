@@ -124,6 +124,11 @@ std::shared_ptr<ParticleSystem> Graphics::addParticleSystem(const std::string& s
 	return partSys;
 }
 
+void Graphics::removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem)
+{
+	m_currRenderStrat->removeParticleSystem(particleSystem);
+}
+
 void Graphics::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 {
 	m_currRenderStrat->addToSpriteBatch(sprite);
