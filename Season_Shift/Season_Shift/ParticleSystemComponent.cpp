@@ -23,13 +23,22 @@ float GenRandomFloat(const float& min, const float& max)
 }
 void ParticleSystemComponent::update()
 {
+	float dt = 0.007f; //fix real dt;
+
 	for (auto& e : m_emittVec)
 	{
 		if (e.second.lifeTime > 0)
 		{
-			e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
-			m_partSys->emitt(e.first);
-			e.second.lifeTime -= 0.01f; //dt pls
+			e.second.accumulatedTime += dt;
+			if (1 / e.second.particlesPerSecond < e.second.accumulatedTime)
+			{
+				e.first.count = e.second.particlesPerSecond * e.second.accumulatedTime;
+				e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
+				m_partSys->emitt(e.first);
+				e.second.accumulatedTime -= (1 / e.second.particlesPerSecond);
+			}
+			
+			e.second.lifeTime -= dt; //dt pls
 		}
 	}
 }
@@ -52,14 +61,14 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-int ParticleSystemComponent::addEmitter(unsigned int numParticles, float startLifeTime,
+int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLifeTime,
 	float emitterLifeTime, DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 offset)
 {
 	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform
 	
 	Vector3 randVec = Vector3(1, 1, 1); //fix random
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, numParticles), EmitterMetaData(emitterLifeTime)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, 0), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
 
 	return m_emittVec.size()-1;
 }
@@ -78,7 +87,9 @@ ParticleSystemComponent::~ParticleSystemComponent()
 {
 }
 
-ParticleSystemComponent::EmitterMetaData::EmitterMetaData(float lifeTime)
+ParticleSystemComponent::EmitterMetaData::EmitterMetaData(float lifeTime, float particlesPerSecond)
 {
 	this->lifeTime = lifeTime;
+	this->particlesPerSecond = particlesPerSecond;
+	this->accumulatedTime = 0;
 }

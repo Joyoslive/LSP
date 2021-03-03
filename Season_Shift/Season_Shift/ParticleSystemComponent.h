@@ -11,7 +11,9 @@ private:
 	struct EmitterMetaData
 	{
 		float lifeTime;
-		EmitterMetaData(float lifeTime);
+		float particlesPerSecond;
+		float accumulatedTime;
+		EmitterMetaData(float lifeTime, float particlesPerSecond);
 	};
 	unsigned int m_maxParticles;
 	unsigned int m_particleLifeTime;
@@ -28,7 +30,7 @@ private:
 public:
 	ParticleSystemComponent(unsigned int maxParticles, unsigned int particleLifeTime);
 	ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles, unsigned int particleLifeTime);
-	int addEmitter(unsigned int numParticles, float particleLifeTime, float emitterLifeTime, DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3(0, 0, 0),
+	int addEmitter(float particlesPerSecond, float particleLifeTime, float emitterLifeTime, DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3(0, 0, 0),
 		DirectX::SimpleMath::Vector3 offset = DirectX::SimpleMath::Vector3(0, 0, 0));
 	void stopEmitter(int id);
 
