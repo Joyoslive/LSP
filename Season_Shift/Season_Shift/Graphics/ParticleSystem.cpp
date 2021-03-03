@@ -4,22 +4,18 @@
 
 using namespace DirectX::SimpleMath;
 
-/*constexpr*/ unsigned int uavCount = (unsigned int)-1;
-/*constexpr*/ unsigned int empty = (unsigned int)0;
+constexpr unsigned int uavCount = (unsigned int)-1;
+constexpr unsigned int empty = (unsigned int)0;
 
-constexpr float simSize = 1024;
+constexpr float simSize = 1024; //must match size in simulation computeshader
 
 void ParticleSystem::simulate(float dt)
 {
 	//update constant buffers
-	constexpr float MAXLIFETIME = 10.0f; //FIXA! detta borde inte vara hårdkodat--------------------------------------------------------------------------------------------------
-	SimulationInfo simInfo = { dt, MAXLIFETIME, 0, 0 };
+	SimulationInfo simInfo = { dt, m_maxParticleLifeTime, 0, 0 };
 
 	m_simulationCBuffer->updateMapUnmap(&simInfo, sizeof(SimulationInfo));
 	
-	
-
-
 
 	//bind
 	m_renderer->getDXDevice()->bindShader(m_simulationShader, DXShader::Type::CS);
@@ -87,12 +83,13 @@ void ParticleSystem::swapBuffers()
 	m_appendBuffer.swap(m_consumeBuffer);
 }
 
-ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount)
+ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount, unsigned int particleLifeTime)
 {
 	
 	m_initialBind = true;
 	m_partCount.count = 0;
 	m_maxNumParticles = maxCount;
+	m_maxParticleLifeTime = particleLifeTime;
 
 	m_renderer = renderer;
 	auto dev = m_renderer->getDXDevice();
@@ -115,7 +112,7 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 	m_emittCBuffer = dev->createConstantBuffer(sizeof(EmittStructure), true, true); //dynamic
 	m_simulationCBuffer = dev->createConstantBuffer(sizeof(SimulationInfo), true, true); //dynamic
 	m_particleCountCBuffer = dev->createConstantBuffer(sizeof(ParticleCount), true, false); //default
-	m_transformMatrixCBuffer = dev->createConstantBuffer(3 * sizeof(DirectX::SimpleMath::Matrix), true, true);
+	m_transformMatrixCBuffer = dev->createConstantBuffer(3 * sizeof(DirectX::SimpleMath::Matrix), true, true); //dynamic
 
 	//indirectArgBuffer
 	m_indirectArgsBuffer = dev->createIndirectArgumentBuffer(0, 1, 0, 0);

@@ -8,7 +8,7 @@ using namespace DirectX::SimpleMath;
 
 void ParticleSystemComponent::initialize()
 {
-	m_partSys = getGameObject()->getScene()->getGraphics()->addParticleSystem(m_simShaderFile, m_emittShaderFile, m_maxParticles);
+	m_partSys = getGameObject()->getScene()->getGraphics()->addParticleSystem(m_simShaderFile, m_emittShaderFile, m_maxParticles, m_particleLifeTime);
 }
 void ParticleSystemComponent::clearComponent()
 {
@@ -33,16 +33,18 @@ void ParticleSystemComponent::update()
 	}
 }
 
-ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles)
+ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles, unsigned int particleLifeTime)
 {
+	m_particleLifeTime = particleLifeTime;
 	m_maxParticles = maxParticles;
 	m_simShaderFile = "";
 	m_emittShaderFile = "";
 	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles)
+ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles, unsigned int particleLifeTime)
 {
+	m_particleLifeTime = particleLifeTime;
 	m_maxParticles = maxParticles;
 	m_simShaderFile = simShader;
 	m_emittShaderFile = emittShader;

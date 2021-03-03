@@ -14,6 +14,7 @@ private:
 		EmitterMetaData(float lifeTime);
 	};
 	unsigned int m_maxParticles;
+	unsigned int m_particleLifeTime;
 	std::shared_ptr<ParticleSystem> m_partSys;
 	std::string m_simShaderFile;
 	std::string m_emittShaderFile;
@@ -25,8 +26,8 @@ private:
 	void clearComponent() override;
 	void update() override;
 public:
-	ParticleSystemComponent(unsigned int maxParticles);
-	ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles);
+	ParticleSystemComponent(unsigned int maxParticles, unsigned int particleLifeTime);
+	ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles, unsigned int particleLifeTime);
 	int addEmitter(unsigned int numParticles, float particleLifeTime, float emitterLifeTime, DirectX::SimpleMath::Vector3 direction = DirectX::SimpleMath::Vector3(0, 0, 0),
 		DirectX::SimpleMath::Vector3 offset = DirectX::SimpleMath::Vector3(0, 0, 0));
 	void stopEmitter(int id);
