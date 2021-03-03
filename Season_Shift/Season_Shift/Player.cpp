@@ -11,6 +11,7 @@
 #include "Bounce.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
+#include "Graphics/2D/ISprite.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -71,7 +72,7 @@ using namespace DirectX::SimpleMath;
 
  Player::~Player()
  {
-
+	
  }
 
  int signOf(const float& value)
@@ -98,6 +99,13 @@ using namespace DirectX::SimpleMath;
 
  void Player::update()
  {
+
+	 if (m_createOnce)
+	 {
+		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
+		 m_createOnce = false;
+	 }
 
 	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
@@ -275,6 +283,9 @@ using namespace DirectX::SimpleMath;
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
+
+	std::string text = "Velocity: " + std::to_string(velocity.Length()) + "\n";
+	m_velocitySprite->setText(text);
  }
 
  void Player::onCollision(Ref<Collider> collider)

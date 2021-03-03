@@ -9,6 +9,7 @@ class CameraComponent;
 class Collider;
 class CapsuleCollider;
 class RigidBody;
+class ISprite;
 
 class Player : public Logic
 {
@@ -59,6 +60,8 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
+	Ref<ISprite> m_velocitySprite;
+	bool m_createOnce = true;
 
 private:
 	void detectDeath(float death);
