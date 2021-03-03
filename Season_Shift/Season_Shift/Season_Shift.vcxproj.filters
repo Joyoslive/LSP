@@ -172,4 +172,7 @@
     <None Include="Tools\SceneReader\SceneReader.cs" />
     <None Include="Textures\Sprites\Fonts\font.spritefont" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\CelShading\discretization.png" />
+  </ItemGroup>
 </Project>

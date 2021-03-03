@@ -548,6 +548,9 @@
     <None Include="Textures\Sprites\Fonts\font.spritefont" />
     <None Include="Tools\SceneReader\SceneReader.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\CelShading\discretization.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.XAudio2.Redist.1.2.4\build\native\Microsoft.XAudio2.Redist.targets" Condition="Exists('..\packages\Microsoft.XAudio2.Redist.1.2.4\build\native\Microsoft.XAudio2.Redist.targets')" />
