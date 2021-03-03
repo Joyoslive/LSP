@@ -8,12 +8,12 @@ public:
 	struct EmittStructure
 	{
 		DirectX::SimpleMath::Vector3 pos;
-		float lifeTime;
+		float startLifeTime;
 		DirectX::SimpleMath::Vector3 randVec;
 		float other;
 		DirectX::SimpleMath::Vector3 direction;
 		unsigned int count;
-		EmittStructure(DirectX::SimpleMath::Vector3 pos, float lifeTime, DirectX::SimpleMath::Vector3 randVec, float other, DirectX::SimpleMath::Vector3 direction, unsigned int count);
+		EmittStructure(DirectX::SimpleMath::Vector3 pos, float startLifeTime, DirectX::SimpleMath::Vector3 randVec, float other, DirectX::SimpleMath::Vector3 direction, unsigned int count);
 	};
 
 private:
