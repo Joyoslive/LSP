@@ -70,7 +70,11 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	
+	//auto gameObjectVoid = createGameObject("void", Vector3(0,-50.0f,0), Vector3(100, 1, 100));
+	//gameObjectVoid->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxBlack/", "200x2x200Box.obj", GfxShader::DEFAULT));
+
+	m_graphics->loadSkybox("Textures/Skyboxes/space");
+	m_graphics->setSkybox(1);
 
 	auto audioObject = createGameObject("audio", Vector3(-4, 8, 0));
 	std::vector<std::string> v;
@@ -80,7 +84,7 @@ void Scene5::setUpScene()
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
-	sound->play("Sounds/Explo4.wav"); //sorry
+	//sound->play("Sounds/Explo4.wav"); //sorry
 
 	m_graphics->setLightDirection({1.8, -1, -1});
 }

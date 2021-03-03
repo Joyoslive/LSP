@@ -107,7 +107,7 @@ using namespace DirectX::SimpleMath;
 	
 	Vector3 moveDirection = Vector3::Zero;
 	Vector3 moveDirection2 = Vector3::Zero;
-	Vector3 moveSpeed = Vector3::Zero;
+	//Vector3 moveSpeed = Vector3::Zero;
 
 
 	if (m_hooked)
@@ -188,36 +188,8 @@ using namespace DirectX::SimpleMath;
 	{
 		m_oldCollider = NULL;
 	}
-	if (m_movObj == true)
-	{
-		moveDirection2 -= m_deltaPos;
-		moveSpeed = m_movSpeed;
-		//cast ray
-		constexpr float maxDist = 3.25f;
-		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		float dist = FLT_MAX;
-		bool noHit = true;
-		if (m_normal.Length() != 0)
-		{
-			for (auto& go : scene)
-			{
-				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-				if (obb != nullptr)
-				{
-					float d = 10000000000000;
-					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
-					{
-						if (d < dist) dist = d;
-						noHit = false;
-					}
-				}
-			}
-		}
-		if (dist > maxDist || noHit)
-		{
-			m_movObj = false;
-		}
-	}
+	
+	moveDirection2 = moveObjectCheck(moveDirection2);
 
 	moveDirection.y = 0;
 	moveDirection.Normalize();
@@ -236,15 +208,17 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+
 	if (m_movObj == true)
 	{
+		Vector3 moveSpeed = m_movSpeed;
 		moveSpeed.y = 0;
 
 		if (moveDirection == Vector3::Zero || (moveDirection.Dot(moveSpeed) > 0.9f && velocitySkipY.Length() < moveSpeed.Length()))
 		{
 			velocitySkipY = moveSpeed;
 		}
-			
+
 	}
 	if (m_trampoline == true)
 	{
@@ -315,6 +289,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
+		 m_movObj = false;
 		 m_oldCollider = NULL;
 		 m_ground = true;
 		 m_walljump = false;
@@ -328,6 +303,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider && collider->getGameObject()->getName() != "checkpoint")
 	 {
+		 m_movObj = false;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
@@ -887,4 +863,38 @@ using namespace DirectX::SimpleMath;
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }
+ }
+ 
+ Vector3 Player::moveObjectCheck(Vector3 moveDirection2)
+ {
+	 if (m_movObj == true)
+	 {
+		 moveDirection2 -= m_deltaPos;
+		 //cast ray
+		 constexpr float maxDist = 3.25f;
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = FLT_MAX;
+		 bool noHit = true;
+		 if (m_normal.Length() != 0)
+		 {
+			 for (auto& go : scene)
+			 {
+				 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				 if (obb != nullptr)
+				 {
+					 float d = 10000000000000;
+					 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					 {
+						 if (d < dist) dist = d;
+						 noHit = false;
+					 }
+				 }
+			 }
+		 }
+		 if (dist > maxDist || noHit)
+		 {
+			 m_movObj = false;
+		 }
+	 }
+	 return moveDirection2;
  }

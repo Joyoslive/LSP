@@ -77,6 +77,7 @@ private:
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 	float lerp(float a, float b, float f);
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
+	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 public:
 	Player();
 	~Player();
