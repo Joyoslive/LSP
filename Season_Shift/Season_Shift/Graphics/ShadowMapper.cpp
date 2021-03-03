@@ -118,7 +118,10 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 
 
 	// near is previous far
-	float frustumPlaneDist[4] = { m_cascades[0].cascadeStart, m_cascades[1].cascadeStart, m_cascades[2].cascadeStart };
+	float frustumPlaneDist[4] = { m_cascades[0].cascadeStart, 
+		m_cascades[1].cascadeStart, 
+		(m_cascades[1].cascadeStart + m_cascades[2].cascadeStart) / 2, 
+		m_cascades[2].cascadeStart };
 
 	// To calculate the frustum corners --> Trigonometry. We calculate a factor that is common for all cascade calculations
 
@@ -253,9 +256,6 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 		//	mats.middle = res;
 		//else
 		//	mats.away = res;
-
-
-
 	}
 	
 	// add..
