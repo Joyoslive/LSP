@@ -32,9 +32,11 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
         Particle p = consumeBuffer.Consume();
         p.vel.y -= dt;
-        //p.pos += p.vel * dt;
-        //p.lifeTime += dt;
-        
-        appendBuffer.Append(p);
+        p.pos += p.vel * dt;
+        p.lifeTime += dt;
+        if(p.lifeTime < maxLifeTime)
+        {
+            appendBuffer.Append(p);
+        }
     }
 }

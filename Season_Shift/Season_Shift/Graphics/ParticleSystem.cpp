@@ -28,7 +28,7 @@ void ParticleSystem::simulate(float dt)
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_appendBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, uavCount, m_consumeBuffer);
 
-	m_renderer->getDXDevice()->dispatch(16, 1, 1);
+	m_renderer->getDXDevice()->dispatch(1024, 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
@@ -42,8 +42,8 @@ void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 	Matrix cameraWorldMatrix = view;
 	cameraWorldMatrix = cameraWorldMatrix.Invert();
 
-	auto newData = { cameraWorldMatrix ,view, proj };
-	m_transformMatrixCBuffer->updateMapUnmap(&newData, newData.size());
+	Matrix newData[3] = { cameraWorldMatrix ,view, proj };
+	m_transformMatrixCBuffer->updateMapUnmap(&newData, sizeof(newData));
 
 
 	//bind constantBuffer
