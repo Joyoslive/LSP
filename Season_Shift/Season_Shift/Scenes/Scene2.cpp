@@ -35,7 +35,7 @@ Scene2::~Scene2()
 
 void Scene2::setUpScene()
 {
-	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 0), Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f));
+	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 12), Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f));
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<RigidBody>());
@@ -44,11 +44,11 @@ void Scene2::setUpScene()
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	
-	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 11, -4));
+	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
 	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(1000000))
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(5))
 		);
-	partSys->addEmitter(100, 0, 60);
+	partSys->addEmitter(1, 0, 60);
 
 
 	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, 0.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));

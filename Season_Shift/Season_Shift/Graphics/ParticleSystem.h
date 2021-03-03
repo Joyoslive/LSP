@@ -18,7 +18,7 @@ public:
 
 private:
 	bool m_initialBind;
-
+	unsigned int m_maxNumParticles;
 	std::shared_ptr<GfxRenderer> m_renderer;
 
 	//shaders

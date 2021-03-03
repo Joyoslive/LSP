@@ -19,6 +19,12 @@ cbuffer ParticlEmitt : register(b0)
     uint count;
 };
 
+cbuffer NumOfParticleBuffer : register(b1)
+{
+    uint particleCount;
+    uint3 padding;
+};
+
 static const float3 dir[8] =
 {
     normalize(float3(1.0f, 1.0f, 1.0f)),
@@ -38,7 +44,9 @@ static const float3 dir[8] =
 void main( uint3 DTid : SV_DispatchThreadID )
 {
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
-    if (id < count)
+    uint maxCount, stride;
+    appendBuffer.GetDimensions(maxCount, stride);
+    if (id < count && id < maxCount - particleCount)
     {
         Particle p;
         p.lifeTime = lifeTime;

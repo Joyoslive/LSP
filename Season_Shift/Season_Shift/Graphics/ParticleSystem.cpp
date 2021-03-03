@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "ParticleSystem.h"
+#include "../Logger.h"
 
 using namespace DirectX::SimpleMath;
 
 /*constexpr*/ unsigned int uavCount = (unsigned int)-1;
 /*constexpr*/ unsigned int empty = (unsigned int)0;
 
-
+constexpr float simSize = 1024;
 
 void ParticleSystem::simulate(float dt)
 {
@@ -16,8 +17,7 @@ void ParticleSystem::simulate(float dt)
 
 	m_simulationCBuffer->updateMapUnmap(&simInfo, sizeof(SimulationInfo));
 	
-	//copy consumeBuffers size to contantBuffer
-	m_renderer->getDXDevice()->copyStructureCount(m_particleCountCBuffer, m_consumeBuffer);
+	
 
 
 
@@ -25,10 +25,15 @@ void ParticleSystem::simulate(float dt)
 	m_renderer->getDXDevice()->bindShader(m_simulationShader, DXShader::Type::CS);
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_simulationCBuffer);
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 1, m_particleCountCBuffer);
+
+
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_appendBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 1, uavCount, m_consumeBuffer);
 
-	m_renderer->getDXDevice()->dispatch(1024, 1, 1);
+	//copy consumeBuffers size to contantBuffer
+	m_renderer->getDXDevice()->copyStructureCount(m_particleCountCBuffer, m_consumeBuffer);
+
+	m_renderer->getDXDevice()->dispatch((unsigned int)ceil(m_maxNumParticles / simSize), 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
@@ -86,7 +91,8 @@ ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, con
 {
 	
 	m_initialBind = true;
-	m_partCount.count = 1;
+	m_partCount.count = 0;
+	m_maxNumParticles = maxCount;
 
 	m_renderer = renderer;
 	auto dev = m_renderer->getDXDevice();
@@ -135,12 +141,16 @@ void ParticleSystem::emitt(EmittStructure emittData)
 {
 	m_emittCBuffer->updateMapUnmap(&emittData, sizeof(EmittStructure));
 
+	//copy consumeBuffers size to contantBuffer
+	m_renderer->getDXDevice()->copyStructureCount(m_particleCountCBuffer, m_consumeBuffer);
+
 	//bind
 	m_renderer->getDXDevice()->bindShader(m_emittShader, m_emittShader->getType());
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
+	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 1, m_particleCountCBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer); //append to consumeBuffer, simulate will consume from this buffer later
 
-	m_renderer->getDXDevice()->dispatch(2, 1, 1);
+	m_renderer->getDXDevice()->dispatch(1, 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
