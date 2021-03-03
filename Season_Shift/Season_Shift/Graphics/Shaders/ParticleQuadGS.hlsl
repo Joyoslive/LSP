@@ -34,7 +34,7 @@ void main(point VS_OUT input[1], inout TriangleStream< GS_Out > output)
 	GS_Out element;
 	for (uint i = 0; i < 4; i++)
 	{
-        element.pos = input[0].pos + 0.5f * quadVertexArray[i];
+        element.pos = input[0].pos + 0.8f * quadVertexArray[i];
         element.worldPos = mul(cameraWorldMatrix, element.pos);
         element.pos = mul(projectionMatrix, element.pos);
 		output.Append(element);

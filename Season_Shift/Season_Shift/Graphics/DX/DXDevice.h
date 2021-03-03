@@ -141,6 +141,8 @@ public:
 	void drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
 	void drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
 
+	void drawInstancedIndirect(const std::shared_ptr<DXBuffer>& argumentBuffer, unsigned int alignedByteOffsetForArgs = 0);
+
 	void dispatch(unsigned int threadGroupCountX, unsigned int threadGroupCountY, unsigned int threadGroupCountZ);
 
 	void clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4]);

@@ -806,7 +806,7 @@ void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 void DXDevice::copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer)
 {
 	assert(structuredBuffer->getType() == DXBuffer::Type::Structured);
-
+	//borde använda static_cast för att det fick vi lära oss i c++ kursen, men vi fick inte lära oss varför så...
 	m_core->getImmediateContext()->CopyStructureCount((ID3D11Buffer*)constantBuffer->getResource().Get(), 0, structuredBuffer->getUAV().Get());
 }
 
@@ -823,6 +823,11 @@ void DXDevice::drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsig
 void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
 {
 	m_core->getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
+}
+
+void DXDevice::drawInstancedIndirect(const std::shared_ptr<DXBuffer>& argumentBuffer, unsigned int alignedByteOffsetForArgs)
+{
+	m_core->getImmediateContext()->DrawInstancedIndirect(static_cast<ID3D11Buffer*>(argumentBuffer->getResource().Get()), alignedByteOffsetForArgs);
 }
 
 void DXDevice::dispatch(unsigned int threadGroupCountX, unsigned int threadGroupCountY, unsigned int threadGroupCountZ)

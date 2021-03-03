@@ -50,6 +50,8 @@ void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::VS, 0, m_transformMatrixCBuffer);
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::GS, 0, m_transformMatrixCBuffer);
 
+	//bind appendBuffer
+	m_renderer->getDXDevice()->bindShaderStructuredBuffer(DXShader::Type::VS, 0, m_appendBuffer);
 
 	//bind shaders
 	m_renderer->getDXDevice()->bindShader(m_vertexShader, DXShader::Type::VS);
@@ -58,15 +60,21 @@ void ParticleSystem::draw(const Matrix& view, const Matrix& proj)
 
 	
 
+
 	//copy number of particles in the appendBuffer
 	m_renderer->getDXDevice()->copyStructureCount(m_indirectArgsBuffer, m_appendBuffer);
 
+	//unset vertexBuffer
+	m_renderer->getDXDevice()->bindDrawIndexedBuffer(nullptr, nullptr, 0, 0);
 
+	m_renderer->getDXDevice()->bindInputTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
+	//render
+	m_renderer->getDXDevice()->drawInstancedIndirect(m_indirectArgsBuffer);
 
-	//unbind geometryshader
+	//unbind
 	m_renderer->getDXDevice()->bindShader(nullptr, DXShader::Type::GS);
-
+	m_renderer->getDXDevice()->bindShaderStructuredBuffer(DXShader::Type::VS, 0, nullptr);
 }
 
 void ParticleSystem::swapBuffers()
@@ -132,7 +140,7 @@ void ParticleSystem::emitt(EmittStructure emittData)
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 0, m_emittCBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer); //append to consumeBuffer, simulate will consume from this buffer later
 
-	m_renderer->getDXDevice()->dispatch(10, 1, 1);
+	m_renderer->getDXDevice()->dispatch(2, 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
