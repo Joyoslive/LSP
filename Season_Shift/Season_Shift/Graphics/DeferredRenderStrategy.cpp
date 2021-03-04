@@ -141,7 +141,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	if (m_viewUI)
 	{
 		for (auto& s : m_sprites)
-			m_spriteRenderer->queueDraw(s);
+			if(s->getShow()) 
+				m_spriteRenderer->queueDraw(s);
 		
 		m_spriteRenderer->drawQueued(dev);
 	}
