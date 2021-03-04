@@ -96,8 +96,8 @@ using namespace DirectX::SimpleMath;
 	 m_gameObject->AddComponent(m_logicPlayerCamera);
 	 m_logicPlayerCamera->start();
 
-	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(80, 2)));
-	 m_landingPartEmittId = m_playerPartSys->addEmitter(40, 0, 0, Vector3(0, 1, 1));
+	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(1000, 1)));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(1000, 0, 0, Vector3(1, 1, 0), Vector3::Zero, Vector3(0, 1, -8));
 	 //	80 / 2 = 40
 	
 	 m_rb->setGravity(55.0);
@@ -326,7 +326,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
 	 {
-		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5);
+		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5f);
 	 }
 
 	 if (collider->getGameObject()->getName() == "goal")

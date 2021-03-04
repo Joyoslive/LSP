@@ -55,7 +55,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         Particle p;
         p.lifeTime = lifeTime;
         p.pos = pos;
-        p.vel = 5 * normalize(reflect(dir[DTid.x], randVec));
+        p.vel = 100 * normalize(reflect(dir[DTid.x], randVec));
         p.other = other;
         p.color = color;
         p.padding = 0;
