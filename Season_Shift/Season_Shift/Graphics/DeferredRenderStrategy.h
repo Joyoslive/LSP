@@ -84,6 +84,8 @@ public:
 
 	void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) override;
 
+	void removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem) override;
+
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite) override;
 
 	void setUp() override;

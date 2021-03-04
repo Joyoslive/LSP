@@ -138,7 +138,9 @@ std::shared_ptr<DXBuffer> DXDevice::createIndexBuffer(unsigned int size, bool dy
 	return toRet;
 }
 
-std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres)
+//kanske ändra argumenten till gpuWritable-------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres) 
 {
 	if (size % 16 != 0) assert(false);	// Not 16 byte aligned!
 
@@ -222,6 +224,97 @@ std::shared_ptr<DXBuffer> DXDevice::createStructuredBuffer(unsigned int count, u
 	ComPtr<ID3D11ShaderResourceView> srv;
 	m_core->getDevice()->CreateShaderResourceView(buf.Get(), &srvDesc, &srv);
 	toRet->setSRV(srv);
+	return toRet;
+}
+
+std::shared_ptr<DXBuffer> DXDevice::createAppendConsumeBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres)
+{
+	D3D11_BUFFER_DESC desc = { };
+	desc.ByteWidth = count * structSize;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	desc.StructureByteStride = structSize;
+
+	if (!cpuWritable && !gpuWritable)
+	{
+		assert(false);// suppoerted???
+		if (subres == nullptr)	assert(false);	// Immutable but no initial data!?!?
+
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.Usage = D3D11_USAGE_IMMUTABLE;
+		desc.CPUAccessFlags = 0;
+	}
+	else if (cpuWritable && !gpuWritable)
+	{
+		assert(false);// suppoerted???
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else if (!cpuWritable && gpuWritable)
+	{
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+	}
+	else // CPU and GPU writable.. can't do this simultaneously
+	{
+		assert(false);
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = { };
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.ElementWidth = structSize;
+	srvDesc.Buffer.NumElements = count;
+
+	//fix more fancy shit 
+	D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc = { };
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = count;
+
+	ComPtr<ID3D11Buffer> buf = nullptr;
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, subres, buf.GetAddressOf()));
+
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Structured, count, structSize);
+
+	ComPtr<ID3D11UnorderedAccessView> uav;
+	m_core->getDevice()->CreateUnorderedAccessView(buf.Get(), &uavDesc, &uav);
+	toRet->setUAV(uav);
+
+	ComPtr<ID3D11ShaderResourceView> srv;
+	m_core->getDevice()->CreateShaderResourceView(buf.Get(), &srvDesc, &srv);
+	toRet->setSRV(srv);
+
+	return toRet;
+}
+
+std::shared_ptr<DXBuffer> DXDevice::createIndirectArgumentBuffer(unsigned int vertexCountPerInstance , unsigned int instanceCount, unsigned int startVertexLocation, unsigned int startInstanceLocation)
+{
+	D3D11_BUFFER_DESC desc = { };
+	desc.BindFlags = 0;
+	desc.ByteWidth = 16;
+	desc.CPUAccessFlags = 0;
+	desc.StructureByteStride = 0;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
+
+	struct IndirectDrawArg
+	{
+		UINT a, b, c, d;
+	} args = { vertexCountPerInstance, instanceCount, startVertexLocation, startVertexLocation };
+
+	D3D11_SUBRESOURCE_DATA srDataForArg = { 0 };
+	srDataForArg.pSysMem = &args;
+
+	ComPtr<ID3D11Buffer> buf = nullptr;
+	HRCHECK(m_core->getDevice()->CreateBuffer(&desc, &srDataForArg, buf.GetAddressOf()));
+
+	std::shared_ptr<DXBuffer> toRet = std::make_shared<DXBuffer>(m_core, buf, desc, DXBuffer::Type::Indirect_args, 4, 4);
+
 	return toRet;
 }
 
@@ -453,6 +546,86 @@ void DXDevice::bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot,
 	}
 }
 
+void DXDevice::bindShaderStructuredBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res)
+{
+	if (res == nullptr) //unbind
+	{
+		ID3D11ShaderResourceView* srvNull = nullptr;
+		switch (stage)
+		{
+		case DXShader::Type::VS:
+			m_core->getImmediateContext()->VSSetShaderResources(slot, 1, &srvNull);
+			break;
+		case DXShader::Type::HS:
+			m_core->getImmediateContext()->HSSetShaderResources(slot, 1, &srvNull);
+			break;
+		case DXShader::Type::DS:
+			m_core->getImmediateContext()->DSSetShaderResources(slot, 1, &srvNull);
+			break;
+		case DXShader::Type::GS:
+			m_core->getImmediateContext()->GSSetShaderResources(slot, 1, &srvNull);
+			break;
+		case DXShader::Type::PS:
+			m_core->getImmediateContext()->PSSetShaderResources(slot, 1, &srvNull);
+			break;
+		case DXShader::Type::CS:
+			m_core->getImmediateContext()->CSSetShaderResources(slot, 1, &srvNull);
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		return;
+	}
+
+	if (!(res->getType() == DXBuffer::Type::Structured)) assert(false);
+
+	switch (stage)
+	{
+	case DXShader::Type::VS:
+		m_core->getImmediateContext()->VSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	case DXShader::Type::HS:
+		m_core->getImmediateContext()->HSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	case DXShader::Type::DS:
+		m_core->getImmediateContext()->DSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	case DXShader::Type::GS:
+		m_core->getImmediateContext()->GSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	case DXShader::Type::PS:
+		m_core->getImmediateContext()->PSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	case DXShader::Type::CS:
+		m_core->getImmediateContext()->CSSetShaderResources(slot, 1, res->getSRV().GetAddressOf());
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
+void DXDevice::bindAppendConsumeBuffer(DXShader::Type stage, unsigned int slot, unsigned int offset, const std::shared_ptr<DXBuffer>& res)
+{
+	if (res == nullptr) //unbind
+	{
+		ID3D11UnorderedAccessView* uavNull = nullptr;
+		m_core->getImmediateContext()->CSSetUnorderedAccessViews(slot, 1, &uavNull, nullptr);
+		return;
+	}
+	if (!(res->getType() == DXBuffer::Type::Structured)) assert(false);
+
+	if (DXShader::Type::CS == stage)
+	{
+		m_core->getImmediateContext()->CSSetUnorderedAccessViews(slot, 1, res->getUAV().GetAddressOf(), &offset);
+	}
+	else
+	{
+		assert(false);
+	}
+}
+
 void DXDevice::bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res)
 {
 	switch (stage)
@@ -630,6 +803,13 @@ void DXDevice::bindViewports(const std::vector<D3D11_VIEWPORT>& vps)
 	m_core->getImmediateContext()->RSSetViewports(vps.size(), vps.data());
 }
 
+void DXDevice::copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer)
+{
+	assert(structuredBuffer->getType() == DXBuffer::Type::Structured);
+	//borde använda static_cast för att det fick vi lära oss i c++ kursen, men vi fick inte lära oss varför så...
+	m_core->getImmediateContext()->CopyStructureCount((ID3D11Buffer*)constantBuffer->getResource().Get(), 0, structuredBuffer->getUAV().Get());
+}
+
 void DXDevice::draw(unsigned int vtxCount, unsigned int vbStartIdx)
 {
 	m_core->getImmediateContext()->Draw(vtxCount, vbStartIdx);
@@ -643,6 +823,16 @@ void DXDevice::drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsig
 void DXDevice::drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx)
 {
 	m_core->getImmediateContext()->DrawIndexedInstanced(idxCountPerInst, instCount, ibStartIdx, vbStartIdx, instStartIdx);
+}
+
+void DXDevice::drawInstancedIndirect(const std::shared_ptr<DXBuffer>& argumentBuffer, unsigned int alignedByteOffsetForArgs)
+{
+	m_core->getImmediateContext()->DrawInstancedIndirect(static_cast<ID3D11Buffer*>(argumentBuffer->getResource().Get()), alignedByteOffsetForArgs);
+}
+
+void DXDevice::dispatch(unsigned int threadGroupCountX, unsigned int threadGroupCountY, unsigned int threadGroupCountZ)
+{
+	m_core->getImmediateContext()->Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
 }
 
 void DXDevice::clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4])
