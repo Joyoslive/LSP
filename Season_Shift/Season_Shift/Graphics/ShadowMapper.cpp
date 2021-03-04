@@ -221,13 +221,26 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 	for (int a = 0; a < 3; ++a)
 	{
 		// Offsets to make the OBB bigger
-		float l = orthos[a].l - 60.f;
-		float r = orthos[a].r + 60.f;
+		float l = orthos[a].l - 150.f;
+		float r = orthos[a].r + 150.f;
 		float t = orthos[a].t + 30.f;
 		float b = orthos[a].b - 30.f;
 		float n = orthos[a].n - 200.f;
 		float f = orthos[a].f + 30.f;
 
+		//float l = orthos[a].l - 150.f;
+		//float r = orthos[a].r + 150.f;
+		//float t = orthos[a].t + 150.f;
+		//float b = orthos[a].b - 150.f;
+		//float n = orthos[a].n - 200.f;
+		//float f = orthos[a].f + 200.f;
+
+		//float l = orthos[a].l;
+		//float r = orthos[a].r;
+		//float t = orthos[a].t;
+		//float b = orthos[a].b;
+		//float n = orthos[a].n;
+		//float f = orthos[a].f;
 
 		DirectX::XMFLOAT4X4 mat;
 
