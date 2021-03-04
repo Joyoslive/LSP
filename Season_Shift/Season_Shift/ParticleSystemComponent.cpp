@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Graphics\Graphics.h"
 #include <random>
+#include "FrameTimer.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -23,7 +24,7 @@ float GenRandomFloat(const float& min, const float& max)
 }
 void ParticleSystemComponent::update()
 {
-	float dt = 0.007f; //fix real dt;
+	float dt = FrameTimer::dt();
 
 	for (auto& e : m_emittVec)
 	{
@@ -38,7 +39,7 @@ void ParticleSystemComponent::update()
 				e.second.accumulatedTime -= (1 / e.second.particlesPerSecond);
 			}
 			
-			e.second.lifeTime -= dt; //dt pls
+			e.second.lifeTime -= dt;
 		}
 	}
 }
@@ -62,13 +63,12 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 }
 
 int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLifeTime,
-	float emitterLifeTime, DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 offset)
+	float emitterLifeTime, Vector3 color, Vector3 direction, Vector3 offset)
 {
 	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform
 	
-	Vector3 randVec = Vector3(1, 1, 1); //fix random
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, 0), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, Vector3::Zero, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
 
 	return m_emittVec.size()-1;
 }

@@ -11,13 +11,14 @@ struct GS_Out
 {
     float4 pos : SV_Position;
     float4 worldPos : WORLDPOS;
+    float4 color : COLOR;
 };
 
 PS_Out main(GS_Out input)
 {
     PS_Out output = (PS_Out) 0;
-    output.positionWS = float4(0, 0, 0, -1);// input.worldPos;
-    output.diffuseColor = float4(1, 0, 0, -1);
+    output.positionWS = input.worldPos;
+    output.diffuseColor = input.color;
     output.positionNormal = float4(0, 0, -1, 0);
     output.uv = float4(0, 0, 0, 1);
     return output;
