@@ -922,17 +922,23 @@ using namespace DirectX::SimpleMath;
 
  void Player::drawLine()
  {
+	 LineVariables settings;
+	 settings.startPos = m_transform->getPosition();
+	 settings.color = Vector3(0.5f, 0.0f, 0.0f);
+	 settings.offset = Vector3(1.0, 0.4, 0.0);
+	 settings.thickness = Vector2(0.11, 0.07);
 	 if (m_hooked)
 	 {
-		 LineVariables settings;
-		 settings.startPos = m_transform->getPosition();
-		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 10.0f);
-		 settings.color = Vector3::Zero;
-		 settings.offset = Vector3(1.0, 0.4, 0.0);
-		 settings.thickness = Vector2(0.1, 0.1);
-
+		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
 	 }
 	 else
-		 m_hookEndPos = m_transform->getPosition();
+	 {
+		 Vector3 up = {0, 1, 0};
+		 Vector3 cameraForward = m_playerCamera->getLookDirection();
+		 Vector3 right = up.Cross(-cameraForward);
+		 up = -cameraForward.Cross(right);
+		 Matrix matrix(right, up, cameraForward);
+		 m_hookEndPos = m_transform->getPosition() - (Vector3)DirectX::XMVector3Transform(settings.offset, matrix);
+	 }
  }
