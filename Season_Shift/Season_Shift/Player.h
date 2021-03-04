@@ -9,6 +9,7 @@ class CameraComponent;
 class Collider;
 class CapsuleCollider;
 class RigidBody;
+class ISprite;
 
 class Player : public Logic
 {
@@ -19,6 +20,7 @@ private:
 	Ref<Collider> m_oldCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
+	Timer m_goalTimer;
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -49,6 +51,8 @@ private:
 	float m_movPos;
 	float m_movAlt;
 	float m_maxYSpeed;
+	bool m_trampoline;
+	DirectX::SimpleMath::Vector3  m_trampolineAngle;
 	//Speedlines
 	float m_sLT, m_sLR, m_sLS;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
@@ -56,6 +60,8 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
+	Ref<ISprite> m_velocitySprite;
+	bool m_createOnce = true;
 
 private:
 	void detectDeath(float death);
@@ -74,6 +80,7 @@ private:
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 	float lerp(float a, float b, float f);
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
+	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 public:
 	Player();
 	~Player();
@@ -87,5 +94,5 @@ public:
 	void clearJumpFromTrigger();
 	bool getOnGround();
 	void getTime(std::wstring msg);
-	long double  timerGetTime();
+	long double goalTimerGetTime();
 };
