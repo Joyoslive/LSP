@@ -6,6 +6,7 @@
 #include "../PlayerJumpTrigger.h"
 #include "../Rotate.h"
 #include "../Move.h"
+#include "../Sound.h"
 #include "../Bounce.h"
 #include "../GameObject.h"
 #include "../TableOfTimes.h"
@@ -315,11 +316,25 @@ void Scene4::setUpScene()
 	fallBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
 	fallBox7->AddComponent(std::make_shared<Move>(Vector3(0, 0.0f, 4.0f), Vector3(0, 0.0f, 50.0f)));
 
-	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 20) / 2), 7.0f, 0), Vector3(4, 4, 4));
-	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumber2.obj", GfxShader::DEFAULT));
-	fallBox10->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 4, 4)));
-	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0.5, 0.5, 0)));
+	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 15) / 2), 2.0f, -30), Vector3(4, 4, 4));
+	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r8 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r8->SetTriggerCollider(true);
+	fallBox10->AddComponent(r8);
+	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
+	std::vector<std::string> v;
+	v.push_back("Sounds/boing.wav");
+	fallBox10->AddComponent(std::make_shared<Sound>(v));
 
+
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 25) / 2), 2.0f, 60), Vector3(4, 4, 4));
+	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r9->SetTriggerCollider(true);
+	fallBox11->AddComponent(r9);
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
+	v.push_back("Sounds/filip.wav");
+	fallBox11->AddComponent(std::make_shared<Sound>(v));
 
 	m_graphics->setLightDirection({-1, -1, 1});
 }
