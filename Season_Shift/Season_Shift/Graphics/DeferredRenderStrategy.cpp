@@ -64,7 +64,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	for (auto& p : m_partSysVec)
 	{
-		p->SimulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
 	}
 
 

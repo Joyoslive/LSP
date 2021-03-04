@@ -156,7 +156,7 @@ void ParticleSystem::emitt(EmittStructure emittData)
 
 }
 
-void ParticleSystem::SimulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
+void ParticleSystem::simulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
 {
 	simulate(dt);
 	draw(view, proj);

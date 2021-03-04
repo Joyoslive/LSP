@@ -82,6 +82,6 @@ public:
 	void emitt(EmittStructure emittData);
 
 
-	void SimulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt);
+	void simulateAndDraw(const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& proj, float dt);
 };
 

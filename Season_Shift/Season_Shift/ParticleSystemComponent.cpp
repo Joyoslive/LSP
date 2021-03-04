@@ -67,9 +67,8 @@ int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLif
 {
 	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform
 	
-	Vector3 randVec = Vector3(1, 1, 1); //fix random
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, Vector3::Zero, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
 
 	return m_emittVec.size()-1;
 }
