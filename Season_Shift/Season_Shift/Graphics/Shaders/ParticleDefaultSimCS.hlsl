@@ -34,7 +34,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
         Particle p = consumeBuffer.Consume();
         p.vel.y -= dt;
-        p.pos += p.vel * dt*0.4;
+        p.pos += p.vel * dt;
         p.lifeTime += dt;
         if(p.lifeTime < maxLifeTime)
         {
