@@ -926,11 +926,14 @@ using namespace DirectX::SimpleMath;
  {
 	 LineVariables settings;
 	 settings.startPos = m_transform->getPosition();
-	 settings.color = Vector3(0.5f, 0.0f, 0.0f);
 	 settings.offset = Vector3(1.0, 0.4, 0.0);
 	 settings.thickness = Vector2(0.11, 0.07);
 	 if (m_hooked)
 	 {
+		 settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 settings.color.x = powf(settings.color.x, 2.2f);
+		 settings.color.y = powf(settings.color.y, 2.2f);
+		 settings.color.z = powf(settings.color.z, 2.2f);
 		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
 	 }
