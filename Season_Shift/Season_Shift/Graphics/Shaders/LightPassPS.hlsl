@@ -135,8 +135,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 		col = inputColor;
 		
 	//col = inputColor * shadowed;
-
-	col += tmpCol * 0.08;
+	//col += tmpCol * 0.08;
 	return col;
 }
 
