@@ -255,6 +255,19 @@ bool PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 	return false;
 }
 
+bool PlayerCameraMovement::land(Vector3 velocity, const Vector3& normal)
+{
+	//Sets up the landshake
+	constexpr float minVelocity = -5.0f;
+	velocity = normal * velocity;
+	if (velocity.y < minVelocity)
+	{
+		return true;
+	}
+	return false;
+}
+
+
 void PlayerCameraMovement::setDirection(const float& roll, const bool& moveCam)
 {
 	//changes the direction

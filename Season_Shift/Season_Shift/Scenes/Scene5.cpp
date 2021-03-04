@@ -70,6 +70,7 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/hook.wav");
 	v1.push_back("Sounds/landing.wav");
+	v1.push_back("Sounds/landing2.wav");
 	v1.push_back("Sounds/dehook.wav");
 	v1.push_back("Sounds/jump1a.wav");
 	v1.push_back("Sounds/jump2a.wav");
