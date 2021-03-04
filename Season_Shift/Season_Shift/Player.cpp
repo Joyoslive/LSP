@@ -9,6 +9,7 @@
 #include "Transform.h"
 #include "Move.h"
 #include "Bounce.h"
+#include "Sound.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 #include "Graphics/2D/ISprite.h"
@@ -54,6 +55,7 @@ using namespace DirectX::SimpleMath;
 	 m_oldFrameTime = 0.0f;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
+	 m_oldTrampolineCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
 	 m_movObj = false;
@@ -66,6 +68,8 @@ using namespace DirectX::SimpleMath;
 	 m_movSpeed = { 0, 0, 0 };
 	 m_trampoline = false;
 	 m_trampolineAngle = { 0, 0, 0 };
+	 m_trampolinePower = 0;
+	 m_trampolineTimer = 0;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
  }
@@ -194,9 +198,46 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
+	if (m_trampolineTimer > 0.0f)
+	{
+		m_trampolineTimer -= m_frameTime;
+	}
 	if(m_wallTimer <= 0)
 	{
 		m_oldCollider = NULL;
+	}
+	if (m_trampolineTimer <= 0)
+	{
+		m_oldTrampolineCollider = NULL;
+	}
+	if (m_movObj == true)
+	{
+		moveDirection2 -= m_deltaPos;
+		//cast ray
+		constexpr float maxDist = 3.25f;
+		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		float dist = FLT_MAX;
+		bool noHit = true;
+		if (m_normal.Length() != 0)
+		{
+			for (auto& go : scene)
+			{
+				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				if (obb != nullptr)
+				{
+					float d = 10000000000000;
+					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					{
+						if (d < dist) dist = d;
+						noHit = false;
+					}
+				}
+			}
+		}
+		if (dist > maxDist || noHit)
+		{
+			m_movObj = false;
+		}
 	}
 	
 	moveDirection2 = moveObjectCheck(moveDirection2);
@@ -230,9 +271,9 @@ using namespace DirectX::SimpleMath;
 		}
 
 	}
-	if (m_trampoline == true)
+	if (m_trampoline == true )
 	{
-		velocitySkipY += m_trampolineAngle * 100;
+		velocitySkipY += m_trampolineAngle * m_trampolinePower;
 	}
 	else
 	{
@@ -345,11 +386,15 @@ using namespace DirectX::SimpleMath;
 		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
-	 if (collider->getGameObject()->getName() == "trampoline")
+	 if (collider->getGameObject()->getName() == "trampoline" && m_oldTrampolineCollider != collider)
 	 {
+		 m_oldTrampolineCollider = collider;
+		 m_trampolineTimer = 0.4f;
 		 m_trampoline = true;
 		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
-
+		 m_trampolinePower = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getPower();
+		 collider->getGameObject()->getComponentType<Sound>(Component::ComponentEnum::SOUND)->play("Sounds/filip.wav");
+		 m_ground = false;
 	 }
  }
 
