@@ -13,7 +13,9 @@ public:
 		float other;
 		DirectX::SimpleMath::Vector3 direction;
 		unsigned int count;
-		EmittStructure(DirectX::SimpleMath::Vector3 pos, float startLifeTime, DirectX::SimpleMath::Vector3 randVec, float other, DirectX::SimpleMath::Vector3 direction, unsigned int count);
+		DirectX::SimpleMath::Vector3 color;
+		float padding = 0;
+		EmittStructure(DirectX::SimpleMath::Vector3 pos, float startLifeTime, DirectX::SimpleMath::Vector3 randVec, float other, DirectX::SimpleMath::Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color);
 	};
 
 private:
@@ -62,10 +64,11 @@ private:
 	{
 		DirectX::SimpleMath::Vector3 pos;
 		float lifeTime;
-		DirectX::SimpleMath::Vector3 color;
+		DirectX::SimpleMath::Vector3 velocity;
 		float other;
+		DirectX::SimpleMath::Vector3 color;
+		float padding = 0;
 	};
-	std::vector<Particle> m_particleVec;
 
 private:
 	void simulate(float dt);

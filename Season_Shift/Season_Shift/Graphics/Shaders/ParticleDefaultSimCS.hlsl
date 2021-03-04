@@ -5,6 +5,8 @@ struct Particle
     float lifeTime;
     float3 vel;
     float other;
+    float3 color;
+    float padding;
 };
 
 AppendStructuredBuffer<Particle> appendBuffer : register(u0);

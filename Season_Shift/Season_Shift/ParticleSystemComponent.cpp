@@ -63,13 +63,13 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 }
 
 int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLifeTime,
-	float emitterLifeTime, DirectX::SimpleMath::Vector3 direction, DirectX::SimpleMath::Vector3 offset)
+	float emitterLifeTime, Vector3 color, Vector3 direction, Vector3 offset)
 {
 	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform
 	
 	Vector3 randVec = Vector3(1, 1, 1); //fix random
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, 0), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, randVec, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
 
 	return m_emittVec.size()-1;
 }

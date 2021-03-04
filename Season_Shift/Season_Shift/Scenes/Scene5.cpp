@@ -75,9 +75,9 @@ void Scene5::setUpScene()
 	m_graphics->setSkybox(1);
 	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
 	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(100000, 8))
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(2000, 4))
 		);
-	partSys->addEmitter(1200, 0, 200);
+	partSys->addEmitter(20, 0, 200, Vector3(0,1,1));
 
 	auto audioObject = createGameObject("audio", Vector3(-4, 8, 0));
 	std::vector<std::string> v;

@@ -44,11 +44,11 @@ void Scene2::setUpScene()
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	
-	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
+	/*Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
 	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
 		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(100000, 8))
 		);
-	partSys->addEmitter(100, 0, 60);
+	partSys->addEmitter(100, 0, 60);*/
 
 
 	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, 0.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
