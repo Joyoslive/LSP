@@ -114,14 +114,14 @@ using namespace DirectX::SimpleMath;
 
 	 if (m_createOnce)
 	 {
-		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 200, 100, 0.3f, 0.3f);
+		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
 		 m_createOnce = false;
 	 }
 
-	detectDeath(-35.0f);
+	detectDeath(-120.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -315,7 +315,7 @@ using namespace DirectX::SimpleMath;
 	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
 		 m_movObj = false;
-		 m_oldCollider = NULL;
+		 m_oldCollider = NULL;	
 		 m_ground = true;
 		 m_walljump = false;
 		 m_doubleJump = true;
@@ -335,6 +335,7 @@ using namespace DirectX::SimpleMath;
 	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
 	 {
 		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5f);
+		 m_sound->play("Sounds/landing.wav");
 	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
