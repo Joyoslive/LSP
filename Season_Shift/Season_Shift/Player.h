@@ -10,6 +10,7 @@ class Collider;
 class CapsuleCollider;
 class RigidBody;
 class ISprite;
+class ParticleSystemComponent;
 
 class Player : public Logic
 {
@@ -62,6 +63,8 @@ private:
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
 	Ref<ISprite> m_velocitySprite;
 	bool m_createOnce = true;
+	Ref<ParticleSystemComponent> m_playerPartSys;
+	int m_landingPartEmittId;
 
 private:
 	void detectDeath(float death);

@@ -12,6 +12,7 @@
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 #include "Graphics/2D/ISprite.h"
+#include "ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -68,6 +69,7 @@ using namespace DirectX::SimpleMath;
 	 m_trampolineAngle = { 0, 0, 0 };
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
+	 m_landingPartEmittId = -1;
  }
 
  Player::~Player()
@@ -93,6 +95,10 @@ using namespace DirectX::SimpleMath;
 	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
 	 m_gameObject->AddComponent(m_logicPlayerCamera);
 	 m_logicPlayerCamera->start();
+
+	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(80, 2)));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(40, 0, 0, Vector3(0, 1, 1));
+	 //	80 / 2 = 40
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -318,7 +324,10 @@ using namespace DirectX::SimpleMath;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
-	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
+	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
+	 {
+		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5);
+	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {

@@ -229,7 +229,7 @@ void PlayerCameraMovement::wallRunning(const bool& wallRunning, const Vector3& n
 	}
 }
 
-void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
+bool PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 {
 	//Sets up the landshake
 	constexpr float minVelocity = -50.0f;
@@ -249,7 +249,9 @@ void PlayerCameraMovement::shake(Vector3 velocity, const Vector3& normal)
 		m_goToY = 0.0f;
 		m_camMoveDirection = 0;
 		m_camPosY = m_baseCamPosY;
+		return true;
 	}
+	return false;
 }
 
 void PlayerCameraMovement::setDirection(const float& roll, const bool& moveCam)
