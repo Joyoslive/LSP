@@ -1,6 +1,7 @@
 #pragma once
 #include "Logic.h"
 #include "Input.h"
+#include "Sound.h"
 //#include "CameraComponent.h"
 #include "Timer.h"
 #include "PlayerCameraMovement.h"
@@ -16,6 +17,7 @@ class Player : public Logic
 private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
+	Ref<Sound> m_sound;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;

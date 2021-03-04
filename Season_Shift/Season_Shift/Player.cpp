@@ -72,6 +72,7 @@ using namespace DirectX::SimpleMath;
 	 m_trampolineTimer = 0;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
+
  }
 
  Player::~Player()
@@ -90,6 +91,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
+	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -354,7 +356,7 @@ using namespace DirectX::SimpleMath;
 		 m_trampoline = true;
 		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
 		 m_trampolinePower = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getPower();
-		 collider->getGameObject()->getComponentType<Sound>(Component::ComponentEnum::SOUND)->play("Sounds/filip.wav");
+		 m_sound->play("Sounds/boing2.wav");
 		 m_ground = false;
 	 }
  }
@@ -497,7 +499,7 @@ using namespace DirectX::SimpleMath;
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	 {
 		 m_cooldownDash = 2.0f;
-
+		 m_sound->play("Sounds/woosh.wav");
 		 velocity = { 0, 0, 0 };
 		 cameraLook.Normalize();
 		 velocity += cameraLook * m_dashSpeed;
