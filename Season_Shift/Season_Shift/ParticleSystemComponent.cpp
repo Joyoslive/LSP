@@ -34,7 +34,6 @@ void ParticleSystemComponent::update()
 			if (1 / e.second.particlesPerSecond < e.second.accumulatedTime)
 			{
 				Vector3 worldOffset = DirectX::XMVector3Transform(e.second.offset, getTransform()->getRotationMatrix());
-				//e.first.pos = getTransform()->getPosition() + e.second.offset; // add offset rotation from transform
 				e.first.pos = getTransform()->getPosition() + worldOffset; // add offset rotation from transform
 				e.first.count = e.second.particlesPerSecond * e.second.accumulatedTime;
 				e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
