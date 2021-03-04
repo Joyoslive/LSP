@@ -11,12 +11,14 @@ public:
 	virtual inline void setFont(std::shared_ptr<DirectX::SpriteFont> font) { }
 	virtual void setColor(const DirectX::SimpleMath::Color& col) = 0;
 	inline void setPosition(const DirectX::SimpleMath::Vector2 position) { m_position = position; }
+	inline void setScale(const DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	inline void setShow(bool show) { m_show = show; }
 
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;
+	DirectX::SimpleMath::Vector2 m_scale;
 	bool m_show;
 };
 

@@ -75,6 +75,7 @@
     <ClCompile Include="GoalLogic.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
     <ClCompile Include="Bounce.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="GoalLogic.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
     <ClInclude Include="Bounce.h" />
+    <ClInclude Include="Graphics\2D\SpriteTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

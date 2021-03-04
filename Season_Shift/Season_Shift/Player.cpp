@@ -102,8 +102,10 @@ using namespace DirectX::SimpleMath;
 
 	 if (m_createOnce)
 	 {
+		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Skyboxes/space/negx.jpg", 200, 100, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
 		 m_createOnce = false;
 	 }
 
@@ -284,7 +286,9 @@ using namespace DirectX::SimpleMath;
 	}
 	ImGui::End();
 
-	std::string text = "Velocity: " + std::to_string(velocity.Length()) + "\n";
+	long absVelocity = labs(velocity.Length() * 10.0f);
+
+	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
 	m_velocitySprite->setText(text);
  }
 
