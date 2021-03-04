@@ -17,6 +17,20 @@ private:
 	{
 		DirectX::SimpleMath::Vector3 position;
 	};
+
+	struct CascadeBuffer
+	{
+		float nearCascadeEnd, midCascadeEnd, farCascadeEnd;
+		float padding;
+		
+		DirectX::SimpleMath::Matrix mainViewMatrix;
+
+		DirectX::SimpleMath::Matrix lightViewMatrix;
+		DirectX::SimpleMath::Matrix lightNearProjection;
+		DirectX::SimpleMath::Matrix lightMidProjection;
+		DirectX::SimpleMath::Matrix lightFarProjection;
+	};
+
 private:
 	struct GBuffers
 	{
@@ -68,6 +82,7 @@ private:
 	std::vector<std::pair<float, unsigned int>> m_shadowCascades;
 	std::shared_ptr<ShadowMapper> m_shadowMapper;
 	std::shared_ptr<Camera> m_mainCamera;
+	std::shared_ptr<DXBuffer> m_cascadeBuffer;	
 
 	void setupGeometryPass();
 	void setupLightPass();

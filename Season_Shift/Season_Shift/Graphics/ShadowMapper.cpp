@@ -98,7 +98,7 @@ void ShadowMapper::setCascadeSettings(const std::vector<std::pair<float, unsigne
 
         for (int i = 0; i < m_cascades.size(); ++i)
         {
-            m_cascades[i].cascadeStart = cascadeEndDistancesAndResolution[i].first;
+            m_cascades[i].cascadeEnd = cascadeEndDistancesAndResolution[i].first;
             m_cascades[i].resolution = cascadeEndDistancesAndResolution[i].second;
         }
     }
@@ -118,10 +118,15 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 
 
 	// near is previous far
-	float frustumPlaneDist[4] = { m_cascades[0].cascadeStart, 
-		m_cascades[1].cascadeStart, 
-		(m_cascades[1].cascadeStart + m_cascades[2].cascadeStart) / 2, 
-		m_cascades[2].cascadeStart };
+	//float frustumPlaneDist[4] = { m_cascades[0].cascadeStart, 
+	//	m_cascades[1].cascadeStart, 
+	//	(m_cascades[1].cascadeStart + m_cascades[2].cascadeStart) / 2, 
+	//	m_cascades[2].cascadeStart };
+
+	float frustumPlaneDist[4] = { cam->getNearPlane(), 
+		m_cascades[0].cascadeEnd, 
+		m_cascades[1].cascadeEnd, 
+		m_cascades[2].cascadeEnd };
 
 	// To calculate the frustum corners --> Trigonometry. We calculate a factor that is common for all cascade calculations
 
@@ -216,11 +221,11 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 	for (int a = 0; a < 3; ++a)
 	{
 		// Offsets to make the OBB bigger
-		float l = orthos[a].l - 20.f;
-		float r = orthos[a].r + 20.f;
-		float t = orthos[a].t + 10.f;
-		float b = orthos[a].b - 10.f;
-		float n = orthos[a].n - 10.f;
+		float l = orthos[a].l - 60.f;
+		float r = orthos[a].r + 60.f;
+		float t = orthos[a].t + 30.f;
+		float b = orthos[a].b - 30.f;
+		float n = orthos[a].n - 200.f;
 		float f = orthos[a].f + 30.f;
 
 

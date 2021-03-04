@@ -21,7 +21,7 @@ DeferredRenderStrategy::DeferredRenderStrategy(std::shared_ptr<GfxRenderer> rend
 
 	m_shadowCascades = { {}, {}, {} };
 	m_shadowMapper = std::make_shared<ShadowMapper>(renderer);
-
+	m_cascadeBuffer = renderer->getDXDevice()->createConstantBuffer(sizeof(CascadeBuffer), true, true);
 }
 
 void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
@@ -39,16 +39,15 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[1] = mainCamera->getViewMatrix();
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
 
-	// Set shadow mapper settings (hardcoded to three cascades)
-	m_shadowCascades[0] = { mainCamera->getNearPlane(), 4096 };
-	m_shadowCascades[1] = { 100.f + mainCamera->getNearPlane(), 2048 };
+	// Set shadow mapper settings (hardcoded to three cascades)		// [0.1, 100] --> [100, 500] --> [500, 1000]
+	m_shadowCascades[0] = { mainCamera->getNearPlane() + 100, 4096 };
+	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 2, 2048 };
 	m_shadowCascades[2] = { mainCamera->getFarPlane(), 1024 };
 	m_shadowMapper->setCascadeSettings(m_shadowCascades);
 
 	// Generate shadow map
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
 	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView);
-
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
@@ -92,7 +91,29 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	CameraBuffer camBuf = { mainCamera->getPosition() };
 	m_cameraBuffer->updateMapUnmap(&camBuf, sizeof(camBuf));
+	
+	CascadeBuffer cascBuf;
+	cascBuf.nearCascadeEnd = cascades[0].cascadeEnd; 
+	cascBuf.midCascadeEnd = cascades[1].cascadeEnd;
+	cascBuf.farCascadeEnd = cascades[2].cascadeEnd;
+	cascBuf.mainViewMatrix = mainCamera->getViewMatrix();
+	cascBuf.lightViewMatrix = lightView;
+	cascBuf.lightNearProjection = cascades[0].projMat;
+	cascBuf.lightMidProjection = cascades[1].projMat;
+	cascBuf.lightFarProjection = cascades[2].projMat;
+	m_cascadeBuffer->updateMapUnmap(&cascBuf, sizeof(cascBuf));
+	
+	// Bind light pass
 	m_lightPass->bind(dev);
+
+	// Send cascade starts
+	dev->bindShaderConstantBuffer(DXShader::Type::PS, 7, m_cascadeBuffer);	// Note: Slot 7
+
+	// Send shadow maps
+	dev->bindShaderTexture(DXShader::Type::PS, 6, cascades[0].texture);
+	dev->bindShaderTexture(DXShader::Type::PS, 7, cascades[1].texture);
+	dev->bindShaderTexture(DXShader::Type::PS, 8, cascades[2].texture);
+
 	dev->bindDrawIndexedBuffer(m_fsQuad.getVB(), m_fsQuad.getIB(), 0, 0);
 	dev->drawIndexed(6, 0, 0);
 

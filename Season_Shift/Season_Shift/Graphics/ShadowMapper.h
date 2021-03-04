@@ -12,7 +12,7 @@ public:
 	struct Cascade
 	{
 		DirectX::SimpleMath::Matrix projMat;
-		float cascadeStart;		// viewspace
+		float cascadeEnd;		// viewspace
 		unsigned int resolution;
 		std::shared_ptr<DXTexture> texture;
 		D3D11_VIEWPORT viewport;
