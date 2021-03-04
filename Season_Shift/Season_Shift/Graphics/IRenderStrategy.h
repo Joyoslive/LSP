@@ -4,6 +4,7 @@
 #include "DX/DXRenderPass.h"
 //#include "../Camera.h"
 #include "DirectionalLight.h"
+#include "2D/ISprite.h"
 
 struct alignas(16) PostProcessVariables
 {
@@ -50,10 +51,12 @@ public:
 	virtual void render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt) = 0;
 	virtual void setSkybox(std::shared_ptr<Skybox> skybox) {};
 	virtual void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) {};
+	virtual void removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem) {};
 	virtual void present() {};
 	virtual void setDirLight(std::shared_ptr<DirectionalLight> light) {};
 	virtual void setPostProcessVariables(PostProcessVariables ppVar) {};
 	virtual void setLineRenderSetttings(const LineVariables& settings) {};
+	virtual void addToSpriteBatch(std::shared_ptr<ISprite> sprite) {};
 	virtual void setUp() = 0;
 };
 

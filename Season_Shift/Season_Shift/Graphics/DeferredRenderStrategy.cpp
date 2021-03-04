@@ -80,7 +80,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	for (auto& p : m_partSysVec)
 	{
-		p->SimulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
 	}
 
 
@@ -140,7 +140,9 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_viewUI)
 	{
-		m_spriteRenderer->queueDraw(m_sprites[0]);
+		for (auto& s : m_sprites)
+			m_spriteRenderer->queueDraw(s);
+		
 		m_spriteRenderer->drawQueued(dev);
 	}
 }
@@ -172,6 +174,27 @@ void DeferredRenderStrategy::setLineRenderSetttings(const LineVariables& setting
 void DeferredRenderStrategy::addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem)
 {
 	m_partSysVec.push_back(particleSystem);
+}
+
+void DeferredRenderStrategy::removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem)
+{
+	if (particleSystem == nullptr) return;
+	int index = -1;
+	for (int i = 0; i < m_partSysVec.size(); i++)
+	{
+		if (m_partSysVec[i].get() == particleSystem.get())
+		{
+			index = i;
+			break;
+		}
+	}
+	if (index == -1) return;
+	m_partSysVec.erase(m_partSysVec.begin() + index);
+}
+
+void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
+{
+	m_sprites.push_back(sprite);
 }
 
 void DeferredRenderStrategy::setUp()
@@ -447,16 +470,4 @@ void DeferredRenderStrategy::setupUIRenderer()
 {
 	auto dev = m_renderer->getDXDevice();
 	m_spriteRenderer = std::make_shared<SpriteRenderer>(dev);
-
-	// Create a font with the text "xD" to render
-	auto tempFont = std::make_shared<Text>();
-	tempFont->setFont(dev->createSpriteFont(L"Textures/Sprites/Fonts/font.spritefont"));
-	tempFont->setText("This is some text");
-	tempFont->setColor(DirectX::SimpleMath::Color(0.6, 0, 1, 1));
-
-	float midWidth = dev->getBackbufferViewport()->Width / 2;
-	float midHeight = 16.f; // dev->getBackbufferViewport()->Height / 2;
-	tempFont->setPosition({midWidth, midHeight});
-
-	m_sprites.push_back(tempFont);
 }

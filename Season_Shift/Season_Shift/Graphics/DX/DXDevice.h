@@ -99,6 +99,8 @@ public:
 	std::shared_ptr<DXBuffer> createIndexBuffer(unsigned int size, bool dynamic, D3D11_SUBRESOURCE_DATA* subres);
 	std::shared_ptr<DXBuffer> createConstantBuffer(unsigned int size, bool dynamic, bool updateOnCPU, D3D11_SUBRESOURCE_DATA* subres = nullptr);
 	std::shared_ptr<DXBuffer> createStructuredBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createAppendConsumeBuffer(unsigned int count, unsigned int structSize, bool cpuWritable, bool gpuWritable, D3D11_SUBRESOURCE_DATA* subres);
+	std::shared_ptr<DXBuffer> createIndirectArgumentBuffer(unsigned int vertexCountPerInstance, unsigned int instanceCount, unsigned int startVertexLocation, unsigned int startInstanceLocation);
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> createInputLayout(const std::vector<D3D11_INPUT_ELEMENT_DESC>& elements, const std::string& shaderData);
 
@@ -113,6 +115,8 @@ public:
 
 	void bindShader(const std::shared_ptr<DXShader>& shader, DXShader::Type stage);
 	void bindShaderConstantBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
+	void bindShaderStructuredBuffer(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXBuffer>& res);
+	void bindAppendConsumeBuffer(DXShader::Type stage, unsigned int slot, unsigned int offset, const std::shared_ptr<DXBuffer>& res);
 	void bindShaderSampler(DXShader::Type stage, unsigned int slot, const Microsoft::WRL::ComPtr<ID3D11SamplerState>& res);
 	void bindShaderTexture(DXShader::Type stage, unsigned int slot, const std::shared_ptr<DXTexture> res);
 
@@ -131,9 +135,15 @@ public:
 
 	void bindViewports(const std::vector<D3D11_VIEWPORT>& vps);
 
+	void copyStructureCount(const std::shared_ptr<DXBuffer>& constantBuffer, const std::shared_ptr<DXBuffer>& structuredBuffer);
+
 	void draw(unsigned int vtxCount, unsigned int vbStartIdx = 0);
 	void drawIndexed(unsigned int idxCount, unsigned int ibStartIdx, unsigned int vbStartIdx);
 	void drawIndexedInstanced(unsigned int idxCountPerInst, unsigned int instCount, unsigned int ibStartIdx, unsigned int vbStartIdx, unsigned int instStartIdx = 0);
+
+	void drawInstancedIndirect(const std::shared_ptr<DXBuffer>& argumentBuffer, unsigned int alignedByteOffsetForArgs = 0);
+
+	void dispatch(unsigned int threadGroupCountX, unsigned int threadGroupCountY, unsigned int threadGroupCountZ);
 
 	void clearRenderTarget(const std::shared_ptr<DXTexture>& target, float color[4]);
 	void clearDepthTarget(const std::shared_ptr<DXTexture>& depthTarget, unsigned int clearFlag = D3D11_CLEAR_DEPTH, float depth = 1.0, float stencil = 0.0);

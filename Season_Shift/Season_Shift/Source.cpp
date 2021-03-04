@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "CameraSwitch.h"
 #include "Rotate.h"
+#include "FrameTimer.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -98,7 +99,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//auto nanosuitMod2 = gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	//models.push_back(nanosuitMod2);
 
-	Timer m_timer = Timer();
+	FrameTimer timer = FrameTimer();
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, resWidth, resHeight);
 	
@@ -116,7 +117,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	MSG msg = { };
 	while (!win.isClosed())
 	{
-		m_timer.start();
+		timer.frameStart();
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
@@ -130,7 +131,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		ImGui::Begin("App Statistics");
 		{
 			ImGui::Text("Elapsed Time = %f", &a);
-			ImGui::Text("FPS = %f", 1.0f / m_timer.dt());
+			ImGui::Text("FPS = %f", 1.0f / timer.dt());
 			ImGui::Text("DisplaySize = %f, %f", ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y);
 			ImGui::Checkbox("My Checkbox", &b);
 			ImGui::SliderFloat3("Float3", myFloats, 0.0, 5.0);
@@ -139,15 +140,15 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 
 		
 		sceneManager.updateActiveScene();
-		physicsEng->simulate(m_timer.dt());
-		Input::getInput().update(m_timer.dt());
+		physicsEng->simulate(timer.dt());
+		Input::getInput().update(timer.dt());
 		// Do stuff
 		//input->update();
-		camSwitch.update(m_timer.dt());
-		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(m_timer.dt());
+		camSwitch.update(timer.dt());
+		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(timer.dt());
 		
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera(), m_timer.dt());
-		m_timer.stop();
+		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera(), timer.dt());
+		timer.frameStop();
 
 	}
 

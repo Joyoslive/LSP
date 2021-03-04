@@ -34,6 +34,7 @@ void GameObject::clearGameObject()
 {
 	for (int i = 0; i < m_componentVector.size(); ++i)
 	{
+		m_componentVector[i]->clearComponent();
 		m_componentVector[i]->setGameObject(nullptr);
 		m_componentVector[i]->setTransform(nullptr);
 	}

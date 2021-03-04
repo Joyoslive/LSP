@@ -8,8 +8,10 @@
 #include "CapsuleCollider.h"
 #include "Transform.h"
 #include "Move.h"
+#include "Bounce.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
+#include "Graphics/2D/ISprite.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -46,7 +48,9 @@ using namespace DirectX::SimpleMath;
 	 m_walljump = false;
 	 m_fly = false;
 	 m_timer = Timer();
+	 m_goalTimer = Timer();
 	 m_timer.start();
+	 m_goalTimer.start();
 	 m_oldFrameTime = 0.0f;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
@@ -60,14 +64,15 @@ using namespace DirectX::SimpleMath;
 	 m_movPos = 0;
 	 m_movAlt = 1033.33;
 	 m_movSpeed = { 0, 0, 0 };
-
+	 m_trampoline = false;
+	 m_trampolineAngle = { 0, 0, 0 };
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
  }
 
  Player::~Player()
  {
-
+	
  }
 
  int signOf(const float& value)
@@ -95,6 +100,13 @@ using namespace DirectX::SimpleMath;
  void Player::update()
  {
 
+	 if (m_createOnce)
+	 {
+		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
+		 m_createOnce = false;
+	 }
+
 	detectDeath(-35.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
@@ -103,7 +115,7 @@ using namespace DirectX::SimpleMath;
 	
 	Vector3 moveDirection = Vector3::Zero;
 	Vector3 moveDirection2 = Vector3::Zero;
-	Vector3 moveSpeed = Vector3::Zero;
+	//Vector3 moveSpeed = Vector3::Zero;
 
 
 	if (m_hooked)
@@ -184,36 +196,8 @@ using namespace DirectX::SimpleMath;
 	{
 		m_oldCollider = NULL;
 	}
-	if (m_movObj == true)
-	{
-		moveDirection2 -= m_deltaPos;
-		moveSpeed = m_movSpeed;
-		//cast ray
-		constexpr float maxDist = 3.25f;
-		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		float dist = FLT_MAX;
-		bool noHit = true;
-		if (m_normal.Length() != 0)
-		{
-			for (auto& go : scene)
-			{
-				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-				if (obb != nullptr)
-				{
-					float d = 10000000000000;
-					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
-					{
-						if (d < dist) dist = d;
-						noHit = false;
-					}
-				}
-			}
-		}
-		if (dist > maxDist || noHit)
-		{
-			m_movObj = false;
-		}
-	}
+	
+	moveDirection2 = moveObjectCheck(moveDirection2);
 
 	moveDirection.y = 0;
 	moveDirection.Normalize();
@@ -232,26 +216,32 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+
 	if (m_movObj == true)
 	{
+		Vector3 moveSpeed = m_movSpeed;
 		moveSpeed.y = 0;
 
-			if ( (moveDirection.x == 0 && moveDirection.z == 0 ))
-			{
-				velocitySkipY = moveSpeed;
-			}
-			
-		
-	
+		if (moveDirection == Vector3::Zero || (moveDirection.Dot(moveSpeed) > 0.9f && velocitySkipY.Length() < moveSpeed.Length()))
+		{
+			velocitySkipY = moveSpeed;
+		}
+
 	}
-	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	if (m_trampoline == true)
+	{
+		velocitySkipY += m_trampolineAngle * 100;
+	}
+	else
+	{
+		velocitySkipY += moveDirection * m_frameTime * m_speed;
+	}
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
 
-	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
+	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
-	//velocitySkipY.y += moveDirection2.y * 14.4;
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
 	if (m_velocityY < 0) {
@@ -279,7 +269,7 @@ using namespace DirectX::SimpleMath;
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
-
+	m_trampoline = false;
 	ImGui::Begin("Player Info");
 	{
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
@@ -293,6 +283,9 @@ using namespace DirectX::SimpleMath;
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
+
+	std::string text = "Velocity: " + std::to_string(velocity.Length()) + "\n";
+	m_velocitySprite->setText(text);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -307,6 +300,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
+		 m_movObj = false;
 		 m_oldCollider = NULL;
 		 m_ground = true;
 		 m_walljump = false;
@@ -320,6 +314,7 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider && collider->getGameObject()->getName() != "checkpoint")
 	 {
+		 m_movObj = false;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
@@ -327,6 +322,7 @@ using namespace DirectX::SimpleMath;
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 detectDeath(FLT_MAX);
 		 m_respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 /*std::wstring msg = L"Your Time was";
@@ -345,7 +341,12 @@ using namespace DirectX::SimpleMath;
 		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
+	 if (collider->getGameObject()->getName() == "trampoline")
+	 {
+		 m_trampoline = true;
+		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
 
+	 }
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
@@ -509,10 +510,10 @@ using namespace DirectX::SimpleMath;
 
  void Player::gravityChange(const Vector3& velocity)
  {
-	 constexpr float changeGVelocity = 20.0f;
-	 constexpr float bigG = 95.0f;//80.0f;
+	 constexpr float changeGVelocity = 25.9f;
+	 constexpr float bigG = 95.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 60.0f;//30.0f*2.5f;
+	 constexpr float wallJumpG = 60.0f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -536,6 +537,7 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
+		 //goalTimerGetTime();
 		 m_rb->setVelocity(Vector3::Zero);
 		 m_flySpeed = 0;
 		 m_groundSpeed = 0;
@@ -664,11 +666,11 @@ using namespace DirectX::SimpleMath;
 	 m_timer.start();
  }
 
- long double Player::timerGetTime()
+ long double Player::goalTimerGetTime()
  {
-	 m_timer.stop();
-	 m_timer.start();
-	 return m_timer.getTime(Timer::Duration::SECONDS);
+	 m_goalTimer.stop();
+	 m_goalTimer.start();
+	 return m_goalTimer.getTime(Timer::Duration::SECONDS);
  }
 
  void Player::wallRunning(const Vector3& velocity) 
@@ -872,4 +874,38 @@ using namespace DirectX::SimpleMath;
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }
+ }
+ 
+ Vector3 Player::moveObjectCheck(Vector3 moveDirection2)
+ {
+	 if (m_movObj == true)
+	 {
+		 moveDirection2 -= m_deltaPos;
+		 //cast ray
+		 constexpr float maxDist = 3.25f;
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = FLT_MAX;
+		 bool noHit = true;
+		 if (m_normal.Length() != 0)
+		 {
+			 for (auto& go : scene)
+			 {
+				 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				 if (obb != nullptr)
+				 {
+					 float d = 10000000000000;
+					 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					 {
+						 if (d < dist) dist = d;
+						 noHit = false;
+					 }
+				 }
+			 }
+		 }
+		 if (dist > maxDist || noHit)
+		 {
+			 m_movObj = false;
+		 }
+	 }
+	 return moveDirection2;
  }

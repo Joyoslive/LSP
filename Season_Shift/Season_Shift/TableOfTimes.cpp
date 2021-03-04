@@ -25,10 +25,10 @@ const Grade& TableOfTimes::getGrade(const float& timePassed)
 		assert(false);
 
 	Grade* closestGrade = &m_grades[0];
-	for (int i = 1; i < m_grades.size(); ++i)
+	for (Grade& grade : m_grades)
 	{
-		if ((closestGrade->requiredTime > m_grades[i].requiredTime || timePassed > closestGrade->requiredTime) && timePassed <= m_grades[i].requiredTime)
-			closestGrade = &m_grades[i];
+		if ((closestGrade->requiredTime > grade.requiredTime || timePassed > closestGrade->requiredTime) && timePassed <= grade.requiredTime)
+			closestGrade = &grade;
 	}
 
 	if (timePassed > closestGrade->requiredTime)
