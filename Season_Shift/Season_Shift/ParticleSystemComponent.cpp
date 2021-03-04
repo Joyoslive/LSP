@@ -33,6 +33,8 @@ void ParticleSystemComponent::update()
 			e.second.accumulatedTime += dt;
 			if (1 / e.second.particlesPerSecond < e.second.accumulatedTime)
 			{
+				Vector3 worldOffset = DirectX::XMVector3Transform(e.second.offset, getTransform()->getRotationMatrix());
+				e.first.pos = getTransform()->getPosition() + worldOffset; // add offset rotation from transform
 				e.first.count = e.second.particlesPerSecond * e.second.accumulatedTime;
 				e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
 				m_partSys->emitt(e.first);
@@ -65,10 +67,9 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLifeTime,
 	float emitterLifeTime, Vector3 color, Vector3 direction, Vector3 offset)
 {
-	Vector3 tempPos = getTransform()->getPosition() + offset; // add offset rotation from transform
 	
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(tempPos, startLifeTime, Vector3::Zero, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(Vector3::Zero, startLifeTime, Vector3::Zero, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond, offset)));
 
 	return m_emittVec.size()-1;
 }
@@ -87,9 +88,10 @@ ParticleSystemComponent::~ParticleSystemComponent()
 {
 }
 
-ParticleSystemComponent::EmitterMetaData::EmitterMetaData(float lifeTime, float particlesPerSecond)
+ParticleSystemComponent::EmitterMetaData::EmitterMetaData(float lifeTime, float particlesPerSecond, Vector3 offset)
 {
 	this->lifeTime = lifeTime;
 	this->particlesPerSecond = particlesPerSecond;
 	this->accumulatedTime = 0;
+	this->offset = offset;
 }
