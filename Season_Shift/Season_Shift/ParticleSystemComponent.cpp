@@ -38,7 +38,7 @@ void ParticleSystemComponent::update()
 				e.first.count = e.second.particlesPerSecond * e.second.accumulatedTime;
 				e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
 				m_partSys->emitt(e.first);
-				e.second.accumulatedTime -= (1 / e.second.particlesPerSecond);
+ 				e.second.accumulatedTime -= e.first.count / e.second.particlesPerSecond;
 			}
 			
 			e.second.lifeTime -= dt;
