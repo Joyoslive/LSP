@@ -64,7 +64,8 @@ void Scene5::setUpScene()
 	auto playerComp = std::make_shared<Player>();
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
-	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 	std::vector<std::string> v1;
 	v1.push_back("Sounds/whoosh.wav");
 	v1.push_back("Sounds/boing2.wav");
