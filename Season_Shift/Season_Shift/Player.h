@@ -11,6 +11,7 @@ class Collider;
 class CapsuleCollider;
 class RigidBody;
 class ISprite;
+class ParticleSystemComponent;
 
 class Player : public Logic
 {
@@ -71,6 +72,8 @@ private:
 	Ref<ISprite> m_velocitySprite;
 	Ref<ISprite> m_sprite;
 	bool m_createOnce = true;
+	Ref<ParticleSystemComponent> m_playerPartSys;
+	int m_landingPartEmittId;
 
 private:
 	void detectDeath(float death);

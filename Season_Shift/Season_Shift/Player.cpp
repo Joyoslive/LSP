@@ -13,6 +13,7 @@
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 #include "Graphics/2D/ISprite.h"
+#include "ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -72,6 +73,7 @@ using namespace DirectX::SimpleMath;
 	 m_trampolineTimer = 0;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
+	 m_landingPartEmittId = -1;
 
  }
 
@@ -99,6 +101,10 @@ using namespace DirectX::SimpleMath;
 	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
 	 m_gameObject->AddComponent(m_logicPlayerCamera);
 	 m_logicPlayerCamera->start();
+
+	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(1000, 1)));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(1000, 0, 0, Vector3(1, 1, 0), Vector3::Zero, Vector3(0, 0, 7));
+	 //	80 / 2 = 40
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -326,7 +332,10 @@ using namespace DirectX::SimpleMath;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
-	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
+	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
+	 {
+		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5f);
+	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
@@ -579,6 +588,7 @@ using namespace DirectX::SimpleMath;
 
 		 if (m_walljump == true)
 		 {
+			 m_sound->play("Sounds/jump3.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -605,6 +615,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
+			 m_sound->play("Sounds/jump2.wav");
 			 if (m_movObj == true)
 				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
@@ -617,6 +628,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_doubleJump == true)
 		 {
+			 m_sound->play("Sounds/jump.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
@@ -856,6 +868,7 @@ using namespace DirectX::SimpleMath;
 				 {
 					 if (d < dist)
 					 {
+						 m_sound->play("Sounds/hook.wav");
 						 dist = d;
 						 hitObj = true;
 					 }
@@ -883,6 +896,8 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (Input::getInput().mouseReleased(Input::LeftButton))
 	 {
+		 if(m_hooked == true)
+			 m_sound->play("Sounds/dehook.wav");
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }
