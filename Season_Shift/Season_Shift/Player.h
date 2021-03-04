@@ -64,6 +64,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
 	Ref<ISprite> m_velocitySprite;
+	Ref<ISprite> m_sprite;
 	bool m_createOnce = true;
 
 private:
