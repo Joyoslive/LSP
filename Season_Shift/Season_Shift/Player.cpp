@@ -590,6 +590,7 @@ using namespace DirectX::SimpleMath;
 
 		 if (m_walljump == true)
 		 {
+			 m_sound->play("Sounds/jump3.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -616,6 +617,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
+			 m_sound->play("Sounds/jump2.wav");
 			 if (m_movObj == true)
 				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
@@ -628,6 +630,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_doubleJump == true)
 		 {
+			 m_sound->play("Sounds/jump.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
@@ -867,6 +870,7 @@ using namespace DirectX::SimpleMath;
 				 {
 					 if (d < dist)
 					 {
+						 m_sound->play("Sounds/hook.wav");
 						 dist = d;
 						 hitObj = true;
 					 }
@@ -894,6 +898,8 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (Input::getInput().mouseReleased(Input::LeftButton))
 	 {
+		 if(m_hooked == true)
+			 m_sound->play("Sounds/dehook.wav");
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }
