@@ -223,6 +223,16 @@ FXMVECTOR Camera::getGlobalUp()
 	return m_globalUp;
 }
 
+float Camera::getNearPlane()
+{
+	return m_nearPlane;
+}
+
+float Camera::getFarPlane()
+{
+	return m_farPlane;
+}
+
 CXMMATRIX Camera::getViewMatrix() const
 {
 	return m_viewMatrix;

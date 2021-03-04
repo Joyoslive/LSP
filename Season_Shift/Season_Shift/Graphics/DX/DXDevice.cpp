@@ -155,9 +155,9 @@ std::shared_ptr<DXBuffer> DXDevice::createConstantBuffer(unsigned int size, bool
 		desc.Usage = D3D11_USAGE_DYNAMIC;
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	}
-	else if (dynamic && !updateOnCPU)
+	else if (dynamic && !updateOnCPU)	
 	{
-		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.Usage = D3D11_USAGE_DEFAULT;	
 		desc.CPUAccessFlags = 0;
 	}
 	else
@@ -348,10 +348,16 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 
 			if (desc.desc2D.MiscFlags & D3D11_RESOURCE_MISC_TEXTURECUBE)
 			{
-				mtSRV.Format = desc.desc2D.Format;
 				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 				mtSRV.TextureCube.MipLevels = 1;
 				mtSRV.TextureCube.MostDetailedMip = 0;
+			}
+			else if (desc.desc2D.BindFlags & D3D11_BIND_DEPTH_STENCIL)
+			{
+				mtSRV.Format = DXGI_FORMAT_R32_FLOAT;
+				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+				mtSRV.Texture2D.MostDetailedMip = 0;
+				mtSRV.Texture2D.MipLevels = 1;
 			}
 			else
 			{
@@ -359,7 +365,6 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 				mtSRV.Texture2D.MostDetailedMip = 0;
 				mtSRV.Texture2D.MipLevels = 1;		// temporary for now
 			}
-
 
 
 			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
@@ -371,6 +376,10 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			ComPtr<ID3D11DepthStencilView> dsv;
 			D3D11_DEPTH_STENCIL_VIEW_DESC mtDSV = { };
 			mtDSV.Format = desc.desc2D.Format;
+
+			if (desc.desc2D.BindFlags & D3D11_BIND_SHADER_RESOURCE)		// shadow map
+				mtDSV.Format = DXGI_FORMAT_D32_FLOAT;
+
 			mtDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 			mtDSV.Texture2D.MipSlice = 0;
 
@@ -764,7 +773,12 @@ void DXDevice::bindRasterizerState(const Microsoft::WRL::ComPtr<ID3D11Rasterizer
 
 void DXDevice::bindRenderTargets(const std::vector<std::shared_ptr<DXTexture>>& targets, const std::shared_ptr<DXTexture>& depthTarget)
 {
-	if (targets.size() == 0)
+	if (targets.size() == 0 && depthTarget != nullptr) 
+	{
+		m_core->getImmediateContext()->OMSetRenderTargets(0, { nullptr }, depthTarget->getDSV().Get());		// depth only pass
+		return;
+	}
+	else if (targets.size() == 0)
 	{
 		m_core->getImmediateContext()->OMSetRenderTargets(0, { nullptr }, nullptr);
 		return;
