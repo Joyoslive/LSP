@@ -590,7 +590,7 @@ using namespace DirectX::SimpleMath;
 
 		 if (m_walljump == true)
 		 {
-			 m_sound->play("Sounds/jump3.wav");
+			 m_sound->play("Sounds/jump3a.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -617,7 +617,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
-			 m_sound->play("Sounds/jump2.wav");
+			 m_sound->play("Sounds/jump1a.wav");
 			 if (m_movObj == true)
 				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
@@ -630,7 +630,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_doubleJump == true)
 		 {
-			 m_sound->play("Sounds/jump.wav");
+			 m_sound->play("Sounds/jump2a.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
