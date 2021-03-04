@@ -13,7 +13,8 @@ private:
 		float lifeTime;
 		float particlesPerSecond;
 		float accumulatedTime;
-		EmitterMetaData(float lifeTime, float particlesPerSecond);
+		DirectX::SimpleMath::Vector3 offset;
+		EmitterMetaData(float lifeTime, float particlesPerSecond, DirectX::SimpleMath::Vector3 offset);
 	};
 	unsigned int m_maxParticles;
 	unsigned int m_particleLifeTime;

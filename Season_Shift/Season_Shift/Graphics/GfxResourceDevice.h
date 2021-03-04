@@ -56,6 +56,7 @@ private:
 	
 private:
 	std::shared_ptr<DXTexture> loadTexture(std::string filepath);
+	std::shared_ptr<DXTexture> loadTextureSprite(std::string filepath);
 	std::pair<std::size_t, Material::ShaderSet> loadShader(GfxShader shader);
 	std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> loadBuffers(GfxShader shader);
 
@@ -99,5 +100,7 @@ public:
 	std::shared_ptr<ISprite> createSprite(const std::string& text, float x, ScreenPos screenPosY);
 	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, ScreenPos screenPosY);
 	std::shared_ptr<ISprite> createSprite(const std::string& text, ScreenPos screenPosX, ScreenPos screenPosY);
+
+	std::shared_ptr<ISprite> createSpriteTexture(const std::string& textureName, float positionX = 0, float positionY = 0, float scaleX = 1, float scaleY = 1, float rotation = 0);
 };
 

@@ -37,12 +37,12 @@ void Scene5::setUpScene()
 	{
 		if (object.name == "Checkpoint")
 		{
-			Ref<GameObject> cp1 = createGameObject("checkpoint", object.position);
+			Ref<GameObject> cp1 = createGameObject("checkpoint", object.position, Vector3(2, 2, 2));
 			cp1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
 			Ref<OrientedBoxCollider> r1 = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
 			r1->SetTriggerCollider(true);
 			cp1->AddComponent(r1);
-			cp1->AddComponent(std::make_shared<Rotate>(0, 0.5, 0));
+			cp1->AddComponent(std::make_shared<Rotate>(0, 20, 0));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -65,6 +65,15 @@ void Scene5::setUpScene()
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/boing2.wav");
+	v1.push_back("Sounds/hook.wav");
+	v1.push_back("Sounds/dehook.wav");
+	v1.push_back("Sounds/jump.wav");
+	v1.push_back("Sounds/jump2.wav");
+	v1.push_back("Sounds/jump3.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
@@ -75,9 +84,10 @@ void Scene5::setUpScene()
 	m_graphics->setSkybox(1);
 	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
 	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(2000, 4))
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(80, 4))
 		);
 	partSys->addEmitter(20, 0, 200, Vector3(0,1,1));
+	//	80 / 4 = 20
 
 	auto audioObject = createGameObject("audio", Vector3(-4, 8, 0));
 	std::vector<std::string> v;

@@ -9,9 +9,11 @@
 #include "Transform.h"
 #include "Move.h"
 #include "Bounce.h"
+#include "Sound.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 #include "Graphics/2D/ISprite.h"
+#include "ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -54,6 +56,7 @@ using namespace DirectX::SimpleMath;
 	 m_oldFrameTime = 0.0f;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
+	 m_oldTrampolineCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
 	 m_movObj = false;
@@ -66,8 +69,12 @@ using namespace DirectX::SimpleMath;
 	 m_movSpeed = { 0, 0, 0 };
 	 m_trampoline = false;
 	 m_trampolineAngle = { 0, 0, 0 };
+	 m_trampolinePower = 0;
+	 m_trampolineTimer = 0;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
+	 m_landingPartEmittId = -1;
+
  }
 
  Player::~Player()
@@ -86,6 +93,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
+	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -93,6 +101,10 @@ using namespace DirectX::SimpleMath;
 	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
 	 m_gameObject->AddComponent(m_logicPlayerCamera);
 	 m_logicPlayerCamera->start();
+
+	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(1000, 1)));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(1000, 0, 0, Vector3(1, 1, 0), Vector3::Zero, Vector3(0, 0, 7));
+	 //	80 / 2 = 40
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -102,8 +114,10 @@ using namespace DirectX::SimpleMath;
 
 	 if (m_createOnce)
 	 {
+		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Skyboxes/space/negx.jpg", 200, 100, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
 		 m_createOnce = false;
 	 }
 
@@ -192,9 +206,17 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
+	if (m_trampolineTimer > 0.0f)
+	{
+		m_trampolineTimer -= m_frameTime;
+	}
 	if(m_wallTimer <= 0)
 	{
 		m_oldCollider = NULL;
+	}
+	if (m_trampolineTimer <= 0)
+	{
+		m_oldTrampolineCollider = NULL;
 	}
 	
 	moveDirection2 = moveObjectCheck(moveDirection2);
@@ -228,9 +250,9 @@ using namespace DirectX::SimpleMath;
 		}
 
 	}
-	if (m_trampoline == true)
+	if (m_trampoline == true )
 	{
-		velocitySkipY += m_trampolineAngle * 100;
+		velocitySkipY += m_trampolineAngle * m_trampolinePower;
 	}
 	else
 	{
@@ -244,7 +266,8 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
-	if (m_velocityY < 0) {
+	if (m_velocityY < 0) 
+	{
 		Vector3 hold = m_transform->getPosition();
 		hold -= m_deltaPos;
 		m_transform->setPosition(hold);
@@ -284,7 +307,9 @@ using namespace DirectX::SimpleMath;
 	}
 	ImGui::End();
 
-	std::string text = "Velocity: " + std::to_string(velocity.Length()) + "\n";
+	long absVelocity = labs(velocity.Length() * 10.0f);
+
+	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
 	m_velocitySprite->setText(text);
  }
 
@@ -318,7 +343,10 @@ using namespace DirectX::SimpleMath;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
-	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
+	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
+	 {
+		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.5f);
+	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
@@ -341,11 +369,15 @@ using namespace DirectX::SimpleMath;
 		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
-	 if (collider->getGameObject()->getName() == "trampoline")
+	 if (collider->getGameObject()->getName() == "trampoline" && m_oldTrampolineCollider != collider)
 	 {
+		 m_oldTrampolineCollider = collider;
+		 m_trampolineTimer = 0.4f;
 		 m_trampoline = true;
 		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
-
+		 m_trampolinePower = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getPower();
+		 m_sound->play("Sounds/boing2.wav");
+		 m_ground = false;
 	 }
  }
 
@@ -487,7 +519,7 @@ using namespace DirectX::SimpleMath;
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	 {
 		 m_cooldownDash = 2.0f;
-
+		 m_sound->play("Sounds/woosh.wav");
 		 velocity = { 0, 0, 0 };
 		 cameraLook.Normalize();
 		 velocity += cameraLook * m_dashSpeed;
@@ -567,6 +599,7 @@ using namespace DirectX::SimpleMath;
 
 		 if (m_walljump == true)
 		 {
+			 m_sound->play("Sounds/jump3.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -593,8 +626,9 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
+			 m_sound->play("Sounds/jump2.wav");
 			 if (m_movObj == true)
-				 velocity.y = m_jumpSpeed + m_velocityY*6;
+				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
  				velocity.y = m_jumpSpeed;
 			 m_ground = false;
@@ -605,6 +639,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_doubleJump == true)
 		 {
+			 m_sound->play("Sounds/jump.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
@@ -844,6 +879,7 @@ using namespace DirectX::SimpleMath;
 				 {
 					 if (d < dist)
 					 {
+						 m_sound->play("Sounds/hook.wav");
 						 dist = d;
 						 hitObj = true;
 					 }
@@ -871,6 +907,8 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (Input::getInput().mouseReleased(Input::LeftButton))
 	 {
+		 if(m_hooked == true)
+			 m_sound->play("Sounds/dehook.wav");
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }

@@ -12,9 +12,10 @@ Bounce::Bounce()
 {
 }
 
-Bounce::Bounce(DirectX::SimpleMath::Vector3 angle)
+Bounce::Bounce(DirectX::SimpleMath::Vector3 angle, float power)
 {
 	m_angle = angle;
+	m_power = power;
 }
 
 Bounce::~Bounce()
@@ -23,4 +24,8 @@ Bounce::~Bounce()
 
 DirectX::SimpleMath::Vector3 Bounce::getAngle() {
 	return m_angle;
+}
+
+float Bounce::getPower() {
+	return m_power;
 }
