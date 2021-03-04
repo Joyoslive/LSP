@@ -36,9 +36,9 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
 	std::vector<std::string> v1;
 	v1.push_back("Sounds/whoosh.wav");
-	v1.push_back("Sounds/jump.wav");
-	v1.push_back("Sounds/jump2.wav");
-	v1.push_back("Sounds/jump3.wav");
+	v1.push_back("Sounds/jump1a.wav");
+	v1.push_back("Sounds/jump2a.wav");
+	v1.push_back("Sounds/jump3a.wav");
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/hook.wav");
 	v1.push_back("Sounds/dehook.wav");
