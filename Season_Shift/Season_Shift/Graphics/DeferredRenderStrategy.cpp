@@ -124,6 +124,10 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	dev->bindShaderTexture(DXShader::Type::PS, 2, nullptr);
 	dev->bindShaderTexture(DXShader::Type::PS, 3, nullptr);
 
+	dev->bindShaderTexture(DXShader::Type::PS, 6, nullptr);
+	dev->bindShaderTexture(DXShader::Type::PS, 7, nullptr);
+	dev->bindShaderTexture(DXShader::Type::PS, 8, nullptr);
+
 	dev->bindRenderTargets({ dev->getBackbuffer() }, nullptr);
 
 	if (m_usePostProcessing)
