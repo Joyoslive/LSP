@@ -210,35 +210,6 @@ using namespace DirectX::SimpleMath;
 	{
 		m_oldTrampolineCollider = NULL;
 	}
-	if (m_movObj == true)
-	{
-		moveDirection2 -= m_deltaPos;
-		//cast ray
-		constexpr float maxDist = 3.25f;
-		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		float dist = FLT_MAX;
-		bool noHit = true;
-		if (m_normal.Length() != 0)
-		{
-			for (auto& go : scene)
-			{
-				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-				if (obb != nullptr)
-				{
-					float d = 10000000000000;
-					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
-					{
-						if (d < dist) dist = d;
-						noHit = false;
-					}
-				}
-			}
-		}
-		if (dist > maxDist || noHit)
-		{
-			m_movObj = false;
-		}
-	}
 	
 	moveDirection2 = moveObjectCheck(moveDirection2);
 
