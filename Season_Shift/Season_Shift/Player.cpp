@@ -524,7 +524,12 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_cooldownDash > 0.0f)
 	 {
+		 m_sprite->setShow(false);
 		 m_cooldownDash -= m_frameTime;
+	 }
+	 else
+	 {
+		 m_sprite->setShow(true);
 	 }
 	 return velocity;
  }
