@@ -3,15 +3,10 @@
 #include "Component.h"
 #include <Audio.h>
 
-class Transform;
 class CameraComponent;
 
 class Sound : public Component
 {
-public:
-	Sound(const std::vector<std::string>& fileName, const Ref<CameraComponent>& listener = nullptr);
-	~Sound();
-
 private:
 	Ref<CameraComponent> m_listenerCamera;
 	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
@@ -27,7 +22,8 @@ private:
 	void initialize() override;
 
 public:
-	
+	Sound(const std::vector<std::string>& fileName, const Ref<CameraComponent>& listener = nullptr);
+	~Sound();
 
 	size_t play(const std::string& soundname);
 

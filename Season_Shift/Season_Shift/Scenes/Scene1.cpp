@@ -42,36 +42,36 @@ void Scene1::setUpScene()
 	Ref<Model> model5 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 	Ref<Model> model6 = m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
 
-	createGameObject();
-	createGameObject("GameObject1");
-	Ref<GameObject> gObj = createGameObject("GameObject2", Vector3(12, 4, 6));
-	gObj->AddComponent(std::make_shared<RigidBody>());
-	Ref<Test> test = std::make_shared<Test>();
-	gObj->AddComponent(test);
-	Ref<Logic> logic = gObj->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
-	//destroyGameObject(gObj);
-
-	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(12, 4, 6));
-	Ref<ParticleSystem> partSys = std::dynamic_pointer_cast<ParticleSystem>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>("",""))
+	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 0), Vector3(1.0f, 1.0f, 1.0f));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	player->AddComponent(std::make_shared<CameraComponent>());
+	player->AddComponent(std::make_shared<RigidBody>());
+	player->AddComponent(std::make_shared<Player>());
+	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
+	//player->AddComponent(std::make_shared<SphereCollider>(1));
+	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
+	std::dynamic_pointer_cast<Sound>(s)->play();*/
+	Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
+	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
+		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(5, 10))
 		);
+	partSys->addEmitter(1, 0, 60);
 
-
-
-	Ref<GameObject> sphere = createGameObject("sphere", Vector3(0, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
+	/*Ref<GameObject> sphere = createGameObject("sphere", Vector3(0, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	sphere->AddComponent(std::make_shared<SphereCollider>(1.0f));
 	sphere->AddComponent(std::make_shared<RigidBody>());
-	sphere->AddComponent(model5);
+	sphere->AddComponent(model5);*/
 
-	Ref<GameObject> collider = createGameObject("colliderTest1", Vector3(0, -5.0f, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 0.0, 0));
+	/*Ref<GameObject> collider = createGameObject("colliderTest1", Vector3(0, -5.0f, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 0.0, 0));
 	collider->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(1.0f, 1.0f, 1.0f)));
 	collider->AddComponent(model6);
-	collider->AddComponent(std::make_shared<Test>());
+	collider->AddComponent(std::make_shared<Test>());*/
 
-	Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
+	/*Ref<GameObject> go1 = createGameObject("colliderTest1", Vector3(2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 180, 0));
 	go1->AddComponent(std::make_shared<SphereCollider>(2.0f));
 	go1->AddComponent(model);
-	go1->AddComponent(std::make_shared<Test>());
+	go1->AddComponent(std::make_shared<Test>());*/
 
 	Ref<GameObject> go2 = createGameObject("colliderTest1", Vector3(-2, 0, -40), Vector3(0.2f, 0.2f, 0.2f), Vector3(0, 90, 0));
 	go2->AddComponent(model2);
@@ -81,13 +81,6 @@ void Scene1::setUpScene()
 
 	Ref<GameObject> go4 = createGameObject("Model4", Vector3(6, 0, -40), Vector3(0.2f, 0.2f, 0.2f));
 	go4->AddComponent(model4);
-
-	Ref<GameObject> player = createGameObject("player", Vector3(-2, 0, -20), Vector3(0.2f, 0.2f, 0.2f));
-	player->AddComponent(std::make_shared<RigidBody>());
-	player->AddComponent(std::make_shared<SphereCollider>(2));
-	player->AddComponent(std::make_shared<CameraComponent>());
-	player->AddComponent(std::make_shared<Player>());
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 
 	Ref<GameObject> coll = createGameObject("collider", Vector3(-2, -8, -20), Vector3(100, 100, 100), Vector3(90, 0, 0));
 	coll->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(120, 120, 1)));
@@ -115,7 +108,7 @@ void Scene1::setUpScene()
 
 	coll->AddComponent(quadMod1);
 	//coll->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
-	Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
+	/*Ref<GameObject> go5 = createGameObject("Box", Vector3(0, 0, 0), Vector3(1.f, 1.f, 1.f));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Cube/", "Cube.obj", GfxShader::DEFAULT));
-	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(1, 1, 1)));
+	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(1, 1, 1)));*/
 }

@@ -47,6 +47,7 @@ public:
 	Ref<Transform> getTransform() const;
 	ComponentEnum getType() const;
 	virtual void update();
+	
 
 protected:
 
@@ -54,7 +55,7 @@ protected:
 	Ref<GameObject> m_gameObject;
 	ComponentEnum m_componentType;
 	virtual void initialize();
-	
+	virtual void clearComponent();
 
 private:
 	void setTransform(Ref<Transform> transform);

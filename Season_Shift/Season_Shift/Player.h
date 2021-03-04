@@ -9,6 +9,7 @@ class CameraComponent;
 class Collider;
 class CapsuleCollider;
 class RigidBody;
+class ISprite;
 
 class Player : public Logic
 {
@@ -62,6 +63,8 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
+	Ref<ISprite> m_velocitySprite;
+	bool m_createOnce = true;
 
 private:
 	void detectDeath(float death);
@@ -80,6 +83,7 @@ private:
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 	float lerp(float a, float b, float f);
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
+	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 public:
 	Player();
 	~Player();

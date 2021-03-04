@@ -31,6 +31,10 @@ void Component::update()
 
 }
 
+void Component::clearComponent()
+{
+}
+
 void Component::setTransform(Ref<Transform> transform)
 {
 	m_transform = transform;
