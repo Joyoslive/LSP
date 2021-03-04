@@ -344,6 +344,22 @@ void DeferredRenderStrategy::setupLightPass()
 	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	auto samplerState = dev->createSamplerState(sDesc);
 
+	// Sampler for shadow map
+	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.BorderColor[0] = 1.f;
+	sDesc.BorderColor[1] = 1.f;
+	sDesc.BorderColor[2] = 1.f;
+	sDesc.BorderColor[3] = 1.f;
+	sDesc.MipLODBias = 0;
+	sDesc.MaxAnisotropy = 0;
+	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sDesc.MinLOD = 0;
+	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	auto smSampler = dev->createSamplerState(sDesc);
+
 	// Create a render pipeline for the deferred light pass
 	auto lpPipeline = std::make_shared<DXPipeline>();
 	lpPipeline->attachInputLayout(inputLayout);
@@ -369,6 +385,7 @@ void DeferredRenderStrategy::setupLightPass()
 	m_lightPass = std::make_shared<DXRenderPass>();
 	m_lightPass->attachPipeline(lpPipeline);
 	m_lightPass->attachSampler(0, samplerState);
+	m_lightPass->attachSampler(1, smSampler);
 	m_lightPass->attachInputTexture(0, m_gbuffers.gbPosWS);
 	m_lightPass->attachInputTexture(1, m_gbuffers.gbNorWS);
 	m_lightPass->attachInputTexture(2, m_gbuffers.gbUV);
