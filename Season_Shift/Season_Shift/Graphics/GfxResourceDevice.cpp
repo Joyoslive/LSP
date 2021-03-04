@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GfxResourceDevice.h"
+#include "2D/SpriteTexture.h"
 #include <functional>
 
 GfxResourceDevice::GfxResourceDevice(std::shared_ptr<DXDevice> dev) :
@@ -52,7 +53,43 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	return tex;
 }
 
+std::shared_ptr<DXTexture> GfxResourceDevice::loadTextureSprite(std::string filepath)
+{
+	auto texData = loadFileToTexture(filepath);
 
+	if (texData.width == 0 || texData.height == 0)
+		return nullptr;
+
+	// MIP Levels set to one for now!!!
+	DXTexture::Desc desc{
+		DXTexture::Type::TEX2D,
+	};
+	desc.desc2D = {
+		static_cast<UINT>(texData.width),
+		static_cast<UINT>(texData.height),
+		1,
+		1,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		{1, 0},
+		D3D11_USAGE_IMMUTABLE,
+		D3D11_BIND_SHADER_RESOURCE,
+		0,
+		0,
+	};
+
+	D3D11_SUBRESOURCE_DATA initData{
+		texData.data,
+		texData.width * sizeof(uint32_t),
+		0,
+	};
+
+
+	auto tex = m_dxDev->createTexture(desc, &initData);
+
+	free(texData.data);
+
+	return tex;
+}
 
 std::shared_ptr<Mesh> GfxResourceDevice::createMesh(const std::string& meshID, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
@@ -200,6 +237,15 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	t->setText(text);
 	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
 	return t;
+}
+
+std::shared_ptr<ISprite> GfxResourceDevice::createSpriteTexture(const std::string& textureName, float positionX, float positionY, float scaleX, float scaleY, float rotation)
+{
+	auto tex = loadTextureSprite(textureName);
+	auto sprite = std::make_shared<SpriteTexture>(tex, rotation);
+	sprite->setPosition({positionX, positionY});
+	sprite->setScale({scaleX, scaleY});
+	return sprite;
 }
 
 std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxShader shader)

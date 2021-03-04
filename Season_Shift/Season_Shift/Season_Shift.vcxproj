@@ -177,6 +177,7 @@
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GoalLogic.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
     <ClCompile Include="Graphics\DirectionalLight.cpp" />
     <ClCompile Include="Graphics\FullscreenQuad.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GoalLogic.h" />
+    <ClInclude Include="Graphics\2D\SpriteTexture.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
     <ClInclude Include="Graphics\DirectionalLight.h" />
     <ClInclude Include="Graphics\FullscreenQuad.h" />

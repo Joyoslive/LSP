@@ -6,6 +6,7 @@
 #include "../PlayerJumpTrigger.h"
 #include "../Rotate.h"
 #include "../Move.h"
+#include "../Sound.h"
 #include "../Bounce.h"
 #include "../GameObject.h"
 #include "../TableOfTimes.h"
@@ -33,6 +34,10 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/boing2.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
 	std::dynamic_pointer_cast<Sound>(s)->play();*/
@@ -315,11 +320,22 @@ void Scene4::setUpScene()
 	fallBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
 	fallBox7->AddComponent(std::make_shared<Move>(Vector3(0, 0.0f, 4.0f), Vector3(0, 0.0f, 50.0f)));
 
-	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 20) / 2), 7.0f, 0), Vector3(4, 4, 4));
-	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumber2.obj", GfxShader::DEFAULT));
-	fallBox10->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 4, 4)));
-	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0.5, 0.5, 0)));
+	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 15) / 2), 2.0f, -30), Vector3(4, 4, 4));
+	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r8 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r8->SetTriggerCollider(true);
+	fallBox10->AddComponent(r8);
+	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
 
+
+
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 25) / 2), 2.0f, 60), Vector3(4, 4, 4));
+	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r9->SetTriggerCollider(true);
+	fallBox11->AddComponent(r9);
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
+	
 
 	m_graphics->setLightDirection({-1, -1, 1});
 }

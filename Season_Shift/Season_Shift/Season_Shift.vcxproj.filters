@@ -77,6 +77,7 @@
     <ClCompile Include="Graphics\ShadowMapper.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Bounce.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Graphics\ShadowMapper.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Bounce.h" />
+    <ClInclude Include="Graphics\2D\SpriteTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
