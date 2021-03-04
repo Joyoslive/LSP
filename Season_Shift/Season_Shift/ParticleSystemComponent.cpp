@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Graphics\Graphics.h"
 #include <random>
+#include "FrameTimer.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -23,7 +24,7 @@ float GenRandomFloat(const float& min, const float& max)
 }
 void ParticleSystemComponent::update()
 {
-	float dt = 0.007f; //fix real dt;
+	float dt = FrameTimer::dt();
 
 	for (auto& e : m_emittVec)
 	{
@@ -38,7 +39,7 @@ void ParticleSystemComponent::update()
 				e.second.accumulatedTime -= (1 / e.second.particlesPerSecond);
 			}
 			
-			e.second.lifeTime -= dt; //dt pls
+			e.second.lifeTime -= dt;
 		}
 	}
 }
