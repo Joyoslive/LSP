@@ -65,6 +65,10 @@ void Scene5::setUpScene()
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/boing2.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));

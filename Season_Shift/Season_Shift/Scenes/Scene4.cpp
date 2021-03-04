@@ -34,6 +34,10 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/boing2.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
 	std::dynamic_pointer_cast<Sound>(s)->play();*/
@@ -322,9 +326,7 @@ void Scene4::setUpScene()
 	r8->SetTriggerCollider(true);
 	fallBox10->AddComponent(r8);
 	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
-	std::vector<std::string> v;
-	v.push_back("Sounds/boing.wav");
-	fallBox10->AddComponent(std::make_shared<Sound>(v));
+
 
 
 	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 25) / 2), 2.0f, 60), Vector3(4, 4, 4));
@@ -333,8 +335,7 @@ void Scene4::setUpScene()
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
 	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
-	v.push_back("Sounds/filip.wav");
-	fallBox11->AddComponent(std::make_shared<Sound>(v));
+	
 
 	m_graphics->setLightDirection({-1, -1, 1});
 }
