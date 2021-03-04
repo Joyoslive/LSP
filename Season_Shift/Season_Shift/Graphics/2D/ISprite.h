@@ -15,6 +15,7 @@ public:
 	inline void setShow(bool show) { m_show = show; }
 
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
+	inline bool getShow() { return m_show; }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;
