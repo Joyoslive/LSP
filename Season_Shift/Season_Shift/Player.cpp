@@ -114,14 +114,14 @@ using namespace DirectX::SimpleMath;
 
 	 if (m_createOnce)
 	 {
-		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Skyboxes/space/negx.jpg", 200, 100, 0.3f, 0.3f);
+		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
 		 m_createOnce = false;
 	 }
 
-	detectDeath(-35.0f);
+	detectDeath(-120.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -131,18 +131,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 moveDirection2 = Vector3::Zero;
 	//Vector3 moveSpeed = Vector3::Zero;
 
-
-	if (m_hooked)
-	{
-		LineVariables settings;
-		settings.startPos = m_transform->getPosition();
-		settings.endPos = m_hookPoint;
-		settings.color = Vector3::Zero;
-		settings.offset = Vector3(1.0, 0.4, 0.0);
-		settings.thickness = Vector2(0.1, 0.1);
-
-		m_gameObject->getScene()->getGraphics()->renderLine(settings);
-	}
+	drawLine();
 
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -326,7 +315,7 @@ using namespace DirectX::SimpleMath;
 	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
 		 m_movObj = false;
-		 m_oldCollider = NULL;
+		 m_oldCollider = NULL;	
 		 m_ground = true;
 		 m_walljump = false;
 		 m_doubleJump = true;
@@ -346,6 +335,7 @@ using namespace DirectX::SimpleMath;
 	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
 	 {
 		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.1f);
+		 m_sound->play("Sounds/landing.wav");
 	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
@@ -535,7 +525,12 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_cooldownDash > 0.0f)
 	 {
+		 m_sprite->setShow(false);
 		 m_cooldownDash -= m_frameTime;
+	 }
+	 else
+	 {
+		 m_sprite->setShow(true);
 	 }
 	 return velocity;
  }
@@ -946,4 +941,30 @@ using namespace DirectX::SimpleMath;
 		 }
 	 }
 	 return moveDirection2;
+ }
+
+ void Player::drawLine()
+ {
+	 LineVariables settings;
+	 settings.startPos = m_transform->getPosition();
+	 settings.offset = Vector3(1.0, 0.4, 0.0);
+	 settings.thickness = Vector2(0.11, 0.07);
+	 if (m_hooked)
+	 {
+		 settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 settings.color.x = powf(settings.color.x, 2.2f);
+		 settings.color.y = powf(settings.color.y, 2.2f);
+		 settings.color.z = powf(settings.color.z, 2.2f);
+		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
+		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
+	 }
+	 else
+	 {
+		 Vector3 up = {0, 1, 0};
+		 Vector3 cameraForward = m_playerCamera->getLookDirection();
+		 Vector3 right = up.Cross(-cameraForward);
+		 up = -cameraForward.Cross(right);
+		 Matrix matrix(right, up, cameraForward);
+		 m_hookEndPos = m_transform->getPosition() - (Vector3)DirectX::XMVector3Transform(settings.offset, matrix);
+	 }
  }
