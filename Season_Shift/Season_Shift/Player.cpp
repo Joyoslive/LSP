@@ -211,7 +211,6 @@ using namespace DirectX::SimpleMath;
 	if (m_movObj == true)
 	{
 		moveDirection2 -= m_deltaPos;
-		moveSpeed = m_movSpeed;
 		//cast ray
 		constexpr float maxDist = 3.25f;
 		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
