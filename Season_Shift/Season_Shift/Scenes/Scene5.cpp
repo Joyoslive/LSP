@@ -70,9 +70,9 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/hook.wav");
 	v1.push_back("Sounds/dehook.wav");
-	v1.push_back("Sounds/jump.wav");
-	v1.push_back("Sounds/jump2.wav");
-	v1.push_back("Sounds/jump3.wav");
+	v1.push_back("Sounds/jump1a.wav");
+	v1.push_back("Sounds/jump2a.wav");
+	v1.push_back("Sounds/jump3a.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));

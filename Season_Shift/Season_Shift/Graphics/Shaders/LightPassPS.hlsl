@@ -8,6 +8,7 @@ Texture2D g_smMid : register(t7);
 Texture2D g_smFar : register(t8);
 
 SamplerState g_sampler : register(s0);
+SamplerState g_smBorderSampler : register(s1);
 
 struct PS_IN
 {
@@ -67,7 +68,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 
 	float4 lcs = float4(0., 0., 0., 0.);
 	float2 smUv = float2(0., 0.);
-	float depth = 0.;
+	float depth = 1.;
 
 
 
@@ -88,7 +89,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 				depth = lcs.z;
 
 				bias = 0.0005f;
-				shadowMapDepth = g_smNear.Sample(g_sampler, smUv).r;
+				shadowMapDepth = g_smNear.Sample(g_smBorderSampler, smUv).r;
 				tmpCol = float4(1.f, 0.f, 0.f, 1.f);
 				break;
 			}
@@ -101,7 +102,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					depth = lcs.z;
 
 					bias = 0.0005f;
-					shadowMapDepth = g_smMid.Sample(g_sampler, smUv).r;
+					shadowMapDepth = g_smMid.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 1.f, 0.f, 1.f);
 					break;
 				}
@@ -115,7 +116,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					depth = lcs.z;
 
 					bias = 0.001f;
-					shadowMapDepth = g_smFar.Sample(g_sampler, smUv).r;
+					shadowMapDepth = g_smFar.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 0.f, 1.f, 1.f);
 					break;
 				}
@@ -134,7 +135,6 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 		col = inputColor;
 		
 	//col = inputColor * shadowed;
-
 	//col += tmpCol * 0.08;
 	return col;
 }

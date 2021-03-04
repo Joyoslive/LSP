@@ -226,7 +226,7 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 		float t = orthos[a].t + 30.f;
 		float b = orthos[a].b - 30.f;
 		float n = orthos[a].n - 200.f;
-		float f = orthos[a].f + 30.f;
+		float f = orthos[a].f + 200.f;
 
 		//float l = orthos[a].l - 150.f;
 		//float r = orthos[a].r + 150.f;
