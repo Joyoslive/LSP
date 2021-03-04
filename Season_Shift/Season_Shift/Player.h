@@ -63,6 +63,9 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
+
+	DirectX::SimpleMath::Vector3 m_hookEndPos;
+
 	Ref<ISprite> m_velocitySprite;
 	Ref<ISprite> m_sprite;
 	bool m_createOnce = true;
@@ -85,6 +88,7 @@ private:
 	float lerp(float a, float b, float f);
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
 	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
+	void drawLine();
 public:
 	Player();
 	~Player();

@@ -123,18 +123,7 @@ using namespace DirectX::SimpleMath;
 	Vector3 moveDirection2 = Vector3::Zero;
 	//Vector3 moveSpeed = Vector3::Zero;
 
-
-	if (m_hooked)
-	{
-		LineVariables settings;
-		settings.startPos = m_transform->getPosition();
-		settings.endPos = m_hookPoint;
-		settings.color = Vector3::Zero;
-		settings.offset = Vector3(1.0, 0.4, 0.0);
-		settings.thickness = Vector2(0.1, 0.1);
-
-		m_gameObject->getScene()->getGraphics()->renderLine(settings);
-	}
+	drawLine();
 
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -929,4 +918,21 @@ using namespace DirectX::SimpleMath;
 		 }
 	 }
 	 return moveDirection2;
+ }
+
+ void Player::drawLine()
+ {
+	 if (m_hooked)
+	 {
+		 LineVariables settings;
+		 settings.startPos = m_transform->getPosition();
+		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 10.0f);
+		 settings.color = Vector3::Zero;
+		 settings.offset = Vector3(1.0, 0.4, 0.0);
+		 settings.thickness = Vector2(0.1, 0.1);
+
+		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
+	 }
+	 else
+		 m_hookEndPos = m_transform->getPosition();
  }
