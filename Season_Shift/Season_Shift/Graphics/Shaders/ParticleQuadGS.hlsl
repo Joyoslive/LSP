@@ -9,6 +9,7 @@ cbuffer Transforms : register(b0)
 struct VS_OUT
 {
     float4 pos : SV_Position;
+    float4 color : COLOR;
 };
 
 
@@ -16,6 +17,7 @@ struct GS_Out
 {
 	float4 pos : SV_Position;
     float4 worldPos : WORLDPOS;
+    float4 color : COLOR;
 };
 
 
@@ -37,6 +39,7 @@ void main(point VS_OUT input[1], inout TriangleStream< GS_Out > output)
         element.pos = input[0].pos + 0.1f * quadVertexArray[i];
         element.worldPos = mul(cameraWorldMatrix, element.pos);
         element.pos = mul(projectionMatrix, element.pos);
+        element.color = input[0].color;
 		output.Append(element);
 	}
     output.RestartStrip();

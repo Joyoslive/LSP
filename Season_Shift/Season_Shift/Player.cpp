@@ -258,7 +258,8 @@ using namespace DirectX::SimpleMath;
 	velocitySkipY = checkMinSpeed(velocitySkipY);
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
-	if (m_velocityY < 0) {
+	if (m_velocityY < 0) 
+	{
 		Vector3 hold = m_transform->getPosition();
 		hold -= m_deltaPos;
 		m_transform->setPosition(hold);
@@ -614,7 +615,7 @@ using namespace DirectX::SimpleMath;
 		 else if (m_ground == true)
 		 {
 			 if (m_movObj == true)
-				 velocity.y = m_jumpSpeed + m_velocityY*6;
+				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
  				velocity.y = m_jumpSpeed;
 			 m_ground = false;

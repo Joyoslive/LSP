@@ -5,6 +5,8 @@ struct Particle
     float lifeTime;
     float3 vel;
     float other;
+    float3 color;
+    float padding;
 };
 
 AppendStructuredBuffer<Particle> appendBuffer : register(u0);
@@ -17,6 +19,8 @@ cbuffer ParticlEmitt : register(b0)
     float other;
     float3 direction;
     uint count;
+    float3 color;
+    float padding1;
 };
 
 cbuffer NumOfParticleBuffer : register(b1)
@@ -53,6 +57,8 @@ void main( uint3 DTid : SV_DispatchThreadID )
         p.pos = pos;
         p.vel = 5 * normalize(reflect(dir[DTid.x], randVec));
         p.other = other;
+        p.color = color;
+        p.padding = 0;
         
         appendBuffer.Append(p);
     }

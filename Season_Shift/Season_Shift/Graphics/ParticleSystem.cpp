@@ -8,6 +8,7 @@ constexpr unsigned int uavCount = (unsigned int)-1;
 constexpr unsigned int empty = (unsigned int)0;
 
 constexpr float simSize = 1024; //must match size in simulation computeshader
+constexpr float emittSize = 8; //must match size in emitt computeshader
 
 void ParticleSystem::simulate(float dt)
 {
@@ -147,21 +148,22 @@ void ParticleSystem::emitt(EmittStructure emittData)
 	m_renderer->getDXDevice()->bindShaderConstantBuffer(DXShader::Type::CS, 1, m_particleCountCBuffer);
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, uavCount, m_consumeBuffer); //append to consumeBuffer, simulate will consume from this buffer later
 
-	m_renderer->getDXDevice()->dispatch(1, 1, 1);
+	//m_renderer->getDXDevice()->dispatch(1, 1, 1);
+	m_renderer->getDXDevice()->dispatch((unsigned int)ceil(emittData.count / emittSize), 1, 1);
 
 	//unbind
 	m_renderer->getDXDevice()->bindAppendConsumeBuffer(DXShader::Type::CS, 0, 0, nullptr);
 
 }
 
-void ParticleSystem::SimulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
+void ParticleSystem::simulateAndDraw(const Matrix& view, const Matrix& proj, float dt)
 {
 	simulate(dt);
 	draw(view, proj);
 	swapBuffers();
 }
 
-ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float startLifeTime, Vector3 randVec, float other, Vector3 direction, unsigned int count)
+ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float startLifeTime, Vector3 randVec, float other, Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color)
 {
 	this->pos = pos;
 	this->startLifeTime = startLifeTime;
@@ -169,4 +171,5 @@ ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float startLifeTime,
 	this->other = other;
 	this->direction = direction;
 	this->count = count;
+	this->color = color;
 }

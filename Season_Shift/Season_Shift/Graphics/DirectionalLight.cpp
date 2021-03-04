@@ -10,7 +10,9 @@ DirectionalLight::DirectionalLight()
 
 DirectionalLight::DirectionalLight(Vector3 direction, Vector3 color, float ambientIntensity)
 	: m_direction(direction), m_color(color), m_ambIntensity(ambientIntensity)
-{}
+{
+	m_direction.Normalize();
+}
 
 DirectionalLight::~DirectionalLight()
 {}
