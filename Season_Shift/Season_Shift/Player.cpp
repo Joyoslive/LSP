@@ -337,6 +337,10 @@ using namespace DirectX::SimpleMath;
 		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.1f);
 		 m_sound->play("Sounds/landing.wav");
 	 }
+	 else if (m_logicPlayerCamera->land(m_oldVelocity, m_normal))
+	 {
+		 m_sound->play("Sounds/landing2.wav");
+	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
