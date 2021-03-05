@@ -173,6 +173,7 @@
     <FxCompile Include="Graphics\Shaders\ParticleDefaultSimCS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleDefaultEmittCS.hlsl" />
     <FxCompile Include="Graphics\Shaders\NullPS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleEmitt1CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
