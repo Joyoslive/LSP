@@ -10,6 +10,7 @@ HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
 Sound::Sound(const vector<string>& fileNames, const Ref<CameraComponent>& listener)
 {
+	m_loopingSoundId = -1;
 	m_componentType = ComponentEnum::SOUND;
 	m_listenerCamera = listener;
 	if (listener != nullptr)
@@ -65,6 +66,7 @@ size_t Sound::play(const std::string& soundName)
 {
 	if (m_listenerCamera != nullptr)
 	{
+		//3d ljudet finns bara effectInstancer och klassen har bara en sådan pekare så om du vill ha flera ljud samtidigt måste du nog göra spara flera effectInstanser
 		m_effectInst = m_sounds[m_map[soundName]].CreateInstance(DirectX::SoundEffectInstance_Use3D);
 		m_effectInst->Play(true);
 		m_effectInst->Apply3D(m_listener, m_emitter, false);
@@ -84,13 +86,14 @@ void Sound::playLoop(const std::string& soundName)
 {
 	if (m_effectInst != nullptr)
 	{
-		if (m_effectInst->IsLooped())
+		if (m_effectInst->IsLooped() && m_map[soundName] != m_loopingSoundId)
 		{
 			m_effectInst->Stop(true);
 		}
 	}
 	m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
 	m_effectInst->Play(true);
+	m_loopingSoundId = m_map[soundName];
 }
 
 void Sound::stopLoop()
