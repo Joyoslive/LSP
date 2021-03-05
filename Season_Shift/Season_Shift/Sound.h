@@ -26,6 +26,8 @@ public:
 	~Sound();
 
 	size_t play(const std::string& soundname);
+	void playLoop(const std::string& soundName);
+	void stopLoop();
 
 	void setVolume(float volume);
 };
