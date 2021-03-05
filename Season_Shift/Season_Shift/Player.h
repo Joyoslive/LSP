@@ -22,6 +22,7 @@ private:
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;
+	Ref<Collider> m_oldCheckpointCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
 	Timer m_goalTimer;
@@ -32,6 +33,7 @@ private:
 	bool m_ground;
 	bool m_doubleJump;
 	bool m_walljump;
+	
 	bool m_fly;
 	long double m_frameTime;
 	float m_speed;

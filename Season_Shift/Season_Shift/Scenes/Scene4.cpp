@@ -42,6 +42,7 @@ void Scene4::setUpScene()
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/landing.wav");
 	v1.push_back("Sounds/landing2.wav");
+	v1.push_back("Sounds/checkpoint.wav");
 	v1.push_back("Sounds/hook.wav");
 	v1.push_back("Sounds/dehook.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));

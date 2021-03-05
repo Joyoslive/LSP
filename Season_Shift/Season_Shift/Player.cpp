@@ -57,6 +57,7 @@ using namespace DirectX::SimpleMath;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
 	 m_oldTrampolineCollider = NULL;
+	 m_oldCheckpointCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
 	 m_movObj = false;
@@ -351,9 +352,11 @@ using namespace DirectX::SimpleMath;
 		 getTime(msg);*/
 		
 	 }
-	 if (collider->getGameObject()->getName() == "checkpoint")
+	 if (collider->getGameObject()->getName() == "checkpoint" && m_oldCheckpointCollider != collider)
 	 {
-		 m_respawn = collider->getGameObject()->getTransform()->getPosition();
+		m_oldCheckpointCollider = collider;
+		m_respawn = collider->getGameObject()->getTransform()->getPosition();
+		m_sound->play("Sounds/checkpoint.wav");
 		 m_respawn.x += 2;
 	 }
 	 if (collider->getGameObject()->getName() == "moving")
