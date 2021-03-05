@@ -8,9 +8,6 @@
 #include "Transform.h"
 #include "Input.h"
 
-Bounce::Bounce()
-{
-}
 
 Bounce::Bounce(DirectX::SimpleMath::Vector3 angle, float power)
 {
