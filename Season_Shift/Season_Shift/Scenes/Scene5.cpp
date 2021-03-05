@@ -70,6 +70,7 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/whoosh.wav");
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/hook.wav");
+	v1.push_back("Sounds/walkingDrum.wav");
 	v1.push_back("Sounds/landing.wav");
 	v1.push_back("Sounds/landing2.wav");
 	v1.push_back("Sounds/checkpoint.wav");
@@ -102,6 +103,5 @@ void Scene5::setUpScene()
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
-
 	m_graphics->setLightDirection({1.8, -1, -1});
 }

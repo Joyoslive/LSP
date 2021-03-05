@@ -9,11 +9,11 @@
 #include "Transform.h"
 #include "Move.h"
 #include "Bounce.h"
-#include "Sound.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
 #include "Graphics/2D/ISprite.h"
 #include "ParticleSystemComponent.h"
+#include "Sound.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -160,6 +160,7 @@ using namespace DirectX::SimpleMath;
 				moveDirection += cross;
 			else
 				moveDirection += cameraForward;
+			m_sound->playLoop("Sound/walkingDrum.wav");
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
