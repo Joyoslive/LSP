@@ -42,7 +42,7 @@ void Scene5::setUpScene()
 			Ref<OrientedBoxCollider> r1 = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
 			r1->SetTriggerCollider(true);
 			cp1->AddComponent(r1);
-			cp1->AddComponent(std::make_shared<Rotate>(0, 20, 0));
+			cp1->AddComponent(std::make_shared<Rotate>(0, 70, 0));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);

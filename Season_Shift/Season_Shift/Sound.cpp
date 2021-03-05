@@ -71,12 +71,24 @@ size_t Sound::play(const std::string& soundName)
 	}
 	else
 	{
-		m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
-		m_effectInst->Play();
+		/*m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
+		m_effectInst->Play();*/
+		m_sounds[m_map[soundName]].Play();
 	}
 	return m_sounds[m_map[soundName]].GetSampleDuration();
 
 
+}
+
+void Sound::playLoop(const std::string& soundName)
+{
+	m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
+	m_effectInst->Play(true);
+}
+
+void Sound::stopLoop()
+{
+	m_effectInst->Stop(true);
 }
 
 void Sound::setVolume(float volume)
