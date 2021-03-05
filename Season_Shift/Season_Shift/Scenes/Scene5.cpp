@@ -83,6 +83,10 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
+	Ref<GameObject> hookParticleSystem = createGameObject("hookParticleSystem");
+	Ref<ParticleSystemComponent> hookParticleSystemComponent = std::dynamic_pointer_cast<ParticleSystemComponent>(hookParticleSystem->AddComponent(std::make_shared<ParticleSystemComponent>(8*144*5, 5.0f)));
+	hookParticleSystemComponent->addEmitter(8*144, 60, 0.8f, Vector3(1, 0, 0));
+
 	m_graphics->loadSkybox("Textures/Skyboxes/space");
 	m_graphics->setSkybox(1);
 	//Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
