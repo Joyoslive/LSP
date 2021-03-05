@@ -328,6 +328,20 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 		ComPtr<ID3D11Texture1D> t = nullptr;
 		HRCHECK(m_core->getDevice()->CreateTexture1D(&desc.desc1D, subres, t.GetAddressOf()));
 		tex = std::make_shared<DXTexture>(m_core, t, desc);
+
+		if (desc.desc1D.BindFlags & D3D11_BIND_SHADER_RESOURCE)
+		{
+			ComPtr<ID3D11ShaderResourceView> srv;
+			D3D11_SHADER_RESOURCE_VIEW_DESC mtSRV = { };
+
+			mtSRV.Format = desc.desc1D.Format;
+			mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE1D;
+			mtSRV.Texture1D.MostDetailedMip = 0;
+			mtSRV.Texture1D.MipLevels = 1;
+
+			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
+			tex->setSRV(srv);
+		}
 	}
 	else if (desc.type == DXTexture::Type::TEX2D)
 	{
