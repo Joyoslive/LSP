@@ -82,13 +82,22 @@ size_t Sound::play(const std::string& soundName)
 
 void Sound::playLoop(const std::string& soundName)
 {
+	if (m_effectInst != nullptr)
+	{
+		if (m_effectInst->IsLooped())
+		{
+			m_effectInst->Stop(true);
+		}
+	}
 	m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
 	m_effectInst->Play(true);
 }
 
 void Sound::stopLoop()
 {
-	m_effectInst->Stop(true);
+	if (m_effectInst == nullptr) return;
+	if(m_effectInst->IsLooped())
+		m_effectInst->Stop(true);
 }
 
 void Sound::setVolume(float volume)
