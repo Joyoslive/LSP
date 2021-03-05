@@ -4,7 +4,7 @@ struct Particle
     float3 pos;
     float lifeTime;
     float3 vel;
-    float other;
+    float scale;
     float3 color;
     float padding;
 };

@@ -163,12 +163,12 @@ void ParticleSystem::simulateAndDraw(const Matrix& view, const Matrix& proj, flo
 	swapBuffers();
 }
 
-ParticleSystem::EmittStructure::EmittStructure(Vector3 pos, float startLifeTime, Vector3 randVec, float other, Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color)
+ParticleSystem::EmittStructure::EmittStructure(float startLifeTime, Vector3 randVec, float scale, Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color)
 {
-	this->pos = pos;
+	this->pos = Vector3::Zero;
 	this->startLifeTime = startLifeTime;
 	this->randVec = randVec;
-	this->other = other;
+	this->scale = scale;
 	this->direction = direction;
 	this->count = count;
 	this->color = color;

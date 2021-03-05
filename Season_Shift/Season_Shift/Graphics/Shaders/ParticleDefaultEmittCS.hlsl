@@ -4,7 +4,7 @@ struct Particle
     float3 pos;
     float lifeTime;
     float3 vel;
-    float other;
+    float scale;
     float3 color;
     float padding;
 };
@@ -16,7 +16,7 @@ cbuffer ParticlEmitt : register(b0)
     float3 pos;
     float lifeTime;
     float3 randVec;
-    float other;
+    float scale;
     float3 direction;
     uint count;
     float3 color;
@@ -56,7 +56,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         p.lifeTime = lifeTime;
         p.pos = pos;
         p.vel = 60 * normalize(reflect(dir[DTid.x], randVec));
-        p.other = other;
+        p.scale = scale;
         p.color = color;
         p.padding = 0;
         

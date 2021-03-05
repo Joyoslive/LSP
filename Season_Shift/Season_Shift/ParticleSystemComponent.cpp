@@ -64,14 +64,12 @@ ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, c
 	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-int ParticleSystemComponent::addEmitter(float particlesPerSecond, float startLifeTime,
-	float emitterLifeTime, Vector3 color, Vector3 direction, Vector3 offset)
+int ParticleSystemComponent::addEmitter(float particlesPerSecond, float emitterLifeTime, float scale, DirectX::SimpleMath::Vector3 color, DirectX::SimpleMath::Vector3 offset, float particleStartLifeTime, DirectX::SimpleMath::Vector3 direction)
 {
-	
 	//tranform input direction with component transform
-	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(Vector3::Zero, startLifeTime, Vector3::Zero, 0.0f, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond, offset)));
+	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(particleStartLifeTime, Vector3::Zero, scale, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond, offset)));
 
-	return m_emittVec.size()-1;
+	return m_emittVec.size() - 1;
 }
 
 void ParticleSystemComponent::stopEmitter(int id)
