@@ -1,6 +1,7 @@
 #pragma once
 #include "Logic.h"
 #include "Input.h"
+#include "Sound.h"
 //#include "CameraComponent.h"
 #include "Timer.h"
 #include "PlayerCameraMovement.h"
@@ -9,16 +10,21 @@ class CameraComponent;
 class Collider;
 class CapsuleCollider;
 class RigidBody;
+class ISprite;
+class ParticleSystemComponent;
 
 class Player : public Logic
 {
 private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
+	Ref<Sound> m_sound;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
+	Ref<Collider> m_oldTrampolineCollider;
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
+	Timer m_goalTimer;
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -41,6 +47,7 @@ private:
 	bool m_waitForJump, m_checkCollideJump, m_jumpWhenLanding;
 	long double m_oldFrameTime;
 	long double m_wallTimer;
+	long double m_trampolineTimer;
 	bool m_hooked;
 	bool m_movObj;
 	DirectX::SimpleMath::Vector3 m_movSpeed;
@@ -49,6 +56,9 @@ private:
 	float m_movPos;
 	float m_movAlt;
 	float m_maxYSpeed;
+	bool m_trampoline;
+	DirectX::SimpleMath::Vector3  m_trampolineAngle;
+	float m_trampolinePower;
 	//Speedlines
 	float m_sLT, m_sLR, m_sLS;
 	DirectX::SimpleMath::Vector3 m_deltaPos;
@@ -56,6 +66,14 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_oldMoveDirection;
 	DirectX::SimpleMath::Vector3 m_oldVelocity; //velocity from last frame
+
+	DirectX::SimpleMath::Vector3 m_hookEndPos;
+
+	Ref<ISprite> m_velocitySprite;
+	Ref<ISprite> m_sprite;
+	bool m_createOnce = true;
+	Ref<ParticleSystemComponent> m_playerPartSys;
+	int m_landingPartEmittId;
 
 private:
 	void detectDeath(float death);
@@ -74,6 +92,8 @@ private:
 	void speedLines(const DirectX::SimpleMath::Vector3& velocityXZ, const float& velocityY);
 	float lerp(float a, float b, float f);
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
+	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
+	void drawLine();
 public:
 	Player();
 	~Player();
@@ -87,5 +107,5 @@ public:
 	void clearJumpFromTrigger();
 	bool getOnGround();
 	void getTime(std::wstring msg);
-	long double  timerGetTime();
+	long double goalTimerGetTime();
 };

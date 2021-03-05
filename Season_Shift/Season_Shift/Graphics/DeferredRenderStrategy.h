@@ -3,6 +3,7 @@
 #include "FullscreenQuad.h"
 #include "DirectionalLight.h"
 #include "ParticleSystem.h"
+#include "ShadowMapper.h"
 #include "2D/SpriteRenderer.h"
 
 
@@ -16,6 +17,20 @@ private:
 	{
 		DirectX::SimpleMath::Vector3 position;
 	};
+
+	struct CascadeBuffer
+	{
+		float nearCascadeEnd, midCascadeEnd, farCascadeEnd;
+		float padding;
+		
+		DirectX::SimpleMath::Matrix mainViewMatrix;
+
+		DirectX::SimpleMath::Matrix lightViewMatrix;
+		DirectX::SimpleMath::Matrix lightNearProjection;
+		DirectX::SimpleMath::Matrix lightMidProjection;
+		DirectX::SimpleMath::Matrix lightFarProjection;
+	};
+
 private:
 	struct GBuffers
 	{
@@ -38,6 +53,7 @@ private:
 	std::shared_ptr<DXBuffer> m_gpMatrixBuffer;
 	std::shared_ptr<DXRenderPass> m_geometryPassSolid;
 	std::shared_ptr<DXRenderPass> m_geometryPassWireframe;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_gDss;
 
 	std::shared_ptr<DXRenderPass> m_lightPass;
 	FullscreenQuad m_fsQuad;
@@ -63,6 +79,11 @@ private:
 	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
 	std::vector<std::shared_ptr<ISprite>> m_sprites;
 
+	std::vector<std::pair<float, unsigned int>> m_shadowCascades;
+	std::shared_ptr<ShadowMapper> m_shadowMapper;
+	std::shared_ptr<Camera> m_mainCamera;
+	std::shared_ptr<DXBuffer> m_cascadeBuffer;	
+
 	void setupGeometryPass();
 	void setupLightPass();
 	void setupPostProcessPass();
@@ -83,6 +104,8 @@ public:
 	void setLineRenderSetttings(const LineVariables& settings) override;
 
 	void addParticleSystem(std::shared_ptr<ParticleSystem> particleSystem) override;
+
+	void removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem) override;
 
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite) override;
 

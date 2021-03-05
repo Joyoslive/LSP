@@ -74,6 +74,10 @@
     <ClCompile Include="TableOfTimes.cpp" />
     <ClCompile Include="GoalLogic.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
+    <ClCompile Include="Graphics\ShadowMapper.cpp" />
+    <ClCompile Include="FrameTimer.cpp" />
+    <ClCompile Include="Bounce.cpp" />
+    <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -144,6 +148,10 @@
     <ClInclude Include="TableOfTimes.h" />
     <ClInclude Include="GoalLogic.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
+    <ClInclude Include="Graphics\ShadowMapper.h" />
+    <ClInclude Include="FrameTimer.h" />
+    <ClInclude Include="Bounce.h" />
+    <ClInclude Include="Graphics\2D\SpriteTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -164,6 +172,7 @@
     <FxCompile Include="Graphics\Shaders\ParticlePS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleDefaultSimCS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleDefaultEmittCS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\NullPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

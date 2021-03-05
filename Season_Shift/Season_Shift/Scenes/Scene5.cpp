@@ -21,6 +21,7 @@
 #include "../CapsuleCollider.h"
 #include "../Sound.h"
 #include "../Graphics/Model.h"
+#include "../ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -36,12 +37,12 @@ void Scene5::setUpScene()
 	{
 		if (object.name == "Checkpoint")
 		{
-			Ref<GameObject> cp1 = createGameObject("checkpoint", object.position);
+			Ref<GameObject> cp1 = createGameObject("checkpoint", object.position, Vector3(2, 2, 2));
 			cp1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/checkpoint/", "checkpoint.obj", GfxShader::DEFAULT));
 			Ref<OrientedBoxCollider> r1 = std::make_shared<OrientedBoxCollider>(Vector3(10, 5, 10));
 			r1->SetTriggerCollider(true);
 			cp1->AddComponent(r1);
-			cp1->AddComponent(std::make_shared<Rotate>(0, 0.5, 0));
+			cp1->AddComponent(std::make_shared<Rotate>(0, 20, 0));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -63,14 +64,33 @@ void Scene5::setUpScene()
 	auto playerComp = std::make_shared<Player>();
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
-	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
+	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/boing2.wav");
+	v1.push_back("Sounds/hook.wav");
+	v1.push_back("Sounds/landing.wav");
+	v1.push_back("Sounds/landing2.wav");
+	v1.push_back("Sounds/dehook.wav");
+	v1.push_back("Sounds/jump1a.wav");
+	v1.push_back("Sounds/jump2a.wav");
+	v1.push_back("Sounds/jump3a.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	
+	m_graphics->loadSkybox("Textures/Skyboxes/space");
+	m_graphics->setSkybox(1);
+	//Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
+	//Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
+	//	partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(80, 4))
+	//	);
+	//partSys->addEmitter(20, 0, 200, Vector3(0,1,1));
+	////	80 / 4 = 20
 
 	auto audioObject = createGameObject("audio", Vector3(-4, 8, 0));
 	std::vector<std::string> v;
@@ -80,7 +100,7 @@ void Scene5::setUpScene()
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
-	sound->play("Sounds/Explo4.wav"); //sorry
+	//sound->play("Sounds/Explo4.wav"); //sorry
 
 	m_graphics->setLightDirection({1.8, -1, -1});
 }

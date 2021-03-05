@@ -8,8 +8,12 @@
 #include "CapsuleCollider.h"
 #include "Transform.h"
 #include "Move.h"
+#include "Bounce.h"
+#include "Sound.h"
 #include <imgui_impl_win32.h>
 #include "Graphics/Graphics.h"
+#include "Graphics/2D/ISprite.h"
+#include "ParticleSystemComponent.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -46,10 +50,13 @@ using namespace DirectX::SimpleMath;
 	 m_walljump = false;
 	 m_fly = false;
 	 m_timer = Timer();
+	 m_goalTimer = Timer();
 	 m_timer.start();
+	 m_goalTimer.start();
 	 m_oldFrameTime = 0.0f;
 	 m_wallTimer = 0.0f;
 	 m_oldCollider = NULL;
+	 m_oldTrampolineCollider = NULL;
 	 m_oldMoveDirection = Vector3::Zero;
 	 m_hooked = false;
 	 m_movObj = false;
@@ -60,14 +67,19 @@ using namespace DirectX::SimpleMath;
 	 m_movPos = 0;
 	 m_movAlt = 1033.33;
 	 m_movSpeed = { 0, 0, 0 };
-
+	 m_trampoline = false;
+	 m_trampolineAngle = { 0, 0, 0 };
+	 m_trampolinePower = 0;
+	 m_trampolineTimer = 0;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
+	 m_landingPartEmittId = -1;
+
  }
 
  Player::~Player()
  {
-
+	
  }
 
  int signOf(const float& value)
@@ -81,6 +93,7 @@ using namespace DirectX::SimpleMath;
  void Player::start()
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
+	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -88,6 +101,10 @@ using namespace DirectX::SimpleMath;
 	 m_logicPlayerCamera = std::make_shared<PlayerCameraMovement>(); 
 	 m_gameObject->AddComponent(m_logicPlayerCamera);
 	 m_logicPlayerCamera->start();
+
+	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(160, 1)));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0, Vector3(1, 1, 0), Vector3::Zero, Vector3(0, 0, 7));
+	 //	80 / 2 = 40
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -95,7 +112,16 @@ using namespace DirectX::SimpleMath;
  void Player::update()
  {
 
-	detectDeath(-35.0f);
+	 if (m_createOnce)
+	 {
+		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
+		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
+		 m_createOnce = false;
+	 }
+
+	detectDeath(-120.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -103,20 +129,9 @@ using namespace DirectX::SimpleMath;
 	
 	Vector3 moveDirection = Vector3::Zero;
 	Vector3 moveDirection2 = Vector3::Zero;
-	Vector3 moveSpeed = Vector3::Zero;
+	//Vector3 moveSpeed = Vector3::Zero;
 
-
-	if (m_hooked)
-	{
-		LineVariables settings;
-		settings.startPos = m_transform->getPosition();
-		settings.endPos = m_hookPoint;
-		settings.color = Vector3::Zero;
-		settings.offset = Vector3(1.0, 0.4, 0.0);
-		settings.thickness = Vector2(0.1, 0.1);
-
-		m_gameObject->getScene()->getGraphics()->renderLine(settings);
-	}
+	drawLine();
 
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -180,40 +195,20 @@ using namespace DirectX::SimpleMath;
 	{
 		Input::getInput().lockMouse();
 	}
+	if (m_trampolineTimer > 0.0f)
+	{
+		m_trampolineTimer -= m_frameTime;
+	}
 	if(m_wallTimer <= 0)
 	{
 		m_oldCollider = NULL;
 	}
-	if (m_movObj == true)
+	if (m_trampolineTimer <= 0)
 	{
-		moveDirection2 -= m_deltaPos;
-		moveSpeed = m_movSpeed;
-		//cast ray
-		constexpr float maxDist = 3.25f;
-		std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
-		float dist = FLT_MAX;
-		bool noHit = true;
-		if (m_normal.Length() != 0)
-		{
-			for (auto& go : scene)
-			{
-				Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
-				if (obb != nullptr)
-				{
-					float d = 10000000000000;
-					if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
-					{
-						if (d < dist) dist = d;
-						noHit = false;
-					}
-				}
-			}
-		}
-		if (dist > maxDist || noHit)
-		{
-			m_movObj = false;
-		}
+		m_oldTrampolineCollider = NULL;
 	}
+	
+	moveDirection2 = moveObjectCheck(moveDirection2);
 
 	moveDirection.y = 0;
 	moveDirection.Normalize();
@@ -232,29 +227,36 @@ using namespace DirectX::SimpleMath;
 
 	checkSpeeds(moveDirection);
 	velocitySkipY = antiMovement(velocitySkipY, moveDirection, m_ground);
+
 	if (m_movObj == true)
 	{
+		Vector3 moveSpeed = m_movSpeed;
 		moveSpeed.y = 0;
 
-			if ( (moveDirection.x == 0 && moveDirection.z == 0 ))
-			{
-				velocitySkipY = moveSpeed;
-			}
-			
-		
-	
+		if (moveDirection == Vector3::Zero || (moveDirection.Dot(moveSpeed) > 0.9f && velocitySkipY.Length() < moveSpeed.Length()))
+		{
+			velocitySkipY = moveSpeed;
+		}
+
 	}
-	velocitySkipY += moveDirection * m_frameTime * m_speed; //Vector3(moveDirection2.x, 0, moveDirection2.z) * 14.4;
+	if (m_trampoline == true )
+	{
+		velocitySkipY += m_trampolineAngle * m_trampolinePower;
+	}
+	else
+	{
+		velocitySkipY += moveDirection * m_frameTime * m_speed;
+	}
 
 	velocitySkipY = dash(velocitySkipY, cameraLook);
 	velocitySkipY = slowPlayer(velocitySkipY);
 
-	velocitySkipY = checkMaxSpeed(velocitySkipY);//, velocitySkipY.y + velocity.y);
+	velocitySkipY = checkMaxSpeed(velocitySkipY);
 	velocitySkipY = checkMinSpeed(velocitySkipY);
-	//velocitySkipY.y += moveDirection2.y * 14.4;
 	velocitySkipY.y += velocity.y;
 	m_velocityY = moveDirection2.y * 14.4;
-	if (m_velocityY < 0) {
+	if (m_velocityY < 0) 
+	{
 		Vector3 hold = m_transform->getPosition();
 		hold -= m_deltaPos;
 		m_transform->setPosition(hold);
@@ -279,7 +281,7 @@ using namespace DirectX::SimpleMath;
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
-
+	m_trampoline = false;
 	ImGui::Begin("Player Info");
 	{
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
@@ -293,6 +295,11 @@ using namespace DirectX::SimpleMath;
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
+
+	long absVelocity = labs(velocity.Length() * 10.0f);
+
+	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
+	m_velocitySprite->setText(text);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -307,7 +314,8 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
 	 {
-		 m_oldCollider = NULL;
+		 m_movObj = false;
+		 m_oldCollider = NULL;	
 		 m_ground = true;
 		 m_walljump = false;
 		 m_doubleJump = true;
@@ -320,13 +328,23 @@ using namespace DirectX::SimpleMath;
 	 }
 	 else if (fabs(m_normal.Dot(m_playerCamera->getRight())) > wallCheck && m_oldCollider != collider && collider->getGameObject()->getName() != "checkpoint")
 	 {
+		 m_movObj = false;
 		 m_walljump = true;
 		 m_oldCollider = collider;
 	 }
-	 m_logicPlayerCamera->shake(m_oldVelocity, m_normal);
+	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
+	 {
+		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.1f);
+		 m_sound->play("Sounds/landing.wav");
+	 }
+	 else if (m_logicPlayerCamera->land(m_oldVelocity, m_normal))
+	 {
+		 m_sound->play("Sounds/landing2.wav");
+	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
+		 detectDeath(FLT_MAX);
 		 m_respawn = { 0, 10, 0 };
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 /*std::wstring msg = L"Your Time was";
@@ -345,7 +363,16 @@ using namespace DirectX::SimpleMath;
 		 m_movSpeed = collider->getGameObject()->getComponentType<Move>(Component::ComponentEnum::LOGIC)->getSpeed();
 
 	 }
-
+	 if (collider->getGameObject()->getName() == "trampoline" && m_oldTrampolineCollider != collider)
+	 {
+		 m_oldTrampolineCollider = collider;
+		 m_trampolineTimer = 0.4f;
+		 m_trampoline = true;
+		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
+		 m_trampolinePower = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getPower();
+		 m_sound->play("Sounds/boing2.wav");
+		 m_ground = false;
+	 }
  }
 
  Vector3 Player::antiMovement(Vector3 velocity, const Vector3& moveDirection, const bool& onGround)
@@ -486,7 +513,7 @@ using namespace DirectX::SimpleMath;
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	 {
 		 m_cooldownDash = 2.0f;
-
+		 m_sound->play("Sounds/woosh.wav");
 		 velocity = { 0, 0, 0 };
 		 cameraLook.Normalize();
 		 velocity += cameraLook * m_dashSpeed;
@@ -502,17 +529,22 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_cooldownDash > 0.0f)
 	 {
+		 m_sprite->setShow(false);
 		 m_cooldownDash -= m_frameTime;
+	 }
+	 else
+	 {
+		 m_sprite->setShow(true);
 	 }
 	 return velocity;
  }
 
  void Player::gravityChange(const Vector3& velocity)
  {
-	 constexpr float changeGVelocity = 20.0f;
-	 constexpr float bigG = 95.0f;//80.0f;
+	 constexpr float changeGVelocity = 25.9f;
+	 constexpr float bigG = 95.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 60.0f;//30.0f*2.5f;
+	 constexpr float wallJumpG = 60.0f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -536,6 +568,7 @@ using namespace DirectX::SimpleMath;
 		 m_logicPlayerCamera->resetCamera();
 		 std::wstring msg = L"Your survived for";
 		 getTime(msg);
+		 //goalTimerGetTime();
 		 m_rb->setVelocity(Vector3::Zero);
 		 m_flySpeed = 0;
 		 m_groundSpeed = 0;
@@ -565,6 +598,7 @@ using namespace DirectX::SimpleMath;
 
 		 if (m_walljump == true)
 		 {
+			 m_sound->play("Sounds/jump3a.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -591,8 +625,9 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_ground == true)
 		 {
+			 m_sound->play("Sounds/jump1a.wav");
 			 if (m_movObj == true)
-				 velocity.y = m_jumpSpeed + m_velocityY*6;
+				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
  				velocity.y = m_jumpSpeed;
 			 m_ground = false;
@@ -603,6 +638,7 @@ using namespace DirectX::SimpleMath;
 		 }
 		 else if (m_doubleJump == true)
 		 {
+			 m_sound->play("Sounds/jump2a.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
@@ -664,11 +700,11 @@ using namespace DirectX::SimpleMath;
 	 m_timer.start();
  }
 
- long double Player::timerGetTime()
+ long double Player::goalTimerGetTime()
  {
-	 m_timer.stop();
-	 m_timer.start();
-	 return m_timer.getTime(Timer::Duration::SECONDS);
+	 m_goalTimer.stop();
+	 m_goalTimer.start();
+	 return m_goalTimer.getTime(Timer::Duration::SECONDS);
  }
 
  void Player::wallRunning(const Vector3& velocity) 
@@ -842,6 +878,7 @@ using namespace DirectX::SimpleMath;
 				 {
 					 if (d < dist)
 					 {
+						 m_sound->play("Sounds/hook.wav");
 						 dist = d;
 						 hitObj = true;
 					 }
@@ -869,7 +906,69 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (Input::getInput().mouseReleased(Input::LeftButton))
 	 {
+		 if(m_hooked == true)
+			 m_sound->play("Sounds/dehook.wav");
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
+	 }
+ }
+ 
+ Vector3 Player::moveObjectCheck(Vector3 moveDirection2)
+ {
+	 if (m_movObj == true)
+	 {
+		 moveDirection2 -= m_deltaPos;
+		 //cast ray
+		 constexpr float maxDist = 3.25f;
+		 std::vector<Ref<GameObject>> scene = getGameObject()->getScene()->getSceneGameObjects();
+		 float dist = FLT_MAX;
+		 bool noHit = true;
+		 if (m_normal.Length() != 0)
+		 {
+			 for (auto& go : scene)
+			 {
+				 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
+				 if (obb != nullptr)
+				 {
+					 float d = 10000000000000;
+					 if (obb->getInternalCollider().Intersects(m_playerCamera->getCamera()->getPosition(), -m_normal, d))
+					 {
+						 if (d < dist) dist = d;
+						 noHit = false;
+					 }
+				 }
+			 }
+		 }
+		 if (dist > maxDist || noHit)
+		 {
+			 m_movObj = false;
+		 }
+	 }
+	 return moveDirection2;
+ }
+
+ void Player::drawLine()
+ {
+	 LineVariables settings;
+	 settings.startPos = m_transform->getPosition();
+	 settings.offset = Vector3(1.0, 0.4, 0.0);
+	 settings.thickness = Vector2(0.11, 0.07);
+	 if (m_hooked)
+	 {
+		 settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 settings.color.x = powf(settings.color.x, 2.2f);
+		 settings.color.y = powf(settings.color.y, 2.2f);
+		 settings.color.z = powf(settings.color.z, 2.2f);
+		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
+		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
+	 }
+	 else
+	 {
+		 Vector3 up = {0, 1, 0};
+		 Vector3 cameraForward = m_playerCamera->getLookDirection();
+		 Vector3 right = up.Cross(-cameraForward);
+		 up = -cameraForward.Cross(right);
+		 Matrix matrix(right, up, cameraForward);
+		 m_hookEndPos = m_transform->getPosition() - (Vector3)DirectX::XMVector3Transform(settings.offset, matrix);
 	 }
  }

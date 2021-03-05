@@ -6,6 +6,8 @@
 #include "../PlayerJumpTrigger.h"
 #include "../Rotate.h"
 #include "../Move.h"
+#include "../Sound.h"
+#include "../Bounce.h"
 #include "../GameObject.h"
 #include "../TableOfTimes.h"
 #include "../GoalLogic.h"
@@ -32,6 +34,17 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
+	std::vector<std::string> v1;
+	v1.push_back("Sounds/whoosh.wav");
+	v1.push_back("Sounds/jump1a.wav");
+	v1.push_back("Sounds/jump2a.wav");
+	v1.push_back("Sounds/jump3a.wav");
+	v1.push_back("Sounds/boing2.wav");
+	v1.push_back("Sounds/landing.wav");
+	v1.push_back("Sounds/landing2.wav");
+	v1.push_back("Sounds/hook.wav");
+	v1.push_back("Sounds/dehook.wav");
+	player->AddComponent(std::make_shared<Sound>(v1));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
 	std::dynamic_pointer_cast<Sound>(s)->play();*/
@@ -138,6 +151,10 @@ void Scene4::setUpScene()
 	Ref<GameObject> go1 = createGameObject("goal", Vector3(10.0f + (20 * 195) / 2, 280.0f, 90.0f));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
+	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Fantastic", 1.0f);
+	goalTableOfTimes->addGrade("Bad", 2.0f);
 
 	//Winter
 	Ref<GameObject> winterBox1 = createGameObject("brickCube", Vector3(0.0, 5.0f, 10.0f+(20*10)/2), Vector3((1.0f / 10.0f), 1, (1.0f / 10.0f)*10));
@@ -200,7 +217,7 @@ void Scene4::setUpScene()
 	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20, 2, 20)));
 	Ref<Component> r3 = go3->AddComponent(std::make_shared<GoalLogic>());
-	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r3)->getTableOfTimes();
+	goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r3)->getTableOfTimes();
 	goalTableOfTimes->addGrade("Fantastic", 1.0f);
 	goalTableOfTimes->addGrade("Bad", 2.0f);
 
@@ -256,6 +273,10 @@ void Scene4::setUpScene()
 	Ref<GameObject> go2 = createGameObject("goal", Vector3(0.0, 32.0f, -(10.0f + (20 * 102) / 2)));
 	go2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+	Ref<Component> r5 = go2->AddComponent(std::make_shared<GoalLogic>());
+	goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r5)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Fantastic", 1.0f);
+	goalTableOfTimes->addGrade("Bad", 2.0f);
 
 	//Fall
 	Ref<GameObject> fallBox1 = createGameObject("wall", Vector3(-(10.0f + (20 * 2) / 2), 5.0f,0), Vector3((1.0f / 10.0f)*2, 1, (1.0f / 10.0f)));
@@ -306,6 +327,22 @@ void Scene4::setUpScene()
 	fallBox7->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 * 0.75, 2, 20 * 1.0)));
 	fallBox7->AddComponent(std::make_shared<Move>(Vector3(0, 0.0f, 4.0f), Vector3(0, 0.0f, 50.0f)));
 
+	Ref<GameObject> fallBox10 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 15) / 2), 2.0f, -30), Vector3(4, 4, 4));
+	fallBox10->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r8 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r8->SetTriggerCollider(true);
+	fallBox10->AddComponent(r8);
+	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
+
+
+
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 25) / 2), 2.0f, 60), Vector3(4, 4, 4));
+	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r9->SetTriggerCollider(true);
+	fallBox11->AddComponent(r9);
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 50));
+	
 
 	m_graphics->setLightDirection({-1, -1, 1});
 }
