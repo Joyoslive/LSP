@@ -51,14 +51,18 @@ void main(uint3 DTid : SV_DispatchThreadID)
     uint maxCount, stride;
     appendBuffer.GetDimensions(maxCount, stride);
     if (id < count && id < maxCount - particleCount)
-    {
+    {   
         Particle p;
-        p.lifeTime = lifeTime;
+        
         p.pos = pos;
-        p.vel = 2 * normalize(reflect(dir[DTid.x], randVec));
-        p.pos += 10 * (randVec + p.vel);
+        p.pos += 40 * (reflect(randVec,dir[DTid.x]));
+        
+        
+        p.vel = float3(0, 0, 0);
+        
         p.scale = scale;
         p.color = color;
+        p.lifeTime = lifeTime;
         p.padding = 0;
         
         appendBuffer.Append(p);

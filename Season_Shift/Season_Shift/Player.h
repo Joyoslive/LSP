@@ -74,6 +74,7 @@ private:
 	bool m_createOnce = true;
 	Ref<ParticleSystemComponent> m_playerPartSys;
 	int m_landingPartEmittId;
+	Ref<ParticleSystemComponent> m_playerPartSys2;
 
 private:
 	void detectDeath(float death);
