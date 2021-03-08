@@ -119,6 +119,7 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_CLOSE:
     {
         m_isClosed = true;
+        Input::getInput().lockMouse(2);
         DestroyWindow(m_hwnd);
         break;
     }
@@ -174,7 +175,16 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
             m_firstActivate = true;
             break;
         }
-        Input::getInput().lockMouse();
+        if (wParam == WA_INACTIVE)
+        {
+            Input::getInput().lockMouse(2);
+            break;
+        }
+        if (wParam == WA_ACTIVE)
+        {
+            Input::getInput().lockMouse(1);
+            break;
+        }
         break;
     case WM_INPUT:
     case WM_MOUSEMOVE:

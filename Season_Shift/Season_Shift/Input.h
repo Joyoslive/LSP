@@ -37,7 +37,7 @@ public:
 	bool mouseBeingPressed(MouseKeys key);
 	bool mousePressed(MouseKeys key);
 	bool mouseReleased(MouseKeys key);
-	void lockMouse();
+	void lockMouse(int code=0);
 	void update(long double dt);
 	long double getTime();
 private:

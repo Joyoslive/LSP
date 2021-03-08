@@ -165,13 +165,28 @@ bool Input::mousePressed(MouseKeys key)
 	return false;
 }
 
-void Input::lockMouse() 
+void Input::lockMouse(int code) 
 {
-	if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE) {
+	if (code == 0)
+	{
+		if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE)
+		{
+			m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
+			ShowCursor(0);
+		}
+		else
+		{
+			m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+			ShowCursor(1);
+		}
+	}
+	else if (code == 1)
+	{
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
 		ShowCursor(0);
 	}
-	else {
+	else if (code == 2)
+	{
 		m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 		ShowCursor(1);
 	}
