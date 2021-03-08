@@ -36,9 +36,11 @@ private:
 
 	HWND m_hwnd;
 	UINT m_clientWidth, m_clientHeight;
+	UINT m_maxWidth, m_maxHeight;
 
 private:
 	void createDeviceAndSwapChain();
+	void checkMonitorRes();
 
 public:
 	DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight);

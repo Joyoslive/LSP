@@ -37,6 +37,9 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	HRCHECK(m_device.Get()->QueryInterface<ID3D11Debug>(m_debug.GetAddressOf()));
 #endif
 
+
+
+	checkMonitorRes();
 }
 
 DXCore::~DXCore()
@@ -90,6 +93,45 @@ void DXCore::createDeviceAndSwapChain()
 		NULL,	// we dont need to keep track of which feature level is supported right now
 		m_immediateContext.GetAddressOf()
 	));
+}
+
+void DXCore::checkMonitorRes()
+{
+	m_maxHeight = 0;
+	m_maxWidth = 0;
+
+	IDXGIOutput* outPut = nullptr;
+	HRESULT hr = this->m_swapChain->GetContainingOutput(&outPut);
+	assert(SUCCEEDED(hr));
+
+
+	DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+	UINT numModes = 0;
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, 0);
+	assert(SUCCEEDED(hr));
+	DXGI_MODE_DESC* modeList = new DXGI_MODE_DESC[numModes];
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, modeList);
+	assert(SUCCEEDED(hr));
+	for (int i = 0; i < numModes; i++)
+	{
+		if (modeList[i].Width >= m_maxWidth) m_maxWidth = modeList[i].Width;
+		if (modeList[i].Height >= m_maxHeight) m_maxHeight = modeList[i].Height;
+
+
+
+		/*log.addLog("width:\t\t" + std::to_string(modeList[i].Width) + "\n");
+		log.addLog("height:\t\t" + std::to_string(modeList[i].Height) + "\n");
+		log.addLog("RefreshRate:\t" + std::to_string((float)modeList[i].RefreshRate.Numerator/(float)modeList->RefreshRate.Denominator) + "\n");
+		log.addLog("Scaling:\t\t" + std::to_string(modeList[i].Scaling) + "\n");
+		log.addLog("ScanlineOrdering:\t" + std::to_string(modeList[i].ScanlineOrdering) + "\n");
+		log.addLog("Format:\t\t" + std::to_string(modeList[i].Format) + "\n\n");*/
+
+	}
+	delete[] modeList;
+	outPut->Release();
+
+	Logger::getLogger().debugLog("Monitor resolution: " + std::to_string(m_maxWidth) + "x" + std::to_string(m_maxHeight) + "\n");
 }
 
 const Microsoft::WRL::ComPtr<IDXGISwapChain>& DXCore::getSwapChain()
@@ -175,9 +217,10 @@ void DXCore::onResize(UINT width, UINT height)
 
 	/*IDXGIOutput* outPut = nullptr;
 	hr = this->m_swapChain->GetContainingOutput(&outPut);
-	assert(SUCCEEDED(hr)); 
+	assert(SUCCEEDED(hr)); */
 
-	DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+	/*DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	
 	UINT numModes = 0;
 	hr = outPut->GetDisplayModeList(format, 0, &numModes, 0);
