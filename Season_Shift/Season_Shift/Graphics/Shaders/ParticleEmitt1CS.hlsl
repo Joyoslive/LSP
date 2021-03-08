@@ -45,19 +45,24 @@ static const float3 dir[8] =
 #define size 8
 
 [numthreads(size, 1, 1)]
-void main( uint3 DTid : SV_DispatchThreadID )
+void main(uint3 DTid : SV_DispatchThreadID)
 {
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     uint maxCount, stride;
     appendBuffer.GetDimensions(maxCount, stride);
     if (id < count && id < maxCount - particleCount)
-    {
+    {   
         Particle p;
-        p.lifeTime = lifeTime;
+        
         p.pos = pos;
-        p.vel = 60 * normalize(reflect(dir[DTid.x], randVec));
+        p.pos += 40 * (reflect(randVec,dir[DTid.x]));
+        
+        
+        p.vel = float3(0, 0, 0);
+        
         p.scale = scale;
         p.color = color;
+        p.lifeTime = lifeTime;
         p.padding = 0;
         
         appendBuffer.Append(p);

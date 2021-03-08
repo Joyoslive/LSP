@@ -8,6 +8,8 @@ class CameraComponent;
 class Sound : public Component
 {
 private:
+	int m_loopingSoundId;
+	Ref<CameraComponent> m_listenerCamera;
 	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
 	DirectX::AudioEmitter m_emitter;
 	DirectX::AudioListener m_listener;

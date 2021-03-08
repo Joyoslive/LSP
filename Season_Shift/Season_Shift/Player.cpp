@@ -108,8 +108,12 @@ using namespace DirectX::SimpleMath;
 	 m_logicPlayerCamera->start();
 
 	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(160, 1)));
-	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0, Vector3(1, 1, 0), Vector3::Zero, Vector3(0, 0, 7));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0.2f, Vector3(1, 1, 0), Vector3(0, 0, 7));
 	 //	80 / 2 = 40
+
+	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
+		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
+	 m_playerPartSys2->addEmitter(8 * 144 * 100, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
 	
 	 m_rb->setGravity(55.0);
  }	

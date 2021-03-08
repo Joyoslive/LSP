@@ -10,6 +10,7 @@ HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
 Sound::Sound(const vector<string>& fileNames)
 {
+	m_loopingSoundId = -1;
 	m_componentType = ComponentEnum::SOUND;
 	m_audioEngine = std::make_unique<DirectX::AudioEngine>();
 
@@ -55,13 +56,14 @@ void Sound::playLoop(const std::string& soundName)
 {
 	if (m_effectInst != nullptr)
 	{
-		if (m_effectInst->IsLooped())
+		if (m_effectInst->IsLooped() && m_map[soundName] != m_loopingSoundId)
 		{
 			m_effectInst->Stop(true);
 		}
 	}
 	m_effectInst = m_sounds[m_map[soundName]].CreateInstance();
 	m_effectInst->Play(true);
+	m_loopingSoundId = m_map[soundName];
 }
 
 void Sound::stopLoop()
