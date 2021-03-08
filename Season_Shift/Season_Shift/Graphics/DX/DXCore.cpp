@@ -41,6 +41,12 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	HRCHECK(m_swapChain.Get()->GetFullscreenState(&m_isFullScreen, nullptr));
 	assert(m_shouldBeFullScreen == m_isFullScreen); //should not start in fullscreen
 
+
+	IDXGIFactory* factory = nullptr;
+	HRCHECK(m_swapChain->GetParent(__uuidof(IDXGIFactory), (void**)&factory));
+	factory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_ALT_ENTER);
+	factory->Release();
+
 	checkMonitorRes();
 }
 
@@ -173,7 +179,7 @@ bool DXCore::setFullScreen(BOOL fullScreen)
 bool DXCore::getFullScreenState() const
 {
 	assert(m_shouldBeFullScreen == m_isFullScreen);
-	return m_isFullScreen;
+	return m_shouldBeFullScreen;
 }
 
 const Microsoft::WRL::ComPtr<IDXGISwapChain>& DXCore::getSwapChain()
