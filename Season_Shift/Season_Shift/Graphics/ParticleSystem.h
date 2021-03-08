@@ -14,7 +14,7 @@ public:
 		DirectX::SimpleMath::Vector3 direction;
 		unsigned int count;
 		DirectX::SimpleMath::Vector3 color;
-		float padding = 0;
+		float angle = 0;
 		EmittStructure(float startLifeTime, DirectX::SimpleMath::Vector3 randVec, float scale, DirectX::SimpleMath::Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color);
 	};
 

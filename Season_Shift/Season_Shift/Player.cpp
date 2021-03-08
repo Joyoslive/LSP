@@ -114,7 +114,7 @@ using namespace DirectX::SimpleMath;
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144 * 100, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
 	
 	 m_rb->setGravity(55.0);
  }	
