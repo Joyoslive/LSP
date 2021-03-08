@@ -37,6 +37,7 @@ private:
 	HWND m_hwnd;
 	UINT m_clientWidth, m_clientHeight;
 	UINT m_maxWidth, m_maxHeight;
+	BOOL m_shouldBeFullScreen, m_isFullScreen;
 
 private:
 	void createDeviceAndSwapChain();
@@ -64,6 +65,9 @@ public:
 	UINT getClientWidth();
 	UINT getClientHeight();
 	
+	bool setFullScreen(BOOL fullScreen);
+	bool getFullScreenState() const;
+
 	void changeResolution(unsigned int clientWidth, unsigned int clientHeight);
 	void onResize(UINT width, UINT height);
 };

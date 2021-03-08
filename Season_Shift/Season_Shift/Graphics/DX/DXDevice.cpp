@@ -916,6 +916,16 @@ void DXDevice::onResize(UINT width, UINT height)
 
 }
 
+void DXDevice::setFullScreen(bool fullScreen)
+{
+	m_core->setFullScreen(fullScreen);
+}
+
+bool DXDevice::getFullScreenState() const
+{
+	return m_core->getFullScreenState();
+}
+
 void DXDevice::bindDrawIndexedBuffer(const std::shared_ptr<DXBuffer>& vb, const std::shared_ptr<DXBuffer>& ib, unsigned int vbOffset, unsigned int ibOffset)
 {
 
