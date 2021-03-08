@@ -82,6 +82,8 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/jumpTest.wav");
 	v1.push_back("Sounds/wallrunBongo.wav");
 	v1.push_back("Sounds/airBeat.wav");
+	v1.push_back("Sounds/hookDrum.wav");
+	v1.push_back("Sounds/hookDrumv2.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));

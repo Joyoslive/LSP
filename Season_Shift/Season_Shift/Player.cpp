@@ -50,6 +50,7 @@ using namespace DirectX::SimpleMath;
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
+	 m_soundLoop = false;
 	 m_soundLoopG = false;
 	 m_soundLoopW = false;
 	 m_soundLoopA = false;
@@ -228,15 +229,27 @@ using namespace DirectX::SimpleMath;
 
 	velocity = playerFly(velocity);
 
-	if ( (velocity.Length() < 0.1 || m_ground == false) && m_soundLoopG == true)
+	if (velocity.Length() < 0.1)
 	{
 		m_soundLoopG = false;
+		m_soundLoopW = false;
+		m_soundLoopA = false;
 		m_sound->stopLoop();
+	}
+	else if (m_ground == false && m_soundLoopG == true)
+	{
+		m_soundLoopG = false;
+		//m_sound->stopLoop();
 	}
 	else if (m_walljump == false && m_soundLoopW == true)
 	{
 		m_soundLoopW = false;
 		m_sound->stopLoop();
+	}
+	else if (m_hooked == false && m_soundLoopA == true)
+	{
+		m_soundLoopA = false;
+		//m_sound->stopLoop();
 	}
 	else if (velocity.Length() != 0 && m_ground == true && m_soundLoopG == false) {
 		m_soundLoopG = true;
@@ -246,6 +259,11 @@ using namespace DirectX::SimpleMath;
 	{
 		m_soundLoopW = true;
 		m_sound->playLoop("Sounds/wallrunBongo.wav");
+	}
+	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoopA == false)
+	{
+		m_soundLoopA = true;
+		m_sound->playLoop("Sounds/hookDrumv2.wav");
 	}
 
 

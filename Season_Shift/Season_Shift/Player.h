@@ -33,6 +33,7 @@ private:
 	bool m_ground;
 	bool m_doubleJump;
 	bool m_walljump;
+	bool m_soundLoop;
 	bool m_soundLoopG;
 	bool m_soundLoopW;
 	bool m_soundLoopA;
