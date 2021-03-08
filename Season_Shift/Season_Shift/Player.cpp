@@ -236,7 +236,7 @@ using namespace DirectX::SimpleMath;
 	}
 	else if (velocity.Length() != 0 && m_ground == true && m_soundLoop == false) {
 		m_soundLoop = true;
-		m_sound->playLoop("Sounds/run.wav");
+		m_sound->playLoop("Sounds/run2.wav");
 	}
 	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoop == false)
 	{

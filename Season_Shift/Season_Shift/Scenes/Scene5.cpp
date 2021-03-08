@@ -84,7 +84,7 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/airBeat.wav");
 	v1.push_back("Sounds/hookDrum.wav");
 	v1.push_back("Sounds/hookDrumv2.wav");
-	v1.push_back("Sounds/run.wav");
+	v1.push_back("Sounds/run2.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -118,6 +118,7 @@ void Scene5::setUpScene()
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
+	sound->setVolume(0.4);
 	sound->playLoop("Sounds/WaywardWoods.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
 }
