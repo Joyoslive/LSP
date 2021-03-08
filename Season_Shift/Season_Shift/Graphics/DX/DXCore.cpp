@@ -37,6 +37,17 @@ DXCore::DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	HRCHECK(m_device.Get()->QueryInterface<ID3D11Debug>(m_debug.GetAddressOf()));
 #endif
 
+	m_shouldBeFullScreen = false;
+	HRCHECK(m_swapChain.Get()->GetFullscreenState(&m_isFullScreen, nullptr));
+	assert(m_shouldBeFullScreen == m_isFullScreen); //should not start in fullscreen
+
+
+	IDXGIFactory* factory = nullptr;
+	HRCHECK(m_swapChain->GetParent(__uuidof(IDXGIFactory), (void**)&factory));
+	factory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_ALT_ENTER);
+	factory->Release();
+
+	checkMonitorRes();
 }
 
 DXCore::~DXCore()
@@ -90,6 +101,95 @@ void DXCore::createDeviceAndSwapChain()
 		NULL,	// we dont need to keep track of which feature level is supported right now
 		m_immediateContext.GetAddressOf()
 	));
+}
+
+void DXCore::checkMonitorRes()
+{
+	m_maxHeight = 0;
+	m_maxWidth = 0;
+
+	IDXGIOutput* outPut = nullptr;
+	HRESULT hr = this->m_swapChain->GetContainingOutput(&outPut);
+	assert(SUCCEEDED(hr));
+
+
+	DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+	UINT numModes = 0;
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, 0);
+	assert(SUCCEEDED(hr));
+	DXGI_MODE_DESC* modeList = new DXGI_MODE_DESC[numModes];
+	hr = outPut->GetDisplayModeList(format, 0, &numModes, modeList);
+	assert(SUCCEEDED(hr));
+	for (int i = 0; i < numModes; i++)
+	{
+		if (modeList[i].Width >= m_maxWidth) m_maxWidth = modeList[i].Width;
+		if (modeList[i].Height >= m_maxHeight) m_maxHeight = modeList[i].Height;
+	}
+	delete[] modeList;
+	outPut->Release();
+
+	Logger::getLogger().debugLog("Monitor resolution: " + std::to_string(m_maxWidth) + "x" + std::to_string(m_maxHeight) + "\n");
+}
+
+bool DXCore::setFullScreen(BOOL fullScreen)
+{
+
+	HRCHECK(m_swapChain.Get()->GetFullscreenState(&m_isFullScreen, nullptr));
+	if (m_isFullScreen != m_shouldBeFullScreen) //check if fullscreen has changed, ignore input argument
+	{
+		fullScreen = m_isFullScreen;
+	}
+	else if (fullScreen == m_isFullScreen) //early exit if fullscreen is already at a desired state 
+	{
+		return false;
+	}
+	
+	Logger::getLogger().debugLog("setFullScreen to ");
+	Logger::getLogger().debugLog(fullScreen ? "true\n" : "false\n");
+	if (fullScreen)
+	{
+		resizeTarget(m_maxWidth, m_maxHeight);
+	}
+	else
+	{
+		HRCHECK(m_swapChain->SetFullscreenState(false, nullptr)); //force it to accept resize
+		resizeTarget(1280, 720);
+	}
+
+	HRCHECK(m_swapChain->SetFullscreenState(fullScreen, nullptr));
+	m_shouldBeFullScreen = fullScreen;
+	m_isFullScreen = fullScreen;
+	return true;
+}
+
+bool DXCore::getFullScreenState() const
+{
+	assert(m_shouldBeFullScreen == m_isFullScreen);
+	return m_shouldBeFullScreen;
+}
+
+void DXCore::resizeTarget(UINT width, UINT height)
+{
+	DXGI_MODE_DESC modeDesc = {};
+
+	DXGI_MODE_DESC prefModeDesc = {};
+
+	prefModeDesc.Width = width;
+	prefModeDesc.Height = height;
+	prefModeDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	prefModeDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+
+	IDXGIOutput* outPut = nullptr;
+	HRCHECK(m_swapChain->GetContainingOutput(&outPut));
+
+	HRCHECK(outPut->FindClosestMatchingMode(&prefModeDesc, &modeDesc, m_device.Get()));
+	Logger::getLogger().debugLog("FindClosestMatchingMode:\tResolution: " + std::to_string(modeDesc.Width) + "x" + std::to_string(modeDesc.Height) +
+		"\tRefreshRate: " + std::to_string((float)modeDesc.RefreshRate.Numerator / (float)modeDesc.RefreshRate.Denominator) + "\n");
+
+
+	HRCHECK(m_swapChain->ResizeTarget(&modeDesc));
+	outPut->Release();
 }
 
 const Microsoft::WRL::ComPtr<IDXGISwapChain>& DXCore::getSwapChain()
@@ -151,6 +251,20 @@ void DXCore::changeResolution(unsigned int clientWidth, unsigned int clientHeigh
 
 void DXCore::onResize(UINT width, UINT height)
 {
+	
+
+	bool changed = setFullScreen(m_shouldBeFullScreen); //should not matter if argument is true or false, setFullScreen() will figure it out
+	if (changed && m_shouldBeFullScreen)
+	{
+		width = m_maxWidth;
+		height = m_maxHeight;
+	}
+
+	m_clientHeight = height;
+	m_clientWidth = width;
+
+	Logger::getLogger().debugLog("onResize: " + std::to_string(width) + "x" + std::to_string(height) + "\n");
+
 	m_backbufferRTV.Reset();
 	m_backbufferSRV.Reset();
 	m_backbufferTexture.Reset();
@@ -175,9 +289,10 @@ void DXCore::onResize(UINT width, UINT height)
 
 	/*IDXGIOutput* outPut = nullptr;
 	hr = this->m_swapChain->GetContainingOutput(&outPut);
-	assert(SUCCEEDED(hr)); 
+	assert(SUCCEEDED(hr)); */
 
-	DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+	/*DXGI_FORMAT format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	
 	UINT numModes = 0;
 	hr = outPut->GetDisplayModeList(format, 0, &numModes, 0);

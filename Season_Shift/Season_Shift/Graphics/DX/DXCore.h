@@ -36,9 +36,12 @@ private:
 
 	HWND m_hwnd;
 	UINT m_clientWidth, m_clientHeight;
+	UINT m_maxWidth, m_maxHeight;
+	BOOL m_shouldBeFullScreen, m_isFullScreen;
 
 private:
 	void createDeviceAndSwapChain();
+	void checkMonitorRes();
 
 public:
 	DXCore(HWND& hwnd, UINT clientWidth, UINT clientHeight);
@@ -62,6 +65,10 @@ public:
 	UINT getClientWidth();
 	UINT getClientHeight();
 	
+	bool setFullScreen(BOOL fullScreen);
+	bool getFullScreenState() const;
+	void resizeTarget(UINT width, UINT height);
+
 	void changeResolution(unsigned int clientWidth, unsigned int clientHeight);
 	void onResize(UINT width, UINT height);
 };
