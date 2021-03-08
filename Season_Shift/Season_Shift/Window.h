@@ -18,6 +18,7 @@ private:
 	DWORD m_style, m_exStyle;
 	std::wstring m_title;
 	bool m_isClosed;
+	bool m_firstActivate;
 
 	void resizeToWindowToFitClient();
 	
