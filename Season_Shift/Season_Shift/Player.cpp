@@ -24,6 +24,7 @@ using namespace DirectX::SimpleMath;
 	 m_disable = false;
 	 m_frameTime = 0.0f;
 	 m_speed = 300.0f;
+	 m_collisionFrame = false;
 	 m_maxSpeed = 90.0f;
 	 m_maxSpeedRetardation = 150.0f;
 	 m_baseFlySpeed = 100.0f;
@@ -49,6 +50,9 @@ using namespace DirectX::SimpleMath;
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
+	 m_soundLoopG = false;
+	 m_soundLoopW = false;
+	 m_soundLoopA = false;
 	 m_timer = Timer();
 	 m_goalTimer = Timer();
 	 m_timer.start();
@@ -160,7 +164,7 @@ using namespace DirectX::SimpleMath;
 				moveDirection += cross;
 			else
 				moveDirection += cameraForward;
-			m_sound->playLoop("Sound/walkingDrum.wav");
+			//m_sound->playLoop("Sound/walkingDrum.wav");
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
@@ -219,6 +223,28 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
+
+	if ( (velocity.Length() < 0.1 || m_ground == false) && m_soundLoopG == true)
+	{
+		m_soundLoopG = false;
+		m_sound->stopLoop();
+	}
+	else if (m_walljump == false && m_soundLoopW == true)
+	{
+		m_soundLoopW = false;
+		m_sound->stopLoop();
+	}
+	else if (velocity.Length() != 0 && m_ground == true && m_soundLoopG == false) {
+		m_soundLoopG = true;
+		m_sound->playLoop("Sounds/walkingDrum.wav");
+	}
+	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoopW == false)
+	{
+		m_soundLoopW = true;
+		m_sound->playLoop("Sounds/wallrunBongo.wav");
+	}
+
+
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -293,13 +319,15 @@ using namespace DirectX::SimpleMath;
 		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
 		ImGui::SliderFloat("Speed", &m_movAlt, 1000.0, 1050.0);
 		ImGui::Text("On Ground %d", m_ground);
+		ImGui::Text("On Wall %d", m_walljump);
+		ImGui::Text("In Air %d", m_collisionFrame);
 		//ImGui::Text("Roll: %f", m_roll);
 		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
 	}
 	ImGui::End();
 
 	long absVelocity = labs(velocity.Length() * 10.0f);
-
+	m_collisionFrame = true;
 	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
 	m_velocitySprite->setText(text);
  }
@@ -308,7 +336,7 @@ using namespace DirectX::SimpleMath;
  {
 	 constexpr float floorCheck = 0.8f;
 	 constexpr float wallCheck = 0.8f;
-
+	 m_collisionFrame = false;
 	 m_normal = m_capsuleCollider->getCollisionNormal();
 	 if (m_waitForJump)
 	 {

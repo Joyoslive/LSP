@@ -78,6 +78,10 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/jump1a.wav");
 	v1.push_back("Sounds/jump2a.wav");
 	v1.push_back("Sounds/jump3a.wav");
+	v1.push_back("Sounds/dashTest.wav");
+	v1.push_back("Sounds/jumpTest.wav");
+	v1.push_back("Sounds/wallrunBongo.wav");
+	v1.push_back("Sounds/airBeat.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));

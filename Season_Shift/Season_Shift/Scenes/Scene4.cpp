@@ -46,6 +46,11 @@ void Scene4::setUpScene()
 	v1.push_back("Sounds/walkingDrum.wav");
 	v1.push_back("Sounds/hook.wav");
 	v1.push_back("Sounds/dehook.wav");
+	v1.push_back("Sounds/dashTest.wav");
+	v1.push_back("Sounds/jumpTest.wav");
+	v1.push_back("Sounds/wallrunBongo.wav");
+	v1.push_back("Sounds/airBeat.wav");
+
 	player->AddComponent(std::make_shared<Sound>(v1));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());

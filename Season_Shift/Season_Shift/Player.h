@@ -33,7 +33,9 @@ private:
 	bool m_ground;
 	bool m_doubleJump;
 	bool m_walljump;
-	
+	bool m_soundLoopG;
+	bool m_soundLoopW;
+	bool m_soundLoopA;
 	bool m_fly;
 	long double m_frameTime;
 	float m_speed;
@@ -51,6 +53,7 @@ private:
 	long double m_wallTimer;
 	long double m_trampolineTimer;
 	bool m_hooked;
+	bool m_collisionFrame;
 	bool m_movObj;
 	DirectX::SimpleMath::Vector3 m_movSpeed;
 	float m_hookDist;

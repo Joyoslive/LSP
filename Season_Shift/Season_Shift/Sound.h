@@ -8,7 +8,6 @@ class CameraComponent;
 class Sound : public Component
 {
 private:
-	Ref<CameraComponent> m_listenerCamera;
 	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
 	DirectX::AudioEmitter m_emitter;
 	DirectX::AudioListener m_listener;
@@ -22,10 +21,11 @@ private:
 	void initialize() override;
 
 public:
-	Sound(const std::vector<std::string>& fileName, const Ref<CameraComponent>& listener = nullptr);
+	Sound(const std::vector<std::string>& fileName);
 	~Sound();
 
 	size_t play(const std::string& soundname);
+	
 	void playLoop(const std::string& soundName);
 	void stopLoop();
 
