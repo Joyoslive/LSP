@@ -24,6 +24,9 @@ private:
 	
 public:
 	std::function<void(UINT width, UINT height)> m_onResize;
+	std::function<void(bool fullScreen)> m_setFullScreen;
+	std::function<bool()> m_getFullScreenState;
+
 	Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight);
 	~Window();
 
@@ -35,6 +38,7 @@ public:
 	bool isClosed() const;
 
 	void setOnResizeCallback(std::function<void(UINT width, UINT height)> func);
+	void setFullScreenCallback(std::function<void(bool fullScreen)> set, std::function<bool()> get);
 
 	LRESULT handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 

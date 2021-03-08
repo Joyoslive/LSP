@@ -108,6 +108,12 @@ void Window::setOnResizeCallback(std::function<void(UINT width, UINT height)> fu
     m_onResize = func;
 }
 
+void Window::setFullScreenCallback(std::function<void(bool fullScreen)> set, std::function<bool()> get)
+{
+    m_setFullScreen = set;
+    m_getFullScreenState = get;
+}
+
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
