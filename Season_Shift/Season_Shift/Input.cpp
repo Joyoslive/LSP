@@ -169,9 +169,11 @@ void Input::lockMouse()
 {
 	if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE) {
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
+		ShowCursor(0);
 	}
 	else {
 		m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
+		ShowCursor(1);
 	}
 }
 
