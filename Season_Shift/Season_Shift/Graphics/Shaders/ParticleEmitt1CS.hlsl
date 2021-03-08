@@ -20,7 +20,7 @@ cbuffer ParticlEmitt : register(b0)
     float3 direction;
     uint count;
     float3 color;
-    float padding1;
+    float angle;
 };
 
 cbuffer NumOfParticleBuffer : register(b1)
@@ -63,7 +63,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
         p.scale = scale;
         p.color = color;
         p.lifeTime = lifeTime;
-        p.angle = 0;
+        p.angle = angle;
         
         appendBuffer.Append(p);
     }

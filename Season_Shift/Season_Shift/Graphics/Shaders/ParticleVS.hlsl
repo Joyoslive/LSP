@@ -27,6 +27,7 @@ struct VS_OUT
     float4 pos : SV_Position;
     float3 color : COLOR;
     float scale : SCALE;
+    float angle : ANGLE;
 };
 
 VS_OUT main(VS_IN input)
@@ -36,5 +37,6 @@ VS_OUT main(VS_IN input)
     output.pos = mul(viewMatrix, float4(vertexBuffer.Load(input.id).pos, 1));
     output.color = float4(vertexBuffer.Load(input.id).color, -1);
     output.scale = p.scale;
+    output.angle = p.angle;
     return output;
 }
