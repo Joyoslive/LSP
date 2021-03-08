@@ -67,6 +67,7 @@ public:
 	
 	bool setFullScreen(BOOL fullScreen);
 	bool getFullScreenState() const;
+	void resizeTarget(UINT width, UINT height);
 
 	void changeResolution(unsigned int clientWidth, unsigned int clientHeight);
 	void onResize(UINT width, UINT height);

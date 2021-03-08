@@ -149,25 +149,12 @@ bool DXCore::setFullScreen(BOOL fullScreen)
 	Logger::getLogger().debugLog(fullScreen ? "true\n" : "false\n");
 	if (fullScreen)
 	{
-		DXGI_MODE_DESC modeDesc = {};
-
-		DXGI_MODE_DESC prefModeDesc = {};
-
-		prefModeDesc.Width = m_maxWidth;
-		prefModeDesc.Height = m_maxHeight;
-		prefModeDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-		prefModeDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
-
-		IDXGIOutput* outPut = nullptr;
-		HRCHECK(m_swapChain->GetContainingOutput(&outPut));
-
-		HRCHECK(outPut->FindClosestMatchingMode(&prefModeDesc, &modeDesc, m_device.Get()));
-		Logger::getLogger().debugLog("FindClosestMatchingMode:\tResolution: " + std::to_string(modeDesc.Width) + "x" + std::to_string(modeDesc.Height) +
-			"\tRefreshRate: " + std::to_string((float)modeDesc.RefreshRate.Numerator / (float)modeDesc.RefreshRate.Denominator) + "\n");
-
-
-		HRCHECK(m_swapChain->ResizeTarget(&modeDesc));
-		outPut->Release();
+		resizeTarget(m_maxWidth, m_maxHeight);
+	}
+	else
+	{
+		HRCHECK(m_swapChain->SetFullscreenState(false, nullptr)); //force it to accept resize
+		resizeTarget(1280, 720);
 	}
 
 	HRCHECK(m_swapChain->SetFullscreenState(fullScreen, nullptr));
@@ -180,6 +167,29 @@ bool DXCore::getFullScreenState() const
 {
 	assert(m_shouldBeFullScreen == m_isFullScreen);
 	return m_shouldBeFullScreen;
+}
+
+void DXCore::resizeTarget(UINT width, UINT height)
+{
+	DXGI_MODE_DESC modeDesc = {};
+
+	DXGI_MODE_DESC prefModeDesc = {};
+
+	prefModeDesc.Width = width;
+	prefModeDesc.Height = height;
+	prefModeDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	prefModeDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+
+	IDXGIOutput* outPut = nullptr;
+	HRCHECK(m_swapChain->GetContainingOutput(&outPut));
+
+	HRCHECK(outPut->FindClosestMatchingMode(&prefModeDesc, &modeDesc, m_device.Get()));
+	Logger::getLogger().debugLog("FindClosestMatchingMode:\tResolution: " + std::to_string(modeDesc.Width) + "x" + std::to_string(modeDesc.Height) +
+		"\tRefreshRate: " + std::to_string((float)modeDesc.RefreshRate.Numerator / (float)modeDesc.RefreshRate.Denominator) + "\n");
+
+
+	HRCHECK(m_swapChain->ResizeTarget(&modeDesc));
+	outPut->Release();
 }
 
 const Microsoft::WRL::ComPtr<IDXGISwapChain>& DXCore::getSwapChain()
