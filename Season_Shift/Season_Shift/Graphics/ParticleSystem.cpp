@@ -84,7 +84,7 @@ void ParticleSystem::swapBuffers()
 	m_appendBuffer.swap(m_consumeBuffer);
 }
 
-ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount, unsigned int particleLifeTime)
+ParticleSystem::ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount, float particleLifeTime)
 {
 	
 	m_initialBind = true;

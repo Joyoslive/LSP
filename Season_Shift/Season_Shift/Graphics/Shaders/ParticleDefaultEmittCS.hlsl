@@ -58,7 +58,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         p.vel = 60 * normalize(reflect(dir[DTid.x], randVec));
         p.scale = scale;
         p.color = color;
-        p.angle = angle;
+        p.angle = DTid.x;
         
         appendBuffer.Append(p);
     }
