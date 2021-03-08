@@ -11,6 +11,7 @@ public:
 	virtual inline void setFont(std::shared_ptr<DirectX::SpriteFont> font) { }
 	virtual void setColor(const DirectX::SimpleMath::Color& col) = 0;
 	inline void setPosition(const DirectX::SimpleMath::Vector2 position) { m_position = position; }
+	inline const DirectX::SimpleMath::Vector2 getPosition() { return m_position; }
 	inline void setScale(const DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	inline void setShow(bool show) { m_show = show; }
 
