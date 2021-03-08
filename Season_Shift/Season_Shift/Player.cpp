@@ -228,44 +228,27 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-
-	if (velocity.Length() < 0.1)
+	
+	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
-		m_soundLoopG = false;
-		m_soundLoopW = false;
-		m_soundLoopA = false;
+		m_soundLoop = false;
 		m_sound->stopLoop();
 	}
-	else if (m_ground == false && m_soundLoopG == true)
-	{
-		m_soundLoopG = false;
-		//m_sound->stopLoop();
+	else if (velocity.Length() != 0 && m_ground == true && m_soundLoop == false) {
+		m_soundLoop = true;
+	//	m_sound->playLoop("Sounds/walkingDrum.wav");
 	}
-	else if (m_walljump == false && m_soundLoopW == true)
+	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoop == false)
 	{
-		m_soundLoopW = false;
-		m_sound->stopLoop();
-	}
-	else if (m_hooked == false && m_soundLoopA == true)
-	{
-		m_soundLoopA = false;
-		//m_sound->stopLoop();
-	}
-	else if (velocity.Length() != 0 && m_ground == true && m_soundLoopG == false) {
-		m_soundLoopG = true;
-		m_sound->playLoop("Sounds/walkingDrum.wav");
-	}
-	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoopW == false)
-	{
-		m_soundLoopW = true;
+		m_soundLoop = true;
 		m_sound->playLoop("Sounds/wallrunBongo.wav");
 	}
-	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoopA == false)
+	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoop == false)
 	{
-		m_soundLoopA = true;
-		m_sound->playLoop("Sounds/hookDrumv2.wav");
+		m_soundLoop = true;
+		//m_sound->playLoop("Sounds/hookDrumv2.wav");
 	}
-
+	
 
 
 	Vector3 velocitySkipY = velocity;
