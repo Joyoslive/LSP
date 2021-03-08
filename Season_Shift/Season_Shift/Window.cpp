@@ -119,7 +119,7 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     ImGui_ImplWin32_WndProcHandler(m_hwnd, uMsg, wParam, lParam);
-
+    static bool s_fullScreen = false;
     switch (uMsg)
     {
     case WM_CLOSE:
@@ -148,6 +148,19 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_ACTIVATEAPP:
        DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
        DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
+
+       if (m_getFullScreenState == NULL)
+       {
+           break;
+       }
+       if (!wParam)
+       {
+           s_fullScreen = m_getFullScreenState();
+       }
+       else
+       {
+           m_setFullScreen(s_fullScreen);
+       }
        break;
 
     case WM_WINDOWPOSCHANGED:
