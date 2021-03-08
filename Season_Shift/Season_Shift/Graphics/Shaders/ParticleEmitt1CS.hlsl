@@ -42,29 +42,50 @@ static const float3 dir[8] =
 };
 
 
+// ---------- RANDOM NUMBER GENERATOR -------------
+// https://www.shadertoy.com/view/tsf3Dn - RNG with seed
+int xorshift(int value)
+{
+	// Xorshift*32
+	// Based on George Marsaglia's work: http://www.jstatsoft.org/v08/i14/paper
+    value ^= value << 13;
+    value ^= value >> 17;
+    value ^= value << 5;
+    return value;
+}
+
+float randFloat(int seed)
+{
+    return float(xorshift(seed)) * (1.0 / 4294967296.0);
+}
+
 #define size 8
 
 [numthreads(size, 1, 1)]
-void main(uint3 DTid : SV_DispatchThreadID)
+
+    void main
+    (
+    uint3 DTid : SV_DispatchThreadID)
 {
-    uint id = DTid.x + DTid.y * size + DTid.z * size * size;
-    uint maxCount, stride;
-    appendBuffer.GetDimensions(maxCount, stride);
-    if (id < count && id < maxCount - particleCount)
-    {   
-        Particle p;
-        
-        p.pos = pos;
-        p.pos += 40 * (reflect(randVec,dir[DTid.x]));
+        uint id = DTid.x + DTid.y * size + DTid.z * size * size;
+        uint maxCount, stride;
+        appendBuffer.GetDimensions(maxCount, stride);
+        if (id < count && id < maxCount - particleCount && id < size)
+        {
+            Particle p;
         
         
-        p.vel = float3(0, 0, 0);
+            p.pos = pos;
+            p.pos += 40 * (reflect(dir[DTid.x], randVec));
+            //p.pos += 4000 * float3(randFloat(randVec.x + DTid.x), randFloat(randVec.y + DTid.x), randFloat(randVec.z + DTid.x));
         
-        p.scale = scale;
-        p.color = color;
-        p.lifeTime = lifeTime;
-        p.angle = angle;
+            p.vel = float3(0, 0, 0);
         
-        appendBuffer.Append(p);
+            p.scale = scale;
+            p.color = color;
+            p.lifeTime = lifeTime;
+            p.angle = DTid.x;
+        
+            appendBuffer.Append(p);
+        }
     }
-}

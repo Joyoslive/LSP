@@ -50,7 +50,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     uint maxCount, stride;
     appendBuffer.GetDimensions(maxCount, stride);
-    if (id < count && id < maxCount - particleCount)
+    if (id < count && id < maxCount - particleCount && id < size)
     {
         Particle p;
         p.lifeTime = lifeTime;
