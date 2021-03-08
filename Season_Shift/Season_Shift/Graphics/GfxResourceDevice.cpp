@@ -239,10 +239,10 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	return t;
 }
 
-std::shared_ptr<ISprite> GfxResourceDevice::createSpriteTexture(const std::string& textureName, float positionX, float positionY, float scaleX, float scaleY, float rotation)
+std::shared_ptr<ISprite> GfxResourceDevice::createSpriteTexture(const std::string& textureName, float positionX, float positionY, float scaleX, float scaleY, float rotation, float depth)
 {
 	auto tex = loadTextureSprite(textureName);
-	auto sprite = std::make_shared<SpriteTexture>(tex, rotation);
+	auto sprite = std::make_shared<SpriteTexture>(tex, rotation, depth);
 	sprite->setPosition({positionX, positionY});
 	sprite->setScale({scaleX, scaleY});
 	return sprite;

@@ -101,6 +101,6 @@ public:
 	std::shared_ptr<ISprite> createSprite(const std::string& text, const std::wstring& path, ScreenPos screenPosX, ScreenPos screenPosY);
 	std::shared_ptr<ISprite> createSprite(const std::string& text, ScreenPos screenPosX, ScreenPos screenPosY);
 
-	std::shared_ptr<ISprite> createSpriteTexture(const std::string& textureName, float positionX = 0, float positionY = 0, float scaleX = 1, float scaleY = 1, float rotation = 0);
+	std::shared_ptr<ISprite> createSpriteTexture(const std::string& textureName, float positionX = 0, float positionY = 0, float scaleX = 1, float scaleY = 1, float rotation = 0, float depth = 0);
 };
 

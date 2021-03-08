@@ -14,14 +14,14 @@ public:
 		DirectX::SimpleMath::Vector3 direction;
 		unsigned int count;
 		DirectX::SimpleMath::Vector3 color;
-		float padding = 0;
+		float angle = 0;
 		EmittStructure(float startLifeTime, DirectX::SimpleMath::Vector3 randVec, float scale, DirectX::SimpleMath::Vector3 direction, unsigned int count, DirectX::SimpleMath::Vector3 color);
 	};
 
 private:
 	bool m_initialBind;
 	unsigned int m_maxNumParticles;
-	unsigned int m_maxParticleLifeTime;
+	float m_maxParticleLifeTime;
 	std::shared_ptr<GfxRenderer> m_renderer;
 
 	//shaders
@@ -77,7 +77,7 @@ private:
 	void swapBuffers();
 
 public:
-	ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount, unsigned int particleLifeTime);
+	ParticleSystem(const std::shared_ptr<GfxRenderer>& renderer, const std::string& simShader, const std::string& emittShader, unsigned int maxCount, float particleLifeTime);
 	~ParticleSystem();
 	void emitt(EmittStructure emittData);
 

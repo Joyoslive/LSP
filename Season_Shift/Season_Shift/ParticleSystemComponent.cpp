@@ -46,7 +46,7 @@ void ParticleSystemComponent::update()
 	}
 }
 
-ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles, unsigned int particleLifeTime)
+ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles, float particleLifeTime)
 {
 	m_particleLifeTime = particleLifeTime;
 	m_maxParticles = maxParticles;
@@ -55,7 +55,7 @@ ParticleSystemComponent::ParticleSystemComponent(unsigned int maxParticles, unsi
 	m_componentType = ComponentEnum::PARTICLE_SYSTEM;
 }
 
-ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles, unsigned int particleLifeTime)
+ParticleSystemComponent::ParticleSystemComponent(const std::string& simShader, const std::string& emittShader, unsigned int maxParticles, float particleLifeTime)
 {
 	m_particleLifeTime = particleLifeTime;
 	m_maxParticles = maxParticles;

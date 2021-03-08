@@ -6,7 +6,7 @@ struct Particle
     float3 vel;
     float scale;
     float3 color;
-    float padding;
+    float angle;
 };
 
 AppendStructuredBuffer<Particle> appendBuffer : register(u0);
@@ -20,7 +20,7 @@ cbuffer ParticlEmitt : register(b0)
     float3 direction;
     uint count;
     float3 color;
-    float padding1;
+    float angle;
 };
 
 cbuffer NumOfParticleBuffer : register(b1)
@@ -50,7 +50,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     uint maxCount, stride;
     appendBuffer.GetDimensions(maxCount, stride);
-    if (id < count && id < maxCount - particleCount)
+    if (id < count && id < maxCount - particleCount && id < size)
     {
         Particle p;
         p.lifeTime = lifeTime;
@@ -58,7 +58,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         p.vel = 60 * normalize(reflect(dir[DTid.x], randVec));
         p.scale = scale;
         p.color = color;
-        p.padding = 0;
+        p.angle = DTid.x;
         
         appendBuffer.Append(p);
     }

@@ -114,7 +114,7 @@ using namespace DirectX::SimpleMath;
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144 * 100, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -128,6 +128,9 @@ using namespace DirectX::SimpleMath;
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
+		 /*char msgbuf[1000];
+		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
+		 OutputDebugStringA(msgbuf);*/
 		 m_createOnce = false;
 	 }
 
@@ -228,44 +231,27 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-
-	if (velocity.Length() < 0.1)
+	
+	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
-		m_soundLoopG = false;
-		m_soundLoopW = false;
-		m_soundLoopA = false;
+		m_soundLoop = false;
 		m_sound->stopLoop();
 	}
-	else if (m_ground == false && m_soundLoopG == true)
-	{
-		m_soundLoopG = false;
-		//m_sound->stopLoop();
+	else if (velocity.Length() != 0 && m_ground == true && m_soundLoop == false) {
+		m_soundLoop = true;
+		m_sound->playLoop("Sounds/run2.wav");
 	}
-	else if (m_walljump == false && m_soundLoopW == true)
+	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoop == false)
 	{
-		m_soundLoopW = false;
-		m_sound->stopLoop();
-	}
-	else if (m_hooked == false && m_soundLoopA == true)
-	{
-		m_soundLoopA = false;
-		//m_sound->stopLoop();
-	}
-	else if (velocity.Length() != 0 && m_ground == true && m_soundLoopG == false) {
-		m_soundLoopG = true;
-		m_sound->playLoop("Sounds/walkingDrum.wav");
-	}
-	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoopW == false)
-	{
-		m_soundLoopW = true;
+		m_soundLoop = true;
 		m_sound->playLoop("Sounds/wallrunBongo.wav");
 	}
-	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoopA == false)
+	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoop == false)
 	{
-		m_soundLoopA = true;
-		m_sound->playLoop("Sounds/hookDrumv2.wav");
+		m_soundLoop = true;
+		//m_sound->playLoop("Sounds/hookDrumv2.wav");
 	}
-
+	
 
 
 	Vector3 velocitySkipY = velocity;
