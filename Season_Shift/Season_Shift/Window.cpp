@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "Logger.h"
 
+bool firstActivate = false;
+
 Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT clientHeight) : 
     m_hInst(hInst),
     m_title(title),
@@ -10,7 +12,8 @@ Window::Window(HINSTANCE hInst, const std::wstring title, UINT clientWidth, UINT
     m_clientHeight(clientHeight),
     m_style(WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX),
     m_isClosed(true),
-    m_exStyle(0)
+    m_exStyle(0),
+    m_firstActivate(false)
 {
     // Register window class
     WNDCLASS wc = { };
@@ -164,6 +167,14 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_KEYUP:
     case WM_SYSKEYUP:
         DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
+        break;
+    case WM_ACTIVATE:
+        if (!m_firstActivate)
+        {
+            m_firstActivate = true;
+            break;
+        }
+        Input::getInput().lockMouse();
         break;
     case WM_INPUT:
     case WM_MOUSEMOVE:
