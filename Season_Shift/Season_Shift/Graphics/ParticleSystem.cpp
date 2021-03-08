@@ -172,4 +172,5 @@ ParticleSystem::EmittStructure::EmittStructure(float startLifeTime, Vector3 rand
 	this->direction = direction;
 	this->count = count;
 	this->color = color;
+	this->angle = 0;
 }

@@ -6,7 +6,7 @@ struct Particle
     float3 vel;
     float scale;
     float3 color;
-    float padding;
+    float angle;
 };
 
 AppendStructuredBuffer<Particle> appendBuffer : register(u0);

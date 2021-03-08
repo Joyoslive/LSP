@@ -5,7 +5,7 @@ struct Particle
     float3 vel;
     float scale;
     float3 color;
-    float padding;
+    float angle;
 };
 
 StructuredBuffer<Particle> vertexBuffer : register(t0); //lol hahah den heter vertexBuffer, jättekul

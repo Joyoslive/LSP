@@ -6,7 +6,7 @@ struct Particle
     float3 vel;
     float scale;
     float3 color;
-    float padding;
+    float angle;
 };
 
 AppendStructuredBuffer<Particle> appendBuffer : register(u0);
@@ -63,7 +63,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
         p.scale = scale;
         p.color = color;
         p.lifeTime = lifeTime;
-        p.padding = 0;
+        p.angle = 0;
         
         appendBuffer.Append(p);
     }
