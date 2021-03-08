@@ -39,25 +39,25 @@ vector<Ref<Collider>> PhysicsEngine::checkCollide(const Ref<Collider>& collider)
 	vector<Ref<Collider>> colliderVec;
 	for (auto& go : m_scene->getSceneGameObjects())
 	{
-	Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER);
-	if (other != nullptr)
-	{
-		if (collider.get() == other.get()) continue; //skip if to avoid self collision check
-		if (collider->collide(other))
+		Ref<Collider> other = go->getComponentType<Collider>(Component::ComponentEnum::COLLIDER); //NOTE THAT A GAME OBJECT CAN HAVE MULTIPLE COLLIDERS
+		if (other != nullptr)
 		{
-			Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
-			if (logic != nullptr)
+			if (collider.get() == other.get()) continue; //skip if to avoid self collision check
+			if (collider->collide(other))
 			{
-				logic->onCollision(collider);
+				Ref<Logic> logic = go->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+				if (logic != nullptr)
+				{
+					logic->onCollision(collider);
+				}
+				logic = collider->getGameObject()->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
+				if (logic != nullptr)
+				{
+					logic->onCollision(other);
+				}
+				colliderVec.push_back(other);
 			}
-			logic = collider->getGameObject()->getComponentType<Logic>(Component::ComponentEnum::LOGIC);
-			if (logic != nullptr)
-			{
-				logic->onCollision(other);
-			}
-			colliderVec.push_back(other);
 		}
-	}
 	}
 	return colliderVec;
 }
