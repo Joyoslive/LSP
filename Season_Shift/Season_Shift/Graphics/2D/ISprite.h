@@ -15,10 +15,10 @@ public:
 	inline void setScale(const DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	inline void setShow(bool show) { m_show = show; }
 
-	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
+	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) const {};
 
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
-	inline bool getShow() { return m_show; }
+	inline bool getShow() const { return m_show; }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;

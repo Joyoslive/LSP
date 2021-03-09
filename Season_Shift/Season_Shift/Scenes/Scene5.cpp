@@ -85,6 +85,7 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/hookDrum.wav");
 	v1.push_back("Sounds/hookDrumv2.wav");
 	v1.push_back("Sounds/run2.wav");
+	v1.push_back("Sounds/swing2.wav");
 	v1.push_back("Sounds/swingUp.wav");
 	v1.push_back("Sounds/swingDown.wav");
 	v1.push_back("Sounds/swingFull.wav");

@@ -28,7 +28,7 @@ void SpriteTexture::setColor(const DirectX::SimpleMath::Color& col)
 	
 }
 
-void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
+void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked) const
 {
 	if (isClicked && m_callback &&
 		mouseX > m_position.x && mouseX < (m_position.x + getWidth()) &&

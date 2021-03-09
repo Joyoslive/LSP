@@ -238,7 +238,7 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-
+	m_sound->setVolume(0.4);
 	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
 		m_soundLoop = false;
@@ -255,10 +255,11 @@ using namespace DirectX::SimpleMath;
 	}
 	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
 	{
+		m_sound->setVolume(0.2);
 		m_soundLoop = true;
-		m_sound->playLoop("Sounds/swingFull.wav");
+		m_sound->playLoop("Sounds/swing2.wav");
 	}
-	m_sound->setVolume(0.4);
+	
 
 
 	Vector3 velocitySkipY = velocity;

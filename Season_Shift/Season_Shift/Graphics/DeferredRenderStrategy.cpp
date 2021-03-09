@@ -145,7 +145,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_viewUI)
 	{
-		for (auto& s : m_sprites) 
+		for (const auto& s : m_sprites) 
 		{
 			if (s->getShow())
 			{
