@@ -122,7 +122,7 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     static bool s_fullScreen = false;
     switch (uMsg)
     {
-    case WM_CLOSE:
+	case WM_CLOSE:
     {
         m_isClosed = true;
         Input::getInput().lockMouse(2);
@@ -147,22 +147,24 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
 
     case WM_ACTIVATEAPP:
-       DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
-       DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
+    {
+        DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
+        DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
 
-       if (m_getFullScreenState == NULL)
-       {
-           break;
-       }
-       if (!wParam)
-       {
-           s_fullScreen = m_getFullScreenState();
-       }
-       else
-       {
-           m_setFullScreen(s_fullScreen);
-       }
-       break;
+        if (m_getFullScreenState == NULL)
+        {
+            break;
+        }
+        if (!wParam)
+        {
+            s_fullScreen = m_getFullScreenState();
+        }
+        else
+        {
+            m_setFullScreen(s_fullScreen);
+        }
+        break;
+    }
 
     case WM_WINDOWPOSCHANGED:
     {
@@ -182,13 +184,18 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
+    {
         DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
         break;
+    }
     case WM_KEYUP:
     case WM_SYSKEYUP:
+    {
         DirectX::Keyboard::ProcessMessage(uMsg, wParam, lParam);
         break;
+    }
     case WM_ACTIVATE:
+    {
         if (!m_firstActivate)
         {
             m_firstActivate = true;
@@ -205,6 +212,7 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
             break;
         }
         break;
+    }
     case WM_INPUT:
     case WM_MOUSEMOVE:
     case WM_LBUTTONDOWN:
@@ -217,8 +225,10 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_XBUTTONDOWN:
     case WM_XBUTTONUP:
     case WM_MOUSEHOVER:
+    {
         DirectX::Mouse::ProcessMessage(uMsg, wParam, lParam);
-       break;
+        break;
+    }
 
     }
     return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
