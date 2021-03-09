@@ -196,12 +196,12 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         if (wParam == WA_INACTIVE)
         {
-            Input::getInput().lockMouse(2);
+            Input::getInput().lockMouse(2); // Set absolute and show cursor
             break;
         }
         if (wParam == WA_ACTIVE)
         {
-            Input::getInput().lockMouse(1);
+            Input::getInput().lockMouse(1); // Set relative and hide cursor
             break;
         }
         break;
