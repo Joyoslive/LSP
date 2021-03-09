@@ -123,7 +123,7 @@ void Scene5::setUpScene()
 	m_graphics->setLightDirection({1.8, -1, -1});
 
 
-	//// Clickable sprite test
+	// Clickable sprite test
 	//auto clickableSprite = m_graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 1100, 600, 0.3f, 0.3f, 0.f, 0.f,
 	//	[]() { OutputDebugStringW(L"This sprite was clicked! o_o \n"); });		// Pass function to call in last param. Refer to (https://en.cppreference.com/w/cpp/utility/functional/function)
 	//m_graphics->addToSpriteBatch(clickableSprite);
