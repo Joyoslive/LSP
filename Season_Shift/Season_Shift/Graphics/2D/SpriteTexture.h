@@ -19,7 +19,7 @@ public:
 	void draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatch) override;
 	void setColor(const DirectX::SimpleMath::Color& col) override;
 
-	void checkForClick(int mouseX, int mouseY, bool isClicked = false) override;
+	void checkForClick(int mouseX, int mouseY, bool isClicked = false) const override;
 
 	float getWidth() const;
 	float getHeight() const;
