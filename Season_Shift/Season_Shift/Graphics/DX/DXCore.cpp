@@ -121,11 +121,24 @@ void DXCore::checkMonitorRes()
 	DXGI_MODE_DESC* modeList = new DXGI_MODE_DESC[numModes];
 	hr = outPut->GetDisplayModeList(format, 0, &numModes, modeList);
 	assert(SUCCEEDED(hr));
+
+	Logger log = Logger::getLogger();
+	log.setFile("modeList.txt");
 	for (int i = 0; i < numModes; i++)
 	{
 		if (modeList[i].Width >= m_maxWidth) m_maxWidth = modeList[i].Width;
 		if (modeList[i].Height >= m_maxHeight) m_maxHeight = modeList[i].Height;
+
+
+		log.addLog("width:\t\t" + std::to_string(modeList[i].Width) + "\n");
+		log.addLog("height:\t\t" + std::to_string(modeList[i].Height) + "\n");
+		log.addLog("RefreshRate:\t" + std::to_string((float)modeList[i].RefreshRate.Numerator / (float)modeList->RefreshRate.Denominator) + "\n");
+		log.addLog("Scaling:\t\t" + std::to_string(modeList[i].Scaling) + "\n");
+		log.addLog("ScanlineOrdering:\t" + std::to_string(modeList[i].ScanlineOrdering) + "\n");
+		log.addLog("Format:\t\t" + std::to_string(modeList[i].Format) + "\n\n");
 	}
+
+	log.dumpLogs();
 	delete[] modeList;
 	outPut->Release();
 
