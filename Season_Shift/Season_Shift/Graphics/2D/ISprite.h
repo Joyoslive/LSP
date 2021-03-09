@@ -15,6 +15,8 @@ public:
 	inline void setScale(const DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	inline void setShow(bool show) { m_show = show; }
 
+	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
+
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
 	inline bool getShow() { return m_show; }
 	

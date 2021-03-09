@@ -4,6 +4,7 @@
 #include <random>
 #include "LineDrawer.h"
 #include "../Camera.h"
+#include "../Input.h"
 #include "2D/Text.h"
 
 using namespace DirectX::SimpleMath;
@@ -144,9 +145,15 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_viewUI)
 	{
-		for (auto& s : m_sprites)
-			if(s->getShow()) 
+		for (auto& s : m_sprites) 
+		{
+			if (s->getShow())
+			{
+				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
 				m_spriteRenderer->queueDraw(s);
+			}
+		}
+		
 		
 		m_spriteRenderer->drawQueued(dev);
 	}

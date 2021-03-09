@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "SpriteTexture.h"
 
-SpriteTexture::SpriteTexture(std::shared_ptr<DXTexture> texture, float rotation, float depth)
+SpriteTexture::SpriteTexture(std::shared_ptr<DXTexture> texture, float rotation, float depth, std::function<void()> callback)
 {
+	m_callback = callback;
 	m_show = true;
 	m_texture = texture;
 	m_rect = { 0 };
@@ -25,6 +26,16 @@ void SpriteTexture::draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatc
 void SpriteTexture::setColor(const DirectX::SimpleMath::Color& col)
 {
 	
+}
+
+void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
+{
+	if (isClicked && m_callback &&
+		mouseX > m_position.x && mouseX < (m_position.x + getWidth()) &&
+		mouseY > m_position.y && mouseY < (m_position.y + getHeight()))
+	{
+		m_callback();
+	}
 }
 
 float SpriteTexture::getWidth() const
