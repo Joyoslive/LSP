@@ -1,18 +1,27 @@
 #include "pch.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Input.h"
 #include "Graphics/Graphics.h"
+#include "InGameMenu.h"
 
 using namespace DirectX::SimpleMath;
 
 Scene::Scene(Graphics *graphics)
 {
 	m_graphics = graphics;
+
+	m_isPaused = false;
 }
 
 Scene::~Scene()
 {
 
+}
+
+void Scene::setMenu(std::shared_ptr<InGameMenu> menu)
+{
+	m_menu = menu;
 }
 
 void Scene::resetScene()
@@ -43,10 +52,15 @@ void Scene::start()
 
 void Scene::update()
 {
-	// We may have to order the update around! It may matter what order they are updated **********
-	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+	updateMenu();
+
+	if (!m_isPaused)
 	{
-		m_sceneGameObjects[i]->update();
+		// We may have to order the update around! It may matter what order they are updated **********
+		for (int i = 0; i < m_sceneGameObjects.size(); ++i)
+		{
+			m_sceneGameObjects[i]->update();
+		}
 	}
 }
 
@@ -115,10 +129,36 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 	return gameObject;
 }
 
+void Scene::updateMenu()
+{
+	if (Input::getInput().keyPressed(Input::M))
+	{
+		if (m_isPaused)
+		{
+			m_isPaused = false;
+			m_menu->shouldDraw(false);
+			Input::getInput().lockMouse(1);
+
+		}
+		else
+		{
+			m_isPaused = true;
+			m_menu->shouldDraw(true);
+			Input::getInput().lockMouse(2);
+		}
+	}
+
+}
+
 void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)
 {
 	removeGameObject(destroyGameObject);
 	destroyGameObject->clearGameObject();
+}
+
+bool Scene::isPaused() const
+{
+	return m_isPaused;
 }
 
 Ref<GameObject> Scene::getGameObject(const std::string& gameObjectName)
@@ -137,6 +177,7 @@ std::vector<Ref<Model>>& Scene::getSceneModels()
 {
 	updateSceneModels();
 	return m_sceneModels;
+
 }
 
 std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()
