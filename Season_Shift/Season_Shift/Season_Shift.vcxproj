@@ -176,6 +176,7 @@
     <ClCompile Include="CameraSwitch.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
+    <ClCompile Include="FullscreenMenu.cpp" />
     <ClCompile Include="GoalLogic.cpp" />
     <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
     <ClCompile Include="Graphics\2D\Text.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="FrameTimer.h" />
+    <ClInclude Include="FullscreenMenu.h" />
     <ClInclude Include="GoalLogic.h" />
     <ClInclude Include="Graphics\2D\SpriteTexture.h" />
     <ClInclude Include="Graphics\2D\Text.h" />
