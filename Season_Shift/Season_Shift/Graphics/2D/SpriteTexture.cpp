@@ -14,11 +14,11 @@ void SpriteTexture::draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatc
 {
 	if (m_show)
 	{
-		m_correctedPosition.x = m_position.x - m_scale.x * m_texture->getDesc().desc2D.Width/2;
-		m_correctedPosition.y = m_position.y - m_scale.y * m_texture->getDesc().desc2D.Height/2;
+		//m_correctedPosition.x = m_position.x - m_scale.x * m_texture->getDesc().desc2D.Width/2;
+		//m_correctedPosition.y = m_position.y - m_scale.y * m_texture->getDesc().desc2D.Height/2;
 		m_rect.right = m_texture->getDesc().desc2D.Width;
 		m_rect.bottom = m_texture->getDesc().desc2D.Height;
-		spriteBatch->Draw(m_texture->getSRV().Get(), m_correctedPosition, &m_rect, DirectX::Colors::White, m_rotation, {0,0}, m_scale, DirectX::SpriteEffects_None, m_depth);
+		spriteBatch->Draw(m_texture->getSRV().Get(), m_position, &m_rect, DirectX::Colors::White, m_rotation, {0,0}, m_scale, DirectX::SpriteEffects_None, m_depth);
 	}
 }
 
