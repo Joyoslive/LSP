@@ -173,6 +173,11 @@ void PlayerCameraMovement::changeFOV(const Vector3& velocity, const float& maxSp
 		velocityY.y = 0;
 
 	float diff = std::clamp(velocityXZ.Length() * velocityXZModifier / maxSpeedXZ + velocityY.Length() * velocityYModifier / maxSpeedY, 0.0f, 1.0f);
+
+	//If the player dashes the velocity is higher in XZ so we account for that aswell
+	if (velocityXZ.Length() > maxSpeedXZ)
+		diff += velocityXZ.Length() * velocityXZModifier / maxSpeedXZ - velocityXZModifier;
+
 	float delta = m_frameTime * deltaMinModifier;
 
 	if (diff < m_cameraFov - m_baseCameraFov)
