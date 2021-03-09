@@ -251,7 +251,7 @@ using namespace DirectX::SimpleMath;
 		m_soundLoop = true;
 		//m_sound->playLoop("Sounds/hookDrumv2.wav");
 	}
-	
+	m_sound->setVolume(0.4);
 
 
 	Vector3 velocitySkipY = velocity;

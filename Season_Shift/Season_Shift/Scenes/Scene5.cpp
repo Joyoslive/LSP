@@ -118,7 +118,7 @@ void Scene5::setUpScene()
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
-	sound->setVolume(0.4);
+	sound->setVolume(0.2);
 	sound->playLoop("Sounds/WaywardWoods.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
 }
