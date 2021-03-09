@@ -78,7 +78,10 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 	float2 smUv = float2(0., 0.);
 	float depth = 1.;
 
-
+	float2 texelSize = float2(0., 0.);
+	float width;
+	float height;
+	Texture2D tempTexture;
 
 	float cascadeEnds[3] = { g_nearCascadeEnd, g_midCascadeEnd, g_farCascadeEnd };
 
@@ -99,6 +102,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 				bias = 0.0005f;
 				shadowMapDepth = g_smNear.Sample(g_smBorderSampler, smUv).r;
 				tmpCol = float4(1.f, 0.f, 0.f, 1.f);
+				tempTexture = g_smNear;
 				break;
 			}
 			else if (i == 1)
@@ -112,6 +116,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					bias = 0.0005f;
 					shadowMapDepth = g_smMid.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 1.f, 0.f, 1.f);
+					tempTexture = g_smMid;
 					break;
 				}
 			}
@@ -126,12 +131,25 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					bias = 0.001f;
 					shadowMapDepth = g_smFar.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 0.f, 1.f, 1.f);
+					tempTexture = g_smFar;
 					break;
 				}
 			}
 		}
 	}
 
+	/*tempTexture.GetDimensions(width, height);
+	texelSize = float2(1.f, 1.f) / float2(width, height);
+	float shadow = 0.f;
+	for (int x = -1; x <= 1; ++x)
+	{
+		for (int y = -1; y <= 1; ++y)
+		{
+			float pcfDepth = tempTexture.Sample(g_smBorderSampler, smUv + float2(x, y) * texelSize).r;
+			shadow += depth - bias > pcfDepth ? 1.0f : 0.0f;
+		}
+	}
+	return inputColor * shadow;*/
 
 	// check edge of platform (artifact or bias?)
 	float shadowFac = 0.07;
