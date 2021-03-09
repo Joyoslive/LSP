@@ -80,6 +80,7 @@ using namespace DirectX::SimpleMath;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
+	 m_hookEmittId = -1;
 
  }
 
@@ -115,6 +116,11 @@ using namespace DirectX::SimpleMath;
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
 	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+
+
+	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
+	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(2000, 0.5f)));
+	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -128,6 +134,7 @@ using namespace DirectX::SimpleMath;
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
+
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
@@ -231,7 +238,7 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-	
+
 	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
 		m_soundLoop = false;
@@ -246,10 +253,10 @@ using namespace DirectX::SimpleMath;
 		m_soundLoop = true;
 		m_sound->playLoop("Sounds/wallrunBongo.wav");
 	}
-	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoop == false)
+	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
 	{
 		m_soundLoop = true;
-		//m_sound->playLoop("Sounds/hookDrumv2.wav");
+		m_sound->playLoop("Sounds/swingFull.wav");
 	}
 	m_sound->setVolume(0.4);
 
@@ -321,6 +328,7 @@ using namespace DirectX::SimpleMath;
 	ImGui::Begin("Player Info");
 	{
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
+		ImGui::Text("Camera: %f, %f, %f", cameraForward.x, cameraForward.y, cameraForward.z);
 		ImGui::Text("Speed: %f", velocity.Length());
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
@@ -938,6 +946,8 @@ using namespace DirectX::SimpleMath;
 			 m_hooked = true;
 			 m_ground = false;
 			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
+			 m_hookObject->getTransform()->setPosition(m_hookPoint);
+			 m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 		 }
 		 else
 		 {
