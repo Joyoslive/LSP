@@ -20,7 +20,7 @@ void InGameMenu::shouldDraw(bool shouldDraw)
 	//m_exitToMenu->setShow(shouldDraw);
 	//m_exitGame->setShow(shouldDraw);
 
-	for (auto sprite : m_sprites)
+	for (auto &sprite : m_sprites)
 	{
 		sprite->setShow(shouldDraw);
 	}
