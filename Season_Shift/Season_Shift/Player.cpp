@@ -26,7 +26,7 @@ using namespace DirectX::SimpleMath;
 	 m_speed = 300.0f;
 	 m_collisionFrame = false;
 	 m_maxSpeed = 90.0f;
-	 m_maxSpeedRetardation = 150.0f;
+	 m_maxSpeedRetardation = 90.0f;//150.0f;
 	 m_baseFlySpeed = 100.0f;
 	 m_baseGroundSpeed = 350.0f;
 	 m_maxGroundSpeed = 1000.0f;
@@ -34,7 +34,7 @@ using namespace DirectX::SimpleMath;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 0;
 	 m_flySpeed = 100.0f;
-	 m_dashSpeed = 150.0f;
+	 m_dashSpeed = 225.0f;//150.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuelMax = 10.0f;
@@ -134,6 +134,7 @@ using namespace DirectX::SimpleMath;
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
+
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
