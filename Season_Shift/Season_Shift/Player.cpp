@@ -34,7 +34,7 @@ using namespace DirectX::SimpleMath;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 0;
 	 m_flySpeed = 100.0f;
-	 m_dashSpeed = 225.0f;//150.0f;
+	 m_dashSpeed = 197.5f;//225.0f;//150.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuelMax = 10.0f;
