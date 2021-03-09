@@ -257,7 +257,7 @@ using namespace DirectX::SimpleMath;
 	{
 		m_sound->setVolume(0.2);
 		m_soundLoop = true;
-		m_sound->playLoop("Sounds/swingFull.wav");
+		m_sound->playLoop("Sounds/swing2.wav");
 	}
 	
 
