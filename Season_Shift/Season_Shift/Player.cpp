@@ -26,7 +26,7 @@ using namespace DirectX::SimpleMath;
 	 m_speed = 300.0f;
 	 m_collisionFrame = false;
 	 m_maxSpeed = 90.0f;
-	 m_maxSpeedRetardation = 150.0f;
+	 m_maxSpeedRetardation = 90.0f;//150.0f;
 	 m_baseFlySpeed = 100.0f;
 	 m_baseGroundSpeed = 350.0f;
 	 m_maxGroundSpeed = 1000.0f;
@@ -34,7 +34,7 @@ using namespace DirectX::SimpleMath;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 0;
 	 m_flySpeed = 100.0f;
-	 m_dashSpeed = 150.0f;
+	 m_dashSpeed = 225.0f;//150.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuelMax = 10.0f;
@@ -80,6 +80,7 @@ using namespace DirectX::SimpleMath;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
+	 m_hookEmittId = -1;
 
  }
 
@@ -115,6 +116,11 @@ using namespace DirectX::SimpleMath;
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
 	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+
+
+	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
+	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(2000, 0.5f)));
+	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -128,6 +134,7 @@ using namespace DirectX::SimpleMath;
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
+
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
@@ -939,6 +946,8 @@ using namespace DirectX::SimpleMath;
 			 m_hooked = true;
 			 m_ground = false;
 			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
+			 m_hookObject->getTransform()->setPosition(m_hookPoint);
+			 m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 		 }
 		 else
 		 {
