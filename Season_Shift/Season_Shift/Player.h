@@ -82,6 +82,10 @@ private:
 	int m_landingPartEmittId;
 	Ref<ParticleSystemComponent> m_playerPartSys2;
 
+	Ref<GameObject> m_hookObject;
+	Ref<ParticleSystemComponent> m_hookPartSys;
+	int m_hookEmittId;
+
 private:
 	void detectDeath(float death);
 	DirectX::SimpleMath::Vector3 antiMovement(DirectX::SimpleMath::Vector3 velocity, const DirectX::SimpleMath::Vector3& moveDirection, const bool& onGround);

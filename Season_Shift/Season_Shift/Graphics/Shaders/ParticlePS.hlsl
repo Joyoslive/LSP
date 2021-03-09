@@ -20,6 +20,6 @@ PS_Out main(GS_Out input)
     output.positionWS = input.worldPos;
     output.diffuseColor = input.color;
     output.positionNormal = float4(0, 0, -1, 0);
-    output.uv = float4(0, 0, 0, 1);
+    output.uv = float4(0, 0, 0, 0);
     return output;
 }

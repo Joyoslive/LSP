@@ -36,6 +36,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         p.vel.y -= dt;
         p.pos += p.vel * dt;
         p.angle += 4*dt;
+        p.scale *= (1 - p.lifeTime * 0.3 / maxLifeTime);
         p.lifeTime += dt;
         if (p.lifeTime < maxLifeTime)
         {
