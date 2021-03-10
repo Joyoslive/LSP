@@ -5,6 +5,7 @@
 #include "Scenes/Scene3.h"
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
+#include "Scenes/MainMenu.h"
 
 #include <assert.h>
 
@@ -35,6 +36,8 @@ void SceneManager::createScenes(Graphics* graphics)
 	addScene(scene4);
 	Ref<Scene> scene5 = std::make_shared<Scene5>(graphics);
 	addScene(scene5);
+	Ref<Scene> mainMenu = std::make_shared<MainMenu>(graphics, this);
+	addScene(mainMenu);
 	setActiveScene(scene);
 	//setActiveScene(scene2);
 }
