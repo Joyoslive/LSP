@@ -109,6 +109,8 @@ public:
 
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite) override;
 
+	void clearSpriteBatch() override;
+
 	void setUp() override;
 
 	void present() override;

@@ -209,6 +209,11 @@ void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 	m_sprites.push_back(sprite);
 }
 
+void DeferredRenderStrategy::clearSpriteBatch()
+{
+	m_sprites.clear();
+}
+
 void DeferredRenderStrategy::setUp()
 {
 	setupGeometryPass();
