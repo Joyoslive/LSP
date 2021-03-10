@@ -89,6 +89,11 @@ void AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 			vert.uv.x = mesh->mTextureCoords[0][i].x;
 			vert.uv.y = mesh->mTextureCoords[0][i].y;
 		}
+		else
+		{
+			vert.uv.x = 0.0f;
+			vert.uv.y = 0.0f;
+		}
 
 		m_vertices.push_back(vert);
 	}
@@ -112,9 +117,15 @@ void AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 	mtl->GetTexture(aiTextureType_DIFFUSE, 0, &diffPath);
 	mtl->GetTexture(aiTextureType_HEIGHT, 0, &norPath);
 
+	aiColor3D color(0.f, 0.f, 0.f);
+	mtl->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+
 	// Subset data
 	EngineMeshSubset subsetData = { };
 	subsetData.diffuseFilePath = diffPath.C_Str();
+	subsetData.color[0] = color[0];
+	subsetData.color[1] = color[1];
+	subsetData.color[2] = color[2];
 	subsetData.normalFilePath = norPath.C_Str();
 
 	subsetData.vertexCount = mesh->mNumVertices;
