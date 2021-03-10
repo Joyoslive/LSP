@@ -5,9 +5,10 @@
 
 using namespace DirectX::SimpleMath;
 
-Scene::Scene(Graphics *graphics)
+Scene::Scene(Graphics* graphics, SceneManager* sm)
 {
 	m_graphics = graphics;
+	m_sceneManager = sm;
 }
 
 Scene::~Scene()

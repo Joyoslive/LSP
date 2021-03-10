@@ -24,6 +24,7 @@
 class GameObject;
 class Graphics;
 class Model;
+class SceneManager;
 
 class Scene : public std::enable_shared_from_this<Scene>
 {
@@ -32,12 +33,13 @@ private:
 	std::vector<Ref<Model>> m_sceneModels;
 protected:
 	Graphics* m_graphics;
+	SceneManager* m_sceneManager;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
 	void updateSceneModels();
 public:
-	Scene(Graphics *graphics);
+	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
 	virtual void setUpScene() = 0;
 	void resetScene();
