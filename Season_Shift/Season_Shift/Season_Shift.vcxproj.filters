@@ -188,5 +188,7 @@
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />
     <Image Include="Textures\MainMenu\background.jpg" />
+    <Image Include="Textures\MainMenu\Button.png" />
+    <Image Include="Textures\MainMenu\ButtonPressed.png" />
   </ItemGroup>
 </Project>
