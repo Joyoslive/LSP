@@ -15,11 +15,11 @@ void SpriteTexture::draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatc
 {
 	if (m_show)
 	{
-		//m_correctedPosition.x = m_position.x - m_scale.x * m_texture->getDesc().desc2D.Width/2;
-		//m_correctedPosition.y = m_position.y - m_scale.y * m_texture->getDesc().desc2D.Height/2;
 		m_rect.right = m_texture->getDesc().desc2D.Width;
 		m_rect.bottom = m_texture->getDesc().desc2D.Height;
-		spriteBatch->Draw(m_texture->getSRV().Get(), m_position, &m_rect, DirectX::Colors::White, m_rotation, {0,0}, m_scale, DirectX::SpriteEffects_None, m_depth);
+		m_correctedScale = getCorrectScaleVector(m_scale);//{ m_scale.x *  m_windowSize.x / m_baseWindowSize.x, m_scale.y * m_windowSize.y / m_baseWindowSize.y };
+		m_correctedPosition = getCorrectScaleVector(m_position);//{ m_position.x * m_windowSize.x / m_baseWindowSize.x, m_position.y * m_windowSize.y / m_baseWindowSize.y };
+		spriteBatch->Draw(m_texture->getSRV().Get(), m_correctedPosition, &m_rect, DirectX::Colors::White, m_rotation, {0,0}, m_correctedScale, DirectX::SpriteEffects_None, m_depth);
 	}
 }
 
@@ -31,8 +31,8 @@ void SpriteTexture::setColor(const DirectX::SimpleMath::Color& col)
 void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked) const
 {
 	if (isClicked && m_callback &&
-		mouseX > m_position.x && mouseX < (m_position.x + getWidth()) &&
-		mouseY > m_position.y && mouseY < (m_position.y + getHeight()))
+		mouseX > m_correctedPosition.x && mouseX < (m_correctedPosition.x + getWidth()) &&
+		mouseY > m_correctedPosition.y && mouseY < (m_correctedPosition.y + getHeight()))
 	{
 		m_callback();
 	}
@@ -40,10 +40,15 @@ void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked) const
 
 float SpriteTexture::getWidth() const
 {
-	return m_scale.x * m_texture->getDesc().desc2D.Width;
+	return m_correctedScale.x * m_texture->getDesc().desc2D.Width;
 }
 
 float SpriteTexture::getHeight() const
 {
-	return m_scale.y * m_texture->getDesc().desc2D.Height;
+	return m_correctedScale.y * m_texture->getDesc().desc2D.Height;
+}
+
+const DirectX::SimpleMath::Vector2& SpriteTexture::getPosition()
+{
+	return m_correctedPosition;
 }

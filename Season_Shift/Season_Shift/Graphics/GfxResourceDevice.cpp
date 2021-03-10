@@ -183,6 +183,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({x, y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -191,6 +192,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({x, y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -198,6 +200,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({getXFromScreenPos(screenPosX), y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -206,6 +209,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({getXFromScreenPos(screenPosX), y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -213,6 +217,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -221,6 +226,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -228,6 +234,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -236,6 +243,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -243,8 +251,9 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSpriteTexture(const std::strin
 {
 	auto tex = loadTextureSprite(textureName);
 	auto sprite = std::make_shared<SpriteTexture>(tex, rotation, depth, callback);
-	sprite->setPosition({positionX, positionY});
-	sprite->setScale({scaleX, scaleY});
+	sprite->setPosition({ positionX, positionY });
+	sprite->setScale({ scaleX, scaleY });
+	sprite->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return sprite;
 }
 
