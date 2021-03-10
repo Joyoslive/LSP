@@ -103,6 +103,11 @@ bool Window::isClosed() const
     return m_isClosed;
 }
 
+void Window::Quit()
+{
+    PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+}
+
 void Window::setOnResizeCallback(std::function<void(UINT width, UINT height)> func)
 {
     m_onResize = func;
