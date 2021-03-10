@@ -187,5 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />
+    <Image Include="Textures\MainMenu\background.jpg" />
   </ItemGroup>
 </Project>
