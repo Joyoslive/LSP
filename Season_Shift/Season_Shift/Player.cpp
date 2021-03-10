@@ -1007,7 +1007,9 @@ using namespace DirectX::SimpleMath;
 	 settings.thickness = Vector2(0.11, 0.07);
 	 if (m_hooked)
 	 {
-		 settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 //settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 settings.color = Vector3(255, 178, 102) / (255.0f * 1.1f);
+
 		 settings.color.x = powf(settings.color.x, 2.2f);
 		 settings.color.y = powf(settings.color.y, 2.2f);
 		 settings.color.z = powf(settings.color.z, 2.2f);
