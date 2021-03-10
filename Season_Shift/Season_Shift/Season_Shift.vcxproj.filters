@@ -177,6 +177,8 @@
     <FxCompile Include="Graphics\Shaders\NullPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleEmitt1CS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleSim1CS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleHookEmittCS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleHookSimCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

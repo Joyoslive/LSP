@@ -29,63 +29,33 @@ cbuffer NumOfParticleBuffer : register(b1)
     uint3 padding;
 };
 
-static const float3 dir[8] =
+float3 random(float seed, float3 seedVec)
 {
-    normalize(float3(1.0f, 1.0f, 1.0f)),
-    normalize(float3(1.0f, 1.0f, -1.0f)),
-    normalize(float3(1.0f, -1.0f, 1.0f)),
-    normalize(float3(1.0f, -1.0f, -1.0f)),
-    normalize(float3(-1.0f, 1.0f, 1.0f)),
-    normalize(float3(-1.0f, 1.0f, -1.0f)),
-    normalize(float3(-1.0f, -1.0f, 1.0f)),
-    normalize(float3(-1.0f, -1.0f, -1.0f))
-};
-
-
-// ---------- RANDOM NUMBER GENERATOR -------------
-// https://www.shadertoy.com/view/tsf3Dn - RNG with seed
-int xorshift(int value)
-{
-	// Xorshift*32
-	// Based on George Marsaglia's work: http://www.jstatsoft.org/v08/i14/paper
-    value ^= value << 13;
-    value ^= value >> 17;
-    value ^= value << 5;
-    return value;
-}
-
-float randFloat(int seed)
-{
-    return float(xorshift(seed)) * (1.0 / 4294967296.0);
+    float r1 = frac(sin(dot(float2(seed, seedVec.x), float2(12.9898, 78.233))) * 43758.5453123);
+    float r2 = frac(sin(dot(float2(r1, seedVec.y), float2(12.9898, 78.233))) * 43758.5453123);
+    float r3 = frac(sin(dot(float2(r2, seedVec.z), float2(12.9898, 78.233))) * 43758.5453123);
+    return float3(r1, r2, r3);
 }
 
 #define size 8
 
 [numthreads(size, 1, 1)]
-
-    void main
-    (
-    uint3 DTid : SV_DispatchThreadID)
+void main(uint3 DTid : SV_DispatchThreadID)
 {
-        uint id = DTid.x + DTid.y * size + DTid.z * size * size;
-        uint maxCount, stride;
-        appendBuffer.GetDimensions(maxCount, stride);
-        if (id < count && id < maxCount - particleCount && id < size)
-        {
-            Particle p;
-        
-        
-            p.pos = pos;
-            p.pos += 40 * (reflect(dir[DTid.x], randVec));
-            //p.pos += 4000 * float3(randFloat(randVec.x + DTid.x), randFloat(randVec.y + DTid.x), randFloat(randVec.z + DTid.x));
-        
-            p.vel = float3(0, 0, 0);
-        
-            p.scale = scale;
-            p.color = color;
-            p.lifeTime = lifeTime;
-            p.angle = DTid.x;
-        
-            appendBuffer.Append(p);
-        }
+    uint id = DTid.x + DTid.y * size + DTid.z * size * size;
+    uint maxCount, stride;
+    appendBuffer.GetDimensions(maxCount, stride);
+    if (id < count && id < maxCount - particleCount)
+    {
+        Particle p;
+        p.pos = pos;
+        p.pos += 80 * (2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1));
+        p.vel = float3(0, 0, 0);
+        p.scale = scale;
+        p.color = color;
+        p.lifeTime = lifeTime;
+        p.angle = DTid.x;
+    
+        appendBuffer.Append(p);
     }
+}
