@@ -161,7 +161,18 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 		mat.indexStart = subsetInfo.indexStart;
 		mat.vertexCount = subsetInfo.vertexCount;
 		mat.vertexStart = subsetInfo.vertexStart;
-		if (subsetInfo.diffuseFilePath == "")
+		if (shader == GfxShader::COLOR)
+		{
+			std::string defaultDir = "Textures/Default/";
+			mat.material = createMaterial(shader, modelFileName, defaultDir + "specular.png", defaultDir + "normal.png"); //modelFilename is only used to generate hash
+			ColorShader_PSDATA testColor{};
+			testColor.r = 0;
+			testColor.g = 0;
+			testColor.b = 1;
+			testColor.a = 1;
+			mat.material->updateBuffer(testColor, DXShader::Type::PS);
+		}
+		else if (subsetInfo.diffuseFilePath == "")
 		{
 			std::string defaultDir = "Textures/Default/";
 			mat.material = createMaterial(shader, defaultDir + "diffuse.png", defaultDir + "specular.png", defaultDir + "normal.png");
@@ -258,6 +269,10 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 		vsFileName = "DefaultVS.cso";
 		psFileName = "DefaultPS.cso";
 		break;
+	case GfxShader::COLOR:
+		vsFileName = "DefaultVS.cso";
+		psFileName = "ColorPS.cso";
+		break;
 	default:
 		assert(false);
 	}
@@ -276,9 +291,8 @@ std::pair<std::size_t, Material::ShaderSet> GfxResourceDevice::loadShader(GfxSha
 
 		shaders = { vs, ps };
 	}
-
+	
 	shaders = m_shaderSetRepo.add(shdHash, shaders);  // If hash already exists, the existing shader will be returned and old one will be discarded.
-
 	return { shdHash, shaders };
 }
 
@@ -293,7 +307,10 @@ std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> GfxResourceDevic
 		vsDataSize = sizeof(DefaultShader_VSDATA);
 		psDataSize = sizeof(DefaultShader_PSDATA);
 		break;
-
+	case GfxShader::COLOR:
+		vsDataSize = sizeof(DefaultShader_VSDATA);
+		psDataSize = sizeof(ColorShader_PSDATA);
+		break;
 	default:
 		assert(false);
 	}
@@ -356,11 +373,21 @@ std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, co
 	size_t texHash = std::hash<std::string>{}(texPathToHash);
 
 	std::shared_ptr<Material> matToAdd = nullptr;
+	
 	if (!m_materialRepo.exists(texHash))
 	{
-		maps.diffuse = loadTexture(difPath);
-		maps.specular = loadTexture(specPath);
-		maps.normal = loadTexture(normPath);
+		if (shader == GfxShader::COLOR)
+		{
+			maps.diffuse = nullptr;
+			maps.specular = loadTexture(specPath);
+			maps.normal = loadTexture(normPath);
+		}
+		else
+		{
+			maps.diffuse = loadTexture(difPath);
+			maps.specular = loadTexture(specPath);
+			maps.normal = loadTexture(normPath);
+		}
 
 		matToAdd = std::make_shared<Material>(hashAndShaders.second, maps, texHash, hashAndShaders.first);
 	}

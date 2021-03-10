@@ -30,11 +30,20 @@ struct alignas(16) DefaultShader_PSDATA
 	int a, b, c, d, e, f;
 };
 
+struct alignas(16) ColorShader_PSDATA
+{
+	float r, g, b, a;
+	float p1, p2, p3, p4;
+};
+
+
+
 
 // Put this under Graphics namespace!
 enum class GfxShader
 {
-	DEFAULT
+	DEFAULT,
+	COLOR,
 };
 
 enum class ScreenPos

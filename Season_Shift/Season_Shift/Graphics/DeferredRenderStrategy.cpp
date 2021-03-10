@@ -70,6 +70,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 			dev->bindDrawIndexedBuffer(mod->getMesh()->getVB(), mod->getMesh()->getIB(), 0, 0);
 			dev->drawIndexed(mat.indexCount, mat.indexStart, mat.vertexStart);
+			dev->bindShader(nullptr, DXShader::Type::PS);
 		}
 	}
 

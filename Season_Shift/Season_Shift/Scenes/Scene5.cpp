@@ -57,6 +57,8 @@ void Scene5::setUpScene()
 		}
 	}
 
+	
+
 	// Post setup, like cameras and logic
 	auto player = createGameObject("player", Vector3(0, 25, 0));
 	player->AddComponent(std::make_shared<CameraComponent>());
@@ -91,10 +93,15 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/swingFull.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
+	Ref<GameObject> test = createGameObject("blueCube", Vector3(0, 23, 10));
+	test->AddComponent(m_graphics->getResourceDevice()->createModel("Models/blueCube/", "blueCube.obj", GfxShader::COLOR));
+
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
 	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
+
+	
 
 	Ref<GameObject> hookParticleSystem = createGameObject("hookParticleSystem", Vector3(0,32,-12));
 	Ref<ParticleSystemComponent> hookParticleSystemComponent = std::dynamic_pointer_cast<ParticleSystemComponent>(
@@ -102,6 +109,8 @@ void Scene5::setUpScene()
 		//hookParticleSystem->AddComponent(std::make_shared<ParticleSystemComponent>(8*144*5, 5.0f))
 		);
 	hookParticleSystemComponent->addEmitter(8*144*10, 100, 0.1f, Vector3(0.8f, 0.4f, 0.5f));
+
+	
 
 	m_graphics->loadSkybox("Textures/Skyboxes/space");
 	m_graphics->setSkybox(1);
