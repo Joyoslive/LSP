@@ -17,8 +17,8 @@ void SpriteTexture::draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatc
 	{
 		m_rect.right = m_texture->getDesc().desc2D.Width;
 		m_rect.bottom = m_texture->getDesc().desc2D.Height;
-		m_correctedScale = getCorrectScaleVector(m_scale);//{ m_scale.x *  m_windowSize.x / m_baseWindowSize.x, m_scale.y * m_windowSize.y / m_baseWindowSize.y };
-		m_correctedPosition = getCorrectScaleVector(m_position);//{ m_position.x * m_windowSize.x / m_baseWindowSize.x, m_position.y * m_windowSize.y / m_baseWindowSize.y };
+		m_correctedScale = getCorrectScaleVector(m_scale);
+		m_correctedPosition = getCorrectScaleVector(m_position);
 		spriteBatch->Draw(m_texture->getSRV().Get(), m_correctedPosition, &m_rect, DirectX::Colors::White, m_rotation, {0,0}, m_correctedScale, DirectX::SpriteEffects_None, m_depth);
 	}
 }

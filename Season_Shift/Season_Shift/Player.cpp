@@ -594,7 +594,7 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 25.9f;
 	 constexpr float bigG = 95.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 60.0f;
+	 constexpr float wallJumpG = 60.0f / 2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
