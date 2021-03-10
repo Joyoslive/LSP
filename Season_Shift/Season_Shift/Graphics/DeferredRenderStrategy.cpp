@@ -48,7 +48,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	// Generate shadow map
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
-	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView);
+	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView, m_lineDrawer);
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
