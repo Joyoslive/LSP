@@ -121,6 +121,7 @@ void Scene5::setUpScene()
 	sound->setVolume(0.1);
 	sound->playLoop("Sounds/WaywardWoods.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
+	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 
 	// Clickable sprite test
 	//auto clickableSprite = m_graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 1100, 600, 0.3f, 0.3f, 0.f, 0.f,

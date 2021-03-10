@@ -149,3 +149,8 @@ Graphics* Scene::getGraphics() const
 {
 	return m_graphics;
 }
+
+Ref<Camera> Scene::getSceneMainCamera() const
+{
+	return m_mainCamera;
+}

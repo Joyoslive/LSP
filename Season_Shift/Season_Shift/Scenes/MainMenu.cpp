@@ -25,6 +25,8 @@ void MainMenu::setUpScene()
 	m_graphics->addToSpriteBatch(m_background);
 	m_graphics->addToSpriteBatch(playButton);
 	m_graphics->addToSpriteBatch(m_title);
+
+	m_mainCamera = std::make_shared<Camera>(); // We need a camera in order to display anything
 }
 
 void MainMenu::SwitchScene(Scenes scene)

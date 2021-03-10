@@ -4,6 +4,7 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include "Component.h"
+#include "Camera.h"
 //#include "GameObject.h"
 
 //#include "Graphics/Graphics.h"
@@ -34,6 +35,7 @@ private:
 protected:
 	Graphics* m_graphics;
 	SceneManager* m_sceneManager;
+	Ref<Camera> m_mainCamera;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
@@ -55,5 +57,6 @@ public:
 	std::vector<Ref<Model>>& getSceneModels();
 	std::vector<Ref<GameObject>>& getSceneGameObjects();
 	Graphics* getGraphics() const;
+	Ref<Camera> getSceneMainCamera() const;
 };
 
