@@ -28,6 +28,16 @@ void SpriteTexture::setColor(const DirectX::SimpleMath::Color& col)
 	
 }
 
+void SpriteTexture::onClick(std::function<void()> callback)
+{
+	m_callback = callback;
+}
+
+void SpriteTexture::onRelease(std::function<void()> callback)
+{
+	m_releaseCallback = callback;
+}
+
 void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 {
 	if (isClicked && m_callback &&
@@ -35,6 +45,18 @@ void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 		mouseY > m_position.y && mouseY < (m_position.y + getHeight()))
 	{
 		m_callback();
+		m_clicked = true;
+	}
+}
+
+void SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
+{
+	if (mouseReleased && m_releaseCallback &&
+		mouseX > m_position.x && mouseX < (m_position.x + getWidth()) &&
+		mouseY > m_position.y && mouseY < (m_position.y + getHeight()))
+	{
+		m_releaseCallback();
+		m_clicked = false;
 	}
 }
 

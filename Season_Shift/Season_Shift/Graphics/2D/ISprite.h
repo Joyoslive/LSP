@@ -14,15 +14,23 @@ public:
 	inline const DirectX::SimpleMath::Vector2& getPosition() { return m_position; }
 	inline void setScale(const DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	inline void setShow(bool show) { m_show = show; }
+	// Use sparingly
+	inline void setClicked(bool clicked) { m_clicked = clicked; }
+
+	virtual void onClick(std::function<void()> callback) {};
+	virtual void onRelease(std::function<void()> callback) {};
 
 	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
+	virtual void checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) {};
 
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
 	inline bool getShow() { return m_show; }
+	inline bool getClicked() { return m_clicked; }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;
 	DirectX::SimpleMath::Vector2 m_scale;
 	bool m_show;
+	bool m_clicked;
 };
 
