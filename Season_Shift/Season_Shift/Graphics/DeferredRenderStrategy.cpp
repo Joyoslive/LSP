@@ -209,6 +209,14 @@ void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 	m_sprites.push_back(sprite);
 }
 
+void DeferredRenderStrategy::updateWindowSizeForSpriteBatch(Vector2 windowSize)
+{
+	for (int i = 0; i < m_sprites.size(); ++i)
+	{
+		m_sprites[i]->setWindowSize(windowSize);
+	}
+}
+
 void DeferredRenderStrategy::setUp()
 {
 	setupGeometryPass();
