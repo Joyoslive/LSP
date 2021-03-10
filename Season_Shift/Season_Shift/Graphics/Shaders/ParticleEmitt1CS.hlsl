@@ -62,30 +62,27 @@ float randFloat(int seed)
 #define size 8
 
 [numthreads(size, 1, 1)]
-
-    void main
-    (
-    uint3 DTid : SV_DispatchThreadID)
+void main(uint3 DTid : SV_DispatchThreadID)
 {
-        uint id = DTid.x + DTid.y * size + DTid.z * size * size;
-        uint maxCount, stride;
-        appendBuffer.GetDimensions(maxCount, stride);
-        if (id < count && id < maxCount - particleCount && id < size)
-        {
-            Particle p;
-        
-        
-            p.pos = pos;
-            p.pos += 40 * (reflect(dir[DTid.x], randVec));
-            //p.pos += 4000 * float3(randFloat(randVec.x + DTid.x), randFloat(randVec.y + DTid.x), randFloat(randVec.z + DTid.x));
-        
-            p.vel = float3(0, 0, 0);
-        
-            p.scale = scale;
-            p.color = color;
-            p.lifeTime = lifeTime;
-            p.angle = DTid.x;
-        
-            appendBuffer.Append(p);
-        }
+    uint id = DTid.x + DTid.y * size + DTid.z * size * size;
+    uint maxCount, stride;
+    appendBuffer.GetDimensions(maxCount, stride);
+    if (id < count && id < maxCount - particleCount && id < size)
+    {
+        Particle p;
+    
+    
+        p.pos = pos;
+        p.pos += 40 * (reflect(dir[DTid.x], randVec));
+        //p.pos += 4000 * float3(randFloat(randVec.x + DTid.x), randFloat(randVec.y + DTid.x), randFloat(randVec.z + DTid.x));
+    
+        p.vel = float3(0, 0, 0);
+    
+        p.scale = scale;
+        p.color = color;
+        p.lifeTime = lifeTime;
+        p.angle = DTid.x;
+    
+        appendBuffer.Append(p);
     }
+}
