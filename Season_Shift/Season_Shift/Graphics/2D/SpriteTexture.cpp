@@ -52,3 +52,8 @@ const DirectX::SimpleMath::Vector2& SpriteTexture::getPosition()
 {
 	return m_correctedPosition;
 }
+
+const DirectX::SimpleMath::Vector2& SpriteTexture::getScale()
+{
+	return m_correctedScale;
+}

@@ -17,6 +17,7 @@ Text::Text(std::shared_ptr<DirectX::SpriteFont> font)
 	m_font = font;
 	m_color = Color(1, 1, 1, 1);
 	m_text = "";
+	//Divide by sqrt(2) so scale's length is 1
 	m_scale = DirectX::SimpleMath::Vector2(1.0f, 1.0f) * 1.0f / std::sqrtf(2);;
 }
 
@@ -48,7 +49,12 @@ void Text::setColor(const DirectX::SimpleMath::Color& col)
 
 const DirectX::SimpleMath::Vector2& Text::getPosition()
 {
-	return m_position;
+	return m_correctedPosition;
+}
+
+const DirectX::SimpleMath::Vector2& Text::getScale()
+{
+	return m_correctedScale;
 }
 
 std::shared_ptr<DirectX::SpriteFont> Text::getFont()

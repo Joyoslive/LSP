@@ -24,5 +24,6 @@ public:
 	float getHeight() const;
 
 	const DirectX::SimpleMath::Vector2& getPosition() override; 
+	const DirectX::SimpleMath::Vector2& getScale() override;
 };
 

@@ -20,6 +20,7 @@ public:
 	void setColor(const DirectX::SimpleMath::Color& col) override;
 
 	const DirectX::SimpleMath::Vector2& getPosition() override;
+	const DirectX::SimpleMath::Vector2& getScale() override;
 
 	std::shared_ptr<DirectX::SpriteFont> getFont() override;
 };
