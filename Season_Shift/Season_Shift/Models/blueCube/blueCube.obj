@@ -1,6 +1,6 @@
-# Blender v2.82 (sub 7) OBJ File: 'redCube.blend'
+# Blender v2.82 (sub 7) OBJ File: 'blueCube.blend'
 # www.blender.org
-mtllib redCube.mtl
+mtllib blueCube.mtl
 o Cube
 v -1.000000 1.000000 1.000000
 v -1.000000 -1.000000 1.000000
