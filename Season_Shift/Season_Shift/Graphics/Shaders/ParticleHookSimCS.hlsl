@@ -27,16 +27,16 @@ cbuffer NumOfParticleBuffer : register(b1)
 
 #define size 1024
 [numthreads(size, 1, 1)]
-void main( uint3 DTid : SV_DispatchThreadID )
+void main(uint3 DTid : SV_DispatchThreadID)
 {
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     if (id < particleCount)
     {
         Particle p = consumeBuffer.Consume();
-        p.vel.y -= 32 * dt;
+        p.vel.y -= 2*dt;
         p.pos += p.vel * dt;
-        p.angle += 4*dt;
-        //p.scale *= (1 - p.lifeTime * 0.1 / maxLifeTime);
+        p.angle += 4 * dt;
+        p.scale *= (1 - p.lifeTime * 0.2 / maxLifeTime);
         p.lifeTime += dt;
         if (p.lifeTime < maxLifeTime)
         {

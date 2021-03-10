@@ -119,7 +119,8 @@ using namespace DirectX::SimpleMath;
 
 
 	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
-	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(2000, 0.5f)));
+	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(
+		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
 	 m_rb->setGravity(55.0);

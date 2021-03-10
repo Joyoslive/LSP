@@ -39,7 +39,7 @@ float3 random(float seed, float3 seedVec)
 #define size 8
 
 [numthreads(size, 1, 1)]
-void main( uint3 DTid : SV_DispatchThreadID )
+void main(uint3 DTid : SV_DispatchThreadID)
 {
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     uint maxCount, stride;
@@ -49,7 +49,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         Particle p;
         p.lifeTime = lifeTime;
         p.pos = pos;
-        p.vel = 32 * (normalize(2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1)));
+        p.vel = 64 * (normalize(2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1)));
         p.scale = scale;
         p.color = saturate(color + 0.2f * (2 * random((float) (DTid.x + 5) / (float) count, normalize(randVec)) - float3(1, 1, 1)));
         p.angle = DTid.x;
