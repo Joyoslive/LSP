@@ -9,7 +9,7 @@ MainMenu::MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win
 
 void MainMenu::setUpScene()
 {
-	m_graphics->clearSpriteBatch();
+	//m_graphics->clearSpriteBatch();
 
 	auto resDev = m_graphics->getResourceDevice();
 	m_title = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/font.spritefont",
@@ -103,7 +103,14 @@ void MainMenu::setUpScene()
 
 void MainMenu::SwitchScene(Scenes scene)
 {
-	m_graphics->clearSpriteBatch();
+	for (auto& b : m_buttons)
+		b->setShow(false);
+
+	m_background->setShow(false);
+	m_title->setShow(false);
+	m_playText->setShow(false);
+	m_quitText->setShow(false);
+	//m_graphics->clearSpriteBatch();
 	int idx = (int)scene;
 	m_sceneManager->changeScene(idx);
 }
