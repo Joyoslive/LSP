@@ -41,8 +41,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
 
 	// Set shadow mapper settings (hardcoded to three cascades)		// [0.1, 100] --> [100, 500] --> [500, 1000]
-	m_shadowCascades[0] = { mainCamera->getNearPlane() + 100, 4096 * 2 };
-	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 2, 4096 };
+	m_shadowCascades[0] = { mainCamera->getNearPlane() + 100, 4096 *2};
+	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 2, 4096 * 4 };
 	m_shadowCascades[2] = { mainCamera->getFarPlane(), 2048 };
 	m_shadowMapper->setCascadeSettings(m_shadowCascades);
 
