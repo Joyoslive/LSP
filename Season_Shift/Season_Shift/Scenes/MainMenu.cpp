@@ -113,6 +113,7 @@ void MainMenu::setUpScene()
 	}
 	else
 	{
+		m_music.playLoop("Sounds/Menu.wav");
 		m_background->setShow(true);
 		m_playText->setShow(true);
 		m_quitText->setShow(true);
