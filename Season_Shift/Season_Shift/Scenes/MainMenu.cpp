@@ -25,13 +25,9 @@ void MainMenu::setUpScene()
 	std::shared_ptr<ISprite> playButton = resDev->createSpriteTexture("Textures/MainMenu/Button.png", pos.x - 90, pos.y - 20);
 	playButton->onClick([this]()
 		{
-			if (!m_buttons[0]->getClicked())
-			{
-				m_buttons[0]->setShow(false);
-				m_buttons[1]->setShow(true);
-				m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y + 6});
-				m_buttons[1]->setClicked(true);
-			}
+			m_buttons[0]->setShow(false);
+			m_buttons[1]->setShow(true);
+			m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y + 6});
 		});
 	pressedPlayButton->onRelease([this]()
 		{
@@ -39,7 +35,17 @@ void MainMenu::setUpScene()
 			{
 				m_buttons[0]->setShow(true);
 				m_buttons[1]->setShow(false);
+				m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y - 6});
 				SwitchScene(Scenes::STAGE_1);
+			}
+		});
+	pressedPlayButton->onGlobalRelease([this]()
+		{
+			if (m_buttons[0]->getClicked())
+			{
+				m_buttons[1]->setShow(false);
+				m_buttons[0]->setShow(true);
+				m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y - 6});
 			}
 		});
 
@@ -61,6 +67,15 @@ void MainMenu::setUpScene()
 			if (m_buttons[2]->getClicked())
 			{
 				exit(0); // Change this to pretty exit
+			}
+		});
+	pressedExitButton->onGlobalRelease([this]()
+		{
+			if (m_buttons[2]->getClicked())
+			{
+				m_buttons[3]->setShow(false);
+				m_buttons[2]->setShow(true);
+				m_quitText->setPosition({m_quitText->getPosition().x, m_quitText->getPosition().y - 6});
 			}
 		});
 	
