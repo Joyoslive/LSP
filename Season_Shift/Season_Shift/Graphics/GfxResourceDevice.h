@@ -57,6 +57,7 @@ private:
 	
 private:
 	std::shared_ptr<DXTexture> loadTexture(std::string filepath);
+	std::shared_ptr<DXTexture> createTextureFromColor(float color[3]);
 	std::shared_ptr<DXTexture> loadTextureSprite(std::string filepath);
 	std::pair<std::size_t, Material::ShaderSet> loadShader(GfxShader shader);
 	std::pair<std::shared_ptr<DXBuffer>, std::shared_ptr<DXBuffer>> loadBuffers(GfxShader shader);
@@ -73,6 +74,9 @@ public:
 	Create material to use for Model assembly
 	*/
 	std::shared_ptr<Material> createMaterial(GfxShader shader, const std::string& difPath, const std::string& specPath, const std::string& normPath);
+
+	std::shared_ptr<Material> createMaterial(GfxShader shader, float difColor[3], const std::string& specPath, const std::string& normPath);
+
 
 	/*
 	Create a mesh, store it with an ID for Model assembly

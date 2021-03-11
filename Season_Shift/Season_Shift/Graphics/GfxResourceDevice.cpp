@@ -53,6 +53,38 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	return tex;
 }
 
+unsigned int createRGB(int r, int g, int b)
+{
+	return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
+
+std::shared_ptr<DXTexture> GfxResourceDevice::createTextureFromColor(float color[3])
+{
+	// MIP Levels set to one for now!!!
+	DXTexture::Desc desc{
+		DXTexture::Type::TEX2D,
+	};
+	desc.desc2D = {
+		1,
+		1,
+		1,
+		1,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		{1, 0},
+		D3D11_USAGE_IMMUTABLE,
+		D3D11_BIND_SHADER_RESOURCE,
+		0,
+		0,
+	};
+
+	// BGR!!
+	uint32_t col = createRGB(color[2] * 255.f, color[1] * 255.f, color[0] * 255.f);
+	D3D11_SUBRESOURCE_DATA initData = { &col, sizeof(uint32_t), 0 };
+
+	auto tex = m_dxDev->createTexture(desc, &initData);
+	return tex;
+}
+
 std::shared_ptr<DXTexture> GfxResourceDevice::loadTextureSprite(std::string filepath)
 {
 	auto texData = loadFileToTexture(filepath);
@@ -163,8 +195,12 @@ std::shared_ptr<Model> GfxResourceDevice::createModel(const std::string& modelDi
 		mat.vertexStart = subsetInfo.vertexStart;
 		if (subsetInfo.diffuseFilePath == "")
 		{
+			// Use our default texture
 			std::string defaultDir = "Textures/Default/";
-			mat.material = createMaterial(shader, defaultDir + "diffuse.png", defaultDir + "specular.png", defaultDir + "normal.png");
+			//mat.material = createMaterial(shader, defaultDir + "diffuse.png", defaultDir + "specular.png", defaultDir + "normal.png");
+
+			// Load 1x1 based on diffuse color
+			mat.material = createMaterial(shader, subsetInfo.color, defaultDir + "specular.png", defaultDir + "normal.png");
 		}
 		else
 		{
@@ -183,6 +219,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({x, y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -191,6 +228,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({x, y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -198,6 +236,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({getXFromScreenPos(screenPosX), y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -206,6 +245,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({getXFromScreenPos(screenPosX), y});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -213,6 +253,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -221,6 +262,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({x, getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -228,6 +270,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 {
 	auto t = createTextElement(text, path);
 	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -236,6 +279,7 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSprite(const std::string& text
 	auto t = std::make_shared<Text>();
 	t->setText(text);
 	t->setPosition({getXFromScreenPos(screenPosX), getYFromScreenPos(screenPosY)});
+	t->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return t;
 }
 
@@ -243,8 +287,9 @@ std::shared_ptr<ISprite> GfxResourceDevice::createSpriteTexture(const std::strin
 {
 	auto tex = loadTextureSprite(textureName);
 	auto sprite = std::make_shared<SpriteTexture>(tex, rotation, depth, callback);
-	sprite->setPosition({positionX, positionY});
-	sprite->setScale({scaleX, scaleY});
+	sprite->setPosition({ positionX, positionY });
+	sprite->setScale({ scaleX, scaleY });
+	sprite->setWindowSize({ (float)m_dxDev->getClientWidth(), (float)m_dxDev->getClientHeight() });
 	return sprite;
 }
 
@@ -359,6 +404,36 @@ std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, co
 	if (!m_materialRepo.exists(texHash))
 	{
 		maps.diffuse = loadTexture(difPath);
+		maps.specular = loadTexture(specPath);
+		maps.normal = loadTexture(normPath);
+
+		matToAdd = std::make_shared<Material>(hashAndShaders.second, maps, texHash, hashAndShaders.first);
+	}
+	std::shared_ptr<Material> mat = m_materialRepo.add(texHash, matToAdd);			// If hash already exists, the existing mat will be returned and matToAdd will be discarded
+	mat->setBuffers(vsPsBuffers.first, vsPsBuffers.second);
+
+	return mat;
+}
+
+std::shared_ptr<Material> GfxResourceDevice::createMaterial(GfxShader shader, float difColor[3], const std::string& specPath, const std::string& normPath)
+{
+	// Load shaders
+	auto hashAndShaders = loadShader(shader);
+
+	// Load buffers
+	auto vsPsBuffers = loadBuffers(shader);
+
+	// Load textures
+	Material::PhongMaps maps;
+
+	// Check hash first before loading texture!
+	std::string texPathToHash = std::to_string(difColor[0] + difColor[1] + difColor[2]) + specPath + normPath;
+	size_t texHash = std::hash<std::string>{}(texPathToHash);
+
+	std::shared_ptr<Material> matToAdd = nullptr;
+	if (!m_materialRepo.exists(texHash))
+	{
+		maps.diffuse = createTextureFromColor(difColor);
 		maps.specular = loadTexture(specPath);
 		maps.normal = loadTexture(normPath);
 

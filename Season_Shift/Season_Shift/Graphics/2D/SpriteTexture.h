@@ -9,7 +9,6 @@ class SpriteTexture : public ISprite
 private:
 	std::shared_ptr<DXTexture> m_texture;
 	RECT m_rect;
-	DirectX::SimpleMath::Vector2 m_correctedPosition;
 	float m_rotation;
 	float m_depth;
 	std::function<void()> m_callback;
@@ -23,5 +22,8 @@ public:
 
 	float getWidth() const;
 	float getHeight() const;
+
+	const DirectX::SimpleMath::Vector2& getPosition() override; 
+	const DirectX::SimpleMath::Vector2& getScale() override;
 };
 

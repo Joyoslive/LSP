@@ -48,7 +48,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	// Generate shadow map
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
-	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView);
+	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView, m_lineDrawer);
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
@@ -207,6 +207,14 @@ void DeferredRenderStrategy::removeParticleSystem(const std::shared_ptr<Particle
 void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 {
 	m_sprites.push_back(sprite);
+}
+
+void DeferredRenderStrategy::updateWindowSizeForSpriteBatch(Vector2 windowSize)
+{
+	for (int i = 0; i < m_sprites.size(); ++i)
+	{
+		m_sprites[i]->setWindowSize(windowSize);
+	}
 }
 
 void DeferredRenderStrategy::setUp()

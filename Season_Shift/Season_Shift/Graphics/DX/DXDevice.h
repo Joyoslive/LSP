@@ -38,6 +38,8 @@ struct EngineMeshSubset
 	unsigned int indexCount;
 
 	std::string diffuseFilePath;
+	float color[3];		// used if diffuseFilePath == ""
+
 	std::string specularFilePath;
 	std::string normalFilePath;
 };

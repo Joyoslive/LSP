@@ -2,6 +2,7 @@
 #include "ShadowMapper.h"
 #include "Model.h"
 #include "../Camera.h"
+#include "LineDrawer.h"
 
 using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
@@ -340,7 +341,8 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 
 }
 
-const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const std::shared_ptr<Camera>& playerCamera, const DirectX::SimpleMath::Matrix& lightViewMatrix)
+const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const std::shared_ptr<Camera>& playerCamera, const DirectX::SimpleMath::Matrix& lightViewMatrix, 
+	const std::shared_ptr<LineDrawer>& line)
 {
 	OrthoMatrices orthos = createOrthos(playerCamera, lightViewMatrix);
 
@@ -368,9 +370,6 @@ const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const s
 		m_bufferInfo.projMat = m_cascades[i].projMat;
 		dev->bindViewports({ m_cascades[i].viewport });
 
-
-
-
 		for (auto& mod : casters)
 		{
 			for (auto& mat : mod->getSubsetsMaterial())
@@ -384,6 +383,17 @@ const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const s
 			}
 		}
 	}
+
+	// draw lines for each cascade
+	for (int i = 0; i < m_cascades.size(); ++i)
+	{
+		m_renderer->getDXDevice()->bindRenderTargets({ }, m_cascades[i].texture);
+
+		dev->bindViewports({ m_cascades[i].viewport });
+
+		line->draw(playerCamera->getViewMatrix(), lightViewMatrix, m_cascades[i].projMat, true);
+	}
+
 
 
 	m_renderer->getDXDevice()->bindRenderTargets({ }, nullptr);

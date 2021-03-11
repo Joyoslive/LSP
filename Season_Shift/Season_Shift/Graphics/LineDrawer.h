@@ -19,12 +19,14 @@ private:
 
 	struct alignas(16) LineDrawInfo
 	{
-		DirectX::SimpleMath::Matrix viewMat;
+		DirectX::SimpleMath::Matrix viewMat;		// to generate with
 		DirectX::SimpleMath::Matrix projMat;
 		DirectX::SimpleMath::Vector3 color;
 		float thicknessStart;
 		DirectX::SimpleMath::Vector3 startOffset;
 		float thicknessEnd;
+		DirectX::SimpleMath::Matrix viewMatToRenderWith;		// to render with
+
 
 	} m_lineDrawData;
 
@@ -42,7 +44,10 @@ public:
 	LineDrawer(std::shared_ptr<GfxRenderer> renderer);
 	~LineDrawer();
 
-	void draw(const std::shared_ptr<Camera>& cam);
+	void draw(const std::shared_ptr<Camera>& cam, bool isShadowPass = false);
+
+	void draw(const DirectX::SimpleMath::Matrix& genViewMat, const DirectX::SimpleMath::Matrix& renderViewMat,
+		const DirectX::SimpleMath::Matrix& projMat, bool isShadowPass = false);
 
 	/*
 	This should be called every frame!

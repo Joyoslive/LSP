@@ -39,13 +39,19 @@ public:
 	bool mouseReleased(MouseKeys key);
 	void lockMouse(int code=0);
 	void update(long double dt);
+	int getLatestCode();
 	long double getTime();
+
+	void setModeAbsolute();
+
 private:
 	static Input instance;
 	float m_mouseY;
 	float m_mouseX;
 	int m_width;
 	int m_height;
+	int m_latestCode;
+	int m_cursorShowState;
 	HWND m_hwnd;
 	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	std::unique_ptr<DirectX::Mouse> m_mouse;

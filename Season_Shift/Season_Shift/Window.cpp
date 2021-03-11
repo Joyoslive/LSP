@@ -103,6 +103,11 @@ bool Window::isClosed() const
     return m_isClosed;
 }
 
+void Window::Quit()
+{
+    PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+}
+
 void Window::setOnResizeCallback(std::function<void(UINT width, UINT height)> func)
 {
     m_onResize = func;
@@ -203,12 +208,21 @@ LRESULT Window::handleProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         if (wParam == WA_INACTIVE)
         {
-            Input::getInput().lockMouse(2); // Set absolute and show cursor
+            // Changes to absolute WITHOUT changing internal 'code'.
+            // This handles the case where the player alt+tabs without opening the menu
+            // Internal state --> relative but we purposefully set the mode to absolute
+            // So when we get back into the game, it returns back to relative.
+            Input::getInput().setModeAbsolute();
             break;
         }
         if (wParam == WA_ACTIVE)
         {
-            Input::getInput().lockMouse(1); // Set relative and hide cursor
+            // If alt+tabbed with relative --> get back in relative
+            if (Input::getInput().getLatestCode() == 2)
+                Input::getInput().lockMouse(2);
+            else // If alt+tabbed with absolute --> get back in absolute
+                Input::getInput().lockMouse(1);
+
             break;
         }
         break;

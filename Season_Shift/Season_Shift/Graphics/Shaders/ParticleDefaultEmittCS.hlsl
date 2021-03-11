@@ -29,18 +29,6 @@ cbuffer NumOfParticleBuffer : register(b1)
     uint3 padding;
 };
 
-static const float3 dir[8] =
-{
-    normalize(float3(1.0f, 1.0f, 1.0f)),
-    normalize(float3(1.0f, 1.0f, -1.0f)),
-    normalize(float3(1.0f, -1.0f, 1.0f)),
-    normalize(float3(1.0f, -1.0f, -1.0f)),
-    normalize(float3(-1.0f, 1.0f, 1.0f)),
-    normalize(float3(-1.0f, 1.0f, -1.0f)),
-    normalize(float3(-1.0f, -1.0f, 1.0f)),
-    normalize(float3(-1.0f, -1.0f, -1.0f))
-};
-
 float3 random(float seed, float3 seedVec)
 {
     float r1 = frac(sin(dot(float2(seed, seedVec.x), float2(12.9898, 78.233))) * 43758.5453123);
@@ -56,15 +44,14 @@ void main( uint3 DTid : SV_DispatchThreadID )
     uint id = DTid.x + DTid.y * size + DTid.z * size * size;
     uint maxCount, stride;
     appendBuffer.GetDimensions(maxCount, stride);
-    if (id < count && id < maxCount - particleCount && id < size)
+    if (id < count && id < maxCount - particleCount)
     {
         Particle p;
         p.lifeTime = lifeTime;
         p.pos = pos;
-        p.vel = 60 * normalize(reflect(dir[DTid.x], randVec));
+        p.vel = 32 * (normalize(2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1)));
         p.scale = scale;
-        //p.color = color
-        p.color = random((float)DTid.x / 8.0f, normalize(randVec));
+        p.color = saturate(color + 0.2f * (2 * random((float) (DTid.x + 5) / (float) count, normalize(randVec)) - float3(1, 1, 1)));
         p.angle = DTid.x;
 
         appendBuffer.Append(p);
