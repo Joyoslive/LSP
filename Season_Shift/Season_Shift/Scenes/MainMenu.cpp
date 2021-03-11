@@ -37,6 +37,7 @@ void MainMenu::setUpScene()
 				m_buttons[0]->setShow(true);
 				m_buttons[1]->setShow(false);
 				m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y - 6});
+				Input::getInput().lockMouse(1);
 				SwitchScene(Scenes::STAGE_1);
 			}
 		});
