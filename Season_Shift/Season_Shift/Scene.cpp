@@ -20,6 +20,11 @@ Scene::~Scene()
 
 }
 
+void Scene::setIsPaused(bool isPaused)
+{
+	m_isPaused = isPaused;
+}
+
 void Scene::setPauseState(bool isPaused)
 {
 	m_isPaused = isPaused;

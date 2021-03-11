@@ -45,7 +45,12 @@ void SceneManager::createMenu(Graphics* graphics)
 	text1->setShow(false);
 
 	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
-		[this]() { changeScene(0); });
+		[this]() { 
+		m_activeScene->setIsPaused(false);
+		m_menu->shouldDraw(false);
+		changeScene(0); 
+	
+	});
 	graphics->addToSpriteBatch(clickableSprite2);
 	clickableSprite2->setShow(false);
 	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);

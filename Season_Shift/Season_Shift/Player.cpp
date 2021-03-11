@@ -17,6 +17,14 @@
 
 using namespace DirectX::SimpleMath;
 
+namespace tempSpriteFix
+{
+	static bool m_createSpriteFirstTime = true;
+	Ref<ISprite> m_velocitySprite;
+	Ref<ISprite> m_sprite;
+	Ref<ISprite> m_spriteGoalTimer;
+}
+
  Player::Player()
  {
 	 m_respawn = { 0, 10, 0 };
@@ -87,7 +95,15 @@ using namespace DirectX::SimpleMath;
 
  Player::~Player()
  {
-	
+	 if (tempSpriteFix::m_velocitySprite &&
+		 tempSpriteFix::m_sprite &&
+		 tempSpriteFix::m_spriteGoalTimer)
+	 {
+		 tempSpriteFix::m_velocitySprite->setShow(false);
+		 tempSpriteFix::m_sprite->setShow(false);
+		 tempSpriteFix::m_spriteGoalTimer->setShow(false);
+	 }
+
  }
 
  int signOf(const float& value)
@@ -100,6 +116,15 @@ using namespace DirectX::SimpleMath;
 
  void Player::start()
  {
+	 if (tempSpriteFix::m_velocitySprite &&
+		 tempSpriteFix::m_sprite &&
+		 tempSpriteFix::m_spriteGoalTimer)
+	 {
+		 tempSpriteFix::m_velocitySprite->setShow(true);
+		 tempSpriteFix::m_sprite->setShow(true);
+		 tempSpriteFix::m_spriteGoalTimer->setShow(true);
+	 }
+
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
 	 std::vector<std::string> v;
@@ -142,19 +167,19 @@ using namespace DirectX::SimpleMath;
 	 str += std::to_wstring(L'\n');
 	 OutputDebugStringW(str.c_str());
 
-	 if (m_createOnce)
+	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {
-		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
-		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
-		 m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
+		 tempSpriteFix::m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
+		 tempSpriteFix::m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 tempSpriteFix::m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
 
-		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
-		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
-		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_spriteGoalTimer);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(tempSpriteFix::m_velocitySprite);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(tempSpriteFix::m_sprite);
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(tempSpriteFix::m_spriteGoalTimer);
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
-		 m_createOnce = false;
+		 tempSpriteFix::m_createSpriteFirstTime = false;
 	 }
 
 	detectDeath(-120.0f);
@@ -600,12 +625,12 @@ using namespace DirectX::SimpleMath;
 	 }
 	 if (m_cooldownDash > 0.0f)
 	 {
-		 m_sprite->setShow(false);
+		 tempSpriteFix::m_sprite->setShow(false);
 		 m_cooldownDash -= m_frameTime;
 	 }
 	 else
 	 {
-		 m_sprite->setShow(true);
+		 tempSpriteFix::m_sprite->setShow(true);
 	 }
 	 return velocity;
  }
@@ -1056,7 +1081,7 @@ using namespace DirectX::SimpleMath;
  {
 	 long absVelocity = labs(velocity.Length() * 10.0f);
 	 std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
-	 m_velocitySprite->setText(text);
+	 tempSpriteFix::m_velocitySprite->setText(text);
 
 	/* m_copyGoalTimer = m_goalTimer;
 	 m_copyGoalTimer.stop();
@@ -1077,5 +1102,5 @@ using namespace DirectX::SimpleMath;
 	 secondsText += std::to_string(seconds);
 
 	 text = minutesText + ":" + secondsText;
-	 m_spriteGoalTimer->setText(text);
+	 tempSpriteFix::m_spriteGoalTimer->setText(text);
  }

@@ -79,9 +79,7 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_hookEndPos;
 
-	Ref<ISprite> m_velocitySprite;
-	Ref<ISprite> m_sprite;
-	Ref<ISprite> m_spriteGoalTimer; 
+
 
 	bool m_createOnce = true;
 	Ref<ParticleSystemComponent> m_playerPartSys;

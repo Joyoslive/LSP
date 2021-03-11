@@ -54,6 +54,7 @@ private:
 public:
 	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
+	void setIsPaused(bool isPaused);		// no side effects
 	void setPauseState(bool isPaused);
 	void setMenu(std::shared_ptr<InGameMenu> menu);
 	virtual void setUpScene() = 0;
