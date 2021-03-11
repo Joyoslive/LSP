@@ -15,6 +15,11 @@ GfxResourceDevice::~GfxResourceDevice()
 
 }
 
+UINT getNumMipLevels(int width, int height)
+{
+	return static_cast<UINT>(1 + floor(log2(std::max(width, height))));
+}
+
 std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 {
 	auto texData = loadFileToTexture(filepath);
@@ -22,33 +27,38 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	if (texData.width == 0 || texData.height == 0)
 		return nullptr;
 
-	// MIP Levels set to one for now!!!
 	DXTexture::Desc desc{
 		DXTexture::Type::TEX2D,
 	};
+	UINT mips = getNumMipLevels(texData.width, texData.height);
 	desc.desc2D = {
 		static_cast<UINT>(texData.width),
 		static_cast<UINT>(texData.height),
-		1,
+		mips,
 		1,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		{1, 0},
-		D3D11_USAGE_IMMUTABLE,
-		D3D11_BIND_SHADER_RESOURCE,
+		D3D11_USAGE_DEFAULT,
+		D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET,
 		0,
-		0,
+		D3D11_RESOURCE_MISC_GENERATE_MIPS,
 	};
 
-	D3D11_SUBRESOURCE_DATA initData{
-		texData.data,
-		texData.width * sizeof(uint32_t),
-		0,
-	};
+	D3D11_SUBRESOURCE_DATA* initData = new D3D11_SUBRESOURCE_DATA[mips];
+	int sysMemPitch = texData.width * sizeof(uint32_t);
+	for(int i = 0; i < mips; i++)
+	{
+		initData[i].pSysMem = texData.data;
+		initData[i].SysMemPitch = sysMemPitch;
+		initData[i].SysMemSlicePitch = 0;
+		sysMemPitch >>= 1;
+	}
 
-
-	auto tex = m_dxDev->createTexture(desc, &initData);
+	auto tex = m_dxDev->createTexture(desc, initData);
 
 	free(texData.data);
+	delete[] initData;
+	initData = nullptr;
 
 	return tex;
 }
