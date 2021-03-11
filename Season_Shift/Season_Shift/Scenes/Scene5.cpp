@@ -26,7 +26,8 @@
 using namespace DirectX::SimpleMath;
 
 Scene5::Scene5(Graphics* graphics) : Scene(graphics)
-{}
+{
+}
 
 void Scene5::setUpScene()
 {
@@ -85,10 +86,11 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/hookDrum.wav");
 	v1.push_back("Sounds/hookDrumv2.wav");
 	v1.push_back("Sounds/run2.wav");
-	v1.push_back("Sounds/swing2.wav");
+	v1.push_back("Sounds/swing3.wav");
 	v1.push_back("Sounds/swingUp.wav");
 	v1.push_back("Sounds/swingDown.wav");
 	v1.push_back("Sounds/swingFull.wav");
+	v1.push_back("Sounds/heartbeat.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -125,7 +127,7 @@ void Scene5::setUpScene()
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	sound->setVolume(0.2);
-	sound->playLoop("Sounds/music3.wav");
+	//sound->playLoop("Sounds/music3.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
 
 	// Clickable sprite test

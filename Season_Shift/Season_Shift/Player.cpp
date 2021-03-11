@@ -101,6 +101,9 @@ using namespace DirectX::SimpleMath;
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
+	 std::vector<std::string> v;
+	 v.push_back("Sounds/heartbeat.wav");
+	 m_sound2.start(v);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -241,6 +244,7 @@ using namespace DirectX::SimpleMath;
 	m_sound->setVolume(0.4);
 	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
+		
 		m_soundLoop = false;
 		m_sound->stopLoop();
 	}
@@ -255,12 +259,13 @@ using namespace DirectX::SimpleMath;
 	}
 	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
 	{
-		m_sound->setVolume(0.2);
+		m_sound->setVolume(0.02);
 		m_soundLoop = true;
-		m_sound->playLoop("Sounds/swing2.wav");
+		//m_sound->playLoop("Sounds/swing3.wav");
+		
+
 	}
 	
-
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;

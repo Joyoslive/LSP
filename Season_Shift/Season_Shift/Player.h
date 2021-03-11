@@ -19,6 +19,7 @@ private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	Ref<Sound> m_sound;
+	Sound m_sound2;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;
