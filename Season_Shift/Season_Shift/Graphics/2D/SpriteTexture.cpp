@@ -50,10 +50,10 @@ float SpriteTexture::getHeight() const
 
 const DirectX::SimpleMath::Vector2& SpriteTexture::getPosition()
 {
-	return m_correctedPosition;
+	return m_position;
 }
 
 const DirectX::SimpleMath::Vector2& SpriteTexture::getScale()
 {
-	return m_correctedScale;
+	return m_scale;
 }

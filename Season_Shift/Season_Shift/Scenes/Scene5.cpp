@@ -120,13 +120,13 @@ void Scene5::setUpScene()
 	v.push_back("Sounds/WaywardWoods.wav");
 	v.push_back("Sounds/music2.wav");
 	v.push_back("Sounds/music3.wav");
-	v.push_back("Sounds/Spring.wav");
+	v.push_back("Sounds/Spring Updated.wav");
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	sound->setVolume(0.2);
-	sound->playLoop("Sounds/Spring.wav");
+	sound->playLoop("Sounds/Spring Updated.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
 
 	// Clickable sprite test
