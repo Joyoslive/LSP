@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include <random>
 #include <imgui_impl_win32.h>
+#include "../Player.h"
 
 Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 	m_clientWidth(clientWidth),
@@ -45,7 +46,7 @@ Graphics::Graphics(HWND& hwnd, UINT clientWidth, UINT clientHeight) :
 
 Graphics::~Graphics()
 {
-
+	
 }
 
 void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const std::shared_ptr<Camera>& mainCamera, long double dt)
