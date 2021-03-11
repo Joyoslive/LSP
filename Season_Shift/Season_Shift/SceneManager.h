@@ -15,7 +15,7 @@ private:
 	std::shared_ptr<InGameMenu> m_menu;
 
 private:
-	void createMenu(Graphics* graphics);
+	void createMenu(Graphics* graphics, const Window* const win);
 	void createScenes(Graphics *graphics);
 	void addScene(Ref<Scene> newScene);
 	void setActiveScene(Ref<Scene> newActiveScene);
