@@ -81,6 +81,7 @@ using namespace DirectX::SimpleMath;
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
 	 m_hookEmittId = -1;
+	 m_currentTime = 0.f;
 
  }
 
@@ -132,6 +133,14 @@ using namespace DirectX::SimpleMath;
 
  void Player::update()
  {
+	 m_currentTime += m_frameTime;
+	 if (m_gameObject->getScene()->isPaused())
+		 m_currentTime -= m_frameTime;
+
+	 std::wstring str = L"Time: "; 
+	 str += std::to_wstring(m_currentTime);
+	 str += std::to_wstring(L'\n');
+	 OutputDebugStringW(str.c_str());
 
 	 if (m_createOnce)
 	 {
@@ -764,9 +773,10 @@ using namespace DirectX::SimpleMath;
 
  long double Player::goalTimerGetTime()
  {
-	 m_goalTimer.stop();
-	 m_goalTimer.start();
-	 return m_goalTimer.getTime(Timer::Duration::SECONDS);
+	/* m_goalTimer.stop();
+	 m_goalTimer.start();*/
+	 m_currentTime = 0.f;		// Reset timer
+	 return m_currentTime;
  }
 
  void Player::wallRunning(const Vector3& velocity) 
@@ -1048,10 +1058,13 @@ using namespace DirectX::SimpleMath;
 	 std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
 	 m_velocitySprite->setText(text);
 
-	 m_copyGoalTimer = m_goalTimer;
+	/* m_copyGoalTimer = m_goalTimer;
 	 m_copyGoalTimer.stop();
 	 int minutes = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) / 60;
-	 int seconds = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) % 60;
+	 int seconds = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) % 60;*/
+
+	 int minutes = (int)fabs(m_currentTime) / 60;
+	 int seconds = (int)fabs(m_currentTime) % 60;
 
 	 std::string minutesText = "";
 	 if (minutes < 10)

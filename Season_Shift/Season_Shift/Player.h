@@ -28,6 +28,7 @@ private:
 	Timer m_timer;
 	Timer m_goalTimer;
 	Timer m_copyGoalTimer;
+	float m_currentTime;
 
 	DirectX::SimpleMath::Vector3 m_normal;
 
