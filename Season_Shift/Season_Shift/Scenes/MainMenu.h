@@ -23,6 +23,7 @@ private:
 	std::shared_ptr<ISprite> m_background;
 	const Window* m_win;
 
+	bool m_firstSetup = true;
 private:
 	void SwitchScene(Scenes scene);
 
