@@ -5,14 +5,15 @@
 #include "Scenes/Scene3.h"
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
+#include "Scenes/MainMenu.h"
 #include "InGameMenu.h"
 
 #include <vector>
 #include <assert.h>
 
-SceneManager::SceneManager(Graphics *graphics)
+SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
-
+	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
 	createMenu(graphics);
 	createScenes(graphics);
 
@@ -74,6 +75,8 @@ void SceneManager::createMenu(Graphics* graphics)
 
 void SceneManager::createScenes(Graphics* graphics)
 {
+	/*Ref<Scene> mainMenu = std::make_shared<MainMenu>(graphics, this);
+	addScene(mainMenu);*/
 	Ref<Scene> scene = std::make_shared<Scene1>(graphics);
 	addScene(scene);
 	Ref<Scene> scene2 = std::make_shared<Scene2>(graphics);
@@ -84,7 +87,8 @@ void SceneManager::createScenes(Graphics* graphics)
 	addScene(scene4);
 	Ref<Scene> scene5 = std::make_shared<Scene5>(graphics);
 	addScene(scene5);
-	setActiveScene(scene);
+	
+	setActiveScene(scene5);
 	//setActiveScene(scene2);
 }
 

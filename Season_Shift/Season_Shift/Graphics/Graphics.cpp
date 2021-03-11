@@ -134,6 +134,11 @@ void Graphics::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 	m_currRenderStrat->addToSpriteBatch(sprite);
 }
 
+void Graphics::clearSpriteBatch()
+{
+	m_currRenderStrat->clearSpriteBatch();
+}
+
 bool Graphics::getFullScreenState() const
 {
 	return m_dxDev->getFullScreenState();

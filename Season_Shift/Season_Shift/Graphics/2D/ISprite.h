@@ -15,13 +15,20 @@ public:
 	inline void setShow(bool show) { m_show = show; }
 	inline void setWindowSize(DirectX::SimpleMath::Vector2 windowSize) { m_windowSize = windowSize; }
 
-	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) const {};
+	virtual void onClick(std::function<void()> callback) {};
+	virtual void onRelease(std::function<void()> callback) {};
+	virtual void onGlobalRelease(std::function<void()> callback) {};
+
+	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
+	virtual void checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) {};
+	virtual void globalRelease() {};
 
 	virtual inline const DirectX::SimpleMath::Vector2& getPosition() { return m_position; }
 	virtual inline const DirectX::SimpleMath::Vector2& getScale() { return m_scale; }
 	inline DirectX::SimpleMath::Vector2 getCorrectScaleVector(DirectX::SimpleMath::Vector2 changeVector) { return { changeVector.x * m_windowSize.x / m_baseWindowSize.x, changeVector.y * m_windowSize.y / m_baseWindowSize.y }; };
 	virtual inline std::shared_ptr<DirectX::SpriteFont> getFont() { return std::shared_ptr<DirectX::SpriteFont>(); }
 	inline bool getShow() const { return m_show; }
+	inline bool getClicked() const { return m_clicked; }
 	
 protected:
 	DirectX::SimpleMath::Vector2 m_position;
@@ -31,5 +38,6 @@ protected:
 	DirectX::SimpleMath::Vector2 m_windowSize;
 	DirectX::SimpleMath::Vector2 m_baseWindowSize = { 1280.0f, 720.0f };
 	bool m_show;
+	bool m_clicked;
 };
 

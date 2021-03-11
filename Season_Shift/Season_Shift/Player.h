@@ -19,6 +19,7 @@ private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	Ref<Sound> m_sound;
+	Sound m_sound2;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;
@@ -26,6 +27,8 @@ private:
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
 	Timer m_goalTimer;
+	Timer m_copyGoalTimer;
+
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -77,6 +80,8 @@ private:
 
 	Ref<ISprite> m_velocitySprite;
 	Ref<ISprite> m_sprite;
+	Ref<ISprite> m_spriteGoalTimer; 
+
 	bool m_createOnce = true;
 	Ref<ParticleSystemComponent> m_playerPartSys;
 	int m_landingPartEmittId;
@@ -105,6 +110,7 @@ private:
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
 	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 	void drawLine();
+	void updateSprites(const DirectX::SimpleMath::Vector3& velocity);
 public:
 	Player();
 	~Player();

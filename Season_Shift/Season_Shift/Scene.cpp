@@ -7,9 +7,10 @@
 
 using namespace DirectX::SimpleMath;
 
-Scene::Scene(Graphics *graphics)
+Scene::Scene(Graphics* graphics, SceneManager* sm)
 {
 	m_graphics = graphics;
+	m_sceneManager = sm;
 
 	m_isPaused = false;
 }
@@ -52,6 +53,7 @@ void Scene::resetScene()
 //Removes all GameObjects from the Scene
 void Scene::emptyScene()
 {
+	m_mainCamera.reset();
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
 	{
 		destroyGameObject(m_sceneGameObjects[i]);
@@ -207,4 +209,9 @@ std::vector<Ref<GameObject>>& Scene::getSceneGameObjects()
 Graphics* Scene::getGraphics() const
 {
 	return m_graphics;
+}
+
+Ref<Camera> Scene::getSceneMainCamera() const
+{
+	return m_mainCamera;
 }

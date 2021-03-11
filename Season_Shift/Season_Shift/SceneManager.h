@@ -3,6 +3,7 @@
 #include "SceneManagerObserver.h"
 
 class InGameMenu;
+class Window;
 
 class SceneManager
 {
@@ -21,7 +22,7 @@ private:
 	void updateObservers();
 
 public:
-	SceneManager(Graphics *graphics);
+	SceneManager(Graphics *graphics, const Window* const win);
 	~SceneManager();
 
 	Ref<Scene> getActiveScene() const;

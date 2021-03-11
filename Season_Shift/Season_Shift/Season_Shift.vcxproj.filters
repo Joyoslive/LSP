@@ -78,6 +78,7 @@
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Bounce.cpp" />
     <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
+    <ClCompile Include="Scenes\MainMenu.cpp" />
     <ClCompile Include="InGameMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Bounce.h" />
     <ClInclude Include="Graphics\2D\SpriteTexture.h" />
+    <ClInclude Include="Scenes\MainMenu.h" />
     <ClInclude Include="InGameMenu.h" />
   </ItemGroup>
   <ItemGroup>
@@ -189,5 +191,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />
+    <Image Include="Textures\MainMenu\background.jpg" />
+    <Image Include="Textures\MainMenu\Button.png" />
+    <Image Include="Textures\MainMenu\ButtonPressed.png" />
   </ItemGroup>
 </Project>

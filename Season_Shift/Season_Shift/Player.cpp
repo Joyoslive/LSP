@@ -101,6 +101,9 @@ using namespace DirectX::SimpleMath;
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
+	 std::vector<std::string> v;
+	 v.push_back("Sounds/heartbeat.wav");
+	 m_sound2.start(v);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -114,8 +117,9 @@ using namespace DirectX::SimpleMath;
 	 //	80 / 2 = 40
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
-		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 1.0f)));
+	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
+	 m_playerPartSys2->stopEmitter(0);
 
 
 	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
@@ -133,9 +137,11 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
+
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
-
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_spriteGoalTimer);
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
@@ -242,6 +248,7 @@ using namespace DirectX::SimpleMath;
 	m_sound->setVolume(0.4);
 	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
+		
 		m_soundLoop = false;
 		m_sound->stopLoop();
 	}
@@ -256,12 +263,13 @@ using namespace DirectX::SimpleMath;
 	}
 	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
 	{
-		m_sound->setVolume(0.2);
+		m_sound->setVolume(0.02);
 		m_soundLoop = true;
-		m_sound->playLoop("Sounds/swing2.wav");
+		//m_sound->playLoop("Sounds/swing3.wav");
+		
+
 	}
 	
-
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -323,6 +331,11 @@ using namespace DirectX::SimpleMath;
 	speedLines(velocitySkipY, velocity.y);
 	m_logicPlayerCamera->changeFOV(velocity, m_maxSpeed, m_maxYSpeed);
 
+	if (velocitySkipY.Length() > 70.0f)
+		m_playerPartSys2->reviveEmitter(0, 0.1f);
+	else
+		m_playerPartSys2->stopEmitter(0);
+
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
@@ -344,10 +357,9 @@ using namespace DirectX::SimpleMath;
 	}
 	ImGui::End();
 
-	long absVelocity = labs(velocity.Length() * 10.0f);
 	m_collisionFrame = true;
-	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
-	m_velocitySprite->setText(text);
+
+	updateSprites(velocity);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -949,7 +961,6 @@ using namespace DirectX::SimpleMath;
 			 m_ground = false;
 			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
 			 m_hookObject->getTransform()->setPosition(m_hookPoint);
-			 m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 		 }
 		 else
 		 {
@@ -1015,6 +1026,10 @@ using namespace DirectX::SimpleMath;
 		 settings.color.z = powf(settings.color.z, 2.2f);
 		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
+
+		 //Compare distance from endpos and player position to activate particles
+		 if ((m_hookPoint - m_hookEndPos).Length() < (m_hookPoint-m_transform->getPosition()).Length() / 15.0f)
+			m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 	 }
 	 else
 	 {
@@ -1025,4 +1040,29 @@ using namespace DirectX::SimpleMath;
 		 Matrix matrix(right, up, cameraForward);
 		 m_hookEndPos = m_transform->getPosition() - (Vector3)DirectX::XMVector3Transform(settings.offset, matrix);
 	 }
+ }
+
+ void Player::updateSprites(const Vector3& velocity)
+ {
+	 long absVelocity = labs(velocity.Length() * 10.0f);
+	 std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
+	 m_velocitySprite->setText(text);
+
+	 m_copyGoalTimer = m_goalTimer;
+	 m_copyGoalTimer.stop();
+	 int minutes = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) / 60;
+	 int seconds = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) % 60;
+
+	 std::string minutesText = "";
+	 if (minutes < 10)
+		 minutesText += "0";
+	 minutesText += std::to_string(minutes);
+
+	 std::string secondsText = "";
+	 if (seconds < 10)
+		 secondsText += "0";
+	 secondsText += std::to_string(seconds);
+
+	 text = minutesText + ":" + secondsText;
+	 m_spriteGoalTimer->setText(text);
  }

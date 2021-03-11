@@ -103,7 +103,7 @@ bool Window::isClosed() const
     return m_isClosed;
 }
 
-void Window::Quit()
+void Window::quit() const
 {
     PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 }

@@ -23,11 +23,12 @@ private:
 	void initialize() override;
 
 public:
+	Sound();
 	Sound(const std::vector<std::string>& fileName);
 	~Sound();
 
 	size_t play(const std::string& soundname);
-	
+	void start(const std::vector<std::string>& fileName);
 	void playLoop(const std::string& soundName);
 	void stopLoop();
 
