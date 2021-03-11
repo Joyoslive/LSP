@@ -156,6 +156,18 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 				m_spriteRenderer->queueDraw(s);
 			}
 		}
+		if (Input::getInput().mouseReleased(Input::LeftButton))
+		{
+			for (auto& s : m_sprites)
+			{
+				if (s->getShow())
+				{
+					if (m_sprites.size() == 0)
+						break;
+					s->globalRelease();
+				}
+			}
+		}
 		
 		
 		m_spriteRenderer->drawQueued(dev);

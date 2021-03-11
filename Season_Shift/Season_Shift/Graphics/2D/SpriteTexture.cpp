@@ -4,6 +4,8 @@
 SpriteTexture::SpriteTexture(std::shared_ptr<DXTexture> texture, float rotation, float depth, std::function<void()> callback)
 {
 	m_callback = callback;
+	m_releaseCallback = nullptr;
+	m_globReleaseCallback = nullptr;
 	m_show = true;
 	m_texture = texture;
 	m_rect = { 0 };
@@ -39,6 +41,11 @@ void SpriteTexture::onRelease(std::function<void()> callback)
 	m_releaseCallback = callback;
 }
 
+void SpriteTexture::onGlobalRelease(std::function<void()> callback)
+{
+	m_globReleaseCallback = callback;
+}
+
 void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 {
 	if (isClicked && m_callback &&
@@ -59,6 +66,14 @@ void SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
 		m_releaseCallback();
 		m_clicked = false;
 	}
+}
+
+void SpriteTexture::globalRelease()
+{
+	if(m_globReleaseCallback)
+		m_globReleaseCallback();
+
+	m_clicked = false;
 }
 
 float SpriteTexture::getWidth() const
