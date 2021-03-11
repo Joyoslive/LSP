@@ -7,6 +7,10 @@
 using namespace std;
 HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
+Sound::Sound()
+{
+
+}
 
 Sound::Sound(const vector<string>& fileNames)
 {
@@ -27,6 +31,21 @@ Sound::~Sound()
 {
 	if (m_effectInst != nullptr) m_effectInst.reset();
 	m_audioEngine->Suspend();
+}
+
+void Sound::start(const vector<string>& fileNames)
+{
+	m_loopingSoundId = -1;
+	m_componentType = ComponentEnum::SOUND;
+	m_audioEngine = std::make_unique<DirectX::AudioEngine>();
+
+	std::wstring ws;
+	for (int i = 0; i < fileNames.size(); ++i)
+	{
+		ws = std::wstring(fileNames[i].begin(), fileNames[i].end());
+		m_sounds.emplace_back(m_audioEngine.get(), ws.c_str());
+		m_map[fileNames[i]] = i;
+	}
 }
 
 void Sound::update()
