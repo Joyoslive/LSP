@@ -1026,7 +1026,9 @@ using namespace DirectX::SimpleMath;
 		 settings.color.z = powf(settings.color.z, 2.2f);
 		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
-		 if ((m_hookPoint - m_hookEndPos).Length() < 2.f)
+
+		 //Compare distance from endpos and player position to activate particles
+		 if ((m_hookPoint - m_hookEndPos).Length() < (m_hookPoint-m_transform->getPosition()).Length() / 15.0f)
 			m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 	 }
 	 else
