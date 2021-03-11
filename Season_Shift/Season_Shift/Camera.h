@@ -46,7 +46,7 @@ public:
 	};
 
 public:
-	Camera(float x=0, float y=0, float z=0, int width=1280, int height=720, float nearPlane=0.1, float farPlane=3000);
+	Camera(float x=0, float y=0, float z=0, int width=1280, int height=720, float nearPlane=0.1, float farPlane=2000);
 	~Camera();
 
 	
