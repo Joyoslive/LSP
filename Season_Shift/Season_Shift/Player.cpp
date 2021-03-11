@@ -230,7 +230,7 @@ using namespace DirectX::SimpleMath;
 		m_oldTrampolineCollider = NULL;
 	}
 	
-	m_audio.update(m_ground, m_hooked, m_walljump, velocity);
+	m_audio.update(m_ground, m_hooked, m_walljump, velocity, m_frameTime);
 	moveDirection2 = moveObjectCheck(moveDirection2);
 
 	moveDirection.y = 0;

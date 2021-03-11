@@ -4,7 +4,9 @@
 Audio::Audio() 
 {
 	m_soundLoop = false;
-	m_volume = 0;
+	m_volume = 0.5;
+	m_volume2 = 0;
+	m_pitch = -0.3;
 }
 
 Audio::~Audio()
@@ -42,14 +44,14 @@ void Audio::start()
 	std::vector<std::string> v;
 	v.push_back("Sounds/heartbeat.wav");
 	m_sound2.start(v);
+	m_sound2.playLoop("Sounds/heartbeat.wav");
 	std::vector<std::string> v3;
-	v3.push_back("Sounds/Spring.wav");
+	v3.push_back("Sounds/Spring2.wav");
 	m_music.start(v3);
-	m_music.setVolume(m_volume);
-	m_music.playLoop("Sounds/Spring.wav");
+	m_music.playLoop("Sounds/Spring2.wav");
 }
 
-void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity)
+void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta)
 {
 	if (velocity.Length() < 0.1 || (ground == false && wall == false && hook == false) && m_soundLoop == true)
 	{
@@ -71,15 +73,33 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		m_sound.playLoop("Sounds/swingT.wav");
 	}
 
-	if (m_volume < velocity.Length() / 150)
+	if (50 < velocity.Length())
 	{
-		m_volume += 0.001;
+		if(m_volume < 1)
+			m_volume += 0.1*delta;
+		if(m_pitch <= 0)
+			m_pitch += 0.15*delta;
 	}
-	else if (m_volume > velocity.Length() / 150)
+	else if (85 > velocity.Length())
 	{
-		m_volume -= 0.0011;
+		if(m_volume > 0.1)
+			m_volume -= 0.4*delta;
+		if(m_pitch >= -0.7)
+			m_pitch -= 0.4*delta;
 	}
+	//HerthBeat
+	if (velocity.Length() < 10)
+	{
+		m_volume2 += 0.1 * delta;
+	}
+	else
+	{
+		if(m_volume2 > 0)
+			m_volume2 -= 1 * delta;
+	}
+	m_sound2.setVolume(m_volume2);
 	m_music.setVolume(m_volume);
+	m_music.setPitch(m_pitch);
 }
 
 void Audio::playSound1(const std::string& soundName)
