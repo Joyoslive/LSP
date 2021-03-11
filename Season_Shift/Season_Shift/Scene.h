@@ -41,7 +41,6 @@ private:
 protected:
 	Graphics* m_graphics;
 
-
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
@@ -51,6 +50,7 @@ private:
 public:
 	Scene(Graphics *graphics);
 	~Scene();
+	void setPauseState(bool isPaused);
 	void setMenu(std::shared_ptr<InGameMenu> menu);
 	virtual void setUpScene() = 0;
 	void resetScene();

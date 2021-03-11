@@ -19,6 +19,25 @@ Scene::~Scene()
 
 }
 
+void Scene::setPauseState(bool isPaused)
+{
+	m_isPaused = isPaused;
+
+	if (!m_isPaused)
+	{
+		m_isPaused = false;
+		m_menu->shouldDraw(false);
+		Input::getInput().lockMouse(1);
+
+	}
+	else
+	{
+		m_isPaused = true;
+		m_menu->shouldDraw(true);
+		Input::getInput().lockMouse(2);
+	}
+}
+
 void Scene::setMenu(std::shared_ptr<InGameMenu> menu)
 {
 	m_menu = menu;
