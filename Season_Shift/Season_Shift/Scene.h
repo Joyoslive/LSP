@@ -4,6 +4,7 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include "Component.h"
+#include "Camera.h"
 //#include "GameObject.h"
 
 //#include "Graphics/Graphics.h"
@@ -24,6 +25,7 @@
 class GameObject;
 class Graphics;
 class Model;
+class SceneManager;
 class InGameMenu;
 
 class Scene : public std::enable_shared_from_this<Scene>
@@ -40,8 +42,8 @@ private:
 
 protected:
 	Graphics* m_graphics;
-
-
+	SceneManager* m_sceneManager;
+	Ref<Camera> m_mainCamera;
 private:
 	void addGameObject(Ref<GameObject> gameObject);
 	void removeGameObject(Ref<GameObject> gameObject);
@@ -49,7 +51,7 @@ private:
 	void updateMenu();
 
 public:
-	Scene(Graphics *graphics);
+	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
 	void setMenu(std::shared_ptr<InGameMenu> menu);
 	virtual void setUpScene() = 0;
@@ -68,5 +70,6 @@ public:
 	std::vector<Ref<Model>>& getSceneModels();
 	std::vector<Ref<GameObject>>& getSceneGameObjects();
 	Graphics* getGraphics() const;
+	Ref<Camera> getSceneMainCamera() const;
 };
 

@@ -149,8 +149,23 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		{
 			if (s->getShow())
 			{
+				if (m_sprites.size() == 0)
+					break;
 				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
+				s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton));
 				m_spriteRenderer->queueDraw(s);
+			}
+		}
+		if (Input::getInput().mouseReleased(Input::LeftButton))
+		{
+			for (auto& s : m_sprites)
+			{
+				if (s->getShow())
+				{
+					if (m_sprites.size() == 0)
+						break;
+					s->globalRelease();
+				}
 			}
 		}
 		
@@ -207,6 +222,11 @@ void DeferredRenderStrategy::removeParticleSystem(const std::shared_ptr<Particle
 void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 {
 	m_sprites.push_back(sprite);
+}
+
+void DeferredRenderStrategy::clearSpriteBatch()
+{
+	m_sprites.clear();
 }
 
 void DeferredRenderStrategy::updateWindowSizeForSpriteBatch(Vector2 windowSize)
