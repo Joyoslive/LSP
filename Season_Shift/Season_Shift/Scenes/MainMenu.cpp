@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MainMenu.h"
 #include "../SceneManager.h"
+#include "../Input.h"
 
 MainMenu::MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win) : Scene(graphics, sm)
 {
@@ -9,7 +10,7 @@ MainMenu::MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win
 
 void MainMenu::setUpScene()
 {
-	m_graphics->clearSpriteBatch();
+	Input::getInput().lockMouse(2);
 
 	auto resDev = m_graphics->getResourceDevice();
 	m_title = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/font.spritefont",
@@ -103,7 +104,11 @@ void MainMenu::setUpScene()
 
 void MainMenu::SwitchScene(Scenes scene)
 {
-	m_graphics->clearSpriteBatch();
+	m_background->setShow(false);
+	m_playText->setShow(false);
+	m_quitText->setShow(false);
+	for (auto& b : m_buttons)
+		b->setShow(false);
 	int idx = (int)scene;
 	m_sceneManager->changeScene(idx);
 }
