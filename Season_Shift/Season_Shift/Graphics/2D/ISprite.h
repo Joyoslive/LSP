@@ -19,7 +19,7 @@ public:
 	virtual void onRelease(std::function<void()> callback) {};
 	virtual void onGlobalRelease(std::function<void()> callback) {};
 
-	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) const {};
+	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
 	virtual void checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) {};
 	virtual void globalRelease() {};
 

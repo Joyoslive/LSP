@@ -46,7 +46,7 @@ void SpriteTexture::onGlobalRelease(std::function<void()> callback)
 	m_globReleaseCallback = callback;
 }
 
-void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked) const
+void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 {
 	if (isClicked && m_callback &&
 		mouseX > m_correctedPosition.x && mouseX < (m_correctedPosition.x + getWidth()) &&
