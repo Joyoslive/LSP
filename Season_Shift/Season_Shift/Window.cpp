@@ -105,6 +105,7 @@ bool Window::isClosed() const
 
 void Window::quit() const
 {
+    m_setFullScreen(false);
     PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 }
 
