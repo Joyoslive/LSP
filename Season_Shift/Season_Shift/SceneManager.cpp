@@ -7,6 +7,7 @@
 #include "Scenes/Scene5.h"
 #include "Scenes/MainMenu.h"
 #include "InGameMenu.h"
+#include "ResultMenu.h"
 
 #include <vector>
 #include <assert.h>
@@ -63,6 +64,11 @@ void SceneManager::createMenu(Graphics* graphics, const Window* const win)
 	text3->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
 	text3->setShow(false);
 
+	auto showTimeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 280);
+	graphics->addToSpriteBatch(showTimeSprite);
+	showTimeSprite->setScale(DirectX::SimpleMath::Vector2(0.7f, 0.7f));
+	showTimeSprite->setShow(false);
+
 	std::vector<std::shared_ptr<ISprite>> sprites;
 	sprites.push_back(clickableSprite);
 	sprites.push_back(clickableSprite2);
@@ -72,6 +78,11 @@ void SceneManager::createMenu(Graphics* graphics, const Window* const win)
 	sprites.push_back(text2);
 	sprites.push_back(text3);
 	m_menu = std::make_shared<InGameMenu>(sprites);
+
+	std::vector<std::shared_ptr<ISprite>> resultSprites;
+	resultSprites.push_back(showTimeSprite);
+
+	m_resultMenu = std::make_shared<ResultMenu>(resultSprites, showTimeSprite);
 }
 
 void SceneManager::createScenes(Graphics* graphics)
@@ -105,7 +116,7 @@ void SceneManager::setActiveScene(Ref<Scene> newActiveScene)
 
 void SceneManager::addScene(Ref<Scene> newScene)
 {
-	newScene->setMenu(m_menu);
+	newScene->setMenu(m_menu, m_resultMenu);
 	m_scenes.push_back(newScene);
 }
 

@@ -80,6 +80,7 @@
     <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
     <ClCompile Include="Scenes\MainMenu.cpp" />
     <ClCompile Include="InGameMenu.cpp" />
+    <ClCompile Include="ResultMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Graphics\2D\SpriteTexture.h" />
     <ClInclude Include="Scenes\MainMenu.h" />
     <ClInclude Include="InGameMenu.h" />
+    <ClInclude Include="ResultMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

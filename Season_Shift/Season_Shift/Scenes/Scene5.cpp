@@ -22,6 +22,8 @@
 #include "../Sound.h"
 #include "../Graphics/Model.h"
 #include "../ParticleSystemComponent.h"
+#include "../GoalLogic.h"
+#include "../TableOfTimes.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -56,6 +58,14 @@ void Scene5::setUpScene()
 			go->AddComponent(collider);
 		}
 	}
+
+	Ref<GameObject> go1 = createGameObject("goal", Vector3(0, 0.0f, 0.0f));
+	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
+	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Fantastic", 1.0f);
+	goalTableOfTimes->addGrade("Bad", 2.0f);
 
 	// Post setup, like cameras and logic
 	auto player = createGameObject("player", Vector3(0, 25, 0));

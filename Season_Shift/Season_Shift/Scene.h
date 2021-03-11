@@ -27,6 +27,7 @@ class Graphics;
 class Model;
 class SceneManager;
 class InGameMenu;
+class ResultMenu;
 
 class Scene : public std::enable_shared_from_this<Scene>
 {
@@ -39,6 +40,7 @@ private:
 	// Pause menu
 	bool m_isPaused;
 	std::shared_ptr<InGameMenu> m_menu;
+	std::shared_ptr<ResultMenu> m_resultMenu;
 
 protected:
 	Graphics* m_graphics;
@@ -55,7 +57,7 @@ public:
 	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
 	void setPauseState(bool isPaused);
-	void setMenu(std::shared_ptr<InGameMenu> menu);
+	void setMenu(std::shared_ptr<InGameMenu> menu, std::shared_ptr<ResultMenu> resultMenu);
 	virtual void setUpScene() = 0;
 	void resetScene();
 	void emptyScene();
@@ -67,6 +69,7 @@ public:
 	void destroyGameObject(Ref<GameObject> destroyGameObject);
 
 	bool isPaused() const;
+	const Ref<ResultMenu>& getResultMenu() const;
 
 	Ref<GameObject> getGameObject(const std::string& gameObjectName);
 	std::vector<Ref<Model>>& getSceneModels();

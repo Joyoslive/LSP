@@ -775,8 +775,9 @@ using namespace DirectX::SimpleMath;
  {
 	/* m_goalTimer.stop();
 	 m_goalTimer.start();*/
+	 long double tempTime = m_currentTime;
 	 m_currentTime = 0.f;		// Reset timer
-	 return m_currentTime;
+	 return tempTime;
  }
 
  void Player::wallRunning(const Vector3& velocity) 

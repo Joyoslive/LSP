@@ -3,6 +3,7 @@
 #include "SceneManagerObserver.h"
 
 class InGameMenu;
+class ResultMenu;
 class Window;
 
 class SceneManager
@@ -13,6 +14,7 @@ private:
 	std::vector<Ref<SceneManagerObserver>> m_observers;
 
 	std::shared_ptr<InGameMenu> m_menu;
+	std::shared_ptr<ResultMenu> m_resultMenu;
 
 private:
 	void createMenu(Graphics* graphics, const Window* const win);
