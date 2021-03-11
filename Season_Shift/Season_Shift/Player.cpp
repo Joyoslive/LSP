@@ -117,8 +117,9 @@ using namespace DirectX::SimpleMath;
 	 //	80 / 2 = 40
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
-		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 1.0f)));
+	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
+	 m_playerPartSys2->stopEmitter(0);
 
 
 	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
@@ -136,9 +137,11 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
+		 m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 100);
+
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
-
+		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_spriteGoalTimer);
 		 /*char msgbuf[1000];
 		 sprintf_s(msgbuf, "My variable is %f, %f\n", m_sprite->getPosition().x, m_sprite->getPosition().y);
 		 OutputDebugStringA(msgbuf);*/
@@ -328,6 +331,11 @@ using namespace DirectX::SimpleMath;
 	speedLines(velocitySkipY, velocity.y);
 	m_logicPlayerCamera->changeFOV(velocity, m_maxSpeed, m_maxYSpeed);
 
+	if (velocitySkipY.Length() > 70.0f)
+		m_playerPartSys2->reviveEmitter(0, 0.1f);
+	else
+		m_playerPartSys2->stopEmitter(0);
+
 	//char msgbuf[1000];
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
@@ -353,6 +361,8 @@ using namespace DirectX::SimpleMath;
 	m_collisionFrame = true;
 	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
 	m_velocitySprite->setText(text);
+	text = std::to_string(m_goalTimer.getTime(Timer::Duration::SECONDS));
+	m_spriteGoalTimer->setText(text);
  }
 
  void Player::onCollision(Ref<Collider> collider)
