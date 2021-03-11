@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Graphics/Graphics.h"
 #include "InGameMenu.h"
+#include "ResultMenu.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -18,6 +19,11 @@ Scene::Scene(Graphics* graphics, SceneManager* sm)
 Scene::~Scene()
 {
 
+}
+
+void Scene::setIsPaused(bool isPaused)
+{
+	m_isPaused = isPaused;
 }
 
 void Scene::setPauseState(bool isPaused)
@@ -39,9 +45,10 @@ void Scene::setPauseState(bool isPaused)
 	}
 }
 
-void Scene::setMenu(std::shared_ptr<InGameMenu> menu)
+void Scene::setMenu(std::shared_ptr<InGameMenu> menu, std::shared_ptr<ResultMenu> resultMenu)
 {
 	m_menu = menu;
+	m_resultMenu = resultMenu;
 }
 
 void Scene::resetScene()
@@ -214,4 +221,9 @@ Graphics* Scene::getGraphics() const
 Ref<Camera> Scene::getSceneMainCamera() const
 {
 	return m_mainCamera;
+}
+
+const Ref<ResultMenu>& Scene::getResultMenu() const
+{
+	return m_resultMenu;
 }

@@ -7,6 +7,7 @@
 #include "Scenes/Scene5.h"
 #include "Scenes/MainMenu.h"
 #include "InGameMenu.h"
+#include "ResultMenu.h"
 
 #include <vector>
 #include <assert.h>
@@ -45,7 +46,12 @@ void SceneManager::createMenu(Graphics* graphics)
 	text1->setShow(false);
 
 	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
-		[this]() { changeScene(0); });
+		[this]() { 
+		m_activeScene->setIsPaused(false);
+		m_menu->shouldDraw(false);
+		changeScene(0); 
+	
+	});
 	graphics->addToSpriteBatch(clickableSprite2);
 	clickableSprite2->setShow(false);
 	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);
@@ -63,6 +69,11 @@ void SceneManager::createMenu(Graphics* graphics)
 	text3->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
 	text3->setShow(false);
 
+	auto showTimeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 280);
+	graphics->addToSpriteBatch(showTimeSprite);
+	showTimeSprite->setScale(DirectX::SimpleMath::Vector2(0.7f, 0.7f));
+	showTimeSprite->setShow(false);
+
 	std::vector<std::shared_ptr<ISprite>> sprites;
 	sprites.push_back(clickableSprite);
 	sprites.push_back(clickableSprite2);
@@ -72,6 +83,11 @@ void SceneManager::createMenu(Graphics* graphics)
 	sprites.push_back(text2);
 	sprites.push_back(text3);
 	m_menu = std::make_shared<InGameMenu>(sprites);
+
+	std::vector<std::shared_ptr<ISprite>> resultSprites;
+	resultSprites.push_back(showTimeSprite);
+
+	m_resultMenu = std::make_shared<ResultMenu>(resultSprites, showTimeSprite);
 }
 
 void SceneManager::createScenes(Graphics* graphics)
@@ -105,7 +121,7 @@ void SceneManager::setActiveScene(Ref<Scene> newActiveScene)
 
 void SceneManager::addScene(Ref<Scene> newScene)
 {
-	newScene->setMenu(m_menu);
+	newScene->setMenu(m_menu, m_resultMenu);
 	m_scenes.push_back(newScene);
 }
 
