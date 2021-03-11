@@ -18,7 +18,7 @@ private:
 	std::shared_ptr<ISprite> m_title;
 	std::shared_ptr<ISprite> m_playText;
 	std::shared_ptr<ISprite> m_quitText;
-	std::vector< std::shared_ptr<ISprite>> m_buttons;
+	std::vector<std::shared_ptr<ISprite>> m_buttons;
 	std::shared_ptr<ISprite> m_background;
 
 private:

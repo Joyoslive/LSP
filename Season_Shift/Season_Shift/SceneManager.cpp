@@ -36,9 +36,9 @@ void SceneManager::createScenes(Graphics* graphics)
 	addScene(scene4);
 	Ref<Scene> scene5 = std::make_shared<Scene5>(graphics);
 	addScene(scene5);
-	Ref<Scene> mainMenu = std::make_shared<MainMenu>(graphics, this);
-	addScene(mainMenu);
-	setActiveScene(scene);
+	//Ref<Scene> mainMenu = std::make_shared<MainMenu>(graphics, this);
+	//addScene(mainMenu);
+	setActiveScene(scene5);
 	//setActiveScene(scene2);
 }
 

@@ -9,6 +9,7 @@ SpriteTexture::SpriteTexture(std::shared_ptr<DXTexture> texture, float rotation,
 	m_rect = { 0 };
 	m_rotation = rotation;
 	m_depth = depth;
+	m_clicked = false;
 }
 
 void SpriteTexture::draw(const std::shared_ptr<DirectX::SpriteBatch>& spriteBatch)

@@ -18,17 +18,20 @@ void MainMenu::setUpScene()
 	//Buttons
 	m_playText = resDev->createSprite("Play", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
 	auto pos = m_playText->getPosition();
-	pos.y += 60;
+	pos.y += 65;
 	m_playText->setPosition(pos);
 	std::shared_ptr<ISprite> pressedPlayButton = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", pos.x - 90, pos.y - 14);
 	pressedPlayButton->setShow(false);
 	std::shared_ptr<ISprite> playButton = resDev->createSpriteTexture("Textures/MainMenu/Button.png", pos.x - 90, pos.y - 20);
 	playButton->onClick([this]()
 		{
-			m_buttons[0]->setShow(false);
-			m_buttons[1]->setShow(true);
-			m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y + 6});
-			m_buttons[1]->setClicked(true);
+			if (!m_buttons[0]->getClicked())
+			{
+				m_buttons[0]->setShow(false);
+				m_buttons[1]->setShow(true);
+				m_playText->setPosition({m_playText->getPosition().x, m_playText->getPosition().y + 6});
+				m_buttons[1]->setClicked(true);
+			}
 		});
 	pressedPlayButton->onRelease([this]()
 		{
@@ -42,7 +45,7 @@ void MainMenu::setUpScene()
 
 	m_quitText = resDev->createSprite("Quit", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
 	pos = m_quitText->getPosition();
-	pos.y += 120;
+	pos.y += 125;
 	m_quitText->setPosition(pos);
 	std::shared_ptr<ISprite> pressedExitButton = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", pos.x - 90, pos.y - 14);
 	pressedExitButton->setShow(false);
@@ -57,9 +60,7 @@ void MainMenu::setUpScene()
 		{
 			if (m_buttons[2]->getClicked())
 			{
-				m_buttons[2]->setShow(true);
-				m_buttons[3]->setShow(false);
-				SwitchScene(Scenes::STAGE_1);
+				exit(0); // Change this to pretty exit
 			}
 		});
 	
@@ -84,6 +85,7 @@ void MainMenu::setUpScene()
 
 void MainMenu::SwitchScene(Scenes scene)
 {
+	m_graphics->clearSpriteBatch();
 	int idx = (int)scene;
 	m_sceneManager->changeScene(idx);
 }
