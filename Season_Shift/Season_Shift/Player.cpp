@@ -34,7 +34,7 @@ using namespace DirectX::SimpleMath;
 	 m_minSpeed = 0.1f;
 	 m_groundSpeed = 0;
 	 m_flySpeed = 100.0f;
-	 m_dashSpeed = 225.0f;//150.0f;
+	 m_dashSpeed = 197.5f;//225.0f;//150.0f;
 	 m_ground = false;
 	 m_doubleJump = true;
 	 m_jetPackFuelMax = 10.0f;
@@ -80,6 +80,7 @@ using namespace DirectX::SimpleMath;
 	 m_maxYSpeed = 100.0f;
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
+	 m_hookEmittId = -1;
 
  }
 
@@ -100,6 +101,9 @@ using namespace DirectX::SimpleMath;
  {
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
+	 std::vector<std::string> v;
+	 v.push_back("Sounds/heartbeat.wav");
+	 m_sound2.start(v);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -115,6 +119,12 @@ using namespace DirectX::SimpleMath;
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 5.0f)));
 	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70));
+
+
+	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
+	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(
+		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
+	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
 	 m_rb->setGravity(55.0);
  }	
@@ -232,9 +242,10 @@ using namespace DirectX::SimpleMath;
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-	
+	m_sound->setVolume(0.4);
 	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
 	{
+		
 		m_soundLoop = false;
 		m_sound->stopLoop();
 	}
@@ -247,13 +258,15 @@ using namespace DirectX::SimpleMath;
 		m_soundLoop = true;
 		m_sound->playLoop("Sounds/wallrunBongo.wav");
 	}
-	else if (velocity.Length() != 0 && m_hooked == true && m_soundLoop == false)
+	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
 	{
+		m_sound->setVolume(0.02);
 		m_soundLoop = true;
-		//m_sound->playLoop("Sounds/hookDrumv2.wav");
-	}
-	m_sound->setVolume(0.4);
+		//m_sound->playLoop("Sounds/swing3.wav");
+		
 
+	}
+	
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -322,6 +335,7 @@ using namespace DirectX::SimpleMath;
 	ImGui::Begin("Player Info");
 	{
 		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
+		ImGui::Text("Camera: %f, %f, %f", cameraForward.x, cameraForward.y, cameraForward.z);
 		ImGui::Text("Speed: %f", velocity.Length());
 		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
 		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
@@ -585,7 +599,7 @@ using namespace DirectX::SimpleMath;
 	 constexpr float changeGVelocity = 25.9f;
 	 constexpr float bigG = 95.0f;
 	 constexpr float smallG = 55.0f;
-	 constexpr float wallJumpG = 60.0f;
+	 constexpr float wallJumpG = 60.0f / 2.5f;
 
 	 if (m_walljump == true)
 		 m_rb->setGravity(wallJumpG);
@@ -939,6 +953,8 @@ using namespace DirectX::SimpleMath;
 			 m_hooked = true;
 			 m_ground = false;
 			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
+			 m_hookObject->getTransform()->setPosition(m_hookPoint);
+			 m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 		 }
 		 else
 		 {
@@ -996,7 +1012,9 @@ using namespace DirectX::SimpleMath;
 	 settings.thickness = Vector2(0.11, 0.07);
 	 if (m_hooked)
 	 {
-		 settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 //settings.color = Vector3(53, 40, 30) / (255.0f * 1.1f);
+		 settings.color = Vector3(255, 178, 102) / (255.0f * 1.1f);
+
 		 settings.color.x = powf(settings.color.x, 2.2f);
 		 settings.color.y = powf(settings.color.y, 2.2f);
 		 settings.color.z = powf(settings.color.z, 2.2f);

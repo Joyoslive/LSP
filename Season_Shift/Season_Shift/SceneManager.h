@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "SceneManagerObserver.h"
 
+class InGameMenu;
+
 class SceneManager
 {
 private:
@@ -9,7 +11,10 @@ private:
 	Ref<Scene> m_activeScene;
 	std::vector<Ref<SceneManagerObserver>> m_observers;
 
+	std::shared_ptr<InGameMenu> m_menu;
+
 private:
+	void createMenu(Graphics* graphics);
 	void createScenes(Graphics *graphics);
 	void addScene(Ref<Scene> newScene);
 	void setActiveScene(Ref<Scene> newActiveScene);
@@ -24,5 +29,6 @@ public:
 	void updateActiveScene() const;
 	void addObserver(Ref<SceneManagerObserver> observer);
 	void removeObserver(Ref<SceneManagerObserver> observer);
+	bool currentScenePaused() const;
 };
 

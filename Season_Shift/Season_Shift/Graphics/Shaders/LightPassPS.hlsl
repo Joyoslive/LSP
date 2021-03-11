@@ -78,7 +78,9 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 	float2 smUv = float2(0., 0.);
 	float depth = 1.;
 
-
+	float2 texelSize = float2(0., 0.);
+	float width;
+	float height;
 
 	float cascadeEnds[3] = { g_nearCascadeEnd, g_midCascadeEnd, g_farCascadeEnd };
 
@@ -86,6 +88,9 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 	float shadowMapDepth = 0.f;
 	float bias = 0.f;
 	float4 tmpCol = float4(0., 0., 0., 0.);
+
+	float shadowFac = 0.07f;
+	float shadow = 0.f;
 	for (int i = 0; i < 3; i++)
 	{
 		if (camVS.z <= cascadeEnds[i])
@@ -99,6 +104,19 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 				bias = 0.0005f;
 				shadowMapDepth = g_smNear.Sample(g_smBorderSampler, smUv).r;
 				tmpCol = float4(1.f, 0.f, 0.f, 1.f);
+
+				//Get dimension of the texture
+				g_smNear.GetDimensions(width, height);
+				texelSize = float2(1.f, 1.f) / float2(width, height);
+				//Loop through the 9 neighbours and check the depth and if the depth is bigger than we add shadowFac
+				for (int x = -1; x <= 1; ++x)
+				{
+					for (int y = -1; y <= 1; ++y)
+					{
+						float pcfDepth = g_smNear.Sample(g_smBorderSampler, smUv + float2(x, y) * texelSize).r;
+						shadow += depth - bias > pcfDepth ? shadowFac : 0.0f;
+					}
+				}
 				break;
 			}
 			else if (i == 1)
@@ -109,9 +127,22 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					smUv = float2(0.5f * lcs.x + 0.5f, -0.5f * lcs.y + 0.5f);
 					depth = lcs.z;
 
-					bias = 0.0005f;
+					bias = 0.001f;//0.0005f;
 					shadowMapDepth = g_smMid.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 1.f, 0.f, 1.f);
+
+					//Get dimension of the texture
+					g_smMid.GetDimensions(width, height);
+					texelSize = float2(1.f, 1.f) / float2(width, height);
+					//Loop through the 9 neighbours and check the depth and if the depth is bigger than we add shadowFac
+					for (int x = -1; x <= 1; ++x)
+					{
+						for (int y = -1; y <= 1; ++y)
+						{
+							float pcfDepth = g_smMid.Sample(g_smBorderSampler, smUv + float2(x, y) * texelSize).r;
+							shadow += depth - bias > pcfDepth ? shadowFac : 0.0f;
+						}
+					}
 					break;
 				}
 			}
@@ -123,24 +154,44 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 					smUv = float2(0.5f * lcs.x + 0.5f, -0.5f * lcs.y + 0.5f);
 					depth = lcs.z;
 
-					bias = 0.001f;
+					bias = 0.01f;//0.001f;
 					shadowMapDepth = g_smFar.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 0.f, 1.f, 1.f);
+
+					//Get dimension of the texture
+					g_smFar.GetDimensions(width, height);
+					texelSize = float2(1.f, 1.f) / float2(width, height);
+					//Loop through the 9 neighbours and check the depth and if the depth is bigger than we add shadowFac
+					for (int x = -1; x <= 1; ++x)
+					{
+						for (int y = -1; y <= 1; ++y)
+						{
+							float pcfDepth = g_smFar.Sample(g_smBorderSampler, smUv + float2(x, y) * texelSize).r;
+							shadow += depth - bias > pcfDepth ? shadowFac : 0.0f;
+						}
+					}
 					break;
 				}
 			}
 		}
 	}
 
+	shadow /= 9.0f;
+	shadow = shadowFac*2.0f - shadow;
 
 	// check edge of platform (artifact or bias?)
-	float shadowFac = 0.07;
 	float4 col = inputColor;
 
-	if (depth > shadowMapDepth + bias)	// shadowed
-		col = g_difTex.Sample(g_sampler, uv) * shadowFac;
+	if (shadow != shadowFac * 2.0f)
+		col = g_difTex.Sample(g_sampler, uv) * shadow;
 	else
 		col = inputColor;
+
+	//Old depthCheck
+	/*if (depth > shadowMapDepth + bias)	// shadowed
+		col = g_difTex.Sample(g_sampler, uv) * shadowFac;
+	else
+		col = inputColor;*/
 		
 	//col = inputColor * shadowed;
 	//col += tmpCol * 0.08;

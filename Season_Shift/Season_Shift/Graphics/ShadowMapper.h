@@ -5,6 +5,7 @@
 
 class Camera;
 class Model;
+class LineDrawer;
 
 class ShadowMapper
 {
@@ -53,7 +54,7 @@ public:
 	void setCascadeSettings(const std::vector<std::pair<float, unsigned int>>& cascadeEndDistancesAndResolution);
 
 	const std::vector<Cascade>& generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const std::shared_ptr<Camera>& playerCamera, 
-		const DirectX::SimpleMath::Matrix& lightViewMatrix);
+		const DirectX::SimpleMath::Matrix& lightViewMatrix, const std::shared_ptr<LineDrawer>& line = nullptr);
 
 
 };

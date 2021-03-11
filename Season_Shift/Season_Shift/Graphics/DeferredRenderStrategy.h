@@ -110,6 +110,8 @@ public:
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite) override;
 
 	void clearSpriteBatch() override;
+	
+	void updateWindowSizeForSpriteBatch(DirectX::SimpleMath::Vector2 windowSize) override;
 
 	void setUp() override;
 

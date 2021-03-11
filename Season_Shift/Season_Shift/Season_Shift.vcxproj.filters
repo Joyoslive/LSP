@@ -79,6 +79,7 @@
     <ClCompile Include="Bounce.cpp" />
     <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
     <ClCompile Include="Scenes\MainMenu.cpp" />
+    <ClCompile Include="InGameMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Bounce.h" />
     <ClInclude Include="Graphics\2D\SpriteTexture.h" />
     <ClInclude Include="Scenes\MainMenu.h" />
+    <ClInclude Include="InGameMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
@@ -177,6 +179,8 @@
     <FxCompile Include="Graphics\Shaders\NullPS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleEmitt1CS.hlsl" />
     <FxCompile Include="Graphics\Shaders\ParticleSim1CS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleHookEmittCS.hlsl" />
+    <FxCompile Include="Graphics\Shaders\ParticleHookSimCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

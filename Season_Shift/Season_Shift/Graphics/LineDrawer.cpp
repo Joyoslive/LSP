@@ -35,7 +35,7 @@ LineDrawer::~LineDrawer()
 static float startPos[3] = { 3., 1., 10. };
 static float endPos[3] = { -3., -1., 18. };
 
-void LineDrawer::draw(const std::shared_ptr<Camera>& cam)
+void LineDrawer::draw(const std::shared_ptr<Camera>& cam, bool isShadowPass)
 {
 	auto dev = m_renderer->getDXDevice();
 	/*
@@ -58,6 +58,7 @@ void LineDrawer::draw(const std::shared_ptr<Camera>& cam)
 	{
 		m_lineDrawData.viewMat = cam->getViewMatrix();
 		m_lineDrawData.projMat = cam->getProjectionMatrix();
+		m_lineDrawData.viewMatToRenderWith = cam->getViewMatrix();
 
 		m_lineDrawCB->updateMapUnmap(&m_lineDrawData, sizeof(m_lineDrawData));
 		m_pointsVB->updateMapUnmap(&m_linePoints, sizeof(m_linePoints));
@@ -67,12 +68,45 @@ void LineDrawer::draw(const std::shared_ptr<Camera>& cam)
 		dev->bindShader(m_vs, DXShader::Type::VS);
 		dev->bindInputLayout(m_il);
 		dev->bindShader(m_gs, DXShader::Type::GS);
-		dev->bindShader(m_ps, DXShader::Type::PS);
+		
+		if (!isShadowPass)
+			dev->bindShader(m_ps, DXShader::Type::PS);
 
 		dev->bindInputTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
 		dev->draw(2, 0);
-		m_shouldRender = false;		// m_shouldRender should be continually set to true every frame!
+		if (!isShadowPass)
+			m_shouldRender = false;		// m_shouldRender should be continually set to true every frame!
+	}
+}
+
+void LineDrawer::draw(const DirectX::SimpleMath::Matrix& genViewMat, const DirectX::SimpleMath::Matrix& renderViewMat,
+	const DirectX::SimpleMath::Matrix& projMat, bool isShadowPass)
+{
+	auto dev = m_renderer->getDXDevice();
+	if (m_shouldRender)
+	{
+		m_lineDrawData.viewMat = genViewMat;
+		m_lineDrawData.projMat = projMat;
+		m_lineDrawData.viewMatToRenderWith = renderViewMat;
+
+		m_lineDrawCB->updateMapUnmap(&m_lineDrawData, sizeof(m_lineDrawData));
+		m_pointsVB->updateMapUnmap(&m_linePoints, sizeof(m_linePoints));
+
+		dev->bindShaderConstantBuffer(DXShader::Type::GS, 0, m_lineDrawCB);
+		dev->bindDrawBuffer(m_pointsVB);
+		dev->bindShader(m_vs, DXShader::Type::VS);
+		dev->bindInputLayout(m_il);
+		dev->bindShader(m_gs, DXShader::Type::GS);
+
+		if (!isShadowPass)
+			dev->bindShader(m_ps, DXShader::Type::PS);
+
+		dev->bindInputTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+
+		dev->draw(2, 0);
+		if (!isShadowPass)
+			m_shouldRender = false;		// m_shouldRender should be continually set to true every frame!
 	}
 }
 

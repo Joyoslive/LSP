@@ -169,6 +169,7 @@ void Input::lockMouse(int code)
 {
 	if (code == 0)
 	{
+		m_latestCode = code;
 		if (mouse.positionMode == DirectX::Mouse::MODE_ABSOLUTE)
 		{
 			m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
@@ -182,11 +183,15 @@ void Input::lockMouse(int code)
 	}
 	else if (code == 1)
 	{
+		m_latestCode = code;
+
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
  		while(ShowCursor(0) > 0);
 	}
 	else if (code == 2)
 	{
+		m_latestCode = code;
+
 		m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 		ShowCursor(1);
 	}
@@ -212,6 +217,17 @@ void Input::update(long double dt)
 	m_mouseButtons.Update(mouse);
 }
 
+int Input::getLatestCode()
+{
+	return m_latestCode;
+}
+
 long double Input::getTime() {
 	return m_frameTime;
+}
+
+void Input::setModeAbsolute()
+{
+	ShowCursor(1);
+	m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 }

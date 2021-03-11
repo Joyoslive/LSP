@@ -48,7 +48,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	// Generate shadow map
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
-	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView);
+	auto cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView, m_lineDrawer);
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
@@ -145,7 +145,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	if (m_viewUI)
 	{
-		for (auto& s : m_sprites) 
+		for (const auto& s : m_sprites) 
 		{
 			if (s->getShow())
 			{
@@ -227,6 +227,14 @@ void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 void DeferredRenderStrategy::clearSpriteBatch()
 {
 	m_sprites.clear();
+}
+
+void DeferredRenderStrategy::updateWindowSizeForSpriteBatch(Vector2 windowSize)
+{
+	for (int i = 0; i < m_sprites.size(); ++i)
+	{
+		m_sprites[i]->setWindowSize(windowSize);
+	}
 }
 
 void DeferredRenderStrategy::setUp()

@@ -85,6 +85,10 @@ void Scene5::setUpScene()
 	v1.push_back("Sounds/hookDrum.wav");
 	v1.push_back("Sounds/hookDrumv2.wav");
 	v1.push_back("Sounds/run2.wav");
+	v1.push_back("Sounds/swing2.wav");
+	v1.push_back("Sounds/swingUp.wav");
+	v1.push_back("Sounds/swingDown.wav");
+	v1.push_back("Sounds/swingFull.wav");
 	player->AddComponent(std::make_shared<Sound>(v1));
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -114,12 +118,15 @@ void Scene5::setUpScene()
 	v.push_back("Sounds/Explo1.wav");
 	v.push_back("Sounds/NightAmbienceSimple_02.wav");
 	v.push_back("Sounds/WaywardWoods.wav");
+	v.push_back("Sounds/music2.wav");
+	v.push_back("Sounds/music3.wav");
+	v.push_back("Sounds/Spring.wav");
 	Ref<Sound> sound = std::dynamic_pointer_cast<Sound>(
 		audioObject->AddComponent(std::make_shared<Sound>(v))
 		);
 	//sound->play("Sounds/Explo4.wav"); //sorry
-	sound->setVolume(0.1);
-	sound->playLoop("Sounds/WaywardWoods.wav");
+	sound->setVolume(0.2);
+	sound->playLoop("Sounds/Spring.wav");
 	m_graphics->setLightDirection({1.8, -1, -1});
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 

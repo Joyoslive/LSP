@@ -19,6 +19,7 @@ private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
 	Ref<Sound> m_sound;
+	Sound m_sound2;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;
@@ -81,6 +82,10 @@ private:
 	Ref<ParticleSystemComponent> m_playerPartSys;
 	int m_landingPartEmittId;
 	Ref<ParticleSystemComponent> m_playerPartSys2;
+
+	Ref<GameObject> m_hookObject;
+	Ref<ParticleSystemComponent> m_hookPartSys;
+	int m_hookEmittId;
 
 private:
 	void detectDeath(float death);

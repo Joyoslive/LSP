@@ -153,4 +153,5 @@ void Graphics::onResize(UINT width, UINT height)
 {
 	m_dxDev->onResize(width, height);
 	m_currRenderStrat->setUp();
+	m_currRenderStrat->updateWindowSizeForSpriteBatch({ (float)width, (float)height });
 }

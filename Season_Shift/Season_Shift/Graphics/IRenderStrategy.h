@@ -58,6 +58,7 @@ public:
 	virtual void setLineRenderSetttings(const LineVariables& settings) {};
 	virtual void addToSpriteBatch(std::shared_ptr<ISprite> sprite) {};
 	virtual void clearSpriteBatch() {};
+	virtual void updateWindowSizeForSpriteBatch(DirectX::SimpleMath::Vector2 windowSize) {};
 	virtual void setUp() = 0;
 };
 
