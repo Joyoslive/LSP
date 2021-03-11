@@ -83,9 +83,9 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 	else if (85 > velocity.Length())
 	{
 		if(m_volume > 0.1)
-			m_volume -= 0.4*delta;
+			m_volume -= 0.2*delta;
 		if(m_pitch >= -0.7)
-			m_pitch -= 0.4*delta;
+			m_pitch -= 0.2*delta;
 	}
 	//HerthBeat
 	if (velocity.Length() < 10)
