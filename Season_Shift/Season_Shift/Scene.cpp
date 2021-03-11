@@ -25,6 +25,7 @@ void Scene::resetScene()
 //Removes all GameObjects from the Scene
 void Scene::emptyScene()
 {
+	m_mainCamera.reset();
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
 	{
 		destroyGameObject(m_sceneGameObjects[i]);
