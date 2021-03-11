@@ -38,9 +38,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//_CrtDumpMemoryLeaks(); //memory leak detection
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
-	//_CrtSetBreakAlloc(811);
-	//_CrtSetBreakAlloc(810);
-	//_CrtSetBreakAlloc(809);
+	//_CrtSetBreakAlloc(805);
+	//_CrtSetBreakAlloc(1581);
+	//_CrtSetBreakAlloc(1582);
 
 
 	Window win(inst, L"Season Shift", resWidth, resHeight);	
@@ -50,55 +50,21 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	win.setOnResizeCallback([&gph](UINT width, UINT height) { gph.onResize(width, height); }); //onResize is not static, lamda solves this
 	win.setFullScreenCallback([&gph](bool fullScreen) { gph.setFullScreen(fullScreen); }, [&gph]() -> bool { return gph.getFullScreenState(); } ); //not static, lamda solves this
 
-	//Input input = Input(win.getHWND());
-	//Ref<Input> input = std::make_shared<Input>(win.getHWND());
-	//Init singleton with window handler
+	//Init singleton input with window handle
 	Input::initInput(win.getHWND(), resWidth, resHeight);
 
-	// Material
-
+	// Init the scene manager object
 	SceneManager sceneManager = SceneManager(&gph);
 
-	sceneManager.changeScene(4);
-	Ref<Scene> scene = sceneManager.getActiveScene();
+	// Change active scene to Main Menu
+	sceneManager.changeScene(5); // Main Menu
+	//Ref<Scene> scene = sceneManager.getActiveScene();
 
-	Ref<GameObject> player = scene->getGameObject("player");
+	//Ref<GameObject> player = scene->getGameObject("player");
 	
-	//sceneManager.getActiveScene()->start();
 
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/300.0);
 	sceneManager.addObserver(physicsEng);
-
-	//// Material
-
-	//// Geometry
-	//std::vector<Vertex> verts;
-	//verts.push_back({ Vector3(-0.75, 0.75, 0.0), Vector2(0.0, 0.0), Vector3(0.0, 0.0, -1.0) });
-	//verts.push_back({ Vector3(0.75, 0.75, 0.0), Vector2(1.0, 0.0), Vector3(0.0, 0.0, -1.0) });
-	//verts.push_back({ Vector3(0.75, -0.75, 0.0), Vector2(1.0, 1.0), Vector3(0.0, 0.0, -1.0) });
-	//verts.push_back({ Vector3(-0.75, -0.75, 0.0), Vector2(0.0, 1.0), Vector3(0.0, 0.0, -1.0) });
-
-	//std::vector<uint32_t> indices = {
-	//	0, 1, 2,
-	//	0, 2, 3
-	//};
-
-	//// Create mesh with id!
-	//auto mesh = gph.getResourceDevice()->createMesh("quad", verts, indices);
-
-	//// Assemble to model!
-	////auto quadMod1 = gph.getResourceDevice()->assembleModel("quad", mat1);
-	////auto quadMod2 = gph.getResourceDevice()->assembleModel("quad", mat1);
-
-	//std::vector<std::shared_ptr<Model>> models;
-	////models.push_back(quadMod2);
-
-
-	//auto nanosuitMod = gph.getResourceDevice()->createModel("Models/nanosuit/" , "nanosuit.obj", GfxShader::DEFAULT);
-	//models.push_back(nanosuitMod);
-
-	//auto nanosuitMod2 = gph.getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT);
-	//models.push_back(nanosuitMod2);
 
 	FrameTimer timer = FrameTimer();
 
@@ -107,7 +73,6 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	DebugCamera debugCamera(cam);
 
 	CameraSwitch camSwitch;
-	camSwitch.Init(&debugCamera, player, cam);
 
 
 	// ImGUI
@@ -152,12 +117,17 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		
 		// Do stuff
 		//input->update();
-		camSwitch.update(timer.dt());
-		player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(timer.dt());
+		//camSwitch.update(timer.dt());
+		auto player = sceneManager.getActiveScene()->getGameObject("player");
+		if (player)
+		{
+			player->getComponentType<Player>(Component::ComponentEnum::LOGIC)->setFrametime(timer.dt());
+		}
 		
-		gph.render(sceneManager.getActiveScene()->getSceneModels(), camSwitch.getCamera(), timer.dt());
+		auto scene = sceneManager.getActiveScene();
+		gph.render(scene->getSceneModels(), scene->getSceneMainCamera(), timer.dt());
+		//gph.render(scene->getSceneModels(), cam, timer.dt());
 		timer.frameStop();
-
 	}
 
 	ImGui_ImplDX11_Shutdown();

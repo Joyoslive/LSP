@@ -110,6 +110,7 @@ public:
 	void removeParticleSystem(const std::shared_ptr<ParticleSystem>& particleSystem);
 	
 	void addToSpriteBatch(std::shared_ptr<ISprite> sprite);
+	void clearSpriteBatch();
 
 
 
