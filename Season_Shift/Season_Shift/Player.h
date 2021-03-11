@@ -5,7 +5,6 @@
 //#include "CameraComponent.h"
 #include "Timer.h"
 #include "PlayerCameraMovement.h"
-#include "Audio.h"
 
 class CameraComponent;
 class Collider;
@@ -19,6 +18,8 @@ class Player : public Logic
 private:
 	Ref<CameraComponent> m_playerCamera;
 	Ref<RigidBody> m_rb;
+	Ref<Sound> m_sound;
+	Sound m_sound2;
 	Ref<CapsuleCollider> m_capsuleCollider;
 	Ref<Collider> m_oldCollider;
 	Ref<Collider> m_oldTrampolineCollider;
@@ -26,7 +27,6 @@ private:
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
 	Timer m_goalTimer;
-	Audio m_audio;
 	Timer m_copyGoalTimer;
 	float m_currentTime;
 

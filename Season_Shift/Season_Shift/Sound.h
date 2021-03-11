@@ -33,6 +33,5 @@ public:
 	void stopLoop();
 
 	void setVolume(float volume);
-	void setPitch(float pitch);
 };
 

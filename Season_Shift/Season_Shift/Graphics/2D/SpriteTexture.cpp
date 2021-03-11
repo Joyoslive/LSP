@@ -60,8 +60,8 @@ void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 void SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
 {
 	if (mouseReleased && m_releaseCallback &&
-		mouseX > m_correctedPosition.x && mouseX < (m_correctedPosition.x + getWidth()) &&
-		mouseY > m_correctedPosition.y && mouseY < (m_correctedPosition.y + getHeight()))
+		mouseX > m_position.x && mouseX < (m_position.x + getWidth()) &&
+		mouseY > m_position.y && mouseY < (m_position.y + getHeight()))
 	{
 		m_releaseCallback();
 		m_clicked = false;
