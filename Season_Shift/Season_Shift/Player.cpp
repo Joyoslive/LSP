@@ -137,7 +137,7 @@ using namespace DirectX::SimpleMath;
 	 {
 		 m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
 		 m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
-		 m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 100);
+		 m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
 
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_velocitySprite);
 		 m_gameObject->getScene()->getGraphics()->addToSpriteBatch(m_sprite);
@@ -357,12 +357,9 @@ using namespace DirectX::SimpleMath;
 	}
 	ImGui::End();
 
-	long absVelocity = labs(velocity.Length() * 10.0f);
 	m_collisionFrame = true;
-	std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
-	m_velocitySprite->setText(text);
-	text = std::to_string(m_goalTimer.getTime(Timer::Duration::SECONDS));
-	m_spriteGoalTimer->setText(text);
+
+	updateSprites(velocity);
  }
 
  void Player::onCollision(Ref<Collider> collider)
@@ -964,7 +961,6 @@ using namespace DirectX::SimpleMath;
 			 m_ground = false;
 			 m_rb->startPendelMotion(m_hookPoint, m_hookDist);
 			 m_hookObject->getTransform()->setPosition(m_hookPoint);
-			 m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 		 }
 		 else
 		 {
@@ -1028,8 +1024,12 @@ using namespace DirectX::SimpleMath;
 		 settings.color.x = powf(settings.color.x, 2.2f);
 		 settings.color.y = powf(settings.color.y, 2.2f);
 		 settings.color.z = powf(settings.color.z, 2.2f);
-		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
+		 settings.endPos = m_hookEndPos = Vector3::SmoothStep(m_hookEndPos, m_hookPoint, m_frameTime * 40.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
+
+		 //Compare distance from endpos and player position to activate particles
+		 if ((m_hookPoint - m_hookEndPos).Length() < (m_hookPoint-m_transform->getPosition()).Length() / 15.0f)
+			m_hookPartSys->reviveEmitter(m_hookEmittId, 0.1f);
 	 }
 	 else
 	 {
@@ -1040,4 +1040,29 @@ using namespace DirectX::SimpleMath;
 		 Matrix matrix(right, up, cameraForward);
 		 m_hookEndPos = m_transform->getPosition() - (Vector3)DirectX::XMVector3Transform(settings.offset, matrix);
 	 }
+ }
+
+ void Player::updateSprites(const Vector3& velocity)
+ {
+	 long absVelocity = labs(velocity.Length() * 10.0f);
+	 std::string text = "Velocity: " + std::to_string(absVelocity / 10) + "." + std::to_string(absVelocity % 10) + " m/s\n";
+	 m_velocitySprite->setText(text);
+
+	 m_copyGoalTimer = m_goalTimer;
+	 m_copyGoalTimer.stop();
+	 int minutes = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) / 60;
+	 int seconds = (int)fabs(m_copyGoalTimer.getTime(Timer::Duration::SECONDS)) % 60;
+
+	 std::string minutesText = "";
+	 if (minutes < 10)
+		 minutesText += "0";
+	 minutesText += std::to_string(minutes);
+
+	 std::string secondsText = "";
+	 if (seconds < 10)
+		 secondsText += "0";
+	 secondsText += std::to_string(seconds);
+
+	 text = minutesText + ":" + secondsText;
+	 m_spriteGoalTimer->setText(text);
  }

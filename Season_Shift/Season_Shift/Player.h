@@ -27,6 +27,8 @@ private:
 	Ref<PlayerCameraMovement> m_logicPlayerCamera;
 	Timer m_timer;
 	Timer m_goalTimer;
+	Timer m_copyGoalTimer;
+
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -108,6 +110,7 @@ private:
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
 	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 	void drawLine();
+	void updateSprites(const DirectX::SimpleMath::Vector3& velocity);
 public:
 	Player();
 	~Player();

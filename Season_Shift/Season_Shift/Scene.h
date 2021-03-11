@@ -42,6 +42,7 @@ private:
 
 protected:
 	Graphics* m_graphics;
+
 	SceneManager* m_sceneManager;
 	Ref<Camera> m_mainCamera;
 private:
@@ -53,6 +54,7 @@ private:
 public:
 	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
+	void setPauseState(bool isPaused);
 	void setMenu(std::shared_ptr<InGameMenu> menu);
 	virtual void setUpScene() = 0;
 	void resetScene();

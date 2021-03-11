@@ -3,8 +3,10 @@
 #include "../SceneManager.h"
 #include "../Input.h"
 
-MainMenu::MainMenu(Graphics* graphics, SceneManager* sm) : Scene(graphics, sm)
-{}
+MainMenu::MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win) : Scene(graphics, sm)
+{
+	m_win = win;
+}
 
 void MainMenu::setUpScene()
 {
@@ -69,7 +71,8 @@ void MainMenu::setUpScene()
 		{
 			if (m_buttons[2]->getClicked())
 			{
-				exit(0); // Change this to pretty exit
+
+				m_win->quit();
 			}
 		});
 	pressedExitButton->onGlobalRelease([this]()

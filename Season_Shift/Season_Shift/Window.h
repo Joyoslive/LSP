@@ -37,7 +37,7 @@ public:
 	
 	bool isClosed() const;
 
-	void Quit();
+	void quit() const;
 
 	void setOnResizeCallback(std::function<void(UINT width, UINT height)> func);
 	void setFullScreenCallback(std::function<void(bool fullScreen)> set, std::function<bool()> get);
