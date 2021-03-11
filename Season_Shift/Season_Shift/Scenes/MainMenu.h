@@ -3,6 +3,7 @@
 #include "../Graphics/Graphics.h"
 #include "../Graphics/2D/Text.h"
 #include "../Graphics/2D/SpriteTexture.h"
+#include "../Window.h"
 
 
 class MainMenu : public Scene
@@ -10,9 +11,9 @@ class MainMenu : public Scene
 private:
 	enum class Scenes
 	{
-		STAGE_SELECT = 6,
-		STAGE_1 = 4,
-		STAGE_2 = 5,
+		STAGE_SELECT = 7,
+		STAGE_1 = 5,
+		STAGE_2 = 6,
 	};
 private:
 	std::shared_ptr<ISprite> m_title;
@@ -20,12 +21,13 @@ private:
 	std::shared_ptr<ISprite> m_quitText;
 	std::vector<std::shared_ptr<ISprite>> m_buttons;
 	std::shared_ptr<ISprite> m_background;
+	const Window* m_win;
 
 private:
 	void SwitchScene(Scenes scene);
 
 public:
-	MainMenu(Graphics* graphics, SceneManager* sm);
+	MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win);
 	~MainMenu() = default;
 	void setUpScene() override;
 };

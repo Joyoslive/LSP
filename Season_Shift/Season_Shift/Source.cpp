@@ -54,10 +54,10 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Input::initInput(win.getHWND(), resWidth, resHeight);
 
 	// Init the scene manager object
-	SceneManager sceneManager = SceneManager(&gph);
+	SceneManager sceneManager = SceneManager(&gph, &win);
 
 	// Change active scene to Main Menu
-	sceneManager.changeScene(5); // Main Menu
+	sceneManager.changeScene(0); // Main Menu
 	//Ref<Scene> scene = sceneManager.getActiveScene();
 
 	//Ref<GameObject> player = scene->getGameObject("player");
