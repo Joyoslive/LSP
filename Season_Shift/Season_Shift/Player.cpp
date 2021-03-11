@@ -126,10 +126,6 @@ namespace tempSpriteFix
 	 }
 
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
-	 m_sound = m_gameObject->getComponentType<Sound>(Component::ComponentEnum::SOUND);
-	 std::vector<std::string> v;
-	 v.push_back("Sounds/heartbeat.wav");
-	 m_sound2.start(v);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 	 m_playerCamera->setRotation(0,0,0);
@@ -147,6 +143,7 @@ namespace tempSpriteFix
 	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
 	 m_playerPartSys2->stopEmitter(0);
 
+	 m_audio.start();
 
 	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
 	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(
@@ -270,6 +267,7 @@ namespace tempSpriteFix
 		m_oldTrampolineCollider = NULL;
 	}
 	
+	m_audio.update(m_ground, m_hooked, m_walljump, velocity, m_frameTime);
 	moveDirection2 = moveObjectCheck(moveDirection2);
 
 	moveDirection.y = 0;
@@ -279,31 +277,6 @@ namespace tempSpriteFix
 	m_oldMoveDirection = Vector3::Lerp(m_oldMoveDirection, moveDirection, m_frameTime * lerpMoveDirection);
 
 	velocity = playerFly(velocity);
-	m_sound->setVolume(0.4);
-	if (velocity.Length() < 0.1 || (m_ground == false && m_walljump == false && m_hooked == false) && m_soundLoop == true)
-	{
-		
-		m_soundLoop = false;
-		m_sound->stopLoop();
-	}
-	else if (velocity.Length() != 0 && m_ground == true && m_soundLoop == false) {
-		m_soundLoop = true;
-		m_sound->playLoop("Sounds/run2.wav");
-	}
-	else if (velocity.Length() != 0 && m_walljump == true && m_soundLoop == false)
-	{
-		m_soundLoop = true;
-		m_sound->playLoop("Sounds/wallrunBongo.wav");
-	}
-	else if (velocity.Length() != 0 && m_hooked == true && m_ground == false && m_walljump == false && m_soundLoop == false)
-	{
-		m_sound->setVolume(0.02);
-		m_soundLoop = true;
-		//m_sound->playLoop("Sounds/swing3.wav");
-		
-
-	}
-	
 
 	Vector3 velocitySkipY = velocity;
 	velocitySkipY.y = 0;
@@ -429,11 +402,11 @@ namespace tempSpriteFix
 	 if (m_logicPlayerCamera->shake(m_oldVelocity, m_normal))
 	 {
 		 m_playerPartSys->reviveEmitter(m_landingPartEmittId, 0.1f);
-		 m_sound->play("Sounds/landing.wav");
+		 m_audio.playSound1("Sounds/landing.wav");
 	 }
 	 else if (m_logicPlayerCamera->land(m_oldVelocity, m_normal))
 	 {
-		 m_sound->play("Sounds/landing2.wav");
+		 m_audio.playSound1("Sounds/landing2.wav");
 	 }
 
 	 if (collider->getGameObject()->getName() == "goal")
@@ -449,7 +422,7 @@ namespace tempSpriteFix
 	 {
 		m_oldCheckpointCollider = collider;
 		m_respawn = collider->getGameObject()->getTransform()->getPosition();
-		m_sound->play("Sounds/checkpoint.wav");
+		m_audio.playSound1("Sounds/checkpoint.wav");
 		 m_respawn.x += 2;
 	 }
 	 if (collider->getGameObject()->getName() == "moving")
@@ -466,7 +439,7 @@ namespace tempSpriteFix
 		 m_trampoline = true;
 		 m_trampolineAngle = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getAngle();
 		 m_trampolinePower = collider->getGameObject()->getComponentType<Bounce>(Component::ComponentEnum::LOGIC)->getPower();
-		 m_sound->play("Sounds/boing2.wav");
+		 m_audio.playSound1("Sounds/boing2.wav");
 		 m_ground = false;
 	 }
  }
@@ -609,7 +582,7 @@ namespace tempSpriteFix
 	 if (Input::getInput().keyPressed(Input::Shift) && m_cooldownDash <= 0.0f)
 	 {
 		 m_cooldownDash = 2.0f;
-		 m_sound->play("Sounds/woosh.wav");
+		 m_audio.playSound1("Sounds/woosh.wav");
 		 velocity = { 0, 0, 0 };
 		 cameraLook.Normalize();
 		 velocity += cameraLook * m_dashSpeed;
@@ -694,7 +667,7 @@ namespace tempSpriteFix
 
 		 if (m_walljump == true)
 		 {
-			 m_sound->play("Sounds/jump3a.wav");
+			 m_audio.playSound1("Sounds/jump3a.wav");
 			 m_wallTimer = wallTime;
 
 			 Vector3 cameraRight = m_playerCamera->getRight();
@@ -721,7 +694,8 @@ namespace tempSpriteFix
 		 }
 		 else if (m_ground == true)
 		 {
-			 m_sound->play("Sounds/jump1a.wav");
+			 
+			 m_audio.playSound1("Sounds/jump1a.wav");
 			 if (m_movObj == true)
 				 velocity.y = m_jumpSpeed + m_velocityY*3;
 			 else
@@ -734,7 +708,7 @@ namespace tempSpriteFix
 		 }
 		 else if (m_doubleJump == true)
 		 {
-			 m_sound->play("Sounds/jump2a.wav");
+			 m_audio.playSound1("Sounds/jump2a.wav");
 			 velocity.y = m_doubleJumpSpeed;
 			 m_doubleJump = false;
 		 }
@@ -975,7 +949,7 @@ namespace tempSpriteFix
 				 {
 					 if (d < dist)
 					 {
-						 m_sound->play("Sounds/hook.wav");
+						 m_audio.playSound1("Sounds/hook.wav");
 						 dist = d;
 						 hitObj = true;
 					 }
@@ -1005,7 +979,7 @@ namespace tempSpriteFix
 	 if (Input::getInput().mouseReleased(Input::LeftButton))
 	 {
 		 if(m_hooked == true)
-			 m_sound->play("Sounds/dehook.wav");
+			 m_audio.playSound1("Sounds/dehook.wav");
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 	 }
