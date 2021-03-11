@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "../SceneManager.h"
 #include "../Input.h"
+#include "../Sound.h"
 
 MainMenu::MainMenu(Graphics* graphics, SceneManager* sm, const Window* const win) : Scene(graphics, sm)
 {
@@ -102,6 +103,13 @@ void MainMenu::setUpScene()
 		m_graphics->addToSpriteBatch(pressedExitButton);
 		m_graphics->addToSpriteBatch(m_quitText);
 		m_graphics->addToSpriteBatch(m_title);
+
+		//Music
+		std::vector<std::string> v;
+		v.push_back("Sounds/Menu.wav");
+		v.push_back("Sounds/checkpoint.wav");
+		m_music.start(v);
+		m_music.playLoop("Sounds/Menu.wav");
 	}
 	else
 	{
@@ -118,6 +126,7 @@ void MainMenu::setUpScene()
 
 void MainMenu::SwitchScene(Scenes scene)
 {
+	m_music.play("Sounds/checkpoint.wav");
 	m_background->setShow(false);
 	m_playText->setShow(false);
 	m_quitText->setShow(false);
@@ -126,4 +135,5 @@ void MainMenu::SwitchScene(Scenes scene)
 		b->setShow(false);
 	int idx = (int)scene;
 	m_sceneManager->changeScene(idx);
+	m_music.stopLoop();
 }

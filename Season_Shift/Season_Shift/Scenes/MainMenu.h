@@ -3,6 +3,7 @@
 #include "../Graphics/Graphics.h"
 #include "../Graphics/2D/Text.h"
 #include "../Graphics/2D/SpriteTexture.h"
+#include "../Sound.h"
 #include "../Window.h"
 
 
@@ -21,6 +22,7 @@ private:
 	std::shared_ptr<ISprite> m_quitText;
 	std::vector<std::shared_ptr<ISprite>> m_buttons;
 	std::shared_ptr<ISprite> m_background;
+	Sound m_music;
 	const Window* m_win;
 
 	bool m_firstSetup = true;
