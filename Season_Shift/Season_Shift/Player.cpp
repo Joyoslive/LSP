@@ -1024,7 +1024,7 @@ using namespace DirectX::SimpleMath;
 		 settings.color.x = powf(settings.color.x, 2.2f);
 		 settings.color.y = powf(settings.color.y, 2.2f);
 		 settings.color.z = powf(settings.color.z, 2.2f);
-		 settings.endPos = m_hookEndPos = Vector3::Lerp(m_hookEndPos, m_hookPoint, m_frameTime * 6.0f);
+		 settings.endPos = m_hookEndPos = Vector3::SmoothStep(m_hookEndPos, m_hookPoint, m_frameTime * 40.0f);
 		 m_gameObject->getScene()->getGraphics()->renderLine(settings);
 
 		 //Compare distance from endpos and player position to activate particles
