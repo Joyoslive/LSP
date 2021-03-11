@@ -9,6 +9,7 @@ MainMenu::MainMenu(Graphics* graphics, SceneManager* sm) : Scene(graphics, sm)
 void MainMenu::setUpScene()
 {
 	Input::getInput().lockMouse(2);
+	m_buttons.clear();
 
 	auto resDev = m_graphics->getResourceDevice();
 	m_title = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/font.spritefont",
