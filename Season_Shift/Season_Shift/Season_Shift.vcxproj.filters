@@ -79,6 +79,7 @@
     <ClCompile Include="Bounce.cpp" />
     <ClCompile Include="Graphics\2D\SpriteTexture.cpp" />
     <ClCompile Include="InGameMenu.cpp" />
+    <ClCompile Include="Audio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Bounce.h" />
     <ClInclude Include="Graphics\2D\SpriteTexture.h" />
     <ClInclude Include="InGameMenu.h" />
+    <ClInclude Include="Audio.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />
