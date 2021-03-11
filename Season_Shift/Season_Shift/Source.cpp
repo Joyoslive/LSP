@@ -130,7 +130,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		timer.frameStop();
 
 		if (sceneManager.shouldQuit())
-			break;
+		{
+			win.quit();
+		}
 	}
 
 	ImGui_ImplDX11_Shutdown();

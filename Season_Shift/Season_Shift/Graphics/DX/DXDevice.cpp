@@ -377,11 +377,18 @@ std::shared_ptr<DXTexture> DXDevice::createTexture(const DXTexture::Desc& desc, 
 			{
 				mtSRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 				mtSRV.Texture2D.MostDetailedMip = 0;
-				mtSRV.Texture2D.MipLevels = 1;		// temporary for now
+				mtSRV.Texture2D.MipLevels = desc.desc2D.MiscFlags & D3D11_RESOURCE_MISC_GENERATE_MIPS ? -1 : 1;
 			}
 
 
 			HRCHECK(m_core->getDevice()->CreateShaderResourceView(t.Get(), &mtSRV, srv.GetAddressOf()));
+
+			if (desc.desc2D.MiscFlags & D3D11_RESOURCE_MISC_GENERATE_MIPS)
+			{
+				m_core->getImmediateContext()->GenerateMips(srv.Get());
+				tex->setSRV(srv);
+				return tex; //return early to skip rendertarget creation for miped textures
+			}
 
 			tex->setSRV(srv);
 		}

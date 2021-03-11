@@ -8,6 +8,7 @@
 #include <functional>
 #include <fstream>
 #include <algorithm>
+#include <random>
 
 #include <DirectXMath.h>
 
