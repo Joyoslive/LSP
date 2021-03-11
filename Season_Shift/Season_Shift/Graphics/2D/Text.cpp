@@ -49,12 +49,12 @@ void Text::setColor(const DirectX::SimpleMath::Color& col)
 
 const DirectX::SimpleMath::Vector2& Text::getPosition()
 {
-	return m_correctedPosition;
+	return m_position;
 }
 
 const DirectX::SimpleMath::Vector2& Text::getScale()
 {
-	return m_correctedScale;
+	return m_scale;
 }
 
 std::shared_ptr<DirectX::SpriteFont> Text::getFont()
