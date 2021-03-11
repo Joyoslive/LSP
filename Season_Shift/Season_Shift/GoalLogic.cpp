@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "TableOfTimes.h"
 #include "Player.h"
+#include "ResultMenu.h"
 
 
 GoalLogic::GoalLogic()
@@ -16,14 +17,16 @@ const Ref<TableOfTimes>& GoalLogic::getTableOfTimes() const
 	return m_myTimes;
 }
 
-char msgbuf[1000];
+//char msgbuf[1000];
 void GoalLogic::writeGrade(const Ref<Player>& playerLogic)
 {
 	long double time = playerLogic->goalTimerGetTime();
 	Grade grade = m_myTimes->getGrade(time);
 	//Temporary (hook up with text later)
-	sprintf_s(msgbuf, "\n------------------------------------\nYour Grade was %s and Your Time was %f\n------------------------------------\n", grade.grade.c_str(), time);
-	OutputDebugStringA(msgbuf);
+	//sprintf_s(msgbuf, "\n------------------------------------\nYour Grade was %s and Your Time was %f\n------------------------------------\n", grade.grade.c_str(), time);
+	//OutputDebugStringA(msgbuf);
+
+	m_gameObject->getScene()->getResultMenu()->playerReachedGoal(time, grade.grade);
 }
 
 void GoalLogic::onCollision(Ref<Collider> collider)
