@@ -16,7 +16,7 @@ public:
 	void update() override;
 	void initialize() override;
 
-	std::shared_ptr<Camera> getCamera();
+	std::shared_ptr<Camera> getCamera() const;
 
 	void setOffset(float x, float y, float z);
 	void setRotation(float roll, float pitch, float yaw);

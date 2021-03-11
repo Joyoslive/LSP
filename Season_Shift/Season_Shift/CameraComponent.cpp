@@ -10,7 +10,7 @@ CameraComponent::CameraComponent()
 
 CameraComponent::~CameraComponent()
 {
-
+	m_camera.reset();
 }
 
 void CameraComponent::update()
@@ -23,7 +23,7 @@ void CameraComponent::initialize()
 	m_camera->attachTo(m_gameObject, m_offset.x, m_offset.y, m_offset.z);
 }
 
-std::shared_ptr<Camera> CameraComponent::getCamera()
+std::shared_ptr<Camera> CameraComponent::getCamera() const
 {
 	return m_camera;
 }
