@@ -64,10 +64,7 @@ size_t Sound::play(const std::string& soundName)
 {
 	
 	m_sounds[m_map[soundName]].Play();
-
 	return m_sounds[m_map[soundName]].GetSampleDuration();
-
-
 }
 
 
@@ -95,4 +92,9 @@ void Sound::stopLoop()
 void Sound::setVolume(float volume)
 {
 	m_audioEngine->SetMasterVolume(volume);
+}
+
+void Sound::setPitch(float pitch)
+{
+	m_effectInst->SetPitch(pitch);
 }

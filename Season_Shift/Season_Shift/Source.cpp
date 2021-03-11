@@ -128,6 +128,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		gph.render(scene->getSceneModels(), scene->getSceneMainCamera(), timer.dt());
 		//gph.render(scene->getSceneModels(), cam, timer.dt());
 		timer.frameStop();
+
+		if (sceneManager.shouldQuit())
+			break;
 	}
 
 	ImGui_ImplDX11_Shutdown();

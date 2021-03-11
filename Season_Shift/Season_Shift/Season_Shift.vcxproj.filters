@@ -81,6 +81,7 @@
     <ClCompile Include="Scenes\MainMenu.cpp" />
     <ClCompile Include="InGameMenu.cpp" />
     <ClCompile Include="ResultMenu.cpp" />
+    <ClCompile Include="Audio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Scenes\MainMenu.h" />
     <ClInclude Include="InGameMenu.h" />
     <ClInclude Include="ResultMenu.h" />
+    <ClInclude Include="Audio.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\Shaders\DefaultVS.hlsl" />

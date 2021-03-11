@@ -14,10 +14,10 @@
 
 SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
+	m_timeToQuit = false;
 	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
-	createMenu(graphics, win);
+	createMenu(graphics);
 	createScenes(graphics);
-
 }
 
 SceneManager::~SceneManager()
@@ -30,7 +30,7 @@ SceneManager::~SceneManager()
 	m_activeScene = nullptr;
 }
 
-void SceneManager::createMenu(Graphics* graphics, const Window* const win)
+void SceneManager::createMenu(Graphics* graphics)
 {
 	auto menuBack = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-long.jpg", 440, 160, 1.f, 0.7f, 0.f, 1.f);
 	graphics->addToSpriteBatch(menuBack);
@@ -46,7 +46,7 @@ void SceneManager::createMenu(Graphics* graphics, const Window* const win)
 	text1->setShow(false);
 
 	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
-		[this]() { /*changeScene(0);*/ });
+		[this]() { changeScene(0); });
 	graphics->addToSpriteBatch(clickableSprite2);
 	clickableSprite2->setShow(false);
 	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);
@@ -55,7 +55,7 @@ void SceneManager::createMenu(Graphics* graphics, const Window* const win)
 	text2->setShow(false);
 
 	auto clickableSprite3 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 440, 0.6f, 0.4f, 0.f, 0.5f,
-		[win]() { win->quit(); });
+		[this]() { m_timeToQuit = true; });
 
 	graphics->addToSpriteBatch(clickableSprite3);
 	clickableSprite3->setShow(false);
@@ -162,6 +162,11 @@ void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
 bool SceneManager::currentScenePaused() const
 {
 	return m_activeScene->isPaused();
+}
+
+bool SceneManager::shouldQuit() const
+{
+	return m_timeToQuit;
 }
 
 void SceneManager::updateObservers()
