@@ -38,9 +38,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	_CrtDumpMemoryLeaks(); //memory leak detection
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
-	_CrtSetBreakAlloc(117510);
-	//_CrtSetBreakAlloc(425208);
-	//_CrtSetBreakAlloc(366728);
+	//_CrtSetBreakAlloc(805);
+	//_CrtSetBreakAlloc(1581);
+	//_CrtSetBreakAlloc(1582);
 
 
 	Window win(inst, L"Season Shift", resWidth, resHeight);	
@@ -57,7 +57,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	SceneManager sceneManager = SceneManager(&gph);
 
 	// Change active scene to Main Menu
-	//sceneManager.changeScene(4); // Main Menu
+	sceneManager.changeScene(5); // Main Menu
 	//Ref<Scene> scene = sceneManager.getActiveScene();
 
 	//Ref<GameObject> player = scene->getGameObject("player");
@@ -123,6 +123,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		
 		auto scene = sceneManager.getActiveScene();
 		gph.render(scene->getSceneModels(), scene->getSceneMainCamera(), timer.dt());
+		//gph.render(scene->getSceneModels(), cam, timer.dt());
 		timer.frameStop();
 	}
 
