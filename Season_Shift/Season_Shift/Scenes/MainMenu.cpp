@@ -109,6 +109,7 @@ void MainMenu::SwitchScene(Scenes scene)
 	m_background->setShow(false);
 	m_playText->setShow(false);
 	m_quitText->setShow(false);
+	m_title->setShow(false);
 	for (auto& b : m_buttons)
 		b->setShow(false);
 	int idx = (int)scene;
