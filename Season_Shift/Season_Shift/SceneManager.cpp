@@ -13,10 +13,10 @@
 
 SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
+	m_timeToQuit = false;
 	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
 	createMenu(graphics);
 	createScenes(graphics);
-
 }
 
 SceneManager::~SceneManager()
@@ -45,7 +45,7 @@ void SceneManager::createMenu(Graphics* graphics)
 	text1->setShow(false);
 
 	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
-		[]() { OutputDebugStringW(L"Go to menu! o_o \n"); });
+		[this]() { changeScene(0); });
 	graphics->addToSpriteBatch(clickableSprite2);
 	clickableSprite2->setShow(false);
 	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);
@@ -54,7 +54,8 @@ void SceneManager::createMenu(Graphics* graphics)
 	text2->setShow(false);
 
 	auto clickableSprite3 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 440, 0.6f, 0.4f, 0.f, 0.5f,
-		[]() { OutputDebugStringW(L"This sprite3 was clicked! o_o \n"); });
+		[this]() { m_timeToQuit = true; });
+
 	graphics->addToSpriteBatch(clickableSprite3);
 	clickableSprite3->setShow(false);
 	auto text3 = graphics->getResourceDevice()->createSprite("Exit Game", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 485);
@@ -150,6 +151,11 @@ void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
 bool SceneManager::currentScenePaused() const
 {
 	return m_activeScene->isPaused();
+}
+
+bool SceneManager::shouldQuit() const
+{
+	return m_timeToQuit;
 }
 
 void SceneManager::updateObservers()

@@ -13,6 +13,7 @@ private:
 	std::vector<Ref<SceneManagerObserver>> m_observers;
 
 	std::shared_ptr<InGameMenu> m_menu;
+	bool m_timeToQuit;
 
 private:
 	void createMenu(Graphics* graphics);
@@ -31,5 +32,6 @@ public:
 	void addObserver(Ref<SceneManagerObserver> observer);
 	void removeObserver(Ref<SceneManagerObserver> observer);
 	bool currentScenePaused() const;
+	bool shouldQuit() const;
 };
 
