@@ -7,7 +7,7 @@
 class CameraComponent : public Component
 {
 private:
-	Camera m_camera;
+	std::shared_ptr<Camera> m_camera;
 	DirectX::XMFLOAT3 m_offset;
 public:
 	CameraComponent();
@@ -16,7 +16,7 @@ public:
 	void update() override;
 	void initialize() override;
 
-	std::shared_ptr<Camera> getCamera();
+	std::shared_ptr<Camera> getCamera() const;
 
 	void setOffset(float x, float y, float z);
 	void setRotation(float roll, float pitch, float yaw);

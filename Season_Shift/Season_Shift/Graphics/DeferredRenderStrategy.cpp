@@ -41,8 +41,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
 
 	// Set shadow mapper settings (hardcoded to three cascades)		// [0.1, 100] --> [100, 500] --> [500, 1000]
-	m_shadowCascades[0] = { mainCamera->getNearPlane() + 100, 4096 * 2 };
-	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 2, 4096 };
+	m_shadowCascades[0] = { mainCamera->getNearPlane() + 100, 4096 *2};
+	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 2, 4096 * 4 };
 	m_shadowCascades[2] = { mainCamera->getFarPlane(), 2048 };
 	m_shadowMapper->setCascadeSettings(m_shadowCascades);
 
@@ -149,8 +149,23 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		{
 			if (s->getShow())
 			{
+				if (m_sprites.size() == 0)
+					break;
 				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
+				s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton));
 				m_spriteRenderer->queueDraw(s);
+			}
+		}
+		if (Input::getInput().mouseReleased(Input::LeftButton))
+		{
+			for (auto& s : m_sprites)
+			{
+				if (s->getShow())
+				{
+					if (m_sprites.size() == 0)
+						break;
+					s->globalRelease();
+				}
 			}
 		}
 		
@@ -207,6 +222,11 @@ void DeferredRenderStrategy::removeParticleSystem(const std::shared_ptr<Particle
 void DeferredRenderStrategy::addToSpriteBatch(std::shared_ptr<ISprite> sprite)
 {
 	m_sprites.push_back(sprite);
+}
+
+void DeferredRenderStrategy::clearSpriteBatch()
+{
+	m_sprites.clear();
 }
 
 void DeferredRenderStrategy::updateWindowSizeForSpriteBatch(Vector2 windowSize)

@@ -22,7 +22,7 @@ void Input::initInput(HWND wndHandle, int width, int height)
 	instance.m_keyboard = std::make_unique<DirectX::Keyboard>();
 	instance.m_mouse = std::make_unique<DirectX::Mouse>();
 	instance.m_mouse->SetWindow(wndHandle);
-	instance.m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
+	//instance.m_mouse->SetMode(DirectX::Mouse::MODE_ABSOLUTE);
 	instance.m_mouseX = 0.0f;
 	instance.m_mouseY = 0.0f;
 	instance.mouse = instance.m_mouse->GetState();

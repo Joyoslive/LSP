@@ -5,17 +5,18 @@
 #include "Scenes/Scene3.h"
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
+#include "Scenes/MainMenu.h"
 #include "InGameMenu.h"
 
 #include <vector>
 #include <assert.h>
 
-SceneManager::SceneManager(Graphics *graphics)
+SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
-
+	m_timeToQuit = false;
+	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
 	createMenu(graphics);
 	createScenes(graphics);
-
 }
 
 SceneManager::~SceneManager()
@@ -30,30 +31,53 @@ SceneManager::~SceneManager()
 
 void SceneManager::createMenu(Graphics* graphics)
 {
-	auto clickableSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 1100, 600, 0.3f, 0.3f, 0.f, 0.f,
-		[]() { OutputDebugStringW(L"This sprite1 was clicked! o_o \n"); });
+	auto menuBack = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-long.jpg", 440, 160, 1.f, 0.7f, 0.f, 1.f);
+	graphics->addToSpriteBatch(menuBack);
+	menuBack->setShow(false);
+
+	int buttonsX = 520;
+	auto clickableSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 200, 0.6f, 0.4f, 0.f, 0.5f,
+		[this]() { m_activeScene->setPauseState(false); });
 	graphics->addToSpriteBatch(clickableSprite);
 	clickableSprite->setShow(false);
+	auto text1 = graphics->getResourceDevice()->createSprite("Resume", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 245);
+	graphics->addToSpriteBatch(text1);
+	text1->setShow(false);
 
-	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 700, 600, 0.3f, 0.3f, 0.f, 0.f,
-		[]() { OutputDebugStringW(L"This sprite2 was clicked! o_o \n"); });
+	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
+		[this]() { changeScene(0); });
 	graphics->addToSpriteBatch(clickableSprite2);
 	clickableSprite2->setShow(false);
+	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);
+	graphics->addToSpriteBatch(text2);
+	text2->setScale(DirectX::SimpleMath::Vector2(0.45, 0.45));
+	text2->setShow(false);
 
-	auto clickableSprite3 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/Temp.png", 350, 600, 0.3f, 0.3f, 0.f, 0.f,
-		[]() { OutputDebugStringW(L"This sprite3 was clicked! o_o \n"); });
+	auto clickableSprite3 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 440, 0.6f, 0.4f, 0.f, 0.5f,
+		[this]() { m_timeToQuit = true; });
+
 	graphics->addToSpriteBatch(clickableSprite3);
 	clickableSprite3->setShow(false);
+	auto text3 = graphics->getResourceDevice()->createSprite("Exit Game", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 485);
+	graphics->addToSpriteBatch(text3);
+	text3->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
+	text3->setShow(false);
 
 	std::vector<std::shared_ptr<ISprite>> sprites;
 	sprites.push_back(clickableSprite);
 	sprites.push_back(clickableSprite2);
 	sprites.push_back(clickableSprite3);
+	sprites.push_back(menuBack);
+	sprites.push_back(text1);
+	sprites.push_back(text2);
+	sprites.push_back(text3);
 	m_menu = std::make_shared<InGameMenu>(sprites);
 }
 
 void SceneManager::createScenes(Graphics* graphics)
 {
+	/*Ref<Scene> mainMenu = std::make_shared<MainMenu>(graphics, this);
+	addScene(mainMenu);*/
 	Ref<Scene> scene = std::make_shared<Scene1>(graphics);
 	addScene(scene);
 	Ref<Scene> scene2 = std::make_shared<Scene2>(graphics);
@@ -64,7 +88,8 @@ void SceneManager::createScenes(Graphics* graphics)
 	addScene(scene4);
 	Ref<Scene> scene5 = std::make_shared<Scene5>(graphics);
 	addScene(scene5);
-	setActiveScene(scene);
+	
+	setActiveScene(scene5);
 	//setActiveScene(scene2);
 }
 
@@ -126,6 +151,11 @@ void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
 bool SceneManager::currentScenePaused() const
 {
 	return m_activeScene->isPaused();
+}
+
+bool SceneManager::shouldQuit() const
+{
+	return m_timeToQuit;
 }
 
 void SceneManager::updateObservers()

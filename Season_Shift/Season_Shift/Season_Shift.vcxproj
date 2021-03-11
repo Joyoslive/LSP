@@ -209,6 +209,7 @@
     <ClCompile Include="Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\IRenderStrategy.cpp" />
+    <ClCompile Include="Scenes\MainMenu.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="OrientedBoxCollider.cpp" />
     <ClCompile Include="ParticleSystemComponent.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="Graphics\LineDrawer.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="Scenes\MainMenu.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="OrientedBoxCollider.h" />
     <ClInclude Include="ParticleSystemComponent.h" />
@@ -632,6 +634,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />
+    <Image Include="Textures\MainMenu\background.jpg" />
+    <Image Include="Textures\MainMenu\Button.png" />
+    <Image Include="Textures\MainMenu\ButtonPressed.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

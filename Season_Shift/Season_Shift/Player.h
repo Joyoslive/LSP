@@ -27,6 +27,9 @@ private:
 	Timer m_timer;
 	Timer m_goalTimer;
 	Audio m_audio;
+	Timer m_copyGoalTimer;
+	float m_currentTime;
+
 	DirectX::SimpleMath::Vector3 m_normal;
 
 	DirectX::SimpleMath::Vector3 m_respawn;
@@ -78,6 +81,8 @@ private:
 
 	Ref<ISprite> m_velocitySprite;
 	Ref<ISprite> m_sprite;
+	Ref<ISprite> m_spriteGoalTimer; 
+
 	bool m_createOnce = true;
 	Ref<ParticleSystemComponent> m_playerPartSys;
 	int m_landingPartEmittId;
@@ -106,6 +111,7 @@ private:
 	void grappleHook(DirectX::SimpleMath::Vector3 cameraLook);
 	DirectX::SimpleMath::Vector3 moveObjectCheck(DirectX::SimpleMath::Vector3 moveDirection2);
 	void drawLine();
+	void updateSprites(const DirectX::SimpleMath::Vector3& velocity);
 public:
 	Player();
 	~Player();
