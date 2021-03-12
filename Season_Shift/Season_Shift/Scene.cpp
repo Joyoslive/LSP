@@ -5,6 +5,7 @@
 #include "Graphics/Graphics.h"
 #include "InGameMenu.h"
 #include "ResultMenu.h"
+#include "Player.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -21,9 +22,19 @@ Scene::~Scene()
 
 }
 
+void Scene::setAnotherIsPaused(bool isPaused)
+{
+	m_isPaused = isPaused;
+}
+
 void Scene::setIsPaused(bool isPaused)
 {
 	m_isPaused = isPaused;
+
+	if (m_isPaused)
+		onPause();
+	else
+		onUnPause();
 }
 
 void Scene::setPauseState(bool isPaused)
@@ -33,6 +44,7 @@ void Scene::setPauseState(bool isPaused)
 	if (!m_isPaused)
 	{
 		m_isPaused = false;
+		//setIsPaused(false);
 		m_menu->shouldDraw(false);
 		Input::getInput().lockMouse(1);
 
@@ -40,6 +52,7 @@ void Scene::setPauseState(bool isPaused)
 	else
 	{
 		m_isPaused = true;
+		//setIsPaused(true);
 		m_menu->shouldDraw(true);
 		Input::getInput().lockMouse(2);
 	}
@@ -164,6 +177,7 @@ void Scene::updateMenu()
 		if (m_isPaused)
 		{
 			m_isPaused = false;
+			onUnPause();
 			m_menu->shouldDraw(false);
 			Input::getInput().lockMouse(1);
 
@@ -171,11 +185,44 @@ void Scene::updateMenu()
 		else
 		{
 			m_isPaused = true;
+			onPause();
 			m_menu->shouldDraw(true);
 			Input::getInput().lockMouse(2);
 		}
 	}
 
+}
+
+void Scene::onPause()
+{
+	Ref<Player> ply = nullptr;
+	for (auto& go : m_sceneGameObjects)
+	{
+		ply = go->getComponentType<Player>(Component::ComponentEnum::LOGIC);
+		if (ply)
+			break;
+	}
+
+	if (!ply)
+		return;		// No player found
+
+	ply->onPause();
+}
+
+void Scene::onUnPause()
+{
+	Ref<Player> ply = nullptr;
+	for (auto& go : m_sceneGameObjects)
+	{
+		ply = go->getComponentType<Player>(Component::ComponentEnum::LOGIC);
+		if (ply)
+			break;
+	}
+
+	if (!ply)
+		return;		// No player found
+
+	ply->onUnPause();
 }
 
 void Scene::destroyGameObject(Ref<GameObject> destroyGameObject)

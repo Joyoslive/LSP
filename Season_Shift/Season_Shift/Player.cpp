@@ -106,6 +106,16 @@ namespace tempSpriteFix
 
  }
 
+ void Player::onPause()
+ {
+	 OutputDebugStringW(L"Hey I just paused!\n");
+ }
+
+ void Player::onUnPause()
+ {
+	 OutputDebugStringW(L"Hey I just un-paused!\n");
+ }
+
  int signOf(const float& value)
  {
 	 if (value < 0)
@@ -162,7 +172,7 @@ namespace tempSpriteFix
 	 std::wstring str = L"Time: "; 
 	 str += std::to_wstring(m_currentTime);
 	 str += std::to_wstring(L'\n');
-	 OutputDebugStringW(str.c_str());
+	 //OutputDebugStringW(str.c_str());
 
 	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {

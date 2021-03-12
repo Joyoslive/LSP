@@ -38,7 +38,10 @@ void SceneManager::createMenu(Graphics* graphics)
 
 	int buttonsX = 520;
 	auto clickableSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 200, 0.6f, 0.4f, 0.f, 0.5f,
-		[this]() { m_activeScene->setPauseState(false); });
+		[this]() { 
+		m_activeScene->setPauseState(false); 
+		m_activeScene->setIsPaused(false);
+	});
 	graphics->addToSpriteBatch(clickableSprite);
 	clickableSprite->setShow(false);
 	auto text1 = graphics->getResourceDevice()->createSprite("Resume", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 245);
@@ -47,7 +50,7 @@ void SceneManager::createMenu(Graphics* graphics)
 
 	auto clickableSprite2 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 320, 0.6f, 0.4f, 0.f, 0.5f,
 		[this]() { 
-		m_activeScene->setIsPaused(false);
+		m_activeScene->setAnotherIsPaused(false);
 		m_menu->shouldDraw(false);
 		changeScene(0); 
 	

@@ -12,11 +12,15 @@ public:
 	~Logic();
 	virtual void start();
 	virtual void onCollision(Ref<Collider> collider);
+
+	virtual void onPause() { };
+	virtual void onUnPause() { };
 };
 
 class Test : public Logic
 {
 public:
+
 	void start() override;
 	void update() override;
 	void onCollision(Ref<Collider> collider) override;

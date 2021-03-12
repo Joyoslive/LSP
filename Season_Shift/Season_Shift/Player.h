@@ -114,6 +114,9 @@ public:
 	Player();
 	~Player();
 
+	void onPause() override;
+	void onUnPause() override;
+
 	void start() override;
 	void update() override;
 	void onCollision(Ref<Collider> collider) override;
