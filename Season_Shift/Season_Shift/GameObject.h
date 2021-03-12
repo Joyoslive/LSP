@@ -30,8 +30,6 @@ public:
 	GameObject(std::string name = "", Ref<Scene> scene = nullptr);
 	~GameObject();
 
-	
-
 	template<typename T>
 	Ref<T> getComponentType(Component::ComponentEnum componentType)
 	{

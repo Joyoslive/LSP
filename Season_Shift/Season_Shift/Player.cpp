@@ -53,15 +53,12 @@ namespace tempSpriteFix
 	 m_jumpSpeed = 26.0f;
 	 m_doubleJumpSpeed = 30.0f;
 	 m_cooldownDash = 0.0f;
+	 m_pause = false;
 	 m_waitForJump = false;
 	 m_jumpWhenLanding = false;
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
-	 m_soundLoop = false;
-	 m_soundLoopG = false;
-	 m_soundLoopW = false;
-	 m_soundLoopA = false;
 	 m_timer = Timer();
 	 m_goalTimer = Timer();
 	 m_timer.start();
@@ -89,6 +86,7 @@ namespace tempSpriteFix
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
 	 m_hookEmittId = -1;
+	 m_wallRunPartSysId = -1;
 	 m_currentTime = 0.f;
 
  }
@@ -104,6 +102,18 @@ namespace tempSpriteFix
 		 tempSpriteFix::m_spriteGoalTimer->setShow(false);
 	 }
 
+ }
+
+ void Player::onPause()
+ {
+	 m_pause = true;
+	 m_audio.mute();
+ }
+
+ void Player::onUnPause()
+ {
+	 m_pause = false;
+	 m_audio.unmute();
  }
 
  int signOf(const float& value)
@@ -135,13 +145,13 @@ namespace tempSpriteFix
 	 m_logicPlayerCamera->start();
 
 	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(160, 1)));
-	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0.2f, Vector3(1, 1, 0), Vector3(0, 0, 7));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0.2f, Vector3(0.5f, 1, 0), Vector3(0, 0, 7));
 	 //	80 / 2 = 40
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 1.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
-	 m_playerPartSys2->stopEmitter(0);
+	 int id = m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
+	 m_playerPartSys2->stopEmitter(id);
 
 	 m_audio.start();
 
@@ -151,6 +161,9 @@ namespace tempSpriteFix
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
 	 m_playerStartPosition = m_transform->getPosition();
+	 m_wallRunPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
+		 "", "ParticleHookEmittCS.cso", 1000, 1)));
+	 m_wallRunPartSysId = m_wallRunPartSys->addEmitter(200, 0, 0.05f, Vector3(1, 0.6, 0.3f), Vector3(0, 1, 1.5f));
 
 	 m_rb->setGravity(55.0);
  }	
@@ -158,13 +171,11 @@ namespace tempSpriteFix
  void Player::update()
  {
 	 m_currentTime += m_frameTime;
-	 if (m_gameObject->getScene()->isPaused())
-		 m_currentTime -= m_frameTime;
 
 	 std::wstring str = L"Time: "; 
 	 str += std::to_wstring(m_currentTime);
 	 str += std::to_wstring(L'\n');
-	 OutputDebugStringW(str.c_str());
+	 //OutputDebugStringW(str.c_str());
 
 	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {
@@ -192,7 +203,13 @@ namespace tempSpriteFix
 	//Vector3 moveSpeed = Vector3::Zero;
 
 	drawLine();
-
+	if (Input::getInput().keyPressed(Input::D))
+	{
+		if (m_pause)
+			onUnPause();
+		else
+			onPause();
+	}
 	if (Input::getInput().keyPressed(Input::X))
 	{
 		if (m_disable == false)
@@ -237,10 +254,6 @@ namespace tempSpriteFix
 		{
 			if (!m_walljump)
 				moveDirection += cameraRight;
-		}
-		if (Input::getInput().keyPressed(Input::Esc))
-		{
-			exit(0);
 		}
 		if (Input::getInput().keyPressed(Input::F))
 		{
@@ -829,6 +842,10 @@ namespace tempSpriteFix
 		 if (fabs(m_normal.Dot(m_playerCamera->getRight())) <= 0.8f)
 			 wallRunning = false;
 		 m_logicPlayerCamera->wallRunning(wallRunning, normal);
+
+
+		 //emitt particles
+		 m_wallRunPartSys->reviveEmitter(m_wallRunPartSysId, 0.1f);
 	 }
 	 /*else
 	 {

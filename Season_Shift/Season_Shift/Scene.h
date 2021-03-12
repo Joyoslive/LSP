@@ -52,12 +52,19 @@ private:
 	void removeGameObject(Ref<GameObject> gameObject);
 	void updateSceneModels();
 	void updateMenu();
+	void onPause();
+	void onUnPause();
 
 public:
 	Scene(Graphics *graphics, SceneManager *sm=nullptr);
 	~Scene();
-	void setIsPaused(bool isPaused);		// no side effects
+
+	// Try not to look at this.
+	void setAnotherIsPaused(bool isPaused);	// no side effects
+	void setIsPaused(bool isPaused);		
 	void setPauseState(bool isPaused);
+
+
 	void setMenu(std::shared_ptr<InGameMenu> menu, std::shared_ptr<ResultMenu> resultMenu);
 	virtual void setUpScene() = 0;
 	void resetScene();

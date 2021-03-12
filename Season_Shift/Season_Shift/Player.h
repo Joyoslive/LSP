@@ -37,11 +37,8 @@ private:
 	bool m_ground;
 	bool m_doubleJump;
 	bool m_walljump;
-	bool m_soundLoop;
-	bool m_soundLoopG;
-	bool m_soundLoopW;
-	bool m_soundLoopA;
 	bool m_fly;
+	bool m_pause;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
@@ -87,6 +84,9 @@ private:
 	int m_landingPartEmittId;
 	Ref<ParticleSystemComponent> m_playerPartSys2;
 
+	Ref<ParticleSystemComponent> m_wallRunPartSys;
+	int m_wallRunPartSysId;
+
 	Ref<GameObject> m_hookObject;
 	Ref<ParticleSystemComponent> m_hookPartSys;
 	int m_hookEmittId;
@@ -114,6 +114,9 @@ private:
 public:
 	Player();
 	~Player();
+
+	void onPause() override;
+	void onUnPause() override;
 
 	void start() override;
 	void update() override;
