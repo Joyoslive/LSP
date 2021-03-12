@@ -150,6 +150,8 @@ namespace tempSpriteFix
 		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
+	 m_playerStartPosition = m_transform->getPosition();
+
 	 m_rb->setGravity(55.0);
  }	
 
@@ -412,8 +414,9 @@ namespace tempSpriteFix
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 detectDeath(FLT_MAX);
-		 m_respawn = { 0, 10, 0 };
-		 m_rb->getTransform()->setPosition(m_respawn);
+		 //Reset spawnPosition
+		 m_respawn = m_playerStartPosition;
+		 m_rb->getTransform()->setPosition(m_playerStartPosition);
 		 /*std::wstring msg = L"Your Time was";
 		 getTime(msg);*/
 		

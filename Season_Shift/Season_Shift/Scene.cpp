@@ -159,7 +159,7 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 
 void Scene::updateMenu()
 {
-	if (Input::getInput().keyPressed(Input::M))
+	if (Input::getInput().keyPressed(Input::M) && !m_resultMenu->getActive())
 	{
 		if (m_isPaused)
 		{
