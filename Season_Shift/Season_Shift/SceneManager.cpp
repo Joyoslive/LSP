@@ -6,6 +6,7 @@
 #include "Scenes/Scene4.h"
 #include "Scenes/Scene5.h"
 #include "Scenes/MainMenu.h"
+#include "Scenes/StageSelect.h"
 #include "InGameMenu.h"
 #include "ResultMenu.h"
 
@@ -16,6 +17,7 @@ SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
 	m_timeToQuit = false;
 	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
+	m_scenes.emplace_back(std::make_shared<StageSelect>(graphics, this));
 	createMenu(graphics);
 	createScenes(graphics);
 }
