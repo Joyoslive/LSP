@@ -34,6 +34,7 @@ public:
 	void addObserver(Ref<SceneManagerObserver> observer);
 	void removeObserver(Ref<SceneManagerObserver> observer);
 	bool currentScenePaused() const;
+	void quitGame();
 	bool shouldQuit() const;
 };
 

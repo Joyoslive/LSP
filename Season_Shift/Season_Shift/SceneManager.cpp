@@ -172,6 +172,11 @@ bool SceneManager::currentScenePaused() const
 	return m_activeScene->isPaused();
 }
 
+void SceneManager::quitGame()
+{
+	m_timeToQuit = true;
+}
+
 bool SceneManager::shouldQuit() const
 {
 	return m_timeToQuit;

@@ -79,8 +79,7 @@ void MainMenu::setUpScene()
 			{
 				if (m_buttons[2]->getClicked())
 				{
-
-					m_win->quit();
+					m_sceneManager->quitGame();
 				}
 			});
 		pressedExitButton->onGlobalRelease([this]()
