@@ -112,7 +112,7 @@ void MainMenu::setUpScene()
 		//Music
 		std::vector<std::string> v;
 		v.push_back("Sounds/Menu.wav");
-		v.push_back("Sounds/checkpoint.wav");
+		v.push_back("Sounds/button.wav");
 		m_music.start(v);
 		m_music.playLoop("Sounds/Menu.wav");
 	}
@@ -133,7 +133,7 @@ void MainMenu::setUpScene()
 
 void MainMenu::SwitchScene(Scenes scene)
 {
-	m_music.play("Sounds/checkpoint.wav");
+	m_music.play("Sounds/button.wav");
 	m_background->setShow(false);
 	m_playText->setShow(false);
 	m_quitText->setShow(false);
