@@ -59,7 +59,7 @@ void Scene5::setUpScene()
 		}
 	}
 
-	Ref<GameObject> go1 = createGameObject("goal", Vector3(0, 0.0f, 0.0f));
+	Ref<GameObject> go1 = createGameObject("goal", Vector3(0, 40.0f, 0.0f));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
 	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
@@ -85,8 +85,8 @@ void Scene5::setUpScene()
 
 	Ref<GameObject> spawnPartSys = createGameObject("hookParticleSystem", Vector3(0, 40,-12));
 	Ref<ParticleSystemComponent> spawnPartSysComp = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(1000000*5, 5.0f)));
-	spawnPartSysComp->addEmitter(1000000, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
+		spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10*5, 5.0f)));
+	spawnPartSysComp->addEmitter(10, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
 
 	m_graphics->loadSkybox("Textures/Skyboxes/space");
 	m_graphics->setSkybox(1);
