@@ -86,6 +86,7 @@ namespace tempSpriteFix
 	 m_sLR = m_sLS = m_sLT = 0;
 	 m_landingPartEmittId = -1;
 	 m_hookEmittId = -1;
+	 m_wallRunPartSysId = -1;
 	 m_currentTime = 0.f;
 
  }
@@ -144,13 +145,13 @@ namespace tempSpriteFix
 	 m_logicPlayerCamera->start();
 
 	 m_playerPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(160, 1)));
-	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0.2f, Vector3(1, 1, 0), Vector3(0, 0, 7));
+	 m_landingPartEmittId = m_playerPartSys->addEmitter(100, 0, 0.2f, Vector3(0.5f, 1, 0), Vector3(0, 0, 7));
 	 //	80 / 2 = 40
 
 	 m_playerPartSys2 = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 1.0f)));
-	 m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
-	 m_playerPartSys2->stopEmitter(0);
+	 int id = m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
+	 m_playerPartSys2->stopEmitter(id);
 
 	 m_audio.start();
 
@@ -159,6 +160,10 @@ namespace tempSpriteFix
 		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
+	 m_wallRunPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
+		 "", "ParticleHookEmittCS.cso", 1000, 1)));
+	 m_wallRunPartSysId = m_wallRunPartSys->addEmitter(200, 0, 0.05f, Vector3(1, 0.6, 0.3f), Vector3(0, 1, 1.5f));
+
 	 m_rb->setGravity(55.0);
  }	
 
@@ -248,10 +253,6 @@ namespace tempSpriteFix
 		{
 			if (!m_walljump)
 				moveDirection += cameraRight;
-		}
-		if (Input::getInput().keyPressed(Input::Esc))
-		{
-			exit(0);
 		}
 		if (Input::getInput().keyPressed(Input::F))
 		{
@@ -839,6 +840,10 @@ namespace tempSpriteFix
 		 if (fabs(m_normal.Dot(m_playerCamera->getRight())) <= 0.8f)
 			 wallRunning = false;
 		 m_logicPlayerCamera->wallRunning(wallRunning, normal);
+
+
+		 //emitt particles
+		 m_wallRunPartSys->reviveEmitter(m_wallRunPartSysId, 0.1f);
 	 }
 	 /*else
 	 {

@@ -172,7 +172,7 @@ Ref<GameObject> Scene::createGameObject(std::string gameObjectName, Vector3 posi
 
 void Scene::updateMenu()
 {
-	if (Input::getInput().keyPressed(Input::M) && m_menu)
+	if (Input::getInput().keyPressed(Input::Esc) && m_menu)
 	{
 		if (m_isPaused)
 		{
@@ -180,7 +180,6 @@ void Scene::updateMenu()
 			onUnPause();
 			m_menu->shouldDraw(false);
 			Input::getInput().lockMouse(1);
-
 		}
 		else
 		{
@@ -190,7 +189,6 @@ void Scene::updateMenu()
 			Input::getInput().lockMouse(2);
 		}
 	}
-
 }
 
 void Scene::onPause()
