@@ -86,6 +86,9 @@ private:
 	int m_landingPartEmittId;
 	Ref<ParticleSystemComponent> m_playerPartSys2;
 
+	Ref<ParticleSystemComponent> m_wallRunPartSys;
+	int m_wallRunPartSysId;
+
 	Ref<GameObject> m_hookObject;
 	Ref<ParticleSystemComponent> m_hookPartSys;
 	int m_hookEmittId;
