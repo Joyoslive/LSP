@@ -59,14 +59,6 @@ void Scene5::setUpScene()
 		}
 	}
 
-	Ref<GameObject> go1 = createGameObject("goal", Vector3(0, 0.0f, 0.0f));
-	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
-	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
-	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
-	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
-	goalTableOfTimes->addGrade("Fantastic", 1.0f);
-	goalTableOfTimes->addGrade("Bad", 2.0f);
-
 	// Post setup, like cameras and logic
 	auto player = createGameObject("player", Vector3(0, 25, 0));
 	player->AddComponent(std::make_shared<CameraComponent>());
@@ -83,12 +75,10 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	Ref<GameObject> hookParticleSystem = createGameObject("hookParticleSystem", Vector3(0,32,-12));
-	Ref<ParticleSystemComponent> hookParticleSystemComponent = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		hookParticleSystem->AddComponent(std::make_shared<ParticleSystemComponent>("", "", 8*144*5*10, 5.0f))
-		//hookParticleSystem->AddComponent(std::make_shared<ParticleSystemComponent>(8*144*5, 5.0f))
-		);
-	hookParticleSystemComponent->addEmitter(8*144*10, 100, 0.1f, Vector3(0.8f, 0.4f, 0.5f));
+	Ref<GameObject> spawnPartSys = createGameObject("hookParticleSystem", Vector3(0, 40,-12));
+	Ref<ParticleSystemComponent> spawnPartSysComp = std::dynamic_pointer_cast<ParticleSystemComponent>(
+		spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10*5, 5.0f)));
+	spawnPartSysComp->addEmitter(10, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
 
 	m_graphics->loadSkybox("Textures/Skyboxes/space");
 	m_graphics->setSkybox(1);
@@ -99,6 +89,13 @@ void Scene5::setUpScene()
 	//partSys->addEmitter(20, 0, 200, Vector3(0,1,1));
 	////	80 / 4 = 20
 
+	Ref<GameObject> go1 = createGameObject("goal", Vector3(0.0f, 40.0f, 0.0f));
+	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));
+	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
+	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
+	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Fantastic", 1.0f);
+	goalTableOfTimes->addGrade("Bad", 2.0f);
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");

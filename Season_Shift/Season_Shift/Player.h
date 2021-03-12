@@ -76,6 +76,7 @@ private:
 
 	DirectX::SimpleMath::Vector3 m_hookEndPos;
 
+	DirectX::SimpleMath::Vector3 m_playerStartPosition;
 
 
 	bool m_createOnce = true;
