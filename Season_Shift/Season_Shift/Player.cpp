@@ -59,10 +59,6 @@ namespace tempSpriteFix
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
-	 m_soundLoop = false;
-	 m_soundLoopG = false;
-	 m_soundLoopW = false;
-	 m_soundLoopA = false;
 	 m_timer = Timer();
 	 m_goalTimer = Timer();
 	 m_timer.start();
@@ -109,12 +105,14 @@ namespace tempSpriteFix
 
  void Player::onPause()
  {
-	 m_audio.pause();
+	 m_pause = true;
+	 m_audio.mute();
  }
 
  void Player::onUnPause()
  {
-	 m_audio.unpause();
+	 m_pause = false;
+	 m_audio.unmute();
  }
 
  int signOf(const float& value)
@@ -199,7 +197,13 @@ namespace tempSpriteFix
 	//Vector3 moveSpeed = Vector3::Zero;
 
 	drawLine();
-
+	if (Input::getInput().keyPressed(Input::D))
+	{
+		if (m_pause)
+			onUnPause();
+		else
+			onPause();
+	}
 	if (Input::getInput().keyPressed(Input::X))
 	{
 		if (m_disable == false)

@@ -106,14 +106,14 @@ void Audio::playSound1(const std::string& soundName)
 	m_sound.play(soundName);
 }
 
-void Audio::pause()
+void Audio::mute()
 {
 	m_sound.setVolume(0);
 	m_sound2.setVolume(0);
 	m_music.setVolume(0);
 }
 
-void Audio::unpause()
+void Audio::unmute()
 {
 	m_sound.setVolume(1);
 }
