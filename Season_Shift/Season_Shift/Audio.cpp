@@ -7,6 +7,7 @@ Audio::Audio()
 	m_volume = 0.5;
 	m_volume2 = 0;
 	m_pitch = -0.3;
+	m_mute = true;
 }
 
 Audio::~Audio()
@@ -52,6 +53,7 @@ void Audio::start()
 
 void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta)
 {
+	if (m_mute) {
 		if (velocity.Length() < 0.1 || (ground == false && wall == false && hook == false) && m_soundLoop == true)
 		{
 			m_soundLoop = false;
@@ -99,6 +101,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		m_sound2.setVolume(m_volume2);
 		m_music.setVolume(m_volume);
 		m_music.setPitch(m_pitch);
+	}
 }
 
 void Audio::playSound1(const std::string& soundName)
@@ -108,6 +111,7 @@ void Audio::playSound1(const std::string& soundName)
 
 void Audio::mute()
 {
+	m_mute = false;
 	m_sound.setVolume(0);
 	m_sound2.setVolume(0);
 	m_music.setVolume(0);
@@ -116,4 +120,5 @@ void Audio::mute()
 void Audio::unmute()
 {
 	m_sound.setVolume(1);
+	m_mute = true;
 }

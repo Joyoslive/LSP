@@ -202,12 +202,18 @@ namespace tempSpriteFix
 	//Vector3 moveSpeed = Vector3::Zero;
 
 	drawLine();
-	if (Input::getInput().keyPressed(Input::D))
+	if (Input::getInput().keyPressed(Input::M))
 	{
 		if (m_pause)
+		{
+			m_pause = false;
 			onUnPause();
+		}
 		else
+		{
+			m_pause = true;
 			onPause();
+		}
 	}
 	if (Input::getInput().keyPressed(Input::X))
 	{
