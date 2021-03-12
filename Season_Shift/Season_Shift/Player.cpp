@@ -166,8 +166,6 @@ namespace tempSpriteFix
  void Player::update()
  {
 	 m_currentTime += m_frameTime;
-	 if (m_gameObject->getScene()->isPaused())
-		 m_currentTime -= m_frameTime;
 
 	 std::wstring str = L"Time: "; 
 	 str += std::to_wstring(m_currentTime);
