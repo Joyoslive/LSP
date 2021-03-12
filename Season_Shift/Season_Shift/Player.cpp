@@ -250,10 +250,6 @@ namespace tempSpriteFix
 			if (!m_walljump)
 				moveDirection += cameraRight;
 		}
-		if (Input::getInput().keyPressed(Input::Esc))
-		{
-			exit(0);
-		}
 		if (Input::getInput().keyPressed(Input::F))
 		{
 			m_fly = !m_fly;
