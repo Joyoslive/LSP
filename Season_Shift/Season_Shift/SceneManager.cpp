@@ -72,6 +72,10 @@ void SceneManager::createMenu(Graphics* graphics)
 	text3->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
 	text3->setShow(false);
 
+	auto backgroundSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", 365, 140, 1.4f, 0.7f, 0.f, 0.5f, nullptr);
+	graphics->addToSpriteBatch(backgroundSprite);
+	backgroundSprite->setShow(false);
+
 	auto showGradeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 200);
 	graphics->addToSpriteBatch(showGradeSprite);
 	showGradeSprite->setScale(DirectX::SimpleMath::Vector2(0.7f, 0.7f));
@@ -97,7 +101,7 @@ void SceneManager::createMenu(Graphics* graphics)
 
 	graphics->addToSpriteBatch(clickableNextSprite);
 	clickableNextSprite->setShow(false);
-	auto nextTextSprite = graphics->getResourceDevice()->createSprite("Next Level", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 505);
+	auto nextTextSprite = graphics->getResourceDevice()->createSprite("Change Level", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 505);
 	graphics->addToSpriteBatch(nextTextSprite);
 	nextTextSprite->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
 	nextTextSprite->setShow(false);
@@ -119,6 +123,7 @@ void SceneManager::createMenu(Graphics* graphics)
 	resultSprites.push_back(nextTextSprite);
 	resultSprites.push_back(clickableNextSprite);
 	resultSprites.push_back(showTimeSprite);
+	resultSprites.push_back(backgroundSprite);
 
 	m_resultMenu = std::make_shared<ResultMenu>(resultSprites, showGradeSprite, showTimeSprite, this);
 
