@@ -25,10 +25,10 @@ PhysicsEngine::PhysicsEngine(long double timeStepSeconds)
 }
 PhysicsEngine::~PhysicsEngine()
 {
-
+	m_scene = nullptr;
 }
 
-void PhysicsEngine::updateScene(Ref<Scene> activeScene)
+void PhysicsEngine::updateScene(Scene* activeScene)
 {
 	m_scene = activeScene;
 }

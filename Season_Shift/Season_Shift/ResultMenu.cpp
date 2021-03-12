@@ -18,6 +18,8 @@ ResultMenu::ResultMenu(std::vector<std::shared_ptr<ISprite>> sprites, std::share
 ResultMenu::~ResultMenu()
 {
 	m_sprites.clear();
+	m_scene = nullptr;
+	m_sceneManager = nullptr;
 }
 
 void ResultMenu::setShowSprites(bool show)
@@ -74,7 +76,7 @@ void ResultMenu::nextLevel()
 	m_sceneManager->changeScene(5);
 }
 
-void ResultMenu::updateScene(Ref<Scene> activeScene)
+void ResultMenu::updateScene(Scene* activeScene)
 {
 	m_scene = activeScene;
 }

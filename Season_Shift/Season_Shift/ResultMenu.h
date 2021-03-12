@@ -10,7 +10,7 @@ private:
 	std::vector<std::shared_ptr<ISprite>> m_sprites;
 	std::shared_ptr<ISprite> m_gradeText;
 	std::shared_ptr<ISprite> m_timeText;
-	std::shared_ptr<Scene> m_scene;
+	Scene* m_scene;
 	SceneManager* m_sceneManager;
 	bool m_active;
 
@@ -24,6 +24,6 @@ public:
 	void nextLevel();
 
 
-	void updateScene(Ref<Scene> activeScene);
+	void updateScene(Scene* activeScene);
 	bool getActive() const;
 };

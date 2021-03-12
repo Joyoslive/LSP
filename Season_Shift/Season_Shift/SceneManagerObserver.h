@@ -8,6 +8,6 @@ class SceneManagerObserver
 public:
 	SceneManagerObserver() = default;
 	~SceneManagerObserver() = default;
-	virtual void updateScene(Ref<Scene> activeScene) = 0;
+	virtual void updateScene(Scene *activeScene) = 0;
 };
 

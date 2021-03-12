@@ -23,7 +23,8 @@ private:
 	std::vector<Ref<Component>> m_componentVector;
 	Ref<Transform> m_transform;
 	std::string m_name;
-	Ref<Scene> m_myScene;
+	//Ref<Scene> m_myScene;
+	Scene* m_myScene;
 	bool m_isVisible;
 
 public:
@@ -73,7 +74,7 @@ public:
 	bool getIsVisible() const;
 	const Ref<Transform>& getTransform() const;
 	const std::string& getName() const;
-	const Ref<Scene>& getScene() const;
+	Scene* getScene() const;
 
 	const Ref<Component>& AddComponent(Ref<Component> component);
 };

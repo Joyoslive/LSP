@@ -26,8 +26,12 @@ SceneManager::~SceneManager()
 	{
 		m_scenes[i]->emptyScene();
 	}
+	m_observers.clear();
 	m_scenes.clear();
 	m_activeScene = nullptr;
+	m_menu = nullptr;
+	m_resultMenu.reset();
+	m_resultMenu = nullptr;
 }
 
 void SceneManager::createMenu(Graphics* graphics)
@@ -165,9 +169,9 @@ void SceneManager::addScene(Ref<Scene> newScene)
 	m_scenes.push_back(newScene);
 }
 
-Ref<Scene> SceneManager::getActiveScene() const
+Scene* SceneManager::getActiveScene() const
 {
-	return m_activeScene;
+	return m_activeScene.get();
 }
 
 void SceneManager::changeScene(const int& sceneIndex)
@@ -189,7 +193,7 @@ void SceneManager::updateActiveScene() const
 void SceneManager::addObserver(Ref<SceneManagerObserver> observer)
 {
 	m_observers.push_back(observer);
-	observer->updateScene(m_activeScene);
+	observer->updateScene(m_activeScene.get());
 }
 
 void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
@@ -223,6 +227,6 @@ void SceneManager::updateObservers()
 {
 	for (int i = 0; i < m_observers.size(); ++i)
 	{
-		m_observers[i]->updateScene(m_activeScene);
+		m_observers[i]->updateScene(m_activeScene.get());
 	}
 }

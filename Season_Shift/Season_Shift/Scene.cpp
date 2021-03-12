@@ -19,7 +19,8 @@ Scene::Scene(Graphics* graphics, SceneManager* sm)
 
 Scene::~Scene()
 {
-
+	m_menu = nullptr;
+	m_resultMenu = nullptr;
 }
 
 void Scene::setAnotherIsPaused(bool isPaused)

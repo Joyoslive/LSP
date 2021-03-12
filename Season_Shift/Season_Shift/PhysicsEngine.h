@@ -19,8 +19,8 @@ public:
 
 
 private:
-	Ref<Scene> m_scene;
-
+	//Ref<Scene> m_scene;
+	Scene *m_scene;
 	
 	
 	long double m_timeStep;
@@ -39,7 +39,7 @@ private:
 	DirectX::SimpleMath::Vector3 capsuleCollideObb(const Ref<Collider>& capsule, const Ref<Collider>& obb);
 
 public:
-	void updateScene(Ref<Scene> activeScene) override;
+	void updateScene(Scene* activeScene) override;
 	void simulate(long double dt);
 };
 

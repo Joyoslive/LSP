@@ -11,12 +11,13 @@ GameObject::GameObject(std::string name, Ref<Scene> scene)
 	m_name = name;
 	if (scene == nullptr)
 		assert(false);
-	m_myScene = scene;
+	m_myScene = scene.get();
 	setIsVisible(true);
 }
 
 GameObject::~GameObject()
 {
+	
 }
 
 
@@ -25,7 +26,7 @@ const std::string& GameObject::getName() const
 	return m_name;
 }
 
-const Ref<Scene>& GameObject::getScene() const
+Scene* GameObject::getScene() const
 {
 	return m_myScene;
 }
