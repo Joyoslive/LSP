@@ -105,3 +105,15 @@ void Audio::playSound1(const std::string& soundName)
 {
 	m_sound.play(soundName);
 }
+
+void Audio::pause()
+{
+	m_sound.setVolume(0);
+	m_sound2.setVolume(0);
+	m_music.setVolume(0);
+}
+
+void Audio::unpause()
+{
+	m_sound.setVolume(1);
+}

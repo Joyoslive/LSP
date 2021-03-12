@@ -53,6 +53,7 @@ namespace tempSpriteFix
 	 m_jumpSpeed = 26.0f;
 	 m_doubleJumpSpeed = 30.0f;
 	 m_cooldownDash = 0.0f;
+	 m_pause = false;
 	 m_waitForJump = false;
 	 m_jumpWhenLanding = false;
 	 m_checkCollideJump = false;
@@ -108,12 +109,12 @@ namespace tempSpriteFix
 
  void Player::onPause()
  {
-	 OutputDebugStringW(L"Hey I just paused!\n");
+	 m_audio.pause();
  }
 
  void Player::onUnPause()
  {
-	 OutputDebugStringW(L"Hey I just un-paused!\n");
+	 m_audio.unpause();
  }
 
  int signOf(const float& value)
