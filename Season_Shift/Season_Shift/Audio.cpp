@@ -52,56 +52,68 @@ void Audio::start()
 
 void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta)
 {
-	if (velocity.Length() < 0.1 || (ground == false && wall == false && hook == false) && m_soundLoop == true)
-	{
-		m_soundLoop = false;
-		m_sound.stopLoop();
-	}
-	else if (velocity.Length() != 0 && ground == true && m_soundLoop == false) {
-		m_soundLoop = true;
-		m_sound.playLoop("Sounds/run2.wav");
-	}
-	else if (velocity.Length() != 0 && wall == true && m_soundLoop == false)
-	{
-		m_soundLoop = true;
-		m_sound.playLoop("Sounds/wallrunBongo.wav");
-	}
-	else if (velocity.Length() != 0 && hook == true && ground == false && wall == false && m_soundLoop == false)
-	{
-		m_soundLoop = true;
-		m_sound.playLoop("Sounds/swingT.wav");
-	}
+		if (velocity.Length() < 0.1 || (ground == false && wall == false && hook == false) && m_soundLoop == true)
+		{
+			m_soundLoop = false;
+			m_sound.stopLoop();
+		}
+		else if (velocity.Length() != 0 && ground == true && m_soundLoop == false) {
+			m_soundLoop = true;
+			m_sound.playLoop("Sounds/run2.wav");
+		}
+		else if (velocity.Length() != 0 && wall == true && m_soundLoop == false)
+		{
+			m_soundLoop = true;
+			m_sound.playLoop("Sounds/wallrunBongo.wav");
+		}
+		else if (velocity.Length() != 0 && hook == true && ground == false && wall == false && m_soundLoop == false)
+		{
+			m_soundLoop = true;
+			m_sound.playLoop("Sounds/swingT.wav");
+		}
 
-	if (50 < velocity.Length())
-	{
-		if(m_volume < 1)
-			m_volume += 0.1*delta;
-		if(m_pitch <= 0)
-			m_pitch += 0.15*delta;
-	}
-	else if (85 > velocity.Length())
-	{
-		if(m_volume > 0.1)
-			m_volume -= 0.2*delta;
-		if(m_pitch >= -0.7)
-			m_pitch -= 0.2*delta;
-	}
-	//HerthBeat
-	if (velocity.Length() < 10)
-	{
-		m_volume2 += 0.1 * delta;
-	}
-	else
-	{
-		if(m_volume2 > 0)
-			m_volume2 -= 1 * delta;
-	}
-	m_sound2.setVolume(m_volume2);
-	m_music.setVolume(m_volume);
-	m_music.setPitch(m_pitch);
+		if (50 < velocity.Length())
+		{
+			if (m_volume < 0.8)
+				m_volume += 0.1 * delta;
+			if (m_pitch <= 0)
+				m_pitch += 0.11 * delta;
+		}
+		else if (85 > velocity.Length())
+		{
+			if (m_volume > 0.1)
+				m_volume -= 0.2 * delta;
+			if (m_pitch >= -0.7)
+				m_pitch -= 0.1 * delta;
+		}
+		//HerthBeat
+		if (velocity.Length() < 10)
+		{
+			m_volume2 += 0.1 * delta;
+		}
+		else
+		{
+			if (m_volume2 > 0)
+				m_volume2 -= 1 * delta;
+		}
+		m_sound2.setVolume(m_volume2);
+		m_music.setVolume(m_volume);
+		m_music.setPitch(m_pitch);
 }
 
 void Audio::playSound1(const std::string& soundName)
 {
 	m_sound.play(soundName);
+}
+
+void Audio::pause()
+{
+	m_sound.setVolume(0);
+	m_sound2.setVolume(0);
+	m_music.setVolume(0);
+}
+
+void Audio::unpause()
+{
+	m_sound.setVolume(1);
 }

@@ -17,8 +17,13 @@ void MainMenu::setUpScene()
 		Input::getInput().lockMouse(2);
 
 		auto resDev = m_graphics->getResourceDevice();
-		m_title = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/font.spritefont",
-			ScreenPos::MIDDLE, 72.0f);
+		m_title = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/Oleo.spritefont",
+			ScreenPos::MIDDLE, 100.0f);
+		m_titleOutline = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/OleoBig.spritefont",
+			ScreenPos::MIDDLE, 100.0f);
+
+		m_title->setColor(DirectX::SimpleMath::Color(0, 1, 0, 1));
+		m_titleOutline->setColor(DirectX::SimpleMath::Color(0, 0.5, 0, 1));
 
 		m_background = resDev->createSpriteTexture("Textures/MainMenu/background.jpg", 0, 0, 2, 2);
 
@@ -102,6 +107,7 @@ void MainMenu::setUpScene()
 		m_graphics->addToSpriteBatch(exitButton);
 		m_graphics->addToSpriteBatch(pressedExitButton);
 		m_graphics->addToSpriteBatch(m_quitText);
+		m_graphics->addToSpriteBatch(m_titleOutline);
 		m_graphics->addToSpriteBatch(m_title);
 
 		//Music
@@ -118,6 +124,7 @@ void MainMenu::setUpScene()
 		m_playText->setShow(true);
 		m_quitText->setShow(true);
 		m_title->setShow(true);
+		m_titleOutline->setShow(true);
 		m_buttons[0]->setShow(true);
 		m_buttons[2]->setShow(true);
 	}
@@ -132,6 +139,7 @@ void MainMenu::SwitchScene(Scenes scene)
 	m_playText->setShow(false);
 	m_quitText->setShow(false);
 	m_title->setShow(false);
+	m_titleOutline->setShow(false);
 	for (auto& b : m_buttons)
 		b->setShow(false);
 	int idx = (int)scene;

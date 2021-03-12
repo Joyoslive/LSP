@@ -53,6 +53,7 @@ namespace tempSpriteFix
 	 m_jumpSpeed = 26.0f;
 	 m_doubleJumpSpeed = 30.0f;
 	 m_cooldownDash = 0.0f;
+	 m_pause = false;
 	 m_waitForJump = false;
 	 m_jumpWhenLanding = false;
 	 m_checkCollideJump = false;
@@ -105,6 +106,16 @@ namespace tempSpriteFix
 		 tempSpriteFix::m_spriteGoalTimer->setShow(false);
 	 }
 
+ }
+
+ void Player::onPause()
+ {
+	 m_audio.pause();
+ }
+
+ void Player::onUnPause()
+ {
+	 m_audio.unpause();
  }
 
  int signOf(const float& value)
@@ -161,13 +172,11 @@ namespace tempSpriteFix
  void Player::update()
  {
 	 m_currentTime += m_frameTime;
-	 if (m_gameObject->getScene()->isPaused())
-		 m_currentTime -= m_frameTime;
 
 	 std::wstring str = L"Time: "; 
 	 str += std::to_wstring(m_currentTime);
 	 str += std::to_wstring(L'\n');
-	 OutputDebugStringW(str.c_str());
+	 //OutputDebugStringW(str.c_str());
 
 	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {

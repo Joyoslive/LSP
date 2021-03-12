@@ -42,6 +42,7 @@ private:
 	bool m_soundLoopW;
 	bool m_soundLoopA;
 	bool m_fly;
+	bool m_pause;
 	long double m_frameTime;
 	float m_speed;
 	float m_maxSpeed, m_maxGroundSpeed, m_maxFlySpeed, m_minSpeed, m_groundSpeed, m_flySpeed, m_jumpSpeed, m_doubleJumpSpeed;
@@ -116,6 +117,9 @@ private:
 public:
 	Player();
 	~Player();
+
+	void onPause() override;
+	void onUnPause() override;
 
 	void start() override;
 	void update() override;

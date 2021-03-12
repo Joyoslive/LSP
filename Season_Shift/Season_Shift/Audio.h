@@ -10,6 +10,8 @@ public:
 	void start();
 	void update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta);
 	void playSound1(const std::string& soundName);
+	void pause();
+	void unpause();
 private:
 	Sound m_sound;
 	Sound m_sound2;
