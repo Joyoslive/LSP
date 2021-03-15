@@ -41,13 +41,21 @@ void Audio::start()
 	v1.push_back("Sounds/swingFull.wav");
 	v1.push_back("Sounds/swingT.wav");
 	v1.push_back("Sounds/footstep1.wav");
+	v1.push_back("Sounds/footstep1-2.wav");
+	v1.push_back("Sounds/footstep1-3.wav");
 	v1.push_back("Sounds/footstep2.wav");
 	v1.push_back("Sounds/woosh.wav");
 	m_sound.start(v1);
+	m_sound.setVolume(0.8);
 	std::vector<std::string> v;
 	v.push_back("Sounds/heartbeat.wav");
 	m_sound2.start(v);
 	m_sound2.playLoop("Sounds/heartbeat.wav");
+	std::vector<std::string> v4;
+	v4.push_back("Sounds/footstep1.wav");
+	v4.push_back("Sounds/footstep1Grass.wav");
+	m_sound3.start(v4);
+	m_sound3.setVolume(0.1);
 	std::vector<std::string> v3;
 	v3.push_back("Sounds/Spring2.wav");
 	m_music.start(v3);
@@ -61,10 +69,11 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		{
 			m_soundLoop = false;
 			m_sound.stopLoop();
+			m_sound3.stopLoop();
 		}
 		else if (velocity.Length() != 0 && ground == true && m_soundLoop == false) {
 			m_soundLoop = true;
-			m_sound.playLoop("Sounds/footstep1.wav");
+			m_sound3.playLoop("Sounds/footstep1Grass.wav");
 		}
 		else if (velocity.Length() != 0 && wall == true && m_soundLoop == false)
 		{
@@ -80,15 +89,15 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 
 		if (50 < velocity.Length())
 		{
-			if (m_volume < 0.8)
-				m_volume += 0.1 * delta;
+			if (m_volume < 0.3)
+				m_volume += 0.01 * delta;
 			if (m_pitch <= 0)
 				m_pitch += 0.11 * delta;
 		}
 		else if (85 > velocity.Length() && ground == true)
 		{
 			if (m_volume > 0.1)
-				m_volume -= 0.2 * delta;
+				m_volume -= 0.02 * delta;
 			if (m_pitch >= -0.7)
 				m_pitch -= 0.1 * delta;
 		}
@@ -105,6 +114,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		m_sound2.setVolume(m_volume2);
 		m_music.setVolume(m_volume);
 		m_music.setPitch(m_pitch);
+		m_sound3.setPitch(m_pitch);
 	}
 }
 

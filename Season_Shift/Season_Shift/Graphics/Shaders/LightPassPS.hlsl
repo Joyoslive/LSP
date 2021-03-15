@@ -66,7 +66,7 @@ float4 calcDirLight(float3 normal, float3 worldPos, float4 texColor)
 	return saturate((amb + dif + spec) * texColor);
 }
 
-float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
+float4 calcShadow(float3 worldPos, float4 inputColor, float3 normal, float2 uv)
 {
 	float4 camVS = mul(g_mainViewMatrix, float4(worldPos, 1.f));
 
@@ -84,6 +84,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 
 	float cascadeEnds[3] = { g_nearCascadeEnd, g_midCascadeEnd, g_farCascadeEnd };
 
+	float dotLightNor = abs(dot(g_dlDirection, normal));	// [0, 1]
 
 	float shadowMapDepth = 0.f;
 	float bias = 0.f;
@@ -101,7 +102,11 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 				smUv = float2(0.5f * lcs.x + 0.5f, -0.5f * lcs.y + 0.5f);
 				depth = lcs.z;
 
-				bias = 0.0005f;
+				//bias = 0.0008f;
+				bias = max(0.0015 * (1.0 - dotLightNor) , 0.0009f);
+
+				//return float4(dotLightNor, dotLightNor, dotLightNor, 1.f);
+
 				shadowMapDepth = g_smNear.Sample(g_smBorderSampler, smUv).r;
 				tmpCol = float4(1.f, 0.f, 0.f, 1.f);
 
@@ -204,10 +209,12 @@ float4 main(PS_IN input) : SV_TARGET
 	float3 normal = normalize(g_norTex.Sample(g_sampler, input.uv).xyz);
 	float3 worldPos = g_posTex.Sample(g_sampler, input.uv).xyz;
 
+	//return float4(normal, 1.f);
+
 	if (!(finalColor.w > -1.1 && finalColor.w < -0.9))
 	{
 		finalColor = calcDirLight(normal, worldPos, finalColor);
-		finalColor = calcShadow(worldPos, finalColor, input.uv);
+		finalColor = calcShadow(worldPos, finalColor, normal, input.uv);
 	}
 
 

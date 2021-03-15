@@ -97,7 +97,7 @@ void Scene5::setUpScene()
 	goalTableOfTimes->addGrade("Fantastic", 1.0f);
 	goalTableOfTimes->addGrade("Bad", 2.0f);
 
-	Ref<GameObject> go2 = createGameObject("island", Vector3(0.0f, 20.0f, 0.0f), Vector3(99.95461f / 20.0f, 99.99923f / 20.0f, 51.80217f / 20.0f), Vector3(87.966f, 0, 0));
+	Ref<GameObject> go2 = createGameObject("island", Vector3(8.0f, 16.f, 0.0f), Vector3(5., 5., 5.), Vector3(87.966f, 0, 0));
 	go2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "small_island.fbx", GfxShader::DEFAULT));
 	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
 

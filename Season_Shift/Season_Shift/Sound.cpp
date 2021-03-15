@@ -96,5 +96,6 @@ void Sound::setVolume(float volume)
 
 void Sound::setPitch(float pitch)
 {
-	m_effectInst->SetPitch(pitch);
+	if(m_effectInst)
+		m_effectInst->SetPitch(pitch);
 }
