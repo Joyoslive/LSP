@@ -14,6 +14,7 @@
 #include "Graphics/2D/ISprite.h"
 #include "ParticleSystemComponent.h"
 #include "Sound.h"
+#include "FrameTimer.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -170,6 +171,7 @@ namespace tempSpriteFix
 
  void Player::update()
  {
+	 setFrametime(FrameTimer::dt());
 	 m_currentTime += m_frameTime;
 
 	 std::wstring str = L"Time: "; 

@@ -54,7 +54,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Input::initInput(win.getHWND(), resWidth, resHeight);
 
 	// Init the scene manager object
-	SceneManager sceneManager = SceneManager(&gph, &win);
+	SceneManager sceneManager(&gph, &win);
 
 	// Change active scene to Main Menu
 	sceneManager.changeScene(0); // Main Menu
@@ -66,7 +66,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/300.0);
 	sceneManager.addObserver(physicsEng);
 
-	FrameTimer timer = FrameTimer();
+	FrameTimer timer;
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, resWidth, resHeight);
 	
@@ -118,6 +118,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		
 		// Do stuff
 		//input->update();
+		//camSwitch.update(timer.dt());
 		camSwitch->update(timer.dt());
 		auto player = sceneManager.getActiveScene()->getGameObject("player");
 		if (player)

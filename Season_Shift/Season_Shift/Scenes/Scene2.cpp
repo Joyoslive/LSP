@@ -35,34 +35,36 @@ Scene2::~Scene2()
 
 void Scene2::setUpScene()
 {
-	Ref<GameObject> player = createGameObject("player", Vector3(0, 10, 12), Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f));
+	// Post setup, like cameras and logic
+	auto player = createGameObject("player", Vector3(0, 25, 0), Vector3(1,1,1), Vector3(0, 0, 30));
 	player->AddComponent(std::make_shared<CameraComponent>());
-	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<RigidBody>());
-	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
-	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
-	player->AddComponent(std::make_shared<CapsuleCollider>(1, 4));
-	//player->AddComponent(std::make_shared<SphereCollider>(1));
-	
-	/*Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 7, -8));
-	Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
-		partSysGo->AddComponent(std::make_shared<ParticleSystemComponent>(100000, 8))
-		);
-	partSys->addEmitter(100, 0, 60);*/
+	auto playerComp = std::make_shared<Player>();
+	playerComp->setRespawn({ 0, 25, 0 });
+	player->AddComponent(playerComp);
+	player->AddComponent(std::make_shared<CapsuleCollider>(1.0, 4));
+	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
-	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, 0.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
-	//ground->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
+	//playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
+	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
+
+	m_graphics->setLightDirection({1.8, -1, -1});
+	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
+
+
+	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, -1.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
+	ground->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	ground->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
 
-	/*Ref<GameObject> cube = createGameObject("brickCube", Vector3(0, 5.0, 0.0f), Vector3(1.0f / 50.0f, 1, 1.0f / 50.0f));
-	cube->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	cube->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 2, 4)));*/
-
-	/*Ref<GameObject> box = createGameObject("box", Vector3(5.0f, 4.0f, 0.0f), Vector3(1, 1, 1), Vector3(0, 0, 0));
-	box->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
-	box->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(2, 2, 2)));*/
-
-	/*Ref<GameObject> go1 = createGameObject("object1", Vector3(0, 0, 20.0f));
-	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/nanosuit/", "nanosuit.obj", GfxShader::DEFAULT));*/
+	for (int i = 1; i < 10; i++)
+	{
+		Vector3 c;
+		c = Vector3(2.0f, 0.8f * 0.5f * i, 2.0f);
+		Ref<GameObject> cube1 = createGameObject("brickCube", Vector3(i * 2* c.x, c.y, 0.0f), c);
+		cube1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
+		cube1->AddComponent(std::make_shared<OrientedBoxCollider>(2 * c));
+	}
 }
