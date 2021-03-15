@@ -4,8 +4,8 @@
 Audio::Audio() 
 {
 	m_soundLoop = false;
-	m_volume = 0.5;
-	m_volume2 = 0;
+	m_volume = 0.0;
+	m_volume2 = 0.8;
 	m_pitch = -0.3;
 	m_mute = true;
 }
@@ -89,8 +89,8 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 
 		if (50 < velocity.Length())
 		{
-			if (m_volume < 0.3)
-				m_volume += 0.01 * delta;
+			if (m_volume < 0.9)
+				m_volume += 0.05 * delta;
 			if (m_pitch <= 0)
 				m_pitch += 0.11 * delta;
 		}
