@@ -60,6 +60,7 @@ namespace tempSpriteFix
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
+	 m_death = false;
 	 m_timer = Timer();
 	 m_goalTimer = Timer();
 	 m_timer.start();
@@ -655,9 +656,12 @@ namespace tempSpriteFix
 
  void Player::detectDeath(float death) 
  {
-	 if(m_rb->getTransform()->getPosition().y < death + 100)
+	 if (m_rb->getTransform()->getPosition().y < death + 100 && m_death == false)
+	 {
+		 m_death = true;
 		 m_audio.playSound1("Sounds/wilhem.wav");
-	 if (m_rb->getTransform()->getPosition().y < death)
+	 }
+	if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 m_logicPlayerCamera->resetCamera();
@@ -669,6 +673,7 @@ namespace tempSpriteFix
 		 m_groundSpeed = 0;
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
+		 m_death = true;
 	 }
  }
 
