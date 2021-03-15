@@ -99,7 +99,19 @@ void Scene5::setUpScene()
 
 	Ref<GameObject> go2 = createGameObject("island", Vector3(8.0f, 16.f, 0.0f), Vector3(5., 5., 5.), Vector3(87.966f, 0, 0));
 	go2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "small_island.fbx", GfxShader::DEFAULT));
-	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f * 99.95461f / 20.0f, 0.02045011f * 99.99923f / 20.0f, 0.01149386f * 51.80217f / 20.0f)));
+	go2->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
+
+	Ref<GameObject> go3 = createGameObject("island", Vector3(200.0f, 20.0f, 0.0f), Vector3(934.4659f / 20.0f, 331.5767f / 20.0f, 159.5184f / 20.0f), Vector3(87.966f, 0, 0));
+	go3->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "long_island_spring_2.fbx", GfxShader::DEFAULT));
+	go3->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
+
+	Ref<GameObject> go4 = createGameObject("island", Vector3(-200.0f, 20.0f, 0.0f), Vector3(1401.552f / 20.0f, 439.1304f / 20.0f, 160.0005f / 20.0f), Vector3(87.966f, 0, 0));
+	go4->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "long_island_spring_3.fbx", GfxShader::DEFAULT));
+	go4->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
+
+	Ref<GameObject> go5 = createGameObject("island", Vector3(-200.0f, 20.0f, 200.0f), Vector3(100.f / 20.0f, 100.f / 20.0f, 100.f / 20.0f), Vector3(87.966f, 0, 0));
+	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "vertical_island_fall.fbx", GfxShader::DEFAULT));
+	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
