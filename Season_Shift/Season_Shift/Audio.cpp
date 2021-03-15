@@ -45,6 +45,7 @@ void Audio::start()
 	v1.push_back("Sounds/footstep1-3.wav");
 	v1.push_back("Sounds/footstep2.wav");
 	v1.push_back("Sounds/woosh.wav");
+	v1.push_back("Sounds/wilhem.wav");
 	m_sound.start(v1);
 	m_sound.setVolume(0.8);
 	std::vector<std::string> v;

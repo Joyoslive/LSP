@@ -192,7 +192,7 @@ namespace tempSpriteFix
 		 tempSpriteFix::m_createSpriteFirstTime = false;
 	 }
 
-	detectDeath(-120.0f);
+	detectDeath(-220.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -653,6 +653,8 @@ namespace tempSpriteFix
 
  void Player::detectDeath(float death) 
  {
+	 if(m_rb->getTransform()->getPosition().y < death + 100)
+		 m_audio.playSound1("Sounds/wilhem.wav");
 	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(m_respawn);
