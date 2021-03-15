@@ -53,8 +53,9 @@ void Audio::start()
 	m_sound2.playLoop("Sounds/heartbeat.wav");
 	std::vector<std::string> v4;
 	v4.push_back("Sounds/footstep1.wav");
+	v4.push_back("Sounds/footstep1Grass.wav");
 	m_sound3.start(v4);
-	m_sound3.setVolume(0.5);
+	m_sound3.setVolume(0.7);
 	std::vector<std::string> v3;
 	v3.push_back("Sounds/Spring2.wav");
 	m_music.start(v3);
@@ -72,7 +73,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		}
 		else if (velocity.Length() != 0 && ground == true && m_soundLoop == false) {
 			m_soundLoop = true;
-			m_sound3.playLoop("Sounds/footstep1-3.wav");
+			m_sound3.playLoop("Sounds/footstep1.wav");
 		}
 		else if (velocity.Length() != 0 && wall == true && m_soundLoop == false)
 		{
