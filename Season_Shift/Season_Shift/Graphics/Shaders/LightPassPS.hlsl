@@ -101,7 +101,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float2 uv)
 				smUv = float2(0.5f * lcs.x + 0.5f, -0.5f * lcs.y + 0.5f);
 				depth = lcs.z;
 
-				bias = 0.0005f;
+				bias = 0.0009f;
 				shadowMapDepth = g_smNear.Sample(g_smBorderSampler, smUv).r;
 				tmpCol = float4(1.f, 0.f, 0.f, 1.f);
 
