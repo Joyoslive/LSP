@@ -13,6 +13,7 @@ public:
 	void mute();
 	void unmute();
 private:
+	int random();
 	Sound m_sound;
 	Sound m_sound2;
 	Sound m_music;

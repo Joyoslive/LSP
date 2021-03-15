@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Audio.h"
-
+#include <ctime>
 Audio::Audio() 
 {
 	m_soundLoop = false;
@@ -40,6 +40,9 @@ void Audio::start()
 	v1.push_back("Sounds/swingDown.wav");
 	v1.push_back("Sounds/swingFull.wav");
 	v1.push_back("Sounds/swingT.wav");
+	v1.push_back("Sounds/footstep1.wav");
+	v1.push_back("Sounds/footstep2.wav");
+	v1.push_back("Sounds/woosh.wav");
 	m_sound.start(v1);
 	std::vector<std::string> v;
 	v.push_back("Sounds/heartbeat.wav");
@@ -61,7 +64,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		}
 		else if (velocity.Length() != 0 && ground == true && m_soundLoop == false) {
 			m_soundLoop = true;
-			m_sound.playLoop("Sounds/run2.wav");
+			m_sound.playLoop("Sounds/footstep1.wav");
 		}
 		else if (velocity.Length() != 0 && wall == true && m_soundLoop == false)
 		{
@@ -71,7 +74,8 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		else if (velocity.Length() != 0 && hook == true && ground == false && wall == false && m_soundLoop == false)
 		{
 			m_soundLoop = true;
-			m_sound.playLoop("Sounds/swingT.wav");
+			if (random() < 2)
+				m_sound.playLoop("Sounds/swingT.wav");
 		}
 
 		if (50 < velocity.Length())
@@ -81,7 +85,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 			if (m_pitch <= 0)
 				m_pitch += 0.11 * delta;
 		}
-		else if (85 > velocity.Length())
+		else if (85 > velocity.Length() && ground == true)
 		{
 			if (m_volume > 0.1)
 				m_volume -= 0.2 * delta;
@@ -93,7 +97,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		{
 			m_volume2 += 0.1 * delta;
 		}
-		else
+		else if (ground == true)
 		{
 			if (m_volume2 > 0)
 				m_volume2 -= 1 * delta;
@@ -121,4 +125,18 @@ void Audio::unmute()
 {
 	m_sound.setVolume(1);
 	m_mute = true;
+}
+
+int Audio::random()
+{
+	std::srand(std::time(nullptr)); // use current time as seed for random generator
+	int random_variable = std::rand();
+
+	// roll 6-sided dice 20 times
+	int x = 7;
+	while (x > 6)
+		x = 1 + std::rand() / ((RAND_MAX + 1u) / 6);  // Note: 1+rand()%6 is biased
+	return x;
+		
+
 }
