@@ -149,7 +149,7 @@ void SceneManager::createScenes(Graphics* graphics)
 	Ref<Scene> scene5 = std::make_shared<Scene5>(graphics);
 	addScene(scene5);
 	
-	setActiveScene(scene);
+	setActiveScene(scene5);
 	//setActiveScene(scene2);
 }
 
