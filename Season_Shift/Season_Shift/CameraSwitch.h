@@ -4,8 +4,9 @@
 #include "SceneManager.h"
 #include "DebugCamera.h"
 #include "CameraComponent.h"
+#include "SceneManagerObserver.h"
 
-class CameraSwitch
+class CameraSwitch : public SceneManagerObserver
 {
 public:
 	CameraSwitch();
@@ -13,11 +14,13 @@ public:
 	~CameraSwitch();
 	void update(long double dt);
 	Ref<Camera> getCamera() const;
+	void updateScene(Scene* activeScene);
 private:
 	SceneManager* m_sceneManager;
 	DebugCamera* m_debugCamera;
 	Ref<GameObject> gameObject;
 	Ref<Camera> m_cam;
+	Ref<Camera> m_mainCamera;
 	Graphics* m_gph;
 	bool m_cameraCheck;
 };

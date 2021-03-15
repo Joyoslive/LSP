@@ -46,8 +46,20 @@ Ref<Camera> CameraSwitch::getCamera() const
 	{
 		return m_cam;
 	}
-	else
+	else if (gameObject != nullptr)
 	{
 		return gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 	}
+	else if (m_mainCamera != nullptr)
+	{
+		return m_mainCamera;
+	}
+
+	assert(false);
+}
+
+void CameraSwitch::updateScene(Scene* activeScene)
+{
+	gameObject = activeScene->getGameObject("player");
+	m_mainCamera = activeScene->getSceneMainCamera();
 }
