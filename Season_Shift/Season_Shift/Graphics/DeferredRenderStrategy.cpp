@@ -152,7 +152,10 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 				if (m_sprites.size() == 0)
 					break;
 				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
-				s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton));
+				if (s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton)))
+				{
+					break;
+				}
 				m_spriteRenderer->queueDraw(s);
 			}
 		}

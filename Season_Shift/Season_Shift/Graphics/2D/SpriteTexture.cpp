@@ -57,7 +57,7 @@ void SpriteTexture::checkForClick(int mouseX, int mouseY, bool isClicked)
 	}
 }
 
-void SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
+bool SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
 {
 	if (mouseReleased && m_releaseCallback &&
 		mouseX > m_correctedPosition.x && mouseX < (m_correctedPosition.x + getWidth()) &&
@@ -65,7 +65,9 @@ void SpriteTexture::checkForRelease(int mouseX, int mouseY, bool mouseReleased)
 	{
 		m_releaseCallback();
 		m_clicked = false;
+		return true;
 	}
+	return false;
 }
 
 void SpriteTexture::globalRelease()

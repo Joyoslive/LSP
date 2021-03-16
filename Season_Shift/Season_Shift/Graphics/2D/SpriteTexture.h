@@ -25,7 +25,7 @@ public:
 	void onGlobalRelease(std::function<void()> callback) override;
 
 	void checkForClick(int mouseX, int mouseY, bool isClicked = false) override;
-	void checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) override;
+	bool checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) override;
 	void globalRelease() override;
 
 	float getWidth() const;
