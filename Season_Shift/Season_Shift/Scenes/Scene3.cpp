@@ -107,7 +107,7 @@ void Scene3::setUpScene()
 	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
-	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.3f, 0.5f, 0.6f), 700));
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.1f, 0.5f, 0.6f), 700));
 
 	for (int i = 0; i < moveGameObjects.size(); ++i)
 	{
