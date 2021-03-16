@@ -977,6 +977,7 @@ namespace tempSpriteFix
 		 bool hitObj = false;
 		 for (auto& go : scene)
 		 {
+			 if (go->getName() == "checkpoint") continue;
 			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
 			 if (obb != nullptr)
 			 {
