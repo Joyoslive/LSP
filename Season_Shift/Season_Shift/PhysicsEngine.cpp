@@ -188,7 +188,7 @@ Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref
 	
 	if (!(collisionInfo.m_penetration < std::dynamic_pointer_cast<CapsuleCollider>(capsule)->getInternalCollider().radius))
 	{
-		assert(normal.Length() < 0.1f);
+		assert(!(abs(normal.Length() - 1.0f) < 0.01f)); // this is not rare and should not happend
 		collisionInfo.m_penetration = std::dynamic_pointer_cast<CapsuleCollider>(capsule)->m_length; //some length to push it out, m_length may be to short
 		auto rg = capsule->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		if (rg == nullptr)
