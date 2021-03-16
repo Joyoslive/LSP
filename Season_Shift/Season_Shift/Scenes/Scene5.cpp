@@ -60,14 +60,14 @@ void Scene5::setUpScene()
 	}
 
 	// Post setup, like cameras and logic
-	auto player = createGameObject("player", Vector3(0, 25, 0));
+	auto player = createGameObject("player", Vector3(0, 25, 0), Vector3(0.5f, 0.5f, 0.5f));
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
 	auto playerComp = std::make_shared<Player>();
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
-	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
