@@ -673,7 +673,7 @@ namespace tempSpriteFix
 		 m_groundSpeed = 0;
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
-		 m_death = true;
+		 m_death = false;
 	 }
  }
 
