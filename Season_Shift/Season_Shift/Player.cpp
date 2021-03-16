@@ -175,14 +175,14 @@ namespace tempSpriteFix
 	 setFrametime(FrameTimer::dt());
 	 m_currentTime += m_frameTime;
 
-	 std::wstring str = L"Time: "; 
+	 std::wstring str = L"Time: ";
 	 str += std::to_wstring(m_currentTime);
 	 str += std::to_wstring(L'\n');
 	 //OutputDebugStringW(str.c_str());
 
 	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {
-		 tempSpriteFix::m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
+		 tempSpriteFix::m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash3.png", 1110, 550, 0.3f, 0.3f);
 		 tempSpriteFix::m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 tempSpriteFix::m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
 
