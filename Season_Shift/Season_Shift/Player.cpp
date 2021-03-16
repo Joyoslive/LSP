@@ -28,7 +28,6 @@ namespace tempSpriteFix
 
  Player::Player()
  {
-	 m_respawn = { 0, 10, 0 };
 	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
@@ -162,7 +161,7 @@ namespace tempSpriteFix
 		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
-	 m_playerStartPosition = m_transform->getPosition();
+	 m_playerStartPosition = m_respawn = m_transform->getPosition();
 	 m_wallRunPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "", "ParticleHookEmittCS.cso", 1000, 1)));
 	 m_wallRunPartSysId = m_wallRunPartSys->addEmitter(200, 0, 0.05f, Vector3(1, 0.6, 0.3f), Vector3(0, 1, 1.5f));
@@ -977,6 +976,7 @@ namespace tempSpriteFix
 		 bool hitObj = false;
 		 for (auto& go : scene)
 		 {
+			 if (go->getName() == "checkpoint") continue;
 			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
 			 if (obb != nullptr)
 			 {
