@@ -24,6 +24,7 @@
 #include "../ParticleSystemComponent.h"
 #include "../GoalLogic.h"
 #include "../TableOfTimes.h"
+#include "../Bounce.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -47,12 +48,26 @@ void Scene5::setUpScene()
 			cp1->AddComponent(std::make_shared<Rotate>(0, 70, 0));
 			continue;
 		}
+		if (object.name == "Spring")
+		{
+			Ref<GameObject> spring = createGameObject("trampoline", object.position, Vector3(8, 8, 8));
+			spring->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
+			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
+			trigger->SetTriggerCollider(true);
+			spring->AddComponent(trigger);
+			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 200));
+			continue;
+		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
 		auto model = m_graphics->getResourceDevice()->createModel(object.meshDirectory, object.meshFileName, GfxShader::DEFAULT);
 		go->AddComponent(model);
 
 		for (auto& b : object.boxColliders)
 		{
+			if (object.name == "step_spring")
+			{
+				OutputDebugStringA("lol");
+			}
 			auto collider = std::make_shared<OrientedBoxCollider>(b.scale, b.position);
 			go->AddComponent(collider);
 		}
@@ -62,6 +77,11 @@ void Scene5::setUpScene()
 			auto collider = std::make_shared<OrientedBoxCollider>(object.boxCollider);
 			go->AddComponent(collider);
 		}*/
+		if (object.name == "Collider")
+		{
+			go->setIsVisible(false);
+			continue;
+		}
 	}
 
 	// Post setup, like cameras and logic
@@ -118,7 +138,9 @@ void Scene5::setUpScene()
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "vertical_island_fall.fbx", GfxShader::DEFAULT));
 	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
 
-
+	Ref<GameObject> winterBox6 = createGameObject("wall", Vector3(-10.0, 50.0f + 140, 20.0f + (20 * 28) / 2), Vector3(20, 20, 20));
+	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallTest3.fbx", GfxShader::DEFAULT));
+	winterBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");

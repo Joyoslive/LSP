@@ -107,7 +107,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		{
 			m_volume2 += 0.1 * delta;
 		}
-		else if (ground == true)
+		else
 		{
 			if (m_volume2 > 0)
 				m_volume2 -= 1 * delta;

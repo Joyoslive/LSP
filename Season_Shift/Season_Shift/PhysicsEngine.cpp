@@ -207,5 +207,5 @@ Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref
 	}
 	capsule->getTransform()->setPosition(position + normal * collisionInfo.m_penetration * 1.001f);
 	std::dynamic_pointer_cast<CapsuleCollider>(capsule)->update();
-	return collisionInfo.m_normal;
+	return normal;
 }
