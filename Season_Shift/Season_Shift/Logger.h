@@ -26,6 +26,8 @@ public:
 	void setFile(std::string filepath);
 	void addLog(std::string log);
 	void debugLog(std::string message);
+	void debugLog(float message, std::string preText = "");
+	void debugLog(DirectX::SimpleMath::Vector3 message, std::string preText = "");
 	void dumpLogs();
 };
 

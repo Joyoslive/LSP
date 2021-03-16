@@ -72,7 +72,7 @@ void Scene5::setUpScene()
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
