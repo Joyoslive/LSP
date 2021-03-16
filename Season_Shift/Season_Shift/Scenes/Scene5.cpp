@@ -72,7 +72,7 @@ void Scene5::setUpScene()
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -85,7 +85,7 @@ void Scene5::setUpScene()
 		spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10*5, 5.0f)));
 	spawnPartSysComp->addEmitter(10, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
 
-	m_graphics->loadSkybox("Textures/Skyboxes/space");
+	m_graphics->loadSkybox("Textures/Skyboxes/EQUISKYBOX");
 	m_graphics->setSkybox(1);
 	//Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
 	//Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(

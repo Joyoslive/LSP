@@ -151,7 +151,7 @@ void PhysicsEngine::collisionResponse(const Ref<RigidBody>& rigidBody, const Ref
 	Vector3 normal, velocity;
 	if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::CAPSULE_COLLIDER))
 	{
-		normal = capsuleCollideObb(rigidBodyCollider, obb); //använder bara infor från den senaste krocken SÅ DET FUNKAR INTE OM MAN KOLLIDERAR MED FLERA SA
+		normal = capsuleCollideObb(rigidBodyCollider, obb);
 	}
 	else if ((int)(rigidBodyCollider->getType() & Component::ComponentEnum::SPHERE_COLLIDER))
 	{
@@ -181,10 +181,30 @@ Vector3 PhysicsEngine::sphereCollideObb(const Ref<Collider>& sphere, const Ref<C
 
 Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref<Collider>& obb)
 {
+	capsule->collide(obb); //refresh collisionInfo
 	auto collisionInfo = std::dynamic_pointer_cast<CapsuleCollider>(capsule)->m_collisionInfo;
 	Vector3 normal = collisionInfo.m_normal;
 	Vector3 position = capsule->getTransform()->getPosition();
-
+	
+	if (!(collisionInfo.m_penetration < std::dynamic_pointer_cast<CapsuleCollider>(capsule)->getInternalCollider().radius))
+	{
+		assert(!(abs(normal.Length() - 1.0f) < 0.01f)); // this is not rare and should not happend
+		collisionInfo.m_penetration = std::dynamic_pointer_cast<CapsuleCollider>(capsule)->m_length; //some length to push it out, m_length may be to short
+		auto rg = capsule->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
+		if (rg == nullptr)
+		{
+			Logger::getLogger().debugLog("Deep collision detected, normal is hardcoded to point up.\n");
+			normal = Vector3(0, 1, 0);
+		}
+		else
+		{
+			Logger::getLogger().debugLog("Deep collision detected, normal set to -velocity vector.\n");
+			normal = -rg->getVelocity();
+			normal.Normalize();
+			Logger::getLogger().debugLog(normal);
+		}
+		
+	}
 	capsule->getTransform()->setPosition(position + normal * collisionInfo.m_penetration * 1.001f);
 	std::dynamic_pointer_cast<CapsuleCollider>(capsule)->update();
 	return collisionInfo.m_normal;
