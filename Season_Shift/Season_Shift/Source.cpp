@@ -63,7 +63,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//Ref<GameObject> player = scene->getGameObject("player");
 	
 
-	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/300.0);
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/120.0);
 	sceneManager.addObserver(physicsEng);
 
 	FrameTimer timer;
