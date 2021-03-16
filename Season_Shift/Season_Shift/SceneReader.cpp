@@ -52,9 +52,9 @@ std::vector<SceneReader::SceneObject> SceneReader::readSceneFromFile(const std::
             };
             BCollider b = {
                 { 
-                    p.x + so.position.x,
-                    p.y + so.position.y,
-                    p.z + so.position.z 
+                    p.x * so.scale.x,
+                    p.y * so.scale.y,
+                    p.z * so.scale.z
                 },
                 { 
                     s.x * so.scale.x, 

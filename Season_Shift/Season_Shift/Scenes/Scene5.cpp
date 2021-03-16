@@ -53,7 +53,7 @@ void Scene5::setUpScene()
 
 		for (auto& b : object.boxColliders)
 		{
-			auto collider = std::make_shared<OrientedBoxCollider>(b.scale);
+			auto collider = std::make_shared<OrientedBoxCollider>(b.scale, b.position);
 			go->AddComponent(collider);
 		}
 		/*auto temp = object.boxCollider.x + object.boxCollider.y + object.boxCollider.z;
