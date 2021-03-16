@@ -34,30 +34,6 @@ void Scene4::setUpScene()
 	player->AddComponent(std::make_shared<RigidBody>());
 	player->AddComponent(std::make_shared<Player>());
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5f, 2));
-	std::vector<std::string> v1;
-	v1.push_back("Sounds/whoosh.wav");
-	v1.push_back("Sounds/boing2.wav");
-	v1.push_back("Sounds/hook.wav");
-	v1.push_back("Sounds/walkingDrum.wav");
-	v1.push_back("Sounds/landing.wav");
-	v1.push_back("Sounds/landing2.wav");
-	v1.push_back("Sounds/checkpoint.wav");
-	v1.push_back("Sounds/dehook.wav");
-	v1.push_back("Sounds/jump1a.wav");
-	v1.push_back("Sounds/jump2a.wav");
-	v1.push_back("Sounds/jump3a.wav");
-	v1.push_back("Sounds/dashTest.wav");
-	v1.push_back("Sounds/jumpTest.wav");
-	v1.push_back("Sounds/wallrunBongo.wav");
-	v1.push_back("Sounds/airBeat.wav");
-	v1.push_back("Sounds/hookDrum.wav");
-	v1.push_back("Sounds/hookDrumv2.wav");
-	v1.push_back("Sounds/run2.wav");
-	v1.push_back("Sounds/swing3.wav");
-	v1.push_back("Sounds/swingUp.wav");
-	v1.push_back("Sounds/swingDown.wav");
-	v1.push_back("Sounds/swingFull.wav");
-	player->AddComponent(std::make_shared<Sound>(v1));
 	//player->AddComponent(std::make_shared<SphereCollider>(1));
 	/*Ref<Component> s = player->AddComponent(std::make_shared<Sound>());
 	std::dynamic_pointer_cast<Sound>(s)->play();*/
@@ -350,7 +326,7 @@ void Scene4::setUpScene()
 
 
 	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-(10.0f + (20 * 25) / 2), 2.0f, 60), Vector3(4, 4, 4));
-	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Goal/", "goal4.obj", GfxShader::DEFAULT));
 	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
