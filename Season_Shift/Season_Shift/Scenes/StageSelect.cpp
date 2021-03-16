@@ -93,11 +93,11 @@ void StageSelect::setUpScene()
 					m_stage2ButtonDown->setShow(false);
 					m_stage2ButtonText->setShow(false);
 
-					m_stage1ButtonText->setPosition({ m_stage2ButtonText->getPosition().x, m_stage2ButtonText->getPosition().y - 6 });
+					m_stage2ButtonText->setPosition({ m_stage2ButtonText->getPosition().x, m_stage2ButtonText->getPosition().y - 6 });
 
 					Input::getInput().lockMouse(0);
 
-					m_sceneManager->changeScene(2); // Switch
+					m_sceneManager->changeScene(3); // Switch
 				}
 			});
 		m_stage2ButtonDown->onGlobalRelease([this]()
