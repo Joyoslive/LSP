@@ -92,7 +92,7 @@ void Scene5::setUpScene()
 	playerComp->setRespawn({0, 25, 0});
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -105,7 +105,7 @@ void Scene5::setUpScene()
 		spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10*5, 5.0f)));
 	spawnPartSysComp->addEmitter(10, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
 
-	m_graphics->loadSkybox("Textures/Skyboxes/space");
+	m_graphics->loadSkybox("Textures/Skyboxes/EQUISKYBOX");
 	m_graphics->setSkybox(1);
 	//Ref<GameObject> partSysGo = createGameObject("partSysGo", Vector3(0, 40, 0));
 	//Ref<ParticleSystemComponent> partSys = std::dynamic_pointer_cast<ParticleSystemComponent>(
@@ -137,6 +137,8 @@ void Scene5::setUpScene()
 	Ref<GameObject> go5 = createGameObject("island", Vector3(-200.0f, 20.0f, 200.0f), Vector3(100.f / 20.0f, 100.f / 20.0f, 100.f / 20.0f), Vector3(87.966f, 0, 0));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "vertical_island_fall.fbx", GfxShader::DEFAULT));
 	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
+
+
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
