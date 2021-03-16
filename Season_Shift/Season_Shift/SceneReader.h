@@ -8,6 +8,11 @@
 class SceneReader
 {
 public:
+	struct BCollider
+	{
+		DirectX::SimpleMath::Vector3 position;
+		DirectX::SimpleMath::Vector3 scale;
+	};
 	struct SceneObject
 	{
 		std::string name;
@@ -16,7 +21,8 @@ public:
 		DirectX::SimpleMath::Vector3 scale;
 		std::string meshFileName;
 		std::string meshDirectory;
-		DirectX::SimpleMath::Vector3 boxCollider;
+		//DirectX::SimpleMath::Vector3 boxCollider;
+		std::vector<BCollider> boxColliders;
 	};
 private:
 

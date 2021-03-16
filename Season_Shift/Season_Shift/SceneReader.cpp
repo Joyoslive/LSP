@@ -37,11 +37,41 @@ std::vector<SceneReader::SceneObject> SceneReader::readSceneFromFile(const std::
         // If no box collider was present in Unity this will be [0, 0, 0]
         // This needs to be checked for in the scene by for example comparing the sum of x, y, and z with 0 
         // scale should never be negative
-        so.boxCollider = {
-            obj["boxCollider"]["x"] * so.scale.x,
-            obj["boxCollider"]["y"] * so.scale.y,
-            obj["boxCollider"]["z"] * so.scale.z
-        };
+        auto bcols = obj["boxColliders"];
+        for (auto& col : bcols)
+        {
+            DirectX::SimpleMath::Vector3 p = {
+                    col["pos"]["x"],
+                    col["pos"]["y"],
+                    col["pos"]["z"]
+            };
+            DirectX::SimpleMath::Vector3 s = {
+                    col["scale"]["x"],
+                    col["scale"]["y"],
+                    col["scale"]["z"]
+            };
+            BCollider b = {
+                { 
+                    p.x + so.position.x,
+                    p.y + so.position.y,
+                    p.z + so.position.z 
+                },
+                { 
+                    s.x * so.scale.x, 
+                    s.y * so.scale.y, 
+                    s.z * so.scale.z 
+                },
+            };
+            so.boxColliders.push_back(b);
+        }
+        //float x = obj["boxCollider"]["x"];
+        //float y = obj["boxCollider"]["y"];
+        //float z = obj["boxCollider"]["z"];
+        /*so.boxCollider = {
+            x * so.scale.x,
+            y * so.scale.y,
+            z * so.scale.z
+        };*/
         vec.push_back(so);
     }
 

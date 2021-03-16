@@ -33,7 +33,7 @@ Scene5::Scene5(Graphics* graphics) : Scene(graphics)
 void Scene5::setUpScene()
 {
 	SceneReader sr;
-	auto vec = sr.readSceneFromFile("Scenes/SceneJSONs/scene.json");
+	auto vec = sr.readSceneFromFile("Scenes/SceneJSONs/SpringScene.json");
 
 	for (auto& object : vec)
 	{
@@ -51,12 +51,17 @@ void Scene5::setUpScene()
 		auto model = m_graphics->getResourceDevice()->createModel(object.meshDirectory, object.meshFileName, GfxShader::DEFAULT);
 		go->AddComponent(model);
 
-		auto temp = object.boxCollider.x + object.boxCollider.y + object.boxCollider.z;
+		for (auto& b : object.boxColliders)
+		{
+			auto collider = std::make_shared<OrientedBoxCollider>(b.scale);
+			go->AddComponent(collider);
+		}
+		/*auto temp = object.boxCollider.x + object.boxCollider.y + object.boxCollider.z;
 		if (!(-0.0001 < temp && temp < 0.0001))
 		{
 			auto collider = std::make_shared<OrientedBoxCollider>(object.boxCollider);
 			go->AddComponent(collider);
-		}
+		}*/
 	}
 
 	// Post setup, like cameras and logic
@@ -89,7 +94,7 @@ void Scene5::setUpScene()
 	//partSys->addEmitter(20, 0, 200, Vector3(0,1,1));
 	////	80 / 4 = 20
 
-	Ref<GameObject> go1 = createGameObject("goal", Vector3(0.0f, 40.0f, 0.0f), Vector3(99.95461f / 20.0f, 99.99923f / 20.0f, 51.80217f / 20.0f), Vector3(87.966f, 0, 0));
+	/*Ref<GameObject> go1 = createGameObject("goal", Vector3(0.0f, 40.0f, 0.0f), Vector3(99.95461f / 20.0f, 99.99923f / 20.0f, 51.80217f / 20.0f), Vector3(87.966f, 0, 0));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "small_island.fbx", GfxShader::DEFAULT));
 	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(10 * 2, 2 * 4, 10 * 2)));
 	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
@@ -111,7 +116,7 @@ void Scene5::setUpScene()
 
 	Ref<GameObject> go5 = createGameObject("island", Vector3(-200.0f, 20.0f, 200.0f), Vector3(100.f / 20.0f, 100.f / 20.0f, 100.f / 20.0f), Vector3(87.966f, 0, 0));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "vertical_island_fall.fbx", GfxShader::DEFAULT));
-	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));
+	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
