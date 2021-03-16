@@ -13,7 +13,7 @@ private:
 	
 
 public:
-	OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions);
+	OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions, DirectX::SimpleMath::Vector3 offset = DirectX::SimpleMath::Vector3::Zero);
 	~OrientedBoxCollider();
 
 	bool collide(const Ref<Collider>& collider) override;

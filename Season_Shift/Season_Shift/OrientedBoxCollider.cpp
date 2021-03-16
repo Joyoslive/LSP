@@ -9,7 +9,7 @@
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 
-OrientedBoxCollider::OrientedBoxCollider(DirectX::SimpleMath::Vector3 dimensions)
+OrientedBoxCollider::OrientedBoxCollider(Vector3 dimensions, Vector3 offset)
 {
 	m_obb.Extents = dimensions / 2;
 	m_radius = 0;
