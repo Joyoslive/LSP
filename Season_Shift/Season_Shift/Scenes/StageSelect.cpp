@@ -97,7 +97,7 @@ void StageSelect::setUpScene()
 
 					Input::getInput().lockMouse(0);
 
-					m_sceneManager->changeScene(3); // Switch
+					m_sceneManager->changeScene(4); // Switch
 				}
 			});
 		m_stage2ButtonDown->onGlobalRelease([this]()
