@@ -28,8 +28,12 @@ SceneManager::~SceneManager()
 	{
 		m_scenes[i]->emptyScene();
 	}
+	m_observers.clear();
 	m_scenes.clear();
 	m_activeScene = nullptr;
+	m_menu = nullptr;
+	m_resultMenu.reset();
+	m_resultMenu = nullptr;
 }
 
 void SceneManager::createMenu(Graphics* graphics)
@@ -74,10 +78,39 @@ void SceneManager::createMenu(Graphics* graphics)
 	text3->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
 	text3->setShow(false);
 
-	auto showTimeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 280);
+	auto backgroundSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", 365, 140, 1.4f, 0.7f, 0.f, 0.5f, nullptr);
+	graphics->addToSpriteBatch(backgroundSprite);
+	backgroundSprite->setShow(false);
+
+	auto showGradeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 200);
+	graphics->addToSpriteBatch(showGradeSprite);
+	showGradeSprite->setScale(DirectX::SimpleMath::Vector2(0.7f, 0.7f));
+	showGradeSprite->setShow(false);
+
+	auto showTimeSprite = graphics->getResourceDevice()->createSprite("Time", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 240);
 	graphics->addToSpriteBatch(showTimeSprite);
 	showTimeSprite->setScale(DirectX::SimpleMath::Vector2(0.7f, 0.7f));
 	showTimeSprite->setShow(false);
+
+	auto clickableRetrySprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 340, 0.6f, 0.4f, 0.f, 0.5f,
+		[this]() { m_resultMenu->retryLevel(); });
+
+	graphics->addToSpriteBatch(clickableRetrySprite);
+	clickableRetrySprite->setShow(false);
+	auto retryTextSprite = graphics->getResourceDevice()->createSprite("Retry Level", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 385);
+	graphics->addToSpriteBatch(retryTextSprite);
+	retryTextSprite->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
+	retryTextSprite->setShow(false);
+
+	auto clickableNextSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 460, 0.6f, 0.4f, 0.f, 0.5f,
+		[this]() { m_resultMenu->nextLevel(); });
+
+	graphics->addToSpriteBatch(clickableNextSprite);
+	clickableNextSprite->setShow(false);
+	auto nextTextSprite = graphics->getResourceDevice()->createSprite("Change Level", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 505);
+	graphics->addToSpriteBatch(nextTextSprite);
+	nextTextSprite->setScale(DirectX::SimpleMath::Vector2(0.5, 0.5));
+	nextTextSprite->setShow(false);
 
 	std::vector<std::shared_ptr<ISprite>> sprites;
 	sprites.push_back(clickableSprite);
@@ -90,9 +123,17 @@ void SceneManager::createMenu(Graphics* graphics)
 	m_menu = std::make_shared<InGameMenu>(sprites);
 
 	std::vector<std::shared_ptr<ISprite>> resultSprites;
+	resultSprites.push_back(showGradeSprite);
+	resultSprites.push_back(clickableRetrySprite);
+	resultSprites.push_back(retryTextSprite);
+	resultSprites.push_back(nextTextSprite);
+	resultSprites.push_back(clickableNextSprite);
 	resultSprites.push_back(showTimeSprite);
+	resultSprites.push_back(backgroundSprite);
 
-	m_resultMenu = std::make_shared<ResultMenu>(resultSprites, showTimeSprite);
+	m_resultMenu = std::make_shared<ResultMenu>(resultSprites, showGradeSprite, showTimeSprite, this);
+
+	addObserver(m_resultMenu);
 }
 
 void SceneManager::createScenes(Graphics* graphics)
@@ -130,9 +171,9 @@ void SceneManager::addScene(Ref<Scene> newScene)
 	m_scenes.push_back(newScene);
 }
 
-Ref<Scene> SceneManager::getActiveScene() const
+Scene* SceneManager::getActiveScene() const
 {
-	return m_activeScene;
+	return m_activeScene.get();
 }
 
 void SceneManager::changeScene(const int& sceneIndex)
@@ -154,7 +195,7 @@ void SceneManager::updateActiveScene() const
 void SceneManager::addObserver(Ref<SceneManagerObserver> observer)
 {
 	m_observers.push_back(observer);
-	observer->updateScene(m_activeScene);
+	observer->updateScene(m_activeScene.get());
 }
 
 void SceneManager::removeObserver(Ref<SceneManagerObserver> observer)
@@ -174,6 +215,11 @@ bool SceneManager::currentScenePaused() const
 	return m_activeScene->isPaused();
 }
 
+void SceneManager::quitGame()
+{
+	m_timeToQuit = true;
+}
+
 bool SceneManager::shouldQuit() const
 {
 	return m_timeToQuit;
@@ -183,6 +229,6 @@ void SceneManager::updateObservers()
 {
 	for (int i = 0; i < m_observers.size(); ++i)
 	{
-		m_observers[i]->updateScene(m_activeScene);
+		m_observers[i]->updateScene(m_activeScene.get());
 	}
 }

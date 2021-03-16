@@ -28,12 +28,13 @@ public:
 	SceneManager(Graphics *graphics, const Window* const win);
 	~SceneManager();
 
-	Ref<Scene> getActiveScene() const;
+	Scene* getActiveScene() const;
 	void changeScene(const int& sceneIndex);
 	void updateActiveScene() const;
 	void addObserver(Ref<SceneManagerObserver> observer);
 	void removeObserver(Ref<SceneManagerObserver> observer);
 	bool currentScenePaused() const;
+	void quitGame();
 	bool shouldQuit() const;
 };
 

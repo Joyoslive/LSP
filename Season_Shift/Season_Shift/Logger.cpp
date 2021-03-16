@@ -62,6 +62,18 @@ void Logger::debugLog(std::string log)
 #endif
 }
 
+void Logger::debugLog(float message, std::string preText)
+{
+	instance.debugLog(preText + std::to_string(message) + "\n");
+}
+
+void Logger::debugLog(DirectX::SimpleMath::Vector3 message, std::string preText)
+{
+	instance.debugLog(preText + std::to_string(message.x) + ", " +
+								std::to_string(message.y) + ", " +
+								std::to_string(message.z) + "\n");
+}
+
 void Logger::dumpLogs()
 {
 	if (m_bufferedLogs.size() > 0)

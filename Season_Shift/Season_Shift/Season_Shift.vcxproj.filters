@@ -194,6 +194,17 @@
     <None Include="Scenes\SceneJSONs\scene.json" />
     <None Include="Tools\SceneReader\SceneReader.cs" />
     <None Include="Textures\Sprites\Fonts\font.spritefont" />
+    <None Include="Scenes\SceneJSONs\SpringScene.json" />
+    <None Include="Models\SpringIslands\long_spring.fbx" />
+    <None Include="Models\SpringIslands\medium_spring.fbx" />
+    <None Include="Models\SpringIslands\pillar_spring.fbx" />
+    <None Include="Models\SpringIslands\short_spring.fbx" />
+    <None Include="Models\SpringIslands\small_1_spring.fbx" />
+    <None Include="Models\SpringIslands\small_2_spring.fbx" />
+    <None Include="Models\SpringIslands\small_3_spring.fbx" />
+    <None Include="Models\SpringIslands\small_4_spring.fbx" />
+    <None Include="Models\SpringIslands\step_spring.fbx" />
+    <None Include="Models\SpringIslands\wall.fbx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />

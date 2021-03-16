@@ -14,6 +14,7 @@
 #include "Graphics/2D/ISprite.h"
 #include "ParticleSystemComponent.h"
 #include "Sound.h"
+#include "FrameTimer.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -27,7 +28,6 @@ namespace tempSpriteFix
 
  Player::Player()
  {
-	 m_respawn = { 0, 10, 0 };
 	 m_normal = { 0, 0, 0 };
 	 m_disable = false;
 	 m_frameTime = 0.0f;
@@ -59,6 +59,7 @@ namespace tempSpriteFix
 	 m_checkCollideJump = false;
 	 m_walljump = false;
 	 m_fly = false;
+	 m_death = false;
 	 m_timer = Timer();
 	 m_goalTimer = Timer();
 	 m_timer.start();
@@ -160,6 +161,7 @@ namespace tempSpriteFix
 		 "ParticleHooKSimCS.cso", "ParticleHookEmittCS.cso", 2000, 0.5f)));
 	 m_hookEmittId = m_hookPartSys->addEmitter(1000, 0, 0.3f, Vector3(255.0f/255.0f, 128.0f/255.0f, 0.0f/255.0f));
 	
+	 m_playerStartPosition = m_respawn = m_transform->getPosition();
 	 m_wallRunPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_gameObject->AddComponent(std::make_shared<ParticleSystemComponent>(
 		 "", "ParticleHookEmittCS.cso", 1000, 1)));
 	 m_wallRunPartSysId = m_wallRunPartSys->addEmitter(200, 0, 0.05f, Vector3(1, 0.6, 0.3f), Vector3(0, 1, 1.5f));
@@ -169,16 +171,17 @@ namespace tempSpriteFix
 
  void Player::update()
  {
+	 setFrametime(FrameTimer::dt());
 	 m_currentTime += m_frameTime;
 
-	 std::wstring str = L"Time: "; 
+	 std::wstring str = L"Time: ";
 	 str += std::to_wstring(m_currentTime);
 	 str += std::to_wstring(L'\n');
 	 //OutputDebugStringW(str.c_str());
 
 	 if (tempSpriteFix::m_createSpriteFirstTime)
 	 {
-		 tempSpriteFix::m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash.png", 200, 600, 0.3f, 0.3f);
+		 tempSpriteFix::m_sprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/dash3.png", 1110, 550, 0.3f, 0.3f);
 		 tempSpriteFix::m_velocitySprite = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Hello", L"Textures/Sprites/Fonts/font.spritefont", 275, 675);
 		 tempSpriteFix::m_spriteGoalTimer = m_gameObject->getScene()->getGraphics()->getResourceDevice()->createSprite("Timer", L"Textures/Sprites/Fonts/font.spritefont", 1280 / 2, 90);
 
@@ -191,7 +194,7 @@ namespace tempSpriteFix
 		 tempSpriteFix::m_createSpriteFirstTime = false;
 	 }
 
-	detectDeath(-120.0f);
+	detectDeath(-220.0f);
 	Vector3 velocity = m_rb->getVelocity();
 	Vector3 cameraForward = m_playerCamera->getForward();
 	Vector3 cameraRight = m_playerCamera->getRight();
@@ -202,12 +205,18 @@ namespace tempSpriteFix
 	//Vector3 moveSpeed = Vector3::Zero;
 
 	drawLine();
-	if (Input::getInput().keyPressed(Input::D))
+	if (Input::getInput().keyPressed(Input::M))
 	{
 		if (m_pause)
+		{
+			m_pause = false;
 			onUnPause();
+		}
 		else
+		{
+			m_pause = true;
 			onPause();
+		}
 	}
 	if (Input::getInput().keyPressed(Input::X))
 	{
@@ -426,8 +435,9 @@ namespace tempSpriteFix
 	 if (collider->getGameObject()->getName() == "goal")
 	 {
 		 detectDeath(FLT_MAX);
-		 m_respawn = { 0, 10, 0 };
-		 m_rb->getTransform()->setPosition(m_respawn);
+		 //Reset spawnPosition
+		 m_respawn = m_playerStartPosition;
+		 m_rb->getTransform()->setPosition(m_playerStartPosition);
 		 /*std::wstring msg = L"Your Time was";
 		 getTime(msg);*/
 		
@@ -645,7 +655,12 @@ namespace tempSpriteFix
 
  void Player::detectDeath(float death) 
  {
-	 if (m_rb->getTransform()->getPosition().y < death)
+	 if (m_rb->getTransform()->getPosition().y < death + 100 && m_death == false)
+	 {
+		 m_death = true;
+		 m_audio.playSound1("Sounds/wilhem.wav");
+	 }
+	if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 m_logicPlayerCamera->resetCamera();
@@ -657,6 +672,7 @@ namespace tempSpriteFix
 		 m_groundSpeed = 0;
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
+		 m_death = false;
 	 }
  }
 
@@ -960,6 +976,7 @@ namespace tempSpriteFix
 		 bool hitObj = false;
 		 for (auto& go : scene)
 		 {
+			 if (go->getName() == "checkpoint") continue;
 			 Ref<OrientedBoxCollider> obb = go->getComponentType<OrientedBoxCollider>(Component::ComponentEnum::ORIENTED_BOX_COLLIDER);
 			 if (obb != nullptr)
 			 {

@@ -54,7 +54,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	Input::initInput(win.getHWND(), resWidth, resHeight);
 
 	// Init the scene manager object
-	SceneManager sceneManager = SceneManager(&gph, &win);
+	SceneManager sceneManager(&gph, &win);
 
 	// Change active scene to Main Menu
 	sceneManager.changeScene(0); // Main Menu
@@ -63,17 +63,18 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	//Ref<GameObject> player = scene->getGameObject("player");
 	
 
-	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/300.0);
+	std::shared_ptr<PhysicsEngine> physicsEng = std::make_shared<PhysicsEngine>(1.0/120.0);
 	sceneManager.addObserver(physicsEng);
 
-	FrameTimer timer = FrameTimer();
+	FrameTimer timer;
 
 	Ref<Camera> cam = std::make_shared<Camera>(0, 0, -50, resWidth, resHeight);
 	
 	DebugCamera debugCamera(cam);
 
-	CameraSwitch camSwitch;
-
+	std::shared_ptr<CameraSwitch> camSwitch = std::make_shared<CameraSwitch>();
+	camSwitch->Init(&debugCamera, nullptr, cam);
+	sceneManager.addObserver(camSwitch);
 
 	// ImGUI
 	int a = 500;
@@ -118,6 +119,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		// Do stuff
 		//input->update();
 		//camSwitch.update(timer.dt());
+		camSwitch->update(timer.dt());
 		auto player = sceneManager.getActiveScene()->getGameObject("player");
 		if (player)
 		{
@@ -125,7 +127,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 		
 		auto scene = sceneManager.getActiveScene();
-		gph.render(scene->getSceneModels(), scene->getSceneMainCamera(), timer.dt());
+		//gph.render(scene->getSceneModels(), scene->getSceneMainCamera(), timer.dt());
+		gph.render(scene->getSceneModels(), camSwitch->getCamera(), timer.dt());
 		//gph.render(scene->getSceneModels(), cam, timer.dt());
 		timer.frameStop();
 

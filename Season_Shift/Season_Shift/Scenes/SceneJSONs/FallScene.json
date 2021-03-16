@@ -1,0 +1,716 @@
+[
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.0345101841,
+          "y": 0.206612229,
+          "z": 0.0200203024
+        },
+        "scale": {
+          "x": 2.96236515,
+          "y": 1.67054594,
+          "z": 1.605956
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_4.fbx",
+    "name": "small_island_fall_4 (1)",
+    "pos": {
+      "x": -319.8,
+      "y": 261.7,
+      "z": 63.4
+    },
+    "rot": {
+      "x": -0,
+      "y": 287.1467,
+      "z": 0
+    },
+    "scale": {
+      "x": 8.259398,
+      "y": 4.73981428,
+      "z": 11.7156763
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.00475551,
+          "y": 0.146982744,
+          "z": -0.05054656
+        },
+        "scale": {
+          "x": 2.233462,
+          "y": 1.69557929,
+          "z": 2.31453872
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_1.fbx",
+    "name": "small_island_fall_1 (3)",
+    "pos": {
+      "x": -327.9,
+      "y": 252.6,
+      "z": -49.8
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 7.444515,
+      "y": 7.444515,
+      "z": 7.444515
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.00475551,
+          "y": 0.146982744,
+          "z": -0.05054656
+        },
+        "scale": {
+          "x": 2.233462,
+          "y": 1.69557929,
+          "z": 2.31453872
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_1.fbx",
+    "name": "small_island_fall_1 (2)",
+    "pos": {
+      "x": -248.6,
+      "y": 201.1,
+      "z": -79.1
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 10.9262381,
+      "y": 5.66260052,
+      "z": 10.9311161
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.0223741531,
+          "y": -0.03162968,
+          "z": 0.164099455
+        },
+        "scale": {
+          "x": 6.85701752,
+          "y": 1.9790926,
+          "z": 9.920881
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "long_island_fall_1.fbx",
+    "name": "long_island_fall_1 (1)",
+    "pos": {
+      "x": -224.6,
+      "y": 186.8,
+      "z": 60.6
+    },
+    "rot": {
+      "x": -9.682527E-15,
+      "y": 122.357224,
+      "z": 2.17189179E-15
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Wall (3)",
+    "pos": {
+      "x": -517.199951,
+      "y": 132.699982,
+      "z": 431
+    },
+    "rot": {
+      "x": 270.019775,
+      "y": 291.90448,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Wall (2)",
+    "pos": {
+      "x": -638.499939,
+      "y": 129.599991,
+      "z": 417.800018
+    },
+    "rot": {
+      "x": 270,
+      "y": 287.592041,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Wall (1)",
+    "pos": {
+      "x": -701.0999,
+      "y": 124.2,
+      "z": 479.100037
+    },
+    "rot": {
+      "x": 270,
+      "y": 270.000122,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.00475551,
+          "y": 0.146982744,
+          "z": -0.05054656
+        },
+        "scale": {
+          "x": 2.233462,
+          "y": 1.69557929,
+          "z": 2.31453872
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_1.fbx",
+    "name": "moving",
+    "pos": {
+      "x": -880.1,
+      "y": 94.957,
+      "z": 283.51
+    },
+    "rot": {
+      "x": -0,
+      "y": 233.332214,
+      "z": 0
+    },
+    "scale": {
+      "x": 11.4931564,
+      "y": 5.95640945,
+      "z": 11.4982872
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Wall",
+    "pos": {
+      "x": -869.7,
+      "y": 105,
+      "z": -49.3
+    },
+    "rot": {
+      "x": 270,
+      "y": 315.000031,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 68.58216,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Collider",
+    "pos": {
+      "x": -443.6,
+      "y": 12.2,
+      "z": -419.400024
+    },
+    "rot": {
+      "x": 0,
+      "y": 0,
+      "z": 268.635
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Collider",
+    "pos": {
+      "x": -677.8,
+      "y": 25.3,
+      "z": -176.5
+    },
+    "rot": {
+      "x": 359.9646,
+      "y": 47.30236,
+      "z": 89.4916153
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 31.5457935
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.00475551,
+          "y": 0.146982744,
+          "z": -0.05054656
+        },
+        "scale": {
+          "x": 2.233462,
+          "y": 1.69557929,
+          "z": 2.31453872
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_1.fbx",
+    "name": "small_island_fall_1 (1)",
+    "pos": {
+      "x": -167.8,
+      "y": 67,
+      "z": -384.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.0345101841,
+          "y": 0.206612229,
+          "z": 0.0200203024
+        },
+        "scale": {
+          "x": 2.96236515,
+          "y": 1.67054594,
+          "z": 1.605956
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_4.fbx",
+    "name": "small_island_fall_4",
+    "pos": {
+      "x": -72.4,
+      "y": 17.4,
+      "z": -334.400024
+    },
+    "rot": {
+      "x": -0,
+      "y": 315.000031,
+      "z": 0
+    },
+    "scale": {
+      "x": 8.259398,
+      "y": 4.73981428,
+      "z": 11.7156763
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.011079073,
+          "y": 0.274488747,
+          "z": -0.0126325171
+        },
+        "scale": {
+          "x": 2.40984654,
+          "y": 1.58175516,
+          "z": 2.47351241
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_2.fbx",
+    "name": "small_island_fall_2",
+    "pos": {
+      "x": -781,
+      "y": 90.9,
+      "z": 357.4
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 13.6423,
+      "y": 13.6423,
+      "z": 13.6423
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.12323761,
+          "y": -0.179991,
+          "z": 0.0514481068
+        },
+        "scale": {
+          "x": 3.345169,
+          "y": 1.57139921,
+          "z": 3.522759
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_3.fbx",
+    "name": "small_island_fall_3",
+    "pos": {
+      "x": -542.7,
+      "y": 9.1,
+      "z": -318.33
+    },
+    "rot": {
+      "x": -0,
+      "y": 302.2961,
+      "z": 0
+    },
+    "scale": {
+      "x": 13.08801,
+      "y": 13.08801,
+      "z": 13.08801
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.00475551,
+          "y": 0.146982744,
+          "z": -0.05054656
+        },
+        "scale": {
+          "x": 2.233462,
+          "y": 1.69557929,
+          "z": 2.31453872
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "small_island_fall_1.fbx",
+    "name": "small_island_fall_1",
+    "pos": {
+      "x": -15.2000008,
+      "y": 19.5,
+      "z": -263.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 6.996823,
+      "y": 3.626153,
+      "z": 6.999946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.0497990027,
+          "y": -0.422440082,
+          "z": -1.14616525
+        },
+        "scale": {
+          "x": 9.083482,
+          "y": 3.87289119,
+          "z": 26.1210136
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "long_island_fall_3.fbx",
+    "name": "long_island_fall_3",
+    "pos": {
+      "x": -397,
+      "y": 2.9397,
+      "z": -419.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 270.000061,
+      "z": 0
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.043265488,
+          "y": -0.500740469,
+          "z": 0.226977229
+        },
+        "scale": {
+          "x": 7.228436,
+          "y": 4.350801,
+          "z": 17.9816971
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "long_island_fall_2.fbx",
+    "name": "long_island_fall_2",
+    "pos": {
+      "x": -929,
+      "y": 89.1,
+      "z": 143.8
+    },
+    "rot": {
+      "x": -4.491944E-15,
+      "y": 198.08461,
+      "z": -8.848215E-15
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.0223741531,
+          "y": -0.03162968,
+          "z": 0.164099455
+        },
+        "scale": {
+          "x": 6.85701752,
+          "y": 1.9790926,
+          "z": 9.920881
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "long_island_fall_1.fbx",
+    "name": "long_island_fall_1",
+    "pos": {
+      "x": -1,
+      "y": 16.8,
+      "z": -169.2
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.000297504623,
+          "y": 5.77221155,
+          "z": 0.00315635977
+        },
+        "scale": {
+          "x": 1.34908032,
+          "y": 13.1001034,
+          "z": 1.41685212
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "vertical_island_fall_2.fbx",
+    "name": "vertical_island_fall_2",
+    "pos": {
+      "x": -272.3,
+      "y": 136.2,
+      "z": 0.9
+    },
+    "rot": {
+      "x": 0.26276958,
+      "y": 207.039413,
+      "z": 357.9827
+    },
+    "scale": {
+      "x": 55.0530739,
+      "y": 17.146059,
+      "z": 55.0783653
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.2249879,
+          "y": 1.22424054,
+          "z": 7.07453346
+        },
+        "scale": {
+          "x": 7.821963,
+          "y": 10.5381985,
+          "z": 21.0590782
+        }
+      }
+    ],
+    "meshDirectory": "Models/Island",
+    "meshFileName": "vertical_island_fall.fbx",
+    "name": "vertical_island_fall",
+    "pos": {
+      "x": -720.600037,
+      "y": 36.278,
+      "z": -131.799988
+    },
+    "rot": {
+      "x": -0,
+      "y": 315.595459,
+      "z": 0
+    },
+    "scale": {
+      "x": 7,
+      "y": 7,
+      "z": 7
+    }
+  }
+]

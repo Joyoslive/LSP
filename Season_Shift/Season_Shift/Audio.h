@@ -13,10 +13,13 @@ public:
 	void mute();
 	void unmute();
 private:
+	int random();
 	Sound m_sound;
 	Sound m_sound2;
+	Sound m_sound3;
 	Sound m_music;
 	bool m_soundLoop;
+	bool m_mute;
 	float m_volume;
 	float m_volume2;
 	float m_pitch;
