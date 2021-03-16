@@ -663,17 +663,18 @@ namespace tempSpriteFix
 	 }
 	if (m_rb->getTransform()->getPosition().y < death)
 	 {
-		 m_rb->getTransform()->setPosition(m_respawn);
-		 m_logicPlayerCamera->resetCamera();
-		 std::wstring msg = L"Your survived for";
-		 getTime(msg);
-		 //goalTimerGetTime();
-		 m_rb->setVelocity(Vector3::Zero);
-		 m_flySpeed = 0;
-		 m_groundSpeed = 0;
-		 m_hooked = false;
-		 m_rb->stopPendelMotion();
-		 m_death = true;
+		//m_respawn = m_playerStartPosition;
+		m_rb->getTransform()->setPosition(m_respawn);
+		m_logicPlayerCamera->resetCamera();
+		std::wstring msg = L"Your survived for";
+		getTime(msg);
+		//goalTimerGetTime();
+		m_rb->setVelocity(Vector3::Zero);
+		m_flySpeed = 0;
+		m_groundSpeed = 0;
+		m_hooked = false;
+		m_rb->stopPendelMotion();
+		m_death = true;
 	 }
  }
 
