@@ -10,6 +10,7 @@ class OrientedBoxCollider : public Collider, public std::enable_shared_from_this
 private:
 	DirectX::BoundingOrientedBox m_obb;
 	float m_radius;
+	DirectX::SimpleMath::Vector3 m_offset;
 	
 
 public:

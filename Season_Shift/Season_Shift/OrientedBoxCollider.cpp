@@ -13,6 +13,7 @@ OrientedBoxCollider::OrientedBoxCollider(Vector3 dimensions, Vector3 offset)
 {
 	m_obb.Extents = dimensions / 2;
 	m_radius = 0;
+	m_offset = offset;
 	m_componentType = ComponentEnum::ORIENTED_BOX_COLLIDER | ComponentEnum::COLLIDER;
 }
 
@@ -22,7 +23,8 @@ OrientedBoxCollider::~OrientedBoxCollider()
 
 void OrientedBoxCollider::initialize()
 {
-	m_obb.Center = m_transform->getPosition();
+	//m_obb.Center = m_transform->getPosition();
+	m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 	DirectX::XMFLOAT3 corners[8];
 	m_obb.GetCorners(corners);
@@ -53,7 +55,7 @@ bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 
 void OrientedBoxCollider::update()
 {
-	m_obb.Center = m_transform->getPosition();
+	m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
