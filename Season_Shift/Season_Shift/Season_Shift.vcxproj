@@ -250,6 +250,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Scenes\StageSelect.cpp" />
     <ClCompile Include="TableOfTimes.cpp" />
     <ClCompile Include="Graphics\2D\SpriteRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="Graphics\ShadowMapper.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Scenes\StageSelect.h" />
     <ClInclude Include="TableOfTimes.h" />
     <ClInclude Include="Graphics\2D\SpriteRenderer.h" />
     <ClInclude Include="Timer.h" />

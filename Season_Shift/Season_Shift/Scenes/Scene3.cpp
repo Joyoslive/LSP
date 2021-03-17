@@ -102,12 +102,12 @@ void Scene3::setUpScene()
 	fallBox10->AddComponent(r8);
 	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 150));
 
-	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-495.8f, 124.7f, 418.1f), Vector3(8, 8, 8), Vector3(-90, -45.0f/2.0f, 0));
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-617.4f, 129.2f, 415.8f), Vector3(8, 8, 8), Vector3(90, 45.0f/2.0f, 0));
 	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
 	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
-	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.5f, 0.5f, -0.5f), 700));
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.1f, 0.5f, 0.6f), 700));
 
 	for (int i = 0; i < moveGameObjects.size(); ++i)
 	{

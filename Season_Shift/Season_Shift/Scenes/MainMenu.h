@@ -12,9 +12,9 @@ class MainMenu : public Scene
 private:
 	enum class Scenes
 	{
-		STAGE_SELECT = 7,
-		STAGE_1 = 5,
-		STAGE_2 = 6,
+		STAGE_SELECT = 1,
+		STAGE_1 = 6,
+		STAGE_2 = 7,
 	};
 private:
 	std::shared_ptr<ISprite> m_title;

@@ -20,7 +20,7 @@ public:
 	virtual void onGlobalRelease(std::function<void()> callback) {};
 
 	virtual void checkForClick(int mouseX, int mouseY, bool isClicked = false) {};
-	virtual void checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) {};
+	virtual bool checkForRelease(int mouseX, int mouseY, bool mouseReleased = false) { return false; };
 	virtual void globalRelease() {};
 
 	virtual inline const DirectX::SimpleMath::Vector2& getPosition() { return m_position; }
