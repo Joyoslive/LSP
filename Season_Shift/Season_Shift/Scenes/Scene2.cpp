@@ -43,7 +43,7 @@ void Scene2::setUpScene()
 	playerComp->setRespawn({ 0, 25, 0 });
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(1.0, 4));
-	player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
+	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
@@ -51,20 +51,23 @@ void Scene2::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	m_graphics->setLightDirection({1.8, -1, -1});
+	m_graphics->setLightDirection({0.0, -0.7, 1.0});
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 
 
-	Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, -1.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
-	ground->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
-	ground->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
+	//Ref<GameObject> ground = createGameObject("ground", Vector3(0.0f, -1.0f, 0.0f), Vector3(1, 1, 1), Vector3(0,0,0));
+	//ground->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
+	//ground->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(200, 2, 200)));
 
-	for (int i = 1; i < 10; i++)
-	{
-		Vector3 c;
-		c = Vector3(2.0f, 0.8f * 0.5f * i, 2.0f);
-		Ref<GameObject> cube1 = createGameObject("brickCube", Vector3(i * 2* c.x, c.y, 0.0f), c);
-		cube1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
-		cube1->AddComponent(std::make_shared<OrientedBoxCollider>(2 * c));
-	}
+	//for (int i = 1; i < 10; i++)
+	//{
+	//	Vector3 c;
+	//	c = Vector3(2.0f, 0.8f * 0.5f * i, 2.0f);
+	//	Ref<GameObject> cube1 = createGameObject("brickCube", Vector3(i * 2* c.x, c.y, 0.0f), c);
+	//	cube1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/cube/", "Cube.obj", GfxShader::DEFAULT));
+	//	cube1->AddComponent(std::make_shared<OrientedBoxCollider>(2 * c));
+	//}
+
+	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
+	m_graphics->setSkybox(1);
 }

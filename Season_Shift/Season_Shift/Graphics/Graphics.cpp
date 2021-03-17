@@ -67,7 +67,7 @@ void Graphics::render(const std::vector<std::shared_ptr<Model>>& models, const s
 
 	m_currRenderStrat->render(models, mainCamera, dt);
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

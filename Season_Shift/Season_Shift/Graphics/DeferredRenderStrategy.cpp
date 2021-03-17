@@ -173,7 +173,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 		}
 		
 		
-		m_spriteRenderer->drawQueued(dev);
+		//m_spriteRenderer->drawQueued(dev);
 	}
 }
 
