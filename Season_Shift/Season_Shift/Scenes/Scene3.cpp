@@ -87,7 +87,7 @@ void Scene3::setUpScene()
 	player->AddComponent(std::make_shared<CameraComponent>());
 	player->AddComponent(std::make_shared<RigidBody>());
 	auto playerComp = std::make_shared<Player>();
-	playerComp->setRespawn({ 0, 25, 0 });
+	playerComp->setRespawn({ 0, 26, 0 });
 	player->AddComponent(playerComp);
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
 	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));

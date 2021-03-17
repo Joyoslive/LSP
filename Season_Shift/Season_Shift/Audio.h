@@ -7,7 +7,7 @@ class Audio
 public:
 	Audio();
 	~Audio();
-	void start();
+	void start(int i);
 	void update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta);
 	void playSound1(const std::string& soundName);
 	void mute();
