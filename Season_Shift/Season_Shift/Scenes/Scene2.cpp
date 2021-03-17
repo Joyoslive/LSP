@@ -68,6 +68,6 @@ void Scene2::setUpScene()
 	//	cube1->AddComponent(std::make_shared<OrientedBoxCollider>(2 * c));
 	//}
 
-	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
-	m_graphics->setSkybox(1);
+	m_graphics->loadSkybox("Textures/Skyboxes/EQUISKYBOX");
+	m_graphics->setSkybox(2);
 }

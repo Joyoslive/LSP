@@ -66,7 +66,7 @@ private:
 	std::vector<std::shared_ptr<ParticleSystem>> m_partSysVec;
 	std::shared_ptr<LineDrawer> m_lineDrawer;
 
-	bool m_usePostProcessing = false; // temporary assignment
+	bool m_usePostProcessing = true; // temporary assignment
 	std::shared_ptr<DXRenderPass> m_postProcessPass;
 	FullscreenQuad m_postProcessQuad;
 	std::shared_ptr<DXTexture> m_prePostTexture;

@@ -230,24 +230,31 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 		float n;
 		float f;
 
-		if (a == 0)
-		{
-			l = orthos[a].l - 60.f;
-			r = orthos[a].r + 60.f;
-			t = orthos[a].t + 40.f;
-			b = orthos[a].b - 60.f;
-			n = orthos[a].n - 40.f;
-			f = orthos[a].f + 60.f;
-		}
-		else
-		{
-			l = orthos[a].l - 150.f;
-			r = orthos[a].r + 150.f;
-			t = orthos[a].t + 30.f;
-			b = orthos[a].b - 30.f;
-			n = orthos[a].n - 200.f;
-			f = orthos[a].f + 200.f;
-		}
+		l = orthos[a].l - 150.f;
+		r = orthos[a].r + 150.f;
+		t = orthos[a].t + 30.f;
+		b = orthos[a].b - 30.f;
+		n = orthos[a].n - 200.f;
+		f = orthos[a].f + 200.f;
+
+		//if (a == 0)
+		//{
+		//	l = orthos[a].l - 60.f;
+		//	r = orthos[a].r + 60.f;
+		//	t = orthos[a].t + 40.f;
+		//	b = orthos[a].b - 60.f;
+		//	n = orthos[a].n - 40.f;
+		//	f = orthos[a].f + 60.f;
+		//}
+		//else
+		//{
+		//	l = orthos[a].l - 150.f;
+		//	r = orthos[a].r + 150.f;
+		//	t = orthos[a].t + 30.f;
+		//	b = orthos[a].b - 30.f;
+		//	n = orthos[a].n - 200.f;
+		//	f = orthos[a].f + 200.f;
+		//}
 
 
 		//float l = orthos[a].l - 150.f;
