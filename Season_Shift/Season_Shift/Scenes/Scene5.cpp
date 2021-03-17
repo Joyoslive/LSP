@@ -139,7 +139,7 @@ void Scene5::setUpScene()
 	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
 
 	Ref<GameObject> winterBox6 = createGameObject("wall", Vector3(-10.0, 50.0f + 140, 20.0f + (20 * 28) / 2), Vector3(20, 20, 20));
-	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallTest3.fbx", GfxShader::DEFAULT));
+	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallSpring2.fbx", GfxShader::DEFAULT));
 	winterBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
