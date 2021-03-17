@@ -102,8 +102,13 @@ void Scene5::setUpScene()
 
 	Ref<GameObject> spawnPartSys = createGameObject("hookParticleSystem", Vector3(0, 30,-12));
 	Ref<ParticleSystemComponent> spawnPartSysComp = std::dynamic_pointer_cast<ParticleSystemComponent>(
-	spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10000*3, 3.0f)));
-	spawnPartSysComp->addEmitter(10000, 6000, 0.2f, Vector3(0.2f, 0.4f, 1));
+	spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(4000*2, 2.0f)));
+	spawnPartSysComp->addEmitter(4000, 6000, 0.15f, Vector3(0.2f, 0.4f, 1));
+
+	Ref<GameObject> spawnPartSys2 = createGameObject("hookParticleSystem", Vector3(0, 40, 30));
+	Ref<ParticleSystemComponent> spawnPartSysComp2 = std::dynamic_pointer_cast<ParticleSystemComponent>(
+	spawnPartSys2->AddComponent(std::make_shared<ParticleSystemComponent>(1000000 * 3, 3.0f)));
+	spawnPartSysComp2->addEmitter(1000000, 6000, 0.08f, Vector3(0.2f, 0.4f, 1));
 
 	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
 	m_graphics->setSkybox(1);
