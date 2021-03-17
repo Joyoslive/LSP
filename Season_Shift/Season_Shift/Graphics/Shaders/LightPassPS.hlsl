@@ -199,7 +199,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float3 normal, float2 uv)
 		col = inputColor;*/
 		
 	//col = inputColor * shadowed;
-	col += tmpCol * 0.08;
+	//col += tmpCol * 0.08;
 	return col;
 }
 
@@ -217,8 +217,6 @@ float4 main(PS_IN input) : SV_TARGET
 		finalColor = calcShadow(worldPos, finalColor, normal, input.uv);
 	}
 
-
-	
 	finalColor = pow(finalColor, float4(1.f / 2.2f, 1.f / 2.2f, 1.f / 2.2f, 1.f));
 	return finalColor;
 }
