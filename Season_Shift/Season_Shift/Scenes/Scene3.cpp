@@ -132,11 +132,12 @@ void Scene3::setUpScene()
 		moveGameObjects[i]->AddComponent(std::make_shared<Move>(Vector3(8.0f, 0.0f, 8.0f), Vector3(25.0f, 0.0f, 25.0f)));
 	}
 
-	Ref<GameObject> go1 = createGameObject("goal", Vector3(766.f, 301.2f, 2462.5f), Vector3(2.0f, 2.0f, 2.0f));
+	Ref<GameObject> go1 = createGameObject("goal", Vector3(766.f, 301.2f, 2462.5f), Vector3(4.0f, 4.0f, 4.0f));
 	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Goal/", "goal4.obj", GfxShader::DEFAULT));
-	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 4, 4)));
+	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8)));
 	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
 	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
+	go1->AddComponent(std::make_shared<Rotate>(0, 30, 0));
 	goalTableOfTimes->addGrade("Great", 60.0f);
 	goalTableOfTimes->addGrade("Good", 80.0f);
 	goalTableOfTimes->addGrade("Okay", 120.0f);
