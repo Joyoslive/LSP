@@ -73,7 +73,7 @@ void ResultMenu::nextLevel()
 	Input::getInput().lockMouse(1);
 	setShowSprites(false);
 	m_active = false;
-	m_sceneManager->changeScene(5);
+	m_sceneManager->changeScene(1);
 }
 
 void ResultMenu::updateScene(Scene* activeScene)

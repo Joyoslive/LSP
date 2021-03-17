@@ -17,14 +17,14 @@ void StageSelect::setUpScene()
 		m_backButtonDown = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", 68.f, 656.f, 0.65);
 		m_backText = resDev->createSprite("Back", L"Textures/Sprites/Fonts/font.spritefont", 127.f, 672.f);
 
-		m_stage1ButtonText = resDev->createSprite("Stage1ButtonText", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
+		m_stage1ButtonText = resDev->createSprite("Spring Stage", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
 		auto pos = m_stage1ButtonText->getPosition();
 		pos.y += 65;
 		m_stage1ButtonText->setPosition(pos);
 		m_stage1Button = resDev->createSpriteTexture("Textures/MainMenu/Button.png", pos.x - 90, pos.y - 20);
 		m_stage1ButtonDown = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", pos.x - 90, pos.y - 14);
 
-		m_stage2ButtonText = resDev->createSprite("Stage2ButtonText", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
+		m_stage2ButtonText = resDev->createSprite("Fall Stage", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
 		pos = m_stage2ButtonText->getPosition();
 		pos.y += 125;
 		m_stage2ButtonText->setPosition(pos);
