@@ -188,20 +188,26 @@ Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref
 	
 	if (!(collisionInfo.m_penetration < std::dynamic_pointer_cast<CapsuleCollider>(capsule)->getInternalCollider().radius))
 	{
-		assert(!(abs(normal.Length() - 1.0f) < 0.01f)); // this is not rare and should not happend
+		static int deepCollisionCount = 0;
+		assert(!(abs(normal.Length() - 1.0f) < 0.01f)); //check if normal is of length one, this is rare and should not happend inside this if statement
 		collisionInfo.m_penetration = std::dynamic_pointer_cast<CapsuleCollider>(capsule)->m_length; //some length to push it out, m_length may be to short
 		auto rg = capsule->getGameObject()->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
 		if (rg == nullptr)
 		{
-			Logger::getLogger().debugLog("Deep collision detected, normal is hardcoded to point up.\n");
+			Logger::getLogger().debugLog("#" + std::to_string(++deepCollisionCount) + " Deep collision detected, normal is hardcoded to point up.\n");
 			normal = Vector3(0, 1, 0);
 		}
 		else
 		{
-			Logger::getLogger().debugLog("Deep collision detected, normal set to -velocity vector.\n");
+			/*Logger::getLogger().debugLog("Deep collision detected, normal set to -velocity vector.\n");
 			normal = -rg->getVelocity();
 			normal.Normalize();
+			Logger::getLogger().debugLog(normal);*/
+
+			Logger::getLogger().debugLog("#" + std::to_string(++deepCollisionCount) + " Deep collision detected, normal set to push player out of obb.\n");
+			std::dynamic_pointer_cast<OrientedBoxCollider>(obb)->closestPointOnObb(collisionInfo.m_segmentPoint + Vector3(0.22f, 0.1f, -0.31f), normal);
 			Logger::getLogger().debugLog(normal);
+			assert((abs(normal.Length() - 1.0f) < 0.01f)); //unlucky
 		}
 		
 	}
