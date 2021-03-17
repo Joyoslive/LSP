@@ -102,17 +102,19 @@ void Scene3::setUpScene()
 	fallBox10->AddComponent(r8);
 	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 150));
 
-	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-617.4f, 129.2f, 415.8f), Vector3(8, 8, 8), Vector3(90, 45.0f/2.0f, 0));
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-594.9f, 100.9f, 379.5f), Vector3(12, 12, 12), Vector3(90, 45.0f/2.0f, 0));
 	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
-	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
+	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(24, 24, 24));
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
-	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.1f, 0.5f, 0.6f), 700));
+	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.2f, 0.6f, 0.6f), 700));
 
 	for (int i = 0; i < moveGameObjects.size(); ++i)
 	{
 		moveGameObjects[i]->AddComponent(std::make_shared<Move>(Vector3(8.0f, 0.0f, 8.0f), Vector3(25.0f, 0.0f, 25.0f)));
 	}
+
+
 
 	/*Ref<GameObject> fallBox7 = createGameObject("brickCube", Vector3(-887.5f, 97.f, 283.8f), Vector3(6.996823f, 3.626153f, 6.999946f));
 	fallBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));
