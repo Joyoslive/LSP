@@ -23,9 +23,14 @@ OrientedBoxCollider::~OrientedBoxCollider()
 
 void OrientedBoxCollider::initialize()
 {
-	//m_obb.Center = m_transform->getPosition();
-	m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
+	//m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
+	//don't know if it is safe to cast to vector3
+	DirectX::XMFLOAT3 offsetTemp;
+	DirectX::XMStoreFloat3(&offsetTemp, DirectX::XMVector3Transform(m_offset, m_transform->getRotationMatrix()));
+	m_obb.Center = m_transform->getPosition() + offsetTemp;
+
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
+
 	DirectX::XMFLOAT3 corners[8];
 	m_obb.GetCorners(corners);
 	m_radius = (m_obb.Center - corners[0]).Length();
@@ -55,7 +60,12 @@ bool OrientedBoxCollider::collide(const Ref<Collider>& collider)
 
 void OrientedBoxCollider::update()
 {
-	m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
+	//m_obb.Center = m_transform->getPosition() + (Vector3)DirectX::XMVector3Transform(m_offset, getTransform()->getRotationMatrix());
+	//don't know if it is safe to cast to vector3
+	DirectX::XMFLOAT3 offsetTemp;
+	DirectX::XMStoreFloat3(&offsetTemp, DirectX::XMVector3Transform(m_offset, m_transform->getRotationMatrix()));
+	m_obb.Center = m_transform->getPosition() + offsetTemp;
+
 	m_obb.Orientation = DirectX::SimpleMath::Vector4(DirectX::XMQuaternionRotationMatrix(m_transform->getRotationMatrix()));
 }
 
