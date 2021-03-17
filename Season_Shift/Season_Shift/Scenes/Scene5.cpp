@@ -55,7 +55,7 @@ void Scene5::setUpScene()
 			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
 			trigger->SetTriggerCollider(true);
 			spring->AddComponent(trigger);
-			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 200));
+			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 220));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -139,7 +139,7 @@ void Scene5::setUpScene()
 	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
 
 	Ref<GameObject> winterBox6 = createGameObject("wall", Vector3(-10.0, 50.0f + 140, 20.0f + (20 * 28) / 2), Vector3(20, 20, 20));
-	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallTest3.fbx", GfxShader::DEFAULT));
+	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallSpring2.fbx", GfxShader::DEFAULT));
 	winterBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
