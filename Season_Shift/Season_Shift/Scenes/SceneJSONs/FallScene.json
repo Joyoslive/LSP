@@ -1,5 +1,186 @@
 [
   {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (6)",
+    "pos": {
+      "x": 119,
+      "y": 316,
+      "z": 1933
+    },
+    "rot": {
+      "x": 270,
+      "y": 36.1778145,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 60.31536,
+      "z": 16.26901
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (5)",
+    "pos": {
+      "x": 114.5,
+      "y": 306.9,
+      "z": 1845.4
+    },
+    "rot": {
+      "x": 270,
+      "y": 36.1778145,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 60.31536,
+      "z": 16.26901
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (4)",
+    "pos": {
+      "x": 16.7,
+      "y": 301.8,
+      "z": 1812.2
+    },
+    "rot": {
+      "x": 270,
+      "y": 36.1778145,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 60.31536,
+      "z": 16.26901
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (3)",
+    "pos": {
+      "x": 25,
+      "y": 295,
+      "z": 1723
+    },
+    "rot": {
+      "x": 270,
+      "y": 36.1778145,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 60.31536,
+      "z": 16.26901
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (2)",
+    "pos": {
+      "x": -668.6,
+      "y": 129.599991,
+      "z": 324.3
+    },
+    "rot": {
+      "x": 270,
+      "y": 277.454468,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3 (1)",
+    "pos": {
+      "x": -732,
+      "y": 124.2,
+      "z": 361
+    },
+    "rot": {
+      "x": 270,
+      "y": 270.000122,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 56.6607437,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube3.fbx",
+    "name": "Cube3",
+    "pos": {
+      "x": -876.9,
+      "y": 105,
+      "z": -56.5
+    },
+    "rot": {
+      "x": 270,
+      "y": 315.000031,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 68.58216,
+      "z": 30.3791924
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 1.49011612E-08,
+          "y": 0,
+          "z": -4.76837158E-07
+        },
+        "scale": {
+          "x": 2.00000048,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/Cube2",
+    "meshFileName": "Cube2.fbx",
+    "name": "Collider",
+    "pos": {
+      "x": -876.9,
+      "y": 105,
+      "z": -56.5
+    },
+    "rot": {
+      "x": 270,
+      "y": 315.000031,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.22142982,
+      "y": 68.58216,
+      "z": 30.3791924
+    }
+  },
+  {
     "boxColliders": [
       {
         "pos": {
@@ -390,7 +571,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (7)",
+    "name": "Collider",
     "pos": {
       "x": 119,
       "y": 316,
@@ -424,7 +605,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (6)",
+    "name": "Collider",
     "pos": {
       "x": 114.5,
       "y": 306.9,
@@ -458,7 +639,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (5)",
+    "name": "Collider",
     "pos": {
       "x": 16.7,
       "y": 301.8,
@@ -785,40 +966,6 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 1.49011612E-08,
-          "y": 0,
-          "z": -4.76837158E-07
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2
-        }
-      }
-    ],
-    "meshDirectory": "Models/Cube2",
-    "meshFileName": "Cube2.fbx",
-    "name": "Wall",
-    "pos": {
-      "x": -869.7,
-      "y": 105,
-      "z": -49.3
-    },
-    "rot": {
-      "x": 270,
-      "y": 315.000031,
-      "z": 0
-    },
-    "scale": {
-      "x": 2.22142982,
-      "y": 68.58216,
-      "z": 30.3791924
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
           "x": -0.00475551,
           "y": 0.146982744,
           "z": -0.05054656
@@ -934,7 +1081,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (4)",
+    "name": "Collider",
     "pos": {
       "x": 25,
       "y": 295,
@@ -1274,7 +1421,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (1)",
+    "name": "Collider",
     "pos": {
       "x": -732,
       "y": 124.2,
@@ -1410,7 +1557,7 @@
     ],
     "meshDirectory": "Models/Cube2",
     "meshFileName": "Cube2.fbx",
-    "name": "Wall (2)",
+    "name": "Collider",
     "pos": {
       "x": -668.6,
       "y": 129.599991,

@@ -24,6 +24,9 @@
 #include "../Bounce.h"
 #include "../Move.h"
 
+#include "../GoalLogic.h"
+#include "../TableOfTimes.h"
+
 using namespace DirectX::SimpleMath;
 
 Scene3::Scene3(Graphics* graphics) : Scene(graphics)
@@ -57,6 +60,7 @@ void Scene3::setUpScene()
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
 		auto model = m_graphics->getResourceDevice()->createModel(object.meshDirectory, object.meshFileName, GfxShader::DEFAULT);
+
 		go->AddComponent(model);
 		if (object.name == "Collider")
 			go->setIsVisible(false);
@@ -102,19 +106,44 @@ void Scene3::setUpScene()
 	fallBox10->AddComponent(r8);
 	fallBox10->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 150));
 
-	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-594.9f, 100.9f, 379.5f), Vector3(12, 12, 12), Vector3(90, 45.0f/2.0f, 0));
+	Ref<GameObject> fallBox11 = createGameObject("trampoline", Vector3(-594.9f, 100.9f, 379.5f), Vector3(12, 12, 12), Vector3(45, 45.0f/2.0f, 0));
 	fallBox11->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
 	Ref<OrientedBoxCollider> r9 = std::make_shared<OrientedBoxCollider>(Vector3(24, 24, 24));
 	r9->SetTriggerCollider(true);
 	fallBox11->AddComponent(r9);
 	fallBox11->AddComponent(std::make_shared<Bounce>(Vector3(0.2f, 0.6f, 0.6f), 700));
 
+	Ref<GameObject> fallBox12 = createGameObject("trampoline", Vector3(-382.6f, 289.6f, 1310.9f), Vector3(4, 4, 4), Vector3(0, 0, 0));
+	fallBox12->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r10 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r10->SetTriggerCollider(true);
+	fallBox12->AddComponent(r10);
+	fallBox12->AddComponent(std::make_shared<Bounce>(Vector3(0.2f, 0.6f, 0.6f), 100));
+
+	Ref<GameObject> fallBox13 = createGameObject("trampoline", Vector3(-401.9f, 310.5f, 1087.4f), Vector3(4, 4, 4), Vector3(0, 0, 0));
+	fallBox13->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberFilip2.obj", GfxShader::DEFAULT));
+	Ref<OrientedBoxCollider> r11 = std::make_shared<OrientedBoxCollider>(Vector3(8, 8, 8));
+	r11->SetTriggerCollider(true);
+	fallBox13->AddComponent(r11);
+	fallBox13->AddComponent(std::make_shared<Bounce>(Vector3(0.6f, 0.6f, 0.6f), 2000));
+
 	for (int i = 0; i < moveGameObjects.size(); ++i)
 	{
 		moveGameObjects[i]->AddComponent(std::make_shared<Move>(Vector3(8.0f, 0.0f, 8.0f), Vector3(25.0f, 0.0f, 25.0f)));
 	}
 
+	Ref<GameObject> go1 = createGameObject("goal", Vector3(766.f, 301.2f, 2462.5f), Vector3(2.0f, 2.0f, 2.0f));
+	go1->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Goal/", "goal4.obj", GfxShader::DEFAULT));
+	go1->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(4, 4, 4)));
+	Ref<Component> r4 = go1->AddComponent(std::make_shared<GoalLogic>());
+	Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(r4)->getTableOfTimes();
+	goalTableOfTimes->addGrade("Great", 60.0f);
+	goalTableOfTimes->addGrade("Good", 80.0f);
+	goalTableOfTimes->addGrade("Okay", 120.0f);
+	goalTableOfTimes->addGrade("Bad", 180.0f);
 
+	/*Ref<GameObject> go2 = createGameObject("goal", Vector3(766.f, 301.2f, 2462.5f));
+	go2->AddComponent(m_graphics->getResourceDevice()->createModel("Models/FallWall/", "wallFall4.obj", GfxShader::DEFAULT));*/
 
 	/*Ref<GameObject> fallBox7 = createGameObject("brickCube", Vector3(-887.5f, 97.f, 283.8f), Vector3(6.996823f, 3.626153f, 6.999946f));
 	fallBox7->AddComponent(m_graphics->getResourceDevice()->createModel("Models/boxAutumn/", "200x2x200Box.obj", GfxShader::DEFAULT));

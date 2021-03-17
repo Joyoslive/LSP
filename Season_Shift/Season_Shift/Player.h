@@ -65,6 +65,9 @@ private:
 	float m_movAlt;
 	float m_maxYSpeed;
 	bool m_trampoline;
+
+	bool ableToResetTime;
+
 	DirectX::SimpleMath::Vector3  m_trampolineAngle;
 	float m_trampolinePower;
 	//Speedlines

@@ -89,7 +89,7 @@ namespace tempSpriteFix
 	 m_hookEmittId = -1;
 	 m_wallRunPartSysId = -1;
 	 m_currentTime = 0.f;
-
+	 ableToResetTime = true;
  }
 
  Player::~Player()
@@ -402,7 +402,7 @@ namespace tempSpriteFix
 	 {
 		 m_waitForJump = false;
 	 }
-	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked)
+	 if (m_normal.Dot(Vector3::Up) > floorCheck && !m_hooked && collider->getGameObject()->getName() != "trampoline")
 	 {
 		 m_movObj = false;
 		 m_oldCollider = NULL;	
@@ -440,14 +440,15 @@ namespace tempSpriteFix
 		 m_rb->getTransform()->setPosition(m_playerStartPosition);
 		 /*std::wstring msg = L"Your Time was";
 		 getTime(msg);*/
-		
+		 ableToResetTime = true;
 	 }
 	 if (collider->getGameObject()->getName() == "checkpoint" && m_oldCheckpointCollider != collider)
 	 {
 		m_oldCheckpointCollider = collider;
 		m_respawn = collider->getGameObject()->getTransform()->getPosition();
 		m_audio.playSound1("Sounds/checkpoint.wav");
-		 m_respawn.x += 2;
+		m_respawn.x += 2;
+		ableToResetTime = false;
 	 }
 	 if (collider->getGameObject()->getName() == "moving")
 	 {
@@ -660,7 +661,7 @@ namespace tempSpriteFix
 		 m_death = true;
 		 m_audio.playSound1("Sounds/wilhem.wav");
 	 }
-	if (m_rb->getTransform()->getPosition().y < death)
+	 if (m_rb->getTransform()->getPosition().y < death)
 	 {
 		 m_rb->getTransform()->setPosition(m_respawn);
 		 m_logicPlayerCamera->resetCamera();
@@ -673,6 +674,8 @@ namespace tempSpriteFix
 		 m_hooked = false;
 		 m_rb->stopPendelMotion();
 		 m_death = false;
+		 if (ableToResetTime)
+			 m_currentTime = 0;
 	 }
  }
 
