@@ -55,7 +55,7 @@ void Scene5::setUpScene()
 			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
 			trigger->SetTriggerCollider(true);
 			spring->AddComponent(trigger);
-			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 200));
+			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 220));
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
