@@ -100,10 +100,10 @@ void Scene5::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	Ref<GameObject> spawnPartSys = createGameObject("hookParticleSystem", Vector3(0, 40,-12));
+	Ref<GameObject> spawnPartSys = createGameObject("hookParticleSystem", Vector3(0, 30,-12));
 	Ref<ParticleSystemComponent> spawnPartSysComp = std::dynamic_pointer_cast<ParticleSystemComponent>(
-	spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10*5, 5.0f)));
-	spawnPartSysComp->addEmitter(10, 60, 0.1f, Vector3(0.2f, 0.4f, 1));
+	spawnPartSys->AddComponent(std::make_shared<ParticleSystemComponent>(10000*3, 3.0f)));
+	spawnPartSysComp->addEmitter(10000, 6000, 0.2f, Vector3(0.2f, 0.4f, 1));
 
 	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
 	m_graphics->setSkybox(1);
