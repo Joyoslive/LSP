@@ -64,7 +64,7 @@ void MainMenu::setUpScene()
 
 		m_quitText = resDev->createSprite("Quit", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
 		pos = m_quitText->getPosition();
-		pos.y += 125;
+		pos.y += 185;
 		m_quitText->setPosition(pos);
 		std::shared_ptr<ISprite> pressedExitButton = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", pos.x - 90, pos.y - 14);
 		pressedExitButton->setShow(false);
@@ -93,10 +93,45 @@ void MainMenu::setUpScene()
 			});
 
 
+		m_fullScreenText = resDev->createSprite("Fullscreen", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
+		pos = m_fullScreenText->getPosition();
+		pos.y += 125;
+		m_fullScreenText->setPosition(pos);
+		std::shared_ptr<ISprite> pressedFullScreenButton = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", pos.x - 90, pos.y - 14);
+		pressedFullScreenButton->setShow(false);
+		std::shared_ptr<ISprite> fullScreenButton = resDev->createSpriteTexture("Textures/MainMenu/Button.png", pos.x - 90, pos.y - 20);
+		fullScreenButton->onClick([this]()
+			{
+				m_buttons[4]->setShow(false);
+				m_buttons[5]->setShow(true);
+				m_fullScreenText->setPosition({ m_fullScreenText->getPosition().x, m_fullScreenText->getPosition().y + 6 });
+			});
+		pressedFullScreenButton->onRelease([this]()
+			{
+				if (m_buttons[4]->getClicked())
+				{
+					m_buttons[5]->setShow(false);
+					m_buttons[4]->setShow(true);
+					m_fullScreenText->setPosition({ m_fullScreenText->getPosition().x, m_fullScreenText->getPosition().y - 6 });
+					m_sceneManager->toggleFullScreen();
+				}
+			});
+		pressedFullScreenButton->onGlobalRelease([this]()
+			{
+				if (m_buttons[4]->getClicked())
+				{
+					m_buttons[5]->setShow(false);
+					m_buttons[4]->setShow(true);
+					m_fullScreenText->setPosition({ m_fullScreenText->getPosition().x, m_fullScreenText->getPosition().y - 6 });
+				}
+			});
+
 		m_buttons.push_back(playButton);
 		m_buttons.push_back(pressedPlayButton);
 		m_buttons.push_back(exitButton);
 		m_buttons.push_back(pressedExitButton);
+		m_buttons.push_back(fullScreenButton);
+		m_buttons.push_back(pressedFullScreenButton);
 
 		// Add to sprite batch - Order matters
 		m_graphics->addToSpriteBatch(m_background);
@@ -106,6 +141,9 @@ void MainMenu::setUpScene()
 		m_graphics->addToSpriteBatch(exitButton);
 		m_graphics->addToSpriteBatch(pressedExitButton);
 		m_graphics->addToSpriteBatch(m_quitText);
+		m_graphics->addToSpriteBatch(fullScreenButton);
+		m_graphics->addToSpriteBatch(pressedFullScreenButton);
+		m_graphics->addToSpriteBatch(m_fullScreenText);
 		m_graphics->addToSpriteBatch(m_titleOutline);
 		m_graphics->addToSpriteBatch(m_title);
 		m_graphics->addToSpriteBatch(m_credits);
@@ -123,10 +161,12 @@ void MainMenu::setUpScene()
 		m_background->setShow(true);
 		m_playText->setShow(true);
 		m_quitText->setShow(true);
+		m_fullScreenText->setShow(true);
 		m_title->setShow(true);
 		m_titleOutline->setShow(true);
 		m_buttons[0]->setShow(true);
 		m_buttons[2]->setShow(true);
+		m_buttons[4]->setShow(true);
 		m_credits->setShow(true);
 	}
 
@@ -140,6 +180,7 @@ void MainMenu::SwitchScene(Scenes scene)
 	m_playText->setShow(false);
 	m_quitText->setShow(false);
 	m_title->setShow(false);
+	m_fullScreenText->setShow(false);
 	m_titleOutline->setShow(false);
 	m_credits->setShow(false);
 	for (auto& b : m_buttons)

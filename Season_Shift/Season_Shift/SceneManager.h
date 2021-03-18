@@ -16,6 +16,7 @@ private:
 	std::shared_ptr<InGameMenu> m_menu;
 	std::shared_ptr<ResultMenu> m_resultMenu;
 	bool m_timeToQuit;
+	bool m_toggleFullScreen;
 
 private:
 	void createMenu(Graphics* graphics);
@@ -36,5 +37,7 @@ public:
 	bool currentScenePaused() const;
 	void quitGame();
 	bool shouldQuit() const;
+	bool toggleFullScreen();
+	bool shouldToggleFullScreen();
 };
 

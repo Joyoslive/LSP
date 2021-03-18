@@ -132,10 +132,8 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		//gph.render(scene->getSceneModels(), cam, timer.dt());
 		timer.frameStop();
 
-		if (sceneManager.shouldQuit())
-		{
-			win.quit();
-		}
+		if (sceneManager.shouldToggleFullScreen()) gph.setFullScreen(!gph.getFullScreenState());
+		if (sceneManager.shouldQuit()) win.quit();
 	}
 
 	ImGui_ImplDX11_Shutdown();

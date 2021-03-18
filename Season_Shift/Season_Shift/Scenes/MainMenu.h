@@ -22,6 +22,7 @@ private:
 	std::shared_ptr<ISprite> m_credits;
 	std::shared_ptr<ISprite> m_playText;
 	std::shared_ptr<ISprite> m_quitText;
+	std::shared_ptr<ISprite> m_fullScreenText;
 	std::vector<std::shared_ptr<ISprite>> m_buttons;
 	std::shared_ptr<ISprite> m_background;
 	Sound m_music;

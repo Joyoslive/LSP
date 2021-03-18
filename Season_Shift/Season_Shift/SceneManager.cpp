@@ -16,6 +16,7 @@
 SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 {
 	m_timeToQuit = false;
+	m_toggleFullScreen = false;
 	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
 	m_scenes.emplace_back(std::make_shared<StageSelect>(graphics, this));
 	createMenu(graphics);
@@ -229,6 +230,24 @@ void SceneManager::quitGame()
 bool SceneManager::shouldQuit() const
 {
 	return m_timeToQuit;
+}
+
+bool SceneManager::toggleFullScreen()
+{
+	return m_toggleFullScreen = true;
+}
+
+bool SceneManager::shouldToggleFullScreen()
+{
+	if (m_toggleFullScreen)
+	{
+		m_toggleFullScreen = false;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void SceneManager::updateObservers()
