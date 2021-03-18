@@ -21,7 +21,8 @@ void MainMenu::setUpScene()
 			ScreenPos::MIDDLE, 100.0f);
 		m_titleOutline = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/OleoBig.spritefont",
 			ScreenPos::MIDDLE, 100.0f);
-
+		m_title = resDev->createSprite("Made by Sam Axelsson and others", L"Textures/Sprites/Fonts/Oleo.spritefont",
+			ScreenPos::MIDDLE, 150.0f);
 		m_title->setColor(DirectX::SimpleMath::Color(0, 1, 0, 1));
 		m_titleOutline->setColor(DirectX::SimpleMath::Color(0, 0.5, 0, 1));
 
