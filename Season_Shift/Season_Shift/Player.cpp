@@ -371,22 +371,22 @@ namespace tempSpriteFix
 	//sprintf_s(msgbuf, "My variable is %f\n", velocity.y / m_maxYSpeed);
 	//OutputDebugStringA(msgbuf);
 	m_trampoline = false;
-	ImGui::Begin("Player Info");
-	{
-		ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
-		ImGui::Text("Camera: %f, %f, %f", cameraForward.x, cameraForward.y, cameraForward.z);
-		ImGui::Text("Speed: %f", velocity.Length());
-		ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
-		ImGui::Text("Dash cooldown: %f", m_cooldownDash);
-		ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
-		ImGui::SliderFloat("Speed", &m_movAlt, 1000.0, 1050.0);
-		ImGui::Text("On Ground %d", m_ground);
-		ImGui::Text("On Wall %d", m_walljump);
-		ImGui::Text("In Air %d", m_collisionFrame);
-		//ImGui::Text("Roll: %f", m_roll);
-		//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
-	}
-	ImGui::End();
+	//ImGui::Begin("Player Info");
+	//{
+	//	ImGui::Text("Velocity: %f, %f, %f", velocity.x, velocity.y, velocity.z);
+	//	ImGui::Text("Camera: %f, %f, %f", cameraForward.x, cameraForward.y, cameraForward.z);
+	//	ImGui::Text("Speed: %f", velocity.Length());
+	//	ImGui::Text("Speed (XZ): %f", velocitySkipY.Length());
+	//	ImGui::Text("Dash cooldown: %f", m_cooldownDash);
+	//	ImGui::Text("Normal:%f, %f, %f", m_normal.x, m_normal.y, m_normal.z);
+	//	ImGui::SliderFloat("Speed", &m_movAlt, 1000.0, 1050.0);
+	//	ImGui::Text("On Ground %d", m_ground);
+	//	ImGui::Text("On Wall %d", m_walljump);
+	//	ImGui::Text("In Air %d", m_collisionFrame);
+	//	//ImGui::Text("Roll: %f", m_roll);
+	//	//ImGui::SliderFloat("Lerp", &m_lerp, 0.0, 10.0);
+	//}
+	//ImGui::End();
 
 	m_collisionFrame = true;
 

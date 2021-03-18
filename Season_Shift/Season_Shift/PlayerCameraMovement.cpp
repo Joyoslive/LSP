@@ -36,7 +36,7 @@ void PlayerCameraMovement::update()
 	getGameObject()->getTransform()->setRotation(Vector3(rot.x, 180.0f / DirectX::XM_PI * m_yaw, rot.z));
 	landShake();
 
-	ImGui::Begin("Player Camera");
+	/*ImGui::Begin("Player Camera");
 	{
 		ImGui::Text("GoToRoll %f", m_goToRoll);
 		ImGui::Text("Roll %f", m_roll);
@@ -45,7 +45,7 @@ void PlayerCameraMovement::update()
 		ImGui::Text("FOV %f", m_cameraFov);
 		ImGui::SliderFloat("Modifier", &temp, 0.01f, 1000.0f);
 	}
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void PlayerCameraMovement::resetCamera()

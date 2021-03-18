@@ -85,9 +85,9 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 	while (!win.isClosed())
 	{
 		timer.frameStart();
-		ImGui_ImplDX11_NewFrame();
+		/*ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
+		ImGui::NewFrame();*/
 		while (PeekMessageW(&msg, win.getHWND(), 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -95,7 +95,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 		}
 
 		// Example
-		ImGui::Begin("App Statistics");
+		/*ImGui::Begin("App Statistics");
 		{
 			ImGui::Text("Elapsed Time = %f", &a);
 			ImGui::Text("FPS = %f", 1.0f / timer.dt());
@@ -103,7 +103,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			ImGui::Checkbox("My Checkbox", &b);
 			ImGui::SliderFloat3("Float3", myFloats, 0.0, 5.0);
 		}
-		ImGui::End();
+		ImGui::End();*/
 
 		sceneManager.updateActiveScene();
 
