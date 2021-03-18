@@ -119,6 +119,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		m_sound2.setVolume(m_volume2);
 		m_music.setVolume(m_volume);
 		m_music.setPitch(m_pitch);
+		m_sound3.setVolume(0.7);
 		m_sound3.setPitch(m_pitch);
 	}
 }
@@ -133,6 +134,7 @@ void Audio::mute()
 	m_mute = false;
 	m_sound.setVolume(0);
 	m_sound2.setVolume(0);
+	m_sound3.setVolume(0);
 	m_music.setVolume(0);
 }
 
