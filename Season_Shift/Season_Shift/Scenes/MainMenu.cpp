@@ -21,7 +21,7 @@ void MainMenu::setUpScene()
 			ScreenPos::MIDDLE, 100.0f);
 		m_titleOutline = resDev->createSprite("Season Shift", L"Textures/Sprites/Fonts/OleoBig.spritefont",
 			ScreenPos::MIDDLE, 100.0f);
-		m_title = resDev->createSprite("Made by Sam Axelsson,\n Gunnar Cerne, Filip Eriksson,\n Nadhif Ginola, Jonatan Hermansson ", L"Textures/Sprites/Fonts/times.spritefont",
+		m_credits = resDev->createSprite("Made by Sam Axelsson,\n Gunnar Cerne, Filip Eriksson,\n Nadhif Ginola, Jonatan Hermansson ", L"Textures/Sprites/Fonts/times.spritefont",
 			ScreenPos::MIDDLE, 220.0f);
 		m_title->setColor(DirectX::SimpleMath::Color(0, 1, 0, 1));
 		m_titleOutline->setColor(DirectX::SimpleMath::Color(0, 0.5, 0, 1));
@@ -108,6 +108,7 @@ void MainMenu::setUpScene()
 		m_graphics->addToSpriteBatch(m_quitText);
 		m_graphics->addToSpriteBatch(m_titleOutline);
 		m_graphics->addToSpriteBatch(m_title);
+		m_graphics->addToSpriteBatch(m_credits);
 
 		//Music
 		std::vector<std::string> v;
@@ -126,6 +127,7 @@ void MainMenu::setUpScene()
 		m_titleOutline->setShow(true);
 		m_buttons[0]->setShow(true);
 		m_buttons[2]->setShow(true);
+		m_credits->setShow(true);
 	}
 
 	m_mainCamera = std::make_shared<Camera>(); // We need a camera in order to display anything
@@ -139,6 +141,7 @@ void MainMenu::SwitchScene(Scenes scene)
 	m_quitText->setShow(false);
 	m_title->setShow(false);
 	m_titleOutline->setShow(false);
+	m_credits->setShow(false);
 	for (auto& b : m_buttons)
 		b->setShow(false);
 	int idx = (int)scene;
