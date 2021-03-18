@@ -42,7 +42,7 @@ void SceneManager::createMenu(Graphics* graphics)
 	graphics->addToSpriteBatch(menuBack);
 	menuBack->setShow(false);
 
-	int buttonsX = 520;
+	float buttonsX = 520.0f;
 	auto clickableSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 200, 0.6f, 0.4f, 0.f, 0.5f,
 		[this]() { 
 		m_activeScene->setPauseState(false); 
@@ -65,7 +65,7 @@ void SceneManager::createMenu(Graphics* graphics)
 	clickableSprite2->setShow(false);
 	auto text2 = graphics->getResourceDevice()->createSprite("Exit to Menu", L"Textures/Sprites/Fonts/font.spritefont", buttonsX + 115, 365);
 	graphics->addToSpriteBatch(text2);
-	text2->setScale(DirectX::SimpleMath::Vector2(0.45, 0.45));
+	text2->setScale(DirectX::SimpleMath::Vector2(0.45f, 0.45f));
 	text2->setShow(false);
 
 	auto clickableSprite3 = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 440, 0.6f, 0.4f, 0.f, 0.5f,

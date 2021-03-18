@@ -25,8 +25,8 @@ private:
 	void setPositionMatrix();
 	void setScaleMatrix();
 	void setRotationMatrix();
-	const DirectX::SimpleMath::Vector3& getRotationToRadians(const DirectX::SimpleMath::Vector3& degreesRotation) const;
-	const DirectX::SimpleMath::Vector3& getRotationToDegrees(const DirectX::SimpleMath::Vector3& radiansRotation) const;
+	DirectX::SimpleMath::Vector3 getRotationToRadians(const DirectX::SimpleMath::Vector3& degreesRotation) const;
+	DirectX::SimpleMath::Vector3 getRotationToDegrees(const DirectX::SimpleMath::Vector3& radiansRotation) const;
 public:
 	Transform(const DirectX::SimpleMath::Vector3& position, const DirectX::SimpleMath::Vector3& scale, const DirectX::SimpleMath::Vector3& rotation);
 	Transform();
@@ -38,9 +38,9 @@ public:
 	void setScale(const DirectX::SimpleMath::Vector3& scale);
 	void setRotation(const DirectX::SimpleMath::Vector3& rotation);
 	const DirectX::SimpleMath::Vector3& getPosition() const;
-	const DirectX::SimpleMath::Vector3& getDeltaPosition() const;
+	DirectX::SimpleMath::Vector3 getDeltaPosition() const;
 	const DirectX::SimpleMath::Vector3& getScale() const;
-	const DirectX::SimpleMath::Vector3& getRotation() const;
+	DirectX::SimpleMath::Vector3 getRotation() const;
 	const DirectX::SimpleMath::Matrix& getWorldMatrix() const;
 };
 
