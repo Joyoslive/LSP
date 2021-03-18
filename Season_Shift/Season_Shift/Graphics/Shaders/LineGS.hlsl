@@ -64,10 +64,10 @@ void main(
 	blStart = mul(g_camPM, blStart);
 	brStart = mul(g_camPM, brStart);
 
-	float3 tlStartNormal = normalize(-forwardDir - rightDir + upDir);
-	float3 trStartNormal = normalize(-forwardDir + rightDir + upDir);
-	float3 blStartNormal = normalize(-forwardDir - rightDir - upDir);
-	float3 brStartNormal = normalize(-forwardDir + rightDir - upDir);
+	float3 tlStartNormal = normalize(-forwardDir - rightDir + upDir).xyz;
+	float3 trStartNormal = normalize(-forwardDir + rightDir + upDir).xyz;
+	float3 blStartNormal = normalize(-forwardDir - rightDir - upDir).xyz;
+	float3 brStartNormal = normalize(-forwardDir + rightDir - upDir).xyz;
 
 	GSOutput element;
 	element.col = g_color;
@@ -105,10 +105,10 @@ void main(
 	blEnd = mul(g_camPM, blEnd);
 	brEnd = mul(g_camPM, brEnd);
 
-	float3 tlEndNormal = normalize(forwardDir - rightDir + upDir);
-	float3 trEndNormal = normalize(forwardDir + rightDir + upDir);
-	float3 blEndNormal = normalize(forwardDir - rightDir - upDir);
-	float3 brEndNormal = normalize(forwardDir + rightDir - upDir);
+	float3 tlEndNormal = normalize(forwardDir - rightDir + upDir).xyz;
+	float3 trEndNormal = normalize(forwardDir + rightDir + upDir).xyz;
+	float3 blEndNormal = normalize(forwardDir - rightDir - upDir).xyz;
+	float3 brEndNormal = normalize(forwardDir + rightDir - upDir).xyz;
 
 	element.normal = tlEndNormal;
 	element.pos = tlEnd;

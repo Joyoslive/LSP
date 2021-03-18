@@ -109,7 +109,7 @@ void Skybox::setSkybox(unsigned int idx)
 
 void Skybox::setRotationAroundY(float deg, unsigned int idx)
 {
-	float yRad = deg * 3.1415 / 180.f;
+	float yRad = deg * DirectX::XM_PI / 180.f;
 
 	m_skyboxRotations[idx] = DirectX::XMMatrixRotationRollPitchYaw(0.f, yRad, 0.f);
 }

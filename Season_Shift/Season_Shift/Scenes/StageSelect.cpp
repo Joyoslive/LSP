@@ -13,8 +13,8 @@ void StageSelect::setUpScene()
 
 		auto resDev = m_graphics->getResourceDevice();
 		m_title = resDev->createSprite("Stage Select", L"Textures/Sprites/Fonts/Oleo.spritefont", ScreenPos::MIDDLE, 100.f);
-		m_backButton = resDev->createSpriteTexture("Textures/MainMenu/Button.png", 68.f, 650.f, 0.65);
-		m_backButtonDown = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", 68.f, 656.f, 0.65);
+		m_backButton = resDev->createSpriteTexture("Textures/MainMenu/Button.png", 68.f, 650.f, 0.65f);
+		m_backButtonDown = resDev->createSpriteTexture("Textures/MainMenu/ButtonPressed.png", 68.f, 656.f, 0.65f);
 		m_backText = resDev->createSprite("Back", L"Textures/Sprites/Fonts/font.spritefont", 127.f, 672.f);
 
 		m_stage1ButtonText = resDev->createSprite("Spring", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);

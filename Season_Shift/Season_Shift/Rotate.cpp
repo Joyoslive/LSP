@@ -2,7 +2,7 @@
 #include "Rotate.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "Input.h"
+#include "FrameTimer.h"
 
 Rotate::Rotate()
 {
@@ -12,7 +12,7 @@ Rotate::Rotate()
 	rot = { 0, 0, 0 };
 }
 
-Rotate::Rotate(float x, float y, float z) 
+Rotate::Rotate(float x, float y, float z)
 {
 	m_x = x;
 	m_y = y;
@@ -24,11 +24,11 @@ Rotate::~Rotate()
 {
 }
 
-void Rotate::update() 
+void Rotate::update()
 {
-	long double frameTime = Input::getInput().getTime();
-	rot.x += m_x* frameTime;
-	rot.y += m_y* frameTime;
-	rot.z += m_z*frameTime;
-	m_gameObject->getTransform()->setRotation( rot);
+	float frameTime = static_cast<float>(FrameTimer::dt());
+	rot.x += m_x * frameTime;
+	rot.y += m_y * frameTime;
+	rot.z += m_z * frameTime;
+	m_gameObject->getTransform()->setRotation(rot);
 }

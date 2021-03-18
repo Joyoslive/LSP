@@ -125,8 +125,8 @@ void Scene::removeGameObject(Ref<GameObject> gameObject)
 
 void Scene::updateSceneModels()
 {
-	int modelSize = m_sceneModels.size();
-	int gameObjectSize = m_sceneGameObjects.size();
+	int modelSize = static_cast<int>(m_sceneModels.size());
+	int gameObjectSize = static_cast<int>(m_sceneGameObjects.size());
 	int modelIndex = 0;
 	//Check every gameObject to check if it has an model
 	for (int i = 0; i < m_sceneGameObjects.size(); ++i)
@@ -136,7 +136,7 @@ void Scene::updateSceneModels()
 		if (model != nullptr && m_sceneGameObjects[i]->getIsVisible())
 		{
 			//Just replace old model with new and if the vector is too small than we need to push the model to the model vector
-			modelSize = m_sceneModels.size();
+			modelSize = static_cast<int>(m_sceneModels.size());
 			if (modelSize - 1 >= modelIndex)
 			{
 				m_sceneModels[modelIndex] = model;
@@ -148,7 +148,7 @@ void Scene::updateSceneModels()
 			++modelIndex;
 		}
 	}
-	modelSize = m_sceneModels.size();
+	modelSize = static_cast<int>(m_sceneModels.size());
 	//Removes models in the model vector if the model vector is too big
 	for (int i = 0; i < modelSize - modelIndex; ++i)
 	{

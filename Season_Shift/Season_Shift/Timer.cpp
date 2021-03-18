@@ -58,12 +58,12 @@ long double Timer::getTime(Duration duration)
         return m_duration.count() * 1E-06;    // Seconds with decimal
         break;
     case Duration::MICROSECONDS:
-        return m_duration.count();
+        return static_cast<long double>(m_duration.count());
         break;
 
         // Microseconds default
     default:
-        return m_duration.count();
+        return static_cast<long double>(m_duration.count());
     }
 }
 

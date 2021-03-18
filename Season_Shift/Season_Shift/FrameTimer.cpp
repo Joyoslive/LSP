@@ -32,18 +32,18 @@ long double FrameTimer::getTime(Duration duration)
     switch (duration)
     {
     case Duration::MILLISECONDS:
-        return InternalTimer::s_timer.m_duration.count() * 1E-03;    // Milliseconds with decimal
+        return static_cast<long double>(InternalTimer::s_timer.m_duration.count() * 1E-03);    // Milliseconds with decimal
         break;
     case Duration::SECONDS:
-        return InternalTimer::s_timer.m_duration.count() * 1E-06;    // Seconds with decimal
+        return static_cast<long double>(InternalTimer::s_timer.m_duration.count() * 1E-06);    // Seconds with decimal
         break;
     case Duration::MICROSECONDS:
-        return InternalTimer::s_timer.m_duration.count();
+        return static_cast<long double>(InternalTimer::s_timer.m_duration.count());
         break;
 
         // Microseconds default
     default:
-        return InternalTimer::s_timer.m_duration.count();
+        return static_cast<long double>(InternalTimer::s_timer.m_duration.count());
     }
 }
 
