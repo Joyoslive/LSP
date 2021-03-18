@@ -5,11 +5,8 @@
 #include "OrientedBoxCollider.h"
 #include "CapsuleCollider.h"
 #include "Transform.h"
-#include "Input.h"
+#include "FrameTimer.h"
 
-Move::Move()
-{
-}
 
 Move::Move(DirectX::SimpleMath::Vector3 speed, DirectX::SimpleMath::Vector3 range)
 {
@@ -30,7 +27,7 @@ void Move::start()
 }
 
 void Move::update()
-{	
+{
 	if (m_move.x > m_original.x + m_range.x || m_move.y > m_original.y + m_range.y || m_move.z > m_original.z + m_range.z)
 	{
 		m_direction = -1;
@@ -39,11 +36,10 @@ void Move::update()
 	{
 		m_direction = 1;
 	}
-	long double frameTime = Input::getInput().getTime();
-	m_move += m_speed* m_direction*frameTime;
+	m_move += m_speed * m_direction * static_cast<float>(FrameTimer::dt());
 	m_gameObject->getTransform()->setPosition(m_move);
 }
 
 DirectX::SimpleMath::Vector3 Move::getSpeed() {
-	return m_speed*m_direction;
+	return m_speed * m_direction;
 }

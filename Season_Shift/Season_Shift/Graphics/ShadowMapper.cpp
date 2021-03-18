@@ -59,6 +59,11 @@ void ShadowMapper::createResources()
 }
 
 
+void ShadowMapper::setFOV(float fov)
+{
+	m_fov = fov;
+}
+
 void ShadowMapper::setCascadeSettings(const std::vector<std::pair<float, unsigned int>>& cascadeEndDistancesAndResolution)
 {
     if (m_firstTime)
@@ -108,7 +113,7 @@ void ShadowMapper::setCascadeSettings(const std::vector<std::pair<float, unsigne
 
 }
 
-ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Camera>& cam, const DirectX::SimpleMath::Matrix& lightCamView)
+ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const DirectX::XMMATRIX& viewMat, const DirectX::XMMATRIX& projMat, const DirectX::SimpleMath::Matrix& lightCamView)
 {
 	/*
 	Define three view frustums (near, middle, far)
@@ -124,7 +129,7 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 	//	(m_cascades[1].cascadeStart + m_cascades[2].cascadeStart) / 2, 
 	//	m_cascades[2].cascadeStart };
 
-	float frustumPlaneDist[4] = { cam->getNearPlane(), 
+	float frustumPlaneDist[4] = { 0.1,	// Nearplane 0.1
 		m_cascades[0].cascadeEnd, 
 		m_cascades[1].cascadeEnd, 
 		m_cascades[2].cascadeEnd };
@@ -132,7 +137,7 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 	// To calculate the frustum corners --> Trigonometry. We calculate a factor that is common for all cascade calculations
 
 	// 1. Lets get the horizontal fov and vertical fov separately
-	float horizontalFov = cam->getFieldOfView();
+	float horizontalFov = m_fov;
 	float verticalFov = atanf(tanf(horizontalFov / 2.f) * (9.f / 16.f)) * 2.f;		// Wiki: Calculate vertical FOV from horizontal. Assuming player camera has 16:9 aspect ratio here!
 
 	float halfTanHori = tanf(horizontalFov / 2.f);
@@ -171,7 +176,7 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 		};
 
 		// We need to transform from view space to world space (so we can eventually get into light space)
-		Matrix view = cam->getViewMatrix();
+		Matrix view = viewMat;
 		Matrix invView = view.Invert();
 
 		// Transform frustum points to world space
@@ -236,8 +241,8 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 			r = orthos[a].r + 60.f;
 			t = orthos[a].t + 40.f;
 			b = orthos[a].b - 60.f;
-			n = orthos[a].n - 70.f;
-			f = orthos[a].f + 70.F;
+			n = orthos[a].n - 110.f;
+			f = orthos[a].f + 150.F;
 		}
 		else if (a == 2)
 		{
@@ -380,10 +385,10 @@ ShadowMapper::OrthoMatrices ShadowMapper::createOrthos(const std::shared_ptr<Cam
 
 }
 
-const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const std::shared_ptr<Camera>& playerCamera, const DirectX::SimpleMath::Matrix& lightViewMatrix, 
+const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const std::vector<std::shared_ptr<Model>>& casters, const DirectX::XMMATRIX& viewMat, const DirectX::XMMATRIX& projMat, const DirectX::SimpleMath::Matrix& lightViewMatrix,
 	const std::shared_ptr<LineDrawer>& line)
 {
-	OrthoMatrices orthos = createOrthos(playerCamera, lightViewMatrix);
+	OrthoMatrices orthos = createOrthos(viewMat, projMat, lightViewMatrix);
 
 	// Bind 
 	auto dev = m_renderer->getDXDevice();
@@ -430,7 +435,7 @@ const std::vector<ShadowMapper::Cascade>& ShadowMapper::generateCascades(const s
 
 		dev->bindViewports({ m_cascades[i].viewport });
 
-		line->draw(playerCamera->getViewMatrix(), lightViewMatrix, m_cascades[i].projMat, true);
+		line->draw(viewMat, lightViewMatrix, m_cascades[i].projMat, true);
 	}
 
 

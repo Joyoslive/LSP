@@ -5,7 +5,7 @@
 using namespace DirectX::SimpleMath;
 
 DirectionalLight::DirectionalLight()
-	: m_direction(Vector3(0, 0, 1)), m_color(Vector3(1, 1, 1)), m_ambIntensity(0.1)
+	: m_direction(Vector3(0, 0, 1)), m_color(Vector3(1, 1, 1)), m_ambIntensity(0.1f)
 {}
 
 DirectionalLight::DirectionalLight(Vector3 direction, Vector3 color, float ambientIntensity)

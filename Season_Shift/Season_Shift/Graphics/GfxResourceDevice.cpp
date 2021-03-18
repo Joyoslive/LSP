@@ -15,9 +15,9 @@ GfxResourceDevice::~GfxResourceDevice()
 
 }
 
-UINT getNumMipLevels(int width, int height)
+int getNumMipLevels(int width, int height)
 {
-	return static_cast<UINT>(1 + floor(log2(std::max(width, height))));
+	return static_cast<int>(1 + floor(log2(std::max(width, height))));
 }
 
 std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
@@ -30,11 +30,11 @@ std::shared_ptr<DXTexture> GfxResourceDevice::loadTexture(std::string filepath)
 	DXTexture::Desc desc{
 		DXTexture::Type::TEX2D,
 	};
-	UINT mips = getNumMipLevels(texData.width, texData.height);
+	int mips = getNumMipLevels(texData.width, texData.height);
 	desc.desc2D = {
 		static_cast<UINT>(texData.width),
 		static_cast<UINT>(texData.height),
-		mips,
+		static_cast<UINT>(mips),
 		1,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		{1, 0},

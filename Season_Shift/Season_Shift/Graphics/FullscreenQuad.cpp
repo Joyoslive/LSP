@@ -22,8 +22,8 @@ FullscreenQuad::FullscreenQuad(DXDevice* dev)
 	D3D11_SUBRESOURCE_DATA indexData = {};
 	indexData.pSysMem = indices.data();
 
-	m_vertexBuffer = dev->createVertexBuffer(vertices.size(), sizeof(Vertex), false, false, false, &vertexData);
-	m_indexBuffer = dev->createIndexBuffer(indices.size() * sizeof(uint32_t), false, &indexData);
+	m_vertexBuffer = dev->createVertexBuffer(static_cast<unsigned int>(vertices.size()), sizeof(Vertex), false, false, false, &vertexData);
+	m_indexBuffer = dev->createIndexBuffer(static_cast<unsigned int>(indices.size()) * sizeof(uint32_t), false, &indexData);
 
 	m_mesh = std::make_shared<Mesh>(m_vertexBuffer, m_indexBuffer);
 }
