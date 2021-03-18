@@ -75,6 +75,9 @@ private:
 	float m_resetTimer;
 	std::shared_ptr<DXBuffer> m_prevMatrices;
 
+	DirectX::XMMATRIX m_defCamProj;
+	bool m_camFirstTime = true;
+
 	bool m_viewUI = true;
 	std::shared_ptr<SpriteRenderer> m_spriteRenderer;
 	std::vector<std::shared_ptr<ISprite>> m_sprites;

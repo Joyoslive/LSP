@@ -40,6 +40,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[1] = mainCamera->getViewMatrix();
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
 
+
+
 	// Set shadow mapper settings (hardcoded to three cascades)		// [0.1, 100] --> [100, 500] --> [500, 1000]
 	m_shadowCascades[0] = { mainCamera->getNearPlane() + 200, 4096 * 2};
 	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 1.3, 4696  };
@@ -47,8 +49,16 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_shadowMapper->setCascadeSettings(m_shadowCascades);
 
 	// Generate shadow map
+	if (m_camFirstTime)
+	{
+		m_defCamProj = mainCamera->getProjectionMatrix();
+		m_camFirstTime = false;
+		m_shadowMapper->setFOV(mainCamera->getFieldOfView());
+	}
+
+
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
-	auto &cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView, m_lineDrawer);
+	auto &cascades = m_shadowMapper->generateCascades(models, mainCamera->getViewMatrix(), m_defCamProj, lightView, m_lineDrawer);
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
