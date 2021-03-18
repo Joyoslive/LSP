@@ -654,6 +654,12 @@
     <Image Include="Textures\MainMenu\background.jpg" />
     <Image Include="Textures\MainMenu\Button.png" />
     <Image Include="Textures\MainMenu\ButtonPressed.png" />
+    <Image Include="Textures\Skyboxes\yokohama\negx.jpg" />
+    <Image Include="Textures\Skyboxes\yokohama\negy.jpg" />
+    <Image Include="Textures\Skyboxes\yokohama\negz.jpg" />
+    <Image Include="Textures\Skyboxes\yokohama\posx.jpg" />
+    <Image Include="Textures\Skyboxes\yokohama\posy.jpg" />
+    <Image Include="Textures\Skyboxes\yokohama\posz.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
