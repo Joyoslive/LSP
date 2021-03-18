@@ -47,19 +47,19 @@ void DebugCamera::move(long double m_frameTime)
 	{
 		if (Input::getInput().keyBeingPressed(Input::W))
 		{
-			m_position += m_speed * m_frameTime * forward;
+			m_position += m_speed * static_cast<float>(m_frameTime) * forward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
-			m_position -= m_speed * m_frameTime * forward;
+			m_position -= m_speed * static_cast<float>(m_frameTime) * forward;
 		}
 		if (Input::getInput().keyBeingPressed(Input::A))
 		{
-			m_position -= m_speed * m_frameTime * right;
+			m_position -= m_speed * static_cast<float>(m_frameTime) * right;
 		}
 		if (Input::getInput().keyBeingPressed(Input::D))
 		{
-			m_position += m_speed * m_frameTime * right;
+			m_position += m_speed * static_cast<float>(m_frameTime) * right;
 		}
 		if (Input::getInput().keyBeingPressed(Input::R))
 		{
@@ -93,11 +93,11 @@ void DebugCamera::move(long double m_frameTime)
 		}
 		if (Input::getInput().keyBeingPressed(Input::Shift))
 		{
-			m_position -= m_speed * m_frameTime * m_up;
+			m_position -= m_speed * static_cast<float>(m_frameTime) * m_up;
 		}
 		if (Input::getInput().keyBeingPressed(Input::Space))
 		{
-			m_position += m_speed * m_frameTime * m_up;
+			m_position += m_speed * static_cast<float>(m_frameTime) * m_up;
 		}
 	}
 	m_camera->setPosition(m_position);

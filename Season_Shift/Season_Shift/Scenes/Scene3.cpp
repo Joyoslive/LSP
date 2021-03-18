@@ -94,7 +94,7 @@ void Scene3::setUpScene()
 
 
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
-	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	//playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
@@ -220,8 +220,7 @@ void Scene3::setUpScene()
 	cube14->AddComponent(m_graphics->getResourceDevice()->createModel("Models/box/", "200x2x200Box.obj", GfxShader::DEFAULT));
 	cube14->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20*200, 2*100, 20)));*/
 
-	m_graphics->loadSkybox("Textures/Skyboxes/space");
-	m_graphics->setSkybox(1);	// 0 är tagen (default)
+	m_graphics->setSkybox(2);
 	m_graphics->setLightDirection({ 0, -0.5, 1 });
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 }

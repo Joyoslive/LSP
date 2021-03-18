@@ -76,8 +76,8 @@ void ShadowMapper::setCascadeSettings(const std::vector<std::pair<float, unsigne
             DXTexture::Desc desc{};
             desc.type = DXTexture::Type::TEX2D;
 
-            desc.desc2D.Width = m_cascades[i].viewport.Width;
-            desc.desc2D.Height = m_cascades[i].viewport.Height;
+            desc.desc2D.Width = static_cast<UINT>(m_cascades[i].viewport.Width);
+            desc.desc2D.Height = static_cast<UINT>(m_cascades[i].viewport.Height);
             desc.desc2D.MipLevels = 1;
             desc.desc2D.ArraySize = 1;
             desc.desc2D.Format = DXGI_FORMAT_R32_TYPELESS;

@@ -58,13 +58,13 @@ EngineMeshData AssimpLoader::loadStaticModel(std::string filePath)
 void AssimpLoader::processNode(aiNode* node, const aiScene* scene)
 {
 	// For each mesh in the node, process it!
-	for (int i = 0; i < node->mNumMeshes; ++i)
+	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		processMesh(mesh, scene);
 	}
 
-	for (int i = 0; i < node->mNumChildren; ++i)
+	for (unsigned int i = 0; i < node->mNumChildren; ++i)
 	{
 		processNode(node->mChildren[i], scene);
 	}
@@ -74,7 +74,7 @@ void AssimpLoader::processNode(aiNode* node, const aiScene* scene)
 // Subset of Mesh
 void AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 {
-	for (int i = 0; i < mesh->mNumVertices; ++i)
+	for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
 	{
 		Vertex vert = { };
 		vert.pos.x = mesh->mVertices[i].x;
@@ -100,11 +100,11 @@ void AssimpLoader::processMesh(aiMesh* mesh, const aiScene* scene)
 	}
 
 	unsigned int indicesThisMesh = 0;
-	for (int i = 0; i < mesh->mNumFaces; ++i)
+	for (unsigned int i = 0; i < mesh->mNumFaces; ++i)
 	{
 		aiFace face = mesh->mFaces[i];
 
-		for (int j = 0; j < face.mNumIndices; ++j)
+		for (unsigned int j = 0; j < face.mNumIndices; ++j)
 		{
 			m_indices.push_back(face.mIndices[j]);
 			++indicesThisMesh;

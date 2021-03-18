@@ -31,6 +31,8 @@ using namespace DirectX::SimpleMath;
 Scene5::Scene5(Graphics* graphics) : Scene(graphics)
 {}
 
+
+// Vår BANAN (Stage 1)
 void Scene5::setUpScene()
 {
 	SceneReader sr;
@@ -126,9 +128,8 @@ void Scene5::setUpScene()
 	player->AddComponent(std::make_shared<CapsuleCollider>(0.5, 2));
 	//player->AddComponent(m_graphics->getResourceDevice()->createModel("Models/capsule/", "capsule.obj", GfxShader::DEFAULT));
 
-
 	Ref<GameObject> playerJumpTrigger = createGameObject("playerJumpTrigger", Vector3(0, 0, 0), Vector3(2, 2, 2));
-	playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
+	//playerJumpTrigger->AddComponent(m_graphics->getResourceDevice()->createModel("Models/sphere/", "sphere.obj", GfxShader::DEFAULT));
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
@@ -175,9 +176,8 @@ void Scene5::setUpScene()
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
-	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
 	m_graphics->setSkybox(1);
-	m_graphics->setLightDirection({1.8, -1, 1});
+	m_graphics->setLightDirection({1.8f, -1, 1});
 	m_graphics->setSkyboxRotationAroundY(-65.f, 1);
 
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
