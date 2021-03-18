@@ -155,3 +155,9 @@ int Audio::random()
 		
 
 }
+
+void Audio::stopWalking()
+{
+	m_soundLoop = false;
+	m_sound3.stopLoop();
+}

@@ -70,7 +70,8 @@ void ResultMenu::retryLevel()
 void ResultMenu::nextLevel()
 {
 	m_scene->setIsPaused(false);
-	Input::getInput().lockMouse(1);
+	Input::getInput().lockMouse(2);
+	Input::getInput().setModeAbsolute();
 	setShowSprites(false);
 	m_active = false;
 	m_sceneManager->changeScene(1);

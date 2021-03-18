@@ -103,7 +103,7 @@ void SceneManager::createMenu(Graphics* graphics)
 	retryTextSprite->setShow(false);
 
 	auto clickableNextSprite = graphics->getResourceDevice()->createSpriteTexture("Textures/Sprites/Textures/InGameMenu/BlankPanel-rect.jpg", buttonsX, 460, 0.6f, 0.4f, 0.f, 0.5f,
-		[this]() { m_resultMenu->nextLevel(); });
+		[this]() { m_resultMenu->nextLevel(); m_activeScene->setAnotherIsPaused(false); });
 
 	graphics->addToSpriteBatch(clickableNextSprite);
 	clickableNextSprite->setShow(false);

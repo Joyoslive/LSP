@@ -281,6 +281,7 @@ namespace tempSpriteFix
 	}
 	if (m_trampolineTimer > 0.0f)
 	{
+		m_ground = false;
 		m_trampolineTimer -= m_frameTime;
 	}
 	if(m_wallTimer <= 0)
@@ -317,7 +318,7 @@ namespace tempSpriteFix
 	{
 		Vector3 moveSpeed = m_movSpeed;
 		moveSpeed.y = 0;
-
+		m_audio.stopWalking();
 		if (moveDirection == Vector3::Zero || (moveDirection.Dot(moveSpeed) > 0.9f && velocitySkipY.Length() < moveSpeed.Length()))
 		{
 			velocitySkipY = moveSpeed;

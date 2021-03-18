@@ -25,7 +25,7 @@ void MainMenu::setUpScene()
 		m_title->setColor(DirectX::SimpleMath::Color(0, 1, 0, 1));
 		m_titleOutline->setColor(DirectX::SimpleMath::Color(0, 0.5, 0, 1));
 
-		m_background = resDev->createSpriteTexture("Textures/MainMenu/background.jpg", 0, 0, 2, 2);
+		m_background = resDev->createSpriteTexture("Textures/MainMenu/background_2.jpg", 0, 0, 0.6667f, 0.6667f);
 
 		//Buttons
 		m_playText = resDev->createSprite("Play", L"Textures/Sprites/Fonts/font.spritefont", ScreenPos::MIDDLE, ScreenPos::MIDDLE);
