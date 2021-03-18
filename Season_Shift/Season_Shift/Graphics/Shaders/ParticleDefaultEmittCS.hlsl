@@ -49,9 +49,11 @@ void main( uint3 DTid : SV_DispatchThreadID )
         Particle p;
         p.lifeTime = lifeTime;
         p.pos = pos;
-        p.vel = 32 * (normalize(2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1)));
+        p.vel = 12 * (normalize(2 * random((float) DTid.x / (float) count, normalize(randVec)) - float3(1, 1, 1)));
+        p.vel += 4.0f * (2 * random((float) (DTid.x + 10) / (float) count, normalize(randVec)) - float3(1, 1, 1));
         p.scale = scale;
-        p.color = saturate(color + 0.2f * (2 * random((float) (DTid.x + 5) / (float) count, normalize(randVec)) - float3(1, 1, 1)));
+        //p.color = saturate(color + 0.2f * (2 * random((float) (DTid.x + 5) / (float) count, normalize(randVec)) - float3(1, 1, 1)));
+        p.color = (2 * random((float) (DTid.x + 5) / (float) count, normalize(randVec)) - float3(1, 1, 1));
         p.angle = DTid.x;
 
         appendBuffer.Append(p);
