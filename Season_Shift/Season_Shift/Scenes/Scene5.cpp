@@ -90,10 +90,10 @@ void Scene5::setUpScene()
 			Ref<Component> logic = goal->AddComponent(std::make_shared<GoalLogic>());
 			Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(logic)->getTableOfTimes();
 			goal->AddComponent(std::make_shared<Rotate>(0, 30, 0));
-			goalTableOfTimes->addGrade("Great", 60.0f);
-			goalTableOfTimes->addGrade("Good", 80.0f);
-			goalTableOfTimes->addGrade("Okay", 120.0f);
-			goalTableOfTimes->addGrade("Bad", 180.0f);
+			goalTableOfTimes->addGrade("Great", 70.0f);
+			goalTableOfTimes->addGrade("Good", 90.0f);
+			goalTableOfTimes->addGrade("Okay", 130.0f);
+			goalTableOfTimes->addGrade("Bad", 190.0f);
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
