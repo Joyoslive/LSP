@@ -46,7 +46,7 @@ void CapsuleCollider::update()
     m_capsule.PointA = m_transform->getPosition() + m_length * unitY;
 }
 
-const Vector3& closestPointOnSegmentFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point)
+Vector3 closestPointOnSegmentFromPoint(const Vector3& segmentEndPoint1, const Vector3& segmentEndPoint2, const Vector3& point)
 {
     //closest point on linesegment to point
     //från boken Real time collision detection

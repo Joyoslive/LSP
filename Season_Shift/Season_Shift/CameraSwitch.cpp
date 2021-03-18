@@ -56,6 +56,7 @@ Ref<Camera> CameraSwitch::getCamera() const
 	}
 
 	assert(false);
+	return nullptr;
 }
 
 void CameraSwitch::updateScene(Scene* activeScene)

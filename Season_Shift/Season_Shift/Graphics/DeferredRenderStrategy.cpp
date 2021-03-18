@@ -40,6 +40,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_gpMatrices[1] = mainCamera->getViewMatrix();
 	m_gpMatrices[2] = mainCamera->getProjectionMatrix();
 
+
+
 	// Set shadow mapper settings (hardcoded to three cascades)		// [0.1, 100] --> [100, 500] --> [500, 1000]
 	m_shadowCascades[0] = { mainCamera->getNearPlane() + 200, 4096 * 2};
 	m_shadowCascades[1] = { (mainCamera->getNearPlane() + mainCamera->getFarPlane()) / 1.3, 4696  };
@@ -47,8 +49,16 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 	m_shadowMapper->setCascadeSettings(m_shadowCascades);
 
 	// Generate shadow map
+	if (m_camFirstTime)
+	{
+		m_defCamProj = mainCamera->getProjectionMatrix();
+		m_camFirstTime = false;
+		m_shadowMapper->setFOV(mainCamera->getFieldOfView());
+	}
+
+
 	Matrix lightView = DirectX::XMMatrixLookAtLH(Vector3(0.0, 0.0, 0.0), m_dirLight->getDirection(), Vector3(0.0, 1.0, 0.0));
-	auto &cascades = m_shadowMapper->generateCascades(models, mainCamera, lightView, m_lineDrawer);
+	auto &cascades = m_shadowMapper->generateCascades(models, mainCamera->getViewMatrix(), m_defCamProj, lightView, m_lineDrawer);
 
 	m_geometryPassSolid->bind(dev);
 	dev->bindDepthStencilState(m_gDss);
@@ -81,7 +91,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	for (auto& p : m_partSysVec)
 	{
-		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), static_cast<float>(dt));
 	}
 
 
@@ -151,8 +161,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			{
 				if (m_sprites.size() == 0)
 					break;
-				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
-				if (s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton)))
+				s->checkForClick((int)Input::getInput().mousePos().x, (int)Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
+				if (s->checkForRelease((int)Input::getInput().mousePos().x, (int)Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton)))
 				{
 					break;
 				}
@@ -507,8 +517,8 @@ void DeferredRenderStrategy::setupPostProcessPass()
 
 	DXTexture::Desc pptDesc = { };
 	pptDesc.type = DXTexture::Type::TEX2D;
-	pptDesc.desc2D.Width = static_cast<float>(dev->getClientWidth());
-	pptDesc.desc2D.Height = static_cast<float>(dev->getClientHeight());
+	pptDesc.desc2D.Width = dev->getClientWidth();
+	pptDesc.desc2D.Height = dev->getClientHeight();
 	pptDesc.desc2D.MipLevels = 1;
 	pptDesc.desc2D.ArraySize = 1;
 	pptDesc.desc2D.Format = DXGI_FORMAT_R8G8B8A8_UNORM;

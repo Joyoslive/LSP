@@ -90,10 +90,10 @@ void Scene5::setUpScene()
 			Ref<Component> logic = goal->AddComponent(std::make_shared<GoalLogic>());
 			Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(logic)->getTableOfTimes();
 			goal->AddComponent(std::make_shared<Rotate>(0, 30, 0));
-			goalTableOfTimes->addGrade("Great", 60.0f);
-			goalTableOfTimes->addGrade("Good", 80.0f);
-			goalTableOfTimes->addGrade("Okay", 120.0f);
-			goalTableOfTimes->addGrade("Bad", 180.0f);
+			goalTableOfTimes->addGrade("Great", 70.0f);
+			goalTableOfTimes->addGrade("Good", 90.0f);
+			goalTableOfTimes->addGrade("Okay", 130.0f);
+			goalTableOfTimes->addGrade("Bad", 190.0f);
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -169,10 +169,6 @@ void Scene5::setUpScene()
 	Ref<GameObject> go5 = createGameObject("island", Vector3(-200.0f, 20.0f, 200.0f), Vector3(100.f / 20.0f, 100.f / 20.0f, 100.f / 20.0f), Vector3(87.966f, 0, 0));
 	go5->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Island/", "vertical_island_fall.fbx", GfxShader::DEFAULT));
 	go5->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(0.02124478f, 0.02045011f, 0.01149386f)));*/
-
-	Ref<GameObject> winterBox6 = createGameObject("wall", Vector3(-10.0, 50.0f + 140, 20.0f + (20 * 28) / 2), Vector3(20, 20, 20));
-	winterBox6->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Wall/", "wallSpring2.fbx", GfxShader::DEFAULT));
-	winterBox6->AddComponent(std::make_shared<OrientedBoxCollider>(Vector3(20 / 5, 2 * 19, 20 * 8)));
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
