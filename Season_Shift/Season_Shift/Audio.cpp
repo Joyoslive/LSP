@@ -14,7 +14,7 @@ Audio::~Audio()
 {
 }
 
-void Audio::start()
+void Audio::start(int i)
 {
 	std::vector<std::string> v1;
 	v1.push_back("Sounds/whoosh.wav");
@@ -59,8 +59,12 @@ void Audio::start()
 	m_sound3.setVolume(0.7);
 	std::vector<std::string> v3;
 	v3.push_back("Sounds/Spring2.wav");
+	v3.push_back("Sounds/fall2.wav");
 	m_music.start(v3);
-	m_music.playLoop("Sounds/Spring2.wav");
+	if(i == 0)
+		m_music.playLoop("Sounds/Spring2.wav");
+	else
+		m_music.playLoop("Sounds/fall2.wav");
 }
 
 void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vector3 velocity, float delta)

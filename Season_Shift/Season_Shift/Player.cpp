@@ -135,7 +135,7 @@ namespace tempSpriteFix
 		 tempSpriteFix::m_sprite->setShow(true);
 		 tempSpriteFix::m_spriteGoalTimer->setShow(true);
 	 }
-
+	 
 	 m_playerCamera = m_gameObject->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA);
 	 m_playerCamera->setOffset(0, 2.0f, 0);
 	 m_rb = m_gameObject->getComponentType<RigidBody>(Component::ComponentEnum::RIGID_BODY);
@@ -153,8 +153,10 @@ namespace tempSpriteFix
 		 "ParticleSim1CS.cso", "ParticleEmitt1CS.cso", 8 * 144 * 5 * 100, 1.0f)));
 	 int id = m_playerPartSys2->addEmitter(8 * 144, 100000, 0.07f*2.0f, Vector3(0.5f, 1, 0.8f), Vector3(0, 0, 70), 0.5f);
 	 m_playerPartSys2->stopEmitter(id);
-
-	 m_audio.start();
+	 if(m_respawn.y == 26)
+		m_audio.start(1);
+	 else
+		 m_audio.start(0);
 
 	 m_hookObject = m_gameObject->getScene()->createGameObject("hookObject");
 	 m_hookPartSys = std::dynamic_pointer_cast<ParticleSystemComponent>(m_hookObject->AddComponent(std::make_shared<ParticleSystemComponent>(
