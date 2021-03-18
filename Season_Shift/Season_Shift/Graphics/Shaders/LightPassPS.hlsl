@@ -103,7 +103,7 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float3 normal, float2 uv)
 				depth = lcs.z;
 
 				//bias = 0.0008f;
-				bias = max(0.0015 * (1.0 - dotLightNor) , 0.0009f);
+				bias = max(0.0015 * (1.0 - dotLightNor) , 0.001f);
 
 				//return float4(dotLightNor, dotLightNor, dotLightNor, 1.f);
 
@@ -132,7 +132,10 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float3 normal, float2 uv)
 					smUv = float2(0.5f * lcs.x + 0.5f, -0.5f * lcs.y + 0.5f);
 					depth = lcs.z;
 
-					bias = 0.0007f;//0.0005f;
+					//bias = 0.0007f;//0.0005f;
+					bias = max(0.00010 * (1.0 - dotLightNor), 0.0009f);
+
+
 					shadowMapDepth = g_smMid.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 1.f, 0.f, 1.f);
 
@@ -160,6 +163,9 @@ float4 calcShadow(float3 worldPos, float4 inputColor, float3 normal, float2 uv)
 					depth = lcs.z;
 
 					bias = 0.01f;//0.001f;
+					bias = max(0.015 * (1.0 - dotLightNor), 0.01);
+
+
 					shadowMapDepth = g_smFar.Sample(g_smBorderSampler, smUv).r;
 					tmpCol = float4(0.f, 0.f, 1.f, 1.f);
 
