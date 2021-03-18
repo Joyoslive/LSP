@@ -66,9 +66,8 @@ bool CapsuleCollider::collide(const Ref<Collider>& collider)
     if (!((int)(collider->getType() & Component::ComponentEnum::ORIENTED_BOX_COLLIDER) > 0))    return false;   //only support collision vs obb
 
     Ref<OrientedBoxCollider> obb = std::dynamic_pointer_cast<OrientedBoxCollider>(collider);
-
     //pre test
-    if (obb->getRadius() + (m_length + 2.0f * m_capsule.radius)*0.5f < (obb->getTransform()->getPosition() - (m_capsule.PointA + m_capsule.PointB)*0.5f).Length())
+    if (obb->getRadius() + (m_length + 2.0f * m_capsule.radius)*0.5f < (obb->getInternalCollider().Center - (m_capsule.PointA + m_capsule.PointB)*0.5f).Length())
     {
         return false; //free fps
     }

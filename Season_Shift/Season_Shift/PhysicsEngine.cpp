@@ -204,7 +204,8 @@ Vector3 PhysicsEngine::capsuleCollideObb(const Ref<Collider>& capsule, const Ref
 			normal.Normalize();
 			Logger::getLogger().debugLog(normal);*/
 
-			Logger::getLogger().debugLog("#" + std::to_string(++deepCollisionCount) + " Deep collision detected, normal set to push player out of obb.\n");
+			Logger::getLogger().debugLog("#" + std::to_string(++deepCollisionCount) + " Deep collision detected with " +
+				obb->getGameObject()->getName() + ", normal set to push player out of obb.\n");
 			std::dynamic_pointer_cast<OrientedBoxCollider>(obb)->closestPointOnObb(collisionInfo.m_segmentPoint + Vector3(0.22f, 0.1f, -0.31f), normal);
 			Logger::getLogger().debugLog(normal);
 			assert((abs(normal.Length() - 1.0f) < 0.01f)); //unlucky
