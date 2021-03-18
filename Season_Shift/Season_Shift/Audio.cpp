@@ -17,10 +17,8 @@ Audio::~Audio()
 void Audio::start(int i)
 {
 	std::vector<std::string> v1;
-	v1.push_back("Sounds/whoosh.wav");
 	v1.push_back("Sounds/boing2.wav");
 	v1.push_back("Sounds/hook.wav");
-	v1.push_back("Sounds/walkingDrum.wav");
 	v1.push_back("Sounds/landing.wav");
 	v1.push_back("Sounds/landing2.wav");
 	v1.push_back("Sounds/checkpoint.wav");
@@ -28,22 +26,8 @@ void Audio::start(int i)
 	v1.push_back("Sounds/jump1a.wav");
 	v1.push_back("Sounds/jump2a.wav");
 	v1.push_back("Sounds/jump3a.wav");
-	v1.push_back("Sounds/dashTest.wav");
-	v1.push_back("Sounds/jumpTest.wav");
 	v1.push_back("Sounds/wallrunBongo.wav");
-	v1.push_back("Sounds/airBeat.wav");
-	v1.push_back("Sounds/hookDrum.wav");
-	v1.push_back("Sounds/hookDrumv2.wav");
-	v1.push_back("Sounds/run2.wav");
-	v1.push_back("Sounds/swing2.wav");
-	v1.push_back("Sounds/swingUp.wav");
-	v1.push_back("Sounds/swingDown.wav");
-	v1.push_back("Sounds/swingFull.wav");
 	v1.push_back("Sounds/swingT.wav");
-	v1.push_back("Sounds/footstep1.wav");
-	v1.push_back("Sounds/footstep1-2.wav");
-	v1.push_back("Sounds/footstep1-3.wav");
-	v1.push_back("Sounds/footstep2.wav");
 	v1.push_back("Sounds/woosh.wav");
 	v1.push_back("Sounds/wilhem.wav");
 	m_sound.start(v1);
@@ -54,7 +38,6 @@ void Audio::start(int i)
 	m_sound2.playLoop("Sounds/heartbeat.wav");
 	std::vector<std::string> v4;
 	v4.push_back("Sounds/footstep1.wav");
-	v4.push_back("Sounds/footstep1Grass.wav");
 	m_sound3.start(v4);
 	m_sound3.setVolume(0.7f);
 	std::vector<std::string> v3;
