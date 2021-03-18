@@ -33,7 +33,7 @@ void PlayerCameraMovement::update()
 	Input::getInput().mouseMovement(m_pitch, m_yaw);
 	m_playerCamera->setRotation(m_roll, m_pitch, m_yaw);
 	Vector3 rot = getGameObject()->getTransform()->getRotation();
-	getGameObject()->getTransform()->setRotation(Vector3(rot.x, 180.0 / DirectX::XM_PI * m_yaw, rot.z));
+	getGameObject()->getTransform()->setRotation(Vector3(rot.x, 180.0f / DirectX::XM_PI * m_yaw, rot.z));
 	landShake();
 
 	ImGui::Begin("Player Camera");

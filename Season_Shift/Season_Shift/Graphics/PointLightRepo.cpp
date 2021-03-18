@@ -54,7 +54,7 @@ const PointLight& PointLightRepo::getPointLight(const std::string& name)
 		}
 	}
 	assert(false);
-	m_pointLightVector[0].first; // will never return
+	return m_pointLightVector[0].first; // will never return
 }
 
 std::shared_ptr<DXBuffer> PointLightRepo::getStructuredLightBuffer()
