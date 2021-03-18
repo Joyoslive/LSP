@@ -60,14 +60,40 @@ void Scene5::setUpScene()
 			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 220));
 			continue;
 		}
-		if (object.name == "Goal")
+		if (object.name == "Spring1")
 		{
-			/*Ref<GameObject> spring = createGameObject("trampoline", object.position, Vector3(8, 8, 8));
+			Ref<GameObject> spring = createGameObject("trampoline", object.position, Vector3(8, 8, 8));
 			spring->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
 			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
 			trigger->SetTriggerCollider(true);
 			spring->AddComponent(trigger);
-			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 1, 0), 220));*/
+			spring->AddComponent(std::make_shared<Bounce>(Vector3(0.5, 1, -0.1), 220));
+			continue;
+		}
+		if (object.name == "Spring2")
+		{
+			Ref<GameObject> spring = createGameObject("trampoline", object.position, Vector3(8, 8, 8), Vector3(12, 24, 65));
+			spring->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Trampoline/", "bumberColorAlpha.obj", GfxShader::DEFAULT));
+			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
+			trigger->SetTriggerCollider(true);
+			spring->AddComponent(trigger);
+			spring->AddComponent(std::make_shared<Bounce>(Vector3(0, 2, 1), 110));
+			continue;
+		}
+		if (object.name == "Goal")
+		{
+			Ref<GameObject> goal = createGameObject("goal", object.position, Vector3(8, 8, 8));
+			goal->AddComponent(m_graphics->getResourceDevice()->createModel("Models/Goal/", "goal4.obj", GfxShader::DEFAULT));
+			Ref<OrientedBoxCollider> trigger = std::make_shared<OrientedBoxCollider>(Vector3(16, 16, 16));
+			trigger->SetTriggerCollider(true);
+			goal->AddComponent(trigger);
+			Ref<Component> logic = goal->AddComponent(std::make_shared<GoalLogic>());
+			Ref<TableOfTimes> goalTableOfTimes = std::dynamic_pointer_cast<GoalLogic>(logic)->getTableOfTimes();
+			goal->AddComponent(std::make_shared<Rotate>(0, 30, 0));
+			goalTableOfTimes->addGrade("Great", 70.0f);
+			goalTableOfTimes->addGrade("Good", 90.0f);
+			goalTableOfTimes->addGrade("Okay", 130.0f);
+			goalTableOfTimes->addGrade("Bad", 190.0f);
 			continue;
 		}
 		auto go = createGameObject(object.name, object.position, object.scale, object.rotation);
@@ -76,10 +102,6 @@ void Scene5::setUpScene()
 
 		for (auto& b : object.boxColliders)
 		{
-			if (object.name == "step_spring")
-			{
-				OutputDebugStringA("lol");
-			}
 			auto collider = std::make_shared<OrientedBoxCollider>(b.scale, b.position);
 			go->AddComponent(collider);
 		}

@@ -4,9 +4,9 @@
 Audio::Audio() 
 {
 	m_soundLoop = false;
-	m_volume = 0.0;
-	m_volume2 = 0.8;
-	m_pitch = -0.3;
+	m_volume = 0.0f;
+	m_volume2 = 0.8f;
+	m_pitch = -0.3f;
 	m_mute = true;
 }
 
@@ -47,7 +47,7 @@ void Audio::start(int i)
 	v1.push_back("Sounds/woosh.wav");
 	v1.push_back("Sounds/wilhem.wav");
 	m_sound.start(v1);
-	m_sound.setVolume(0.8);
+	m_sound.setVolume(0.8f);
 	std::vector<std::string> v;
 	v.push_back("Sounds/heartbeat.wav");
 	m_sound2.start(v);
@@ -56,7 +56,7 @@ void Audio::start(int i)
 	v4.push_back("Sounds/footstep1.wav");
 	v4.push_back("Sounds/footstep1Grass.wav");
 	m_sound3.start(v4);
-	m_sound3.setVolume(0.7);
+	m_sound3.setVolume(0.7f);
 	std::vector<std::string> v3;
 	v3.push_back("Sounds/Spring2.wav");
 	v3.push_back("Sounds/fall2.wav");
@@ -94,22 +94,22 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 
 		if (50 < velocity.Length())
 		{
-			if (m_volume < 0.9)
-				m_volume += 0.05 * delta;
+			if (m_volume < 0.9f)
+				m_volume += 0.05f * delta;
 			if (m_pitch <= 0)
-				m_pitch += 0.11 * delta;
+				m_pitch += 0.11f * delta;
 		}
 		else if (85 > velocity.Length() && ground == true)
 		{
-			if (m_volume > 0.1)
-				m_volume -= 0.02 * delta;
-			if (m_pitch >= -0.7)
-				m_pitch -= 0.1 * delta;
+			if (m_volume > 0.1f)
+				m_volume -= 0.02f * delta;
+			if (m_pitch >= -0.7f)
+				m_pitch -= 0.1f * delta;
 		}
 		//HerthBeat
 		if (velocity.Length() < 10)
 		{
-			m_volume2 += 0.1 * delta;
+			m_volume2 += 0.1f * delta;
 		}
 		else
 		{
@@ -119,7 +119,7 @@ void Audio::update(bool ground, bool hook, bool wall, DirectX::SimpleMath::Vecto
 		m_sound2.setVolume(m_volume2);
 		m_music.setVolume(m_volume);
 		m_music.setPitch(m_pitch);
-		m_sound3.setVolume(0.7);
+		m_sound3.setVolume(0.7f);
 		m_sound3.setPitch(m_pitch);
 	}
 }
@@ -146,7 +146,7 @@ void Audio::unmute()
 
 int Audio::random()
 {
-	std::srand(std::time(nullptr)); // use current time as seed for random generator
+	std::srand(static_cast<unsigned int>(std::time(nullptr))); // use current time as seed for random generator
 	int random_variable = std::rand();
 
 	// roll 6-sided dice 20 times

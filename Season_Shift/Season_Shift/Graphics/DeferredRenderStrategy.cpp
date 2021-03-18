@@ -91,7 +91,7 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 
 	for (auto& p : m_partSysVec)
 	{
-		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), dt);
+		p->simulateAndDraw(mainCamera->getViewMatrix(), mainCamera->getProjectionMatrix(), static_cast<float>(dt));
 	}
 
 
@@ -161,8 +161,8 @@ void DeferredRenderStrategy::render(const std::vector<std::shared_ptr<Model>>& m
 			{
 				if (m_sprites.size() == 0)
 					break;
-				s->checkForClick(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
-				if (s->checkForRelease(Input::getInput().mousePos().x, Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton)))
+				s->checkForClick((int)Input::getInput().mousePos().x, (int)Input::getInput().mousePos().y, Input::getInput().mousePressed(Input::LeftButton));
+				if (s->checkForRelease((int)Input::getInput().mousePos().x, (int)Input::getInput().mousePos().y, Input::getInput().mouseReleased(Input::LeftButton)))
 				{
 					break;
 				}
@@ -517,8 +517,8 @@ void DeferredRenderStrategy::setupPostProcessPass()
 
 	DXTexture::Desc pptDesc = { };
 	pptDesc.type = DXTexture::Type::TEX2D;
-	pptDesc.desc2D.Width = static_cast<float>(dev->getClientWidth());
-	pptDesc.desc2D.Height = static_cast<float>(dev->getClientHeight());
+	pptDesc.desc2D.Width = dev->getClientWidth();
+	pptDesc.desc2D.Height = dev->getClientHeight();
 	pptDesc.desc2D.MipLevels = 1;
 	pptDesc.desc2D.ArraySize = 1;
 	pptDesc.desc2D.Format = DXGI_FORMAT_R8G8B8A8_UNORM;

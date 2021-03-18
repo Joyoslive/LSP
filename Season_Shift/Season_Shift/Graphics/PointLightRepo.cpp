@@ -24,7 +24,7 @@ void PointLightRepo::addPointLight(PointLight& pointLight)
 	m_latestUsedLightIndex = m_pointLightVector.size() - 1;
 	m_rebuildBuffer = true;
 	pointLight.linkToRepo(shared_from_this()); // use non const refrence to link repo
-	pointLight.m_internalRepoIndex = m_pointLightVector.size() - 1;
+	pointLight.m_internalRepoIndex = static_cast<int>(m_pointLightVector.size()) - 1;
 }
 
 bool PointLightRepo::findPointLight(const std::string& name)
@@ -54,6 +54,7 @@ const PointLight& PointLightRepo::getPointLight(const std::string& name)
 		}
 	}
 	assert(false);
+	return m_pointLightVector[0].first; // will never return
 }
 
 std::shared_ptr<DXBuffer> PointLightRepo::getStructuredLightBuffer()
@@ -82,13 +83,13 @@ void PointLightRepo::createBuffer()
 		if (m_pointLightVector[i].first.m_lit)
 		{
 			m_pointLightResourceVector.push_back(m_pointLightVector[i].first.m_PointLightData);
-			m_pointLightVector[i].second = m_pointLightResourceVector.size() - 1; // save index so we can map into resourceVector later
+			m_pointLightVector[i].second = static_cast<int>(m_pointLightResourceVector.size()) - 1; // save index so we can map into resourceVector later
 		}
 	}
 
 	//create structerd buffer
 	m_subresData.pSysMem = m_pointLightResourceVector.data();
-	unsigned int count = m_pointLightResourceVector.size();
+	unsigned int count = static_cast<unsigned int>(m_pointLightResourceVector.size());
 	m_structuredBuffer = m_dxDev->createStructuredBuffer(count, sizeof(PointLight::PointLightResource), true, false, &m_subresData);
 
 	m_rebuildBuffer = false;
@@ -97,7 +98,8 @@ void PointLightRepo::createBuffer()
 
 void PointLightRepo::updateBuffer()
 {
-	m_structuredBuffer->updateMapUnmap(m_pointLightResourceVector.data(), m_pointLightResourceVector.size() * sizeof(PointLight::PointLightResource));
+	m_structuredBuffer->updateMapUnmap(m_pointLightResourceVector.data(), static_cast<unsigned int>(
+		m_pointLightResourceVector.size() * sizeof(PointLight::PointLightResource)));
 	m_updateBuffer = false;
 }
 

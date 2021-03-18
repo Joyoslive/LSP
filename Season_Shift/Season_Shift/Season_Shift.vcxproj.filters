@@ -206,6 +206,7 @@
     <None Include="Models\SpringIslands\step_spring.fbx" />
     <None Include="Models\SpringIslands\wall.fbx" />
     <None Include="Models\Wall\wallSpring2.fbx" />
+    <None Include="Models\SpringIslands\wallSpringCube.fbx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\CelShading\discretization.png" />

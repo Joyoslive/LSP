@@ -13,7 +13,7 @@ private:
 	DirectX::SimpleMath::Vector3 m_original;
 	float m_direction;
 public:
-	Move();
+	Move() = default;
 	Move(DirectX::SimpleMath::Vector3 speed, DirectX::SimpleMath::Vector3 range);
 	~Move();
 	void start() override;

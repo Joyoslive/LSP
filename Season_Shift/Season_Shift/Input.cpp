@@ -8,7 +8,7 @@ Input::Input()
 {
 }
 
-Input::~Input() 
+Input::~Input()
 {
 }
 
@@ -30,10 +30,10 @@ void Input::initInput(HWND wndHandle, int width, int height)
 	instance.m_width = width;
 	instance.m_height = height;
 	instance.m_hwnd = wndHandle;
-	SetCursorPos(width/2, height/2);
+	SetCursorPos(width / 2, height / 2);
 }
 
-bool Input::keyBeingPressed(Keys key) 
+bool Input::keyBeingPressed(Keys key)
 {
 	auto kb = m_keyboard->GetState();
 	DirectX::Keyboard::Keys dxkey;
@@ -41,7 +41,7 @@ bool Input::keyBeingPressed(Keys key)
 	return kb.IsKeyDown(dxkey);
 }
 
-bool Input::keyPressed(Keys key) 
+bool Input::keyPressed(Keys key)
 {
 	DirectX::Keyboard::Keys dxkey;
 	dxkey = (DirectX::Keyboard::Keys)key;
@@ -80,7 +80,7 @@ bool Input::mouseReleased(MouseKeys key)
 	return false;
 }
 
-DirectX::SimpleMath::Vector2 Input::mousePos() 
+DirectX::SimpleMath::Vector2 Input::mousePos()
 {
 	mouse = m_mouse->GetState();
 	DirectX::SimpleMath::Vector2 delta = DirectX::SimpleMath::Vector2(float(mouse.x), float(mouse.y));
@@ -88,13 +88,13 @@ DirectX::SimpleMath::Vector2 Input::mousePos()
 
 }
 
-void Input::mouseMovement(float &m_pitch, float &m_yaw)
+void Input::mouseMovement(float& m_pitch, float& m_yaw)
 {
 	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 
-		m_pitch += m_mouseY * m_frameTime * 1.0;
-		m_yaw += m_mouseX* m_frameTime * 1.0;
+		m_pitch += m_mouseY * static_cast<float>(m_frameTime) * 1.0f;
+		m_yaw += m_mouseX * static_cast<float>(m_frameTime) * 1.0f;
 
 		// limit pitch to straight up or straight down
 		// with a little fudge-factor to avoid gimbal lock
@@ -112,10 +112,10 @@ void Input::mouseMovement(float &m_pitch, float &m_yaw)
 			m_yaw += DirectX::XM_PI * 2.0f;
 		}
 	}
-	
+
 }
 
-bool Input::mouseBeingPressed(MouseKeys key) 
+bool Input::mouseBeingPressed(MouseKeys key)
 {
 	switch (key)
 	{
@@ -140,7 +140,7 @@ bool Input::mouseBeingPressed(MouseKeys key)
 	return false;
 }
 
-bool Input::mousePressed(MouseKeys key) 
+bool Input::mousePressed(MouseKeys key)
 {
 	switch (key)
 	{
@@ -165,7 +165,7 @@ bool Input::mousePressed(MouseKeys key)
 	return false;
 }
 
-void Input::lockMouse(int code) 
+void Input::lockMouse(int code)
 {
 	if (code == 0)
 	{
@@ -186,7 +186,7 @@ void Input::lockMouse(int code)
 		m_latestCode = code;
 
 		m_mouse->SetMode(DirectX::Mouse::MODE_RELATIVE);
- 		while(ShowCursor(0) > 0);
+		while (ShowCursor(0) > 0);
 	}
 	else if (code == 2)
 	{
@@ -197,12 +197,12 @@ void Input::lockMouse(int code)
 	}
 }
 
-void Input::update(long double dt) 
+void Input::update(long double dt)
 {
 	m_frameTime = dt;
 	auto kb = m_keyboard->GetState();
 	mouse = m_mouse->GetState();
-	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE) 
+	if (mouse.positionMode == DirectX::Mouse::MODE_RELATIVE)
 	{
 		POINT ref_p;
 		ref_p.x = m_width / 2;
@@ -210,8 +210,8 @@ void Input::update(long double dt)
 		ClientToScreen(m_hwnd, &ref_p);
 		SetCursorPos(ref_p.x, ref_p.y);
 	}
-	m_mouseY = mouse.y;
-	m_mouseX = mouse.x;
+	m_mouseY = static_cast<float>(mouse.y);
+	m_mouseX = static_cast<float>(mouse.x);
 
 	m_keys.Update(kb);
 	m_mouseButtons.Update(mouse);

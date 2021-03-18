@@ -51,7 +51,7 @@ void Scene2::setUpScene()
 	playerJumpTrigger->AddComponent(std::make_shared<SphereCollider>(2));
 	playerJumpTrigger->AddComponent(std::make_shared<PlayerJumpTrigger>(player));
 
-	m_graphics->setLightDirection({1.8, -1, -1});
+	m_graphics->setLightDirection({1.8f, -1, -1});
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 
 
