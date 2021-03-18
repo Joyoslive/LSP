@@ -15,16 +15,16 @@ void ParticleSystemComponent::clearComponent()
 {
 	getGameObject()->getScene()->getGraphics()->removeParticleSystem(m_partSys);
 }
-float GenRandomFloat(const float& min, const float& max)
+float genRandomFloat(float min, float max)
 {
 	std::random_device rd;
 	std::mt19937 eng(rd());
 	std::uniform_real_distribution<> distr(min, max);
-	return distr(eng);
+	return static_cast<float>(distr(eng));
 }
 void ParticleSystemComponent::update()
 {
-	float dt = FrameTimer::dt();
+	float dt = static_cast<float>(FrameTimer::dt());
 
 	for (auto& e : m_emittVec)
 	{
@@ -35,8 +35,8 @@ void ParticleSystemComponent::update()
 			{
 				Vector3 worldOffset = DirectX::XMVector3Transform(e.second.offset, getTransform()->getRotationMatrix());
 				e.first.pos = getTransform()->getPosition() + worldOffset; // add offset rotation from transform
-				e.first.count = e.second.particlesPerSecond * e.second.accumulatedTime;
-				e.first.randVec = { GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f), GenRandomFloat(-2.0f, 2.0f) };
+				e.first.count = static_cast<unsigned int>(e.second.particlesPerSecond * e.second.accumulatedTime);
+				e.first.randVec = { genRandomFloat(-2.0f, 2.0f), genRandomFloat(-2.0f, 2.0f), genRandomFloat(-2.0f, 2.0f) };
 				m_partSys->emitt(e.first);
  				e.second.accumulatedTime -= e.first.count / e.second.particlesPerSecond;
 			}
@@ -69,7 +69,7 @@ int ParticleSystemComponent::addEmitter(float particlesPerSecond, float emitterL
 	//tranform input direction with component transform
 	m_emittVec.emplace_back(std::pair(ParticleSystem::EmittStructure(particleStartLifeTime, Vector3::Zero, scale, direction, 0, color), EmitterMetaData(emitterLifeTime, particlesPerSecond, offset)));
 
-	return m_emittVec.size() - 1;
+	return static_cast<int>(m_emittVec.size()) - 1;
 }
 
 void ParticleSystemComponent::stopEmitter(int id)
