@@ -12,6 +12,7 @@ public:
 	void playSound1(const std::string& soundName);
 	void mute();
 	void unmute();
+	void stopWalking();
 private:
 	int random();
 	Sound m_sound;
