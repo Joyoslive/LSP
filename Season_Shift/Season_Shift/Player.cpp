@@ -246,7 +246,6 @@ namespace tempSpriteFix
 				moveDirection += cross;
 			else
 				moveDirection += cameraForward;
-			//m_sound->playLoop("Sound/walkingDrum.wav");
 		}
 		if (Input::getInput().keyBeingPressed(Input::S))
 		{
