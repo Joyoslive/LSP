@@ -173,5 +173,9 @@ void StageSelect::setUpScene()
 		m_stage2Button->setShow(true);
 	}
 
+	m_graphics->setSpeedlineSpeedFactor(0);
+	m_graphics->setSpeedlineRadius(0);
+	m_graphics->setSpeedlineThickness(0);
+
 	m_mainCamera = std::make_shared<Camera>(); // Camera in order to be able to renders
 }
