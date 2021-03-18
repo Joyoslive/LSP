@@ -31,6 +31,8 @@ using namespace DirectX::SimpleMath;
 Scene5::Scene5(Graphics* graphics) : Scene(graphics)
 {}
 
+
+// Vår BANAN (Stage 1)
 void Scene5::setUpScene()
 {
 	SceneReader sr;
@@ -153,7 +155,6 @@ void Scene5::setUpScene()
 
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
-	m_graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");
 	m_graphics->setSkybox(1);
 	m_graphics->setLightDirection({1.8f, -1, 1});
 	m_graphics->setSkyboxRotationAroundY(-65.f, 1);
