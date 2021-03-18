@@ -3,6 +3,40 @@
     "boxColliders": [
       {
         "pos": {
+          "x": 2,
+          "y": -3.81,
+          "z": 113.2
+        },
+        "scale": {
+          "x": 223.5,
+          "y": 44.64,
+          "z": 200.3
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wall.fbx",
+    "name": "Collider",
+    "pos": {
+      "x": 2049,
+      "y": 129.8,
+      "z": -1511.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
+      "z": 0
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
           "x": 0,
           "y": 0,
           "z": 0
