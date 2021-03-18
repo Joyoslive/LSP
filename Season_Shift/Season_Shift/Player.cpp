@@ -281,6 +281,7 @@ namespace tempSpriteFix
 	}
 	if (m_trampolineTimer > 0.0f)
 	{
+		m_ground = false;
 		m_trampolineTimer -= m_frameTime;
 	}
 	if(m_wallTimer <= 0)
