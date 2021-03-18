@@ -88,6 +88,11 @@ public:
 	void setSkybox(unsigned int idx);
 
 	/*
+	Change skybox rotation in deg
+	*/
+	void setSkyboxRotationAroundY(float deg, unsigned int idx);
+
+	/*
 	Change the direction of the global directional light
 	*/
 	void setLightDirection(const DirectX::SimpleMath::Vector3& direction);

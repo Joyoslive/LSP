@@ -90,6 +90,11 @@ void Graphics::setSkybox(unsigned int idx)
 	m_skybox->setSkybox(idx);
 }
 
+void Graphics::setSkyboxRotationAroundY(float deg, unsigned int idx)
+{
+	m_skybox->setRotationAroundY(deg, idx);
+}
+
 void Graphics::setLightDirection(const DirectX::SimpleMath::Vector3& direction)
 {
 	m_dirLight->setDirection(direction);

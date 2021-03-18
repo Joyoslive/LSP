@@ -42,6 +42,7 @@ Skybox::Skybox(std::shared_ptr<GfxRenderer> renderer) :
 	sDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	m_sampler = m_renderer->getDXDevice()->createSamplerState(sDesc);
 
+	m_vpInfo.rotMat = DirectX::SimpleMath::Matrix::Identity;
 }
 
 void Skybox::loadSkybox(std::filesystem::path directoryPath)
@@ -86,6 +87,7 @@ void Skybox::loadSkybox(std::filesystem::path directoryPath)
 	}
 
 	m_textures.push_back(dev->createTexture(texCubeDesc, subresDat));
+	m_skyboxRotations.push_back(DirectX::SimpleMath::Matrix::Identity);
 	++m_texCount;
 
 	for (int i = 0; i < 6; ++i)
@@ -105,6 +107,13 @@ void Skybox::setSkybox(unsigned int idx)
 
 }
 
+void Skybox::setRotationAroundY(float deg, unsigned int idx)
+{
+	float yRad = deg * 3.1415 / 180.f;
+
+	m_skyboxRotations[idx] = DirectX::XMMatrixRotationRollPitchYaw(0.f, yRad, 0.f);
+}
+
 void Skybox::draw(const std::shared_ptr<Camera>& cam)
 {
 	auto dev = m_renderer->getDXDevice();
@@ -121,6 +130,7 @@ void Skybox::draw(const std::shared_ptr<Camera>& cam)
 	dev->bindShaderConstantBuffer(DXShader::Type::VS, 5, m_vpBuffer);
 	dev->bindShaderSampler(DXShader::Type::PS, 5, m_sampler);
 	dev->bindShaderTexture(DXShader::Type::PS, 5, m_textures[m_activeIdx]);
+	m_vpInfo.rotMat = m_skyboxRotations[m_activeIdx];
 	dev->bindShader(m_vs, DXShader::Type::VS);
 	dev->bindShader(m_ps, DXShader::Type::PS);
 

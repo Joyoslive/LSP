@@ -14,12 +14,14 @@ private:
 	{
 		DirectX::XMMATRIX viewMat;
 		DirectX::XMMATRIX projMat;
+		DirectX::XMMATRIX rotMat;
 	} m_vpInfo;
 
 	std::shared_ptr<DXShader> m_vs;
 	std::shared_ptr<DXShader> m_ps;
 
 	std::vector<std::shared_ptr<DXTexture>> m_textures;
+	std::vector<DirectX::XMMATRIX> m_skyboxRotations;
 
 	std::shared_ptr<GfxRenderer> m_renderer;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rs;
@@ -45,7 +47,13 @@ public:
 	Will default to index 0 if invalid index is set
 	*/
 	void setSkybox(unsigned int idx);
-	
+
+	/*
+	Set rotation in degrees
+	*/
+	void setRotationAroundY(float deg, unsigned int idx);
+
+
 	/*
 	Draw this skybox
 	*/

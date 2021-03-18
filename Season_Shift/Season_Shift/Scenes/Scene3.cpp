@@ -221,6 +221,6 @@ void Scene3::setUpScene()
 
 	m_graphics->loadSkybox("Textures/Skyboxes/space");
 	m_graphics->setSkybox(1);	// 0 är tagen (default)
-	m_graphics->setLightDirection({ 1.8, -1, -1 });
+	m_graphics->setLightDirection({ 0, -0.5, 1 });
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();
 }
