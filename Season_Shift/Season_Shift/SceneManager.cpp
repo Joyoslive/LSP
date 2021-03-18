@@ -19,6 +19,12 @@ SceneManager::SceneManager(Graphics *graphics, const Window* const win)
 	m_scenes.emplace_back(std::make_shared<MainMenu>(graphics, this, win));
 	m_scenes.emplace_back(std::make_shared<StageSelect>(graphics, this));
 	createMenu(graphics);
+
+	graphics->loadSkybox("Textures/Skyboxes/BRIGHTBOX");		// 1
+	graphics->loadSkybox("Textures/Skyboxes/EQUISKYBOX");		// 2
+
+
+
 	createScenes(graphics);
 }
 
