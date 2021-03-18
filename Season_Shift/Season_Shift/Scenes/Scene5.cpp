@@ -155,7 +155,7 @@ void Scene5::setUpScene()
 	//sound->play("Sounds/Explo4.wav"); //sorry
 	//sound->playLoop("Sounds/Spring.wav");
 	m_graphics->setSkybox(1);
-	m_graphics->setLightDirection({1.8, -1, 1});
+	m_graphics->setLightDirection({1.8f, -1, 1});
 	m_graphics->setSkyboxRotationAroundY(-65.f, 1);
 
 	m_mainCamera = player->getComponentType<CameraComponent>(Component::ComponentEnum::CAMERA)->getCamera();

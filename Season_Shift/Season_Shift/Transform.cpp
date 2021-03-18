@@ -47,12 +47,12 @@ void Transform::setRotationMatrix()
 	setWorldMatrix();
 }
 
-const DirectX::SimpleMath::Vector3& Transform::getRotationToDegrees(const DirectX::SimpleMath::Vector3& radiansRotation) const
+DirectX::SimpleMath::Vector3 Transform::getRotationToDegrees(const DirectX::SimpleMath::Vector3& radiansRotation) const
 {
 	return DirectX::SimpleMath::Vector3(radiansRotation.x * m_RADTODEG, radiansRotation.y * m_RADTODEG, radiansRotation.z * m_RADTODEG);
 }
 
-const DirectX::SimpleMath::Vector3& Transform::getRotationToRadians(const DirectX::SimpleMath::Vector3& degreesRotation) const
+DirectX::SimpleMath::Vector3 Transform::getRotationToRadians(const DirectX::SimpleMath::Vector3& degreesRotation) const
 {
 	return DirectX::SimpleMath::Vector3(degreesRotation.x * m_DEGTORAD, degreesRotation.y * m_DEGTORAD, degreesRotation.z * m_DEGTORAD);
 }
@@ -86,7 +86,7 @@ const DirectX::SimpleMath::Vector3& Transform::getPosition() const
 	return m_position;
 }
 
-const DirectX::SimpleMath::Vector3& Transform::getDeltaPosition() const
+DirectX::SimpleMath::Vector3 Transform::getDeltaPosition() const
 {
 	return (m_oldposition-m_position);
 }
@@ -96,7 +96,7 @@ const DirectX::SimpleMath::Vector3& Transform::getScale() const
 	return m_scale;
 }
 
-const DirectX::SimpleMath::Vector3& Transform::getRotation() const
+DirectX::SimpleMath::Vector3 Transform::getRotation() const
 {
 	return getRotationToDegrees(m_rotation);
 }
