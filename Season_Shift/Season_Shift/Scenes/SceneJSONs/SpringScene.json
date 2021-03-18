@@ -1,23 +1,36 @@
 [
   {
-    "boxColliders": null,
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
     "meshDirectory": "",
     "meshFileName": "unity default resources",
-    "name": "Goal",
+    "name": "Spring2",
     "pos": {
-      "x": 2354.6,
-      "y": 468.82,
-      "z": -1612.5
+      "x": 2146.3,
+      "y": 234.500015,
+      "z": -1475.66
     },
     "rot": {
-      "x": -0,
-      "y": 0,
-      "z": 0
+      "x": 11.8579473,
+      "y": 23.9745121,
+      "z": 65.19918
     },
     "scale": {
-      "x": 2,
-      "y": 2,
-      "z": 2
+      "x": 4.2866,
+      "y": 4.2866,
+      "z": 4.2866
     }
   },
   {
@@ -25,23 +38,23 @@
       {
         "pos": {
           "x": -0.03,
-          "y": 0.37,
+          "y": 0.33,
           "z": -0.03
         },
         "scale": {
           "x": 2.40984654,
-          "y": 1.37,
+          "y": 1.79,
           "z": 2.47351241
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
     "meshFileName": "small_2_spring.fbx",
-    "name": "small_2_spring (6)",
+    "name": "small_2_spring (10)",
     "pos": {
-      "x": 2277.7,
-      "y": 464.7,
-      "z": -1575
+      "x": 2151.7,
+      "y": 353.1,
+      "z": -1337.1
     },
     "rot": {
       "x": -7.01670955E-15,
@@ -50,7 +63,7 @@
     },
     "scale": {
       "x": 7.90917063,
-      "y": 4.955,
+      "y": 9.505672,
       "z": 7.09679842
     }
   },
@@ -59,101 +72,33 @@
       {
         "pos": {
           "x": 0,
-          "y": 0.22,
+          "y": 0,
           "z": 0
         },
         "scale": {
-          "x": 2.3,
-          "y": 0.84,
-          "z": 2.32
+          "x": 2,
+          "y": 2,
+          "z": 2
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "small_1_spring.fbx",
-    "name": "small_1_spring (7)",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (24)",
     "pos": {
-      "x": 2354.6,
-      "y": 464.1,
-      "z": -1612.5
-    },
-    "rot": {
-      "x": 0,
-      "y": 299.2431,
-      "z": 0
-    },
-    "scale": {
-      "x": 7,
-      "y": 6,
-      "z": 7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0.0432654619,
-          "y": -0.0339189768,
-          "z": 0.22689341
-        },
-        "scale": {
-          "x": 6.5,
-          "y": 3.27,
-          "z": 18
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "medium_spring.fbx",
-    "name": "medium_spring (4)",
-    "pos": {
-      "x": 2153,
-      "y": 452.7,
-      "z": -1527
+      "x": 1958.4,
+      "y": 320.6,
+      "z": -1532.7
     },
     "rot": {
       "x": -0,
-      "y": 108.8716,
-      "z": -0
+      "y": 107.5,
+      "z": 0
     },
     "scale": {
-      "x": 6.35,
-      "y": 6.4848,
-      "z": 6.6
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0.00142759946,
-          "y": 16.5,
-          "z": 0.09268224
-        },
-        "scale": {
-          "x": 10.96,
-          "y": 27.8,
-          "z": 11.4
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "pillar_spring.fbx",
-    "name": "pillar_spring",
-    "pos": {
-      "x": 2030.4,
-      "y": 112,
-      "z": -1379.2
-    },
-    "rot": {
-      "x": 0.8601655,
-      "y": 107.58149,
-      "z": 358.156677
-    },
-    "scale": {
-      "x": 11.2158689,
-      "y": 13.4157724,
-      "z": 13.1729488
+      "x": 2.3977778,
+      "y": 29.6936989,
+      "z": 29.4538975
     }
   },
   {
@@ -173,11 +118,11 @@
     ],
     "meshDirectory": "",
     "meshFileName": "unity default resources",
-    "name": "Spring",
+    "name": "Spring1",
     "pos": {
-      "x": 1887.9,
-      "y": 158.18,
-      "z": -1412.62
+      "x": 2099.6,
+      "y": 317.5,
+      "z": -1530.3
     },
     "rot": {
       "x": -0,
@@ -194,68 +139,34 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0.22,
-          "z": 0
+          "x": 0.0432654619,
+          "y": -0.0339189768,
+          "z": 0.22689341
         },
         "scale": {
-          "x": 2.3,
-          "y": 0.84,
-          "z": 2.32
+          "x": 6.5,
+          "y": 3.27,
+          "z": 18
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "small_1_spring.fbx",
-    "name": "small_1_spring (6)",
+    "meshFileName": "medium_spring.fbx",
+    "name": "medium_spring (5)",
     "pos": {
-      "x": 1888.7,
-      "y": 153.1,
-      "z": -1412.4
+      "x": 2047,
+      "y": 305,
+      "z": -1510.8
     },
     "rot": {
       "x": -0,
-      "y": 270,
-      "z": 0
+      "y": 108.8716,
+      "z": -0
     },
     "scale": {
-      "x": 7,
-      "y": 6,
-      "z": 7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0.22,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.3,
-          "y": 0.84,
-          "z": 2.32
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "small_1_spring.fbx",
-    "name": "small_1_spring (4)",
-    "pos": {
-      "x": 1835.2,
-      "y": 153.1,
-      "z": -1387.1
-    },
-    "rot": {
-      "x": -0,
-      "y": 270,
-      "z": 0
-    },
-    "scale": {
-      "x": 7,
-      "y": 6,
-      "z": 7
+      "x": 6.35,
+      "y": 6.4848,
+      "z": 6.6
     }
   },
   {
@@ -263,23 +174,23 @@
       {
         "pos": {
           "x": -0.03,
-          "y": 0.37,
+          "y": 0.33,
           "z": -0.03
         },
         "scale": {
           "x": 2.40984654,
-          "y": 1.37,
+          "y": 1.79,
           "z": 2.47351241
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
     "meshFileName": "small_2_spring.fbx",
-    "name": "small_2_spring (5)",
+    "name": "small_2_spring (9)",
     "pos": {
-      "x": 1773.4,
-      "y": 148.3,
-      "z": -1371.1
+      "x": 1933.8,
+      "y": 365,
+      "z": -1468.1
     },
     "rot": {
       "x": -7.01670955E-15,
@@ -288,7 +199,75 @@
     },
     "scale": {
       "x": 7.90917063,
-      "y": 4.955,
+      "y": 9.505672,
+      "z": 7.09679842
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.03,
+          "y": 0.33,
+          "z": -0.03
+        },
+        "scale": {
+          "x": 2.40984654,
+          "y": 1.79,
+          "z": 2.47351241
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "small_2_spring.fbx",
+    "name": "small_2_spring (8)",
+    "pos": {
+      "x": 1951.2,
+      "y": 355,
+      "z": -1371
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 7.90917063,
+      "y": 9.505672,
+      "z": 7.09679842
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.03,
+          "y": 0.33,
+          "z": -0.03
+        },
+        "scale": {
+          "x": 2.40984654,
+          "y": 1.79,
+          "z": 2.47351241
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "small_2_spring.fbx",
+    "name": "small_2_spring (7)",
+    "pos": {
+      "x": 2040.6,
+      "y": 349,
+      "z": -1316.5
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 7.90917063,
+      "y": 9.505672,
       "z": 7.09679842
     }
   },
@@ -301,19 +280,87 @@
           "z": 0
         },
         "scale": {
-          "x": 2.00000048,
+          "x": 2,
           "y": 2,
-          "z": 2.00000048
+          "z": 2
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (9)",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (20)",
     "pos": {
-      "x": 1264.4,
-      "y": 120.6,
-      "z": -1315
+      "x": 2152.3,
+      "y": 248.3,
+      "z": -1482.4
+    },
+    "rot": {
+      "x": -0,
+      "y": 197,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 29.6936989,
+      "z": 29.4538975
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (19)",
+    "pos": {
+      "x": 2126.6,
+      "y": 248.3,
+      "z": -1515.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 70.82583,
+      "z": -0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 29.6936989,
+      "z": 18.6024933
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (17)",
+    "pos": {
+      "x": 1287.2,
+      "y": 117.9,
+      "z": -1331
     },
     "rot": {
       "x": 0,
@@ -321,9 +368,587 @@
       "z": 0
     },
     "scale": {
-      "x": 1,
-      "y": 35.7,
-      "z": 32
+      "x": 2.3977778,
+      "y": 29.6936989,
+      "z": 29.4538975
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (16)",
+    "pos": {
+      "x": 1243,
+      "y": 97.9,
+      "z": -1368.8
+    },
+    "rot": {
+      "x": 0,
+      "y": 255,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 29.6936989,
+      "z": 29.4538975
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (15)",
+    "pos": {
+      "x": 772.7,
+      "y": 59.5,
+      "z": -1511.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (14)",
+    "pos": {
+      "x": 754.7,
+      "y": 60.4,
+      "z": -1505.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 120.000008,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (13)",
+    "pos": {
+      "x": 741.480042,
+      "y": 60.4,
+      "z": -1491.5199
+    },
+    "rot": {
+      "x": -0,
+      "y": 150,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (12)",
+    "pos": {
+      "x": 737.18,
+      "y": 60.4,
+      "z": -1472.5199
+    },
+    "rot": {
+      "x": -0,
+      "y": 180,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (11)",
+    "pos": {
+      "x": 764.5,
+      "y": 55.4,
+      "z": -1469.85
+    },
+    "rot": {
+      "x": -0,
+      "y": 180,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (10)",
+    "pos": {
+      "x": 758.6,
+      "y": 55.4,
+      "z": -1451.2
+    },
+    "rot": {
+      "x": -0,
+      "y": 150,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (9)",
+    "pos": {
+      "x": 744.3,
+      "y": 55.4,
+      "z": -1437.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 120.000008,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (8)",
+    "pos": {
+      "x": 725.2,
+      "y": 55.4,
+      "z": -1433
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.3977778,
+      "y": 15.2934179,
+      "z": 9.459148
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (7)",
+    "pos": {
+      "x": 328.8,
+      "y": 53.2,
+      "z": -1510.7
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (6)",
+    "pos": {
+      "x": 284.8,
+      "y": 46.7,
+      "z": -1487.3
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (5)",
+    "pos": {
+      "x": 242.7,
+      "y": 39.9,
+      "z": -1513
+    },
+    "rot": {
+      "x": -0,
+      "y": 90,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (4)",
+    "pos": {
+      "x": 45.3,
+      "y": 28.2,
+      "z": -1464.7
+    },
+    "rot": {
+      "x": 0,
+      "y": 310,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (3)",
+    "pos": {
+      "x": 25.5,
+      "y": 26.4,
+      "z": -1403
+    },
+    "rot": {
+      "x": 0,
+      "y": 310,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (2)",
+    "pos": {
+      "x": -13.21,
+      "y": 11.9,
+      "z": -1408.34
+    },
+    "rot": {
+      "x": 0,
+      "y": 310,
+      "z": 0
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 18.0056019,
+      "z": 35.04946
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2 (1)",
+    "pos": {
+      "x": 16.3,
+      "y": 66.7,
+      "z": -424
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 22.220047,
+      "z": 44.35634
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 1.99999988,
+          "z": 2
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "wallSpringCube2.fbx",
+    "name": "wallSpringCube2",
+    "pos": {
+      "x": -11.6,
+      "y": 58.7,
+      "z": -376.6
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 2.72679257,
+      "y": 19.56171,
+      "z": 42.61221
     }
   },
   {
@@ -352,67 +977,33 @@
       {
         "pos": {
           "x": 0,
-          "y": 0,
+          "y": 0.22,
           "z": 0
         },
         "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
+          "x": 2.3,
+          "y": 0.84,
+          "z": 2.32
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (15)",
+    "meshFileName": "small_1_spring.fbx",
+    "name": "small_1_spring (6)",
     "pos": {
-      "x": 752.78,
-      "y": 52.9,
-      "z": -1458.33
+      "x": 1911.1,
+      "y": 153.1,
+      "z": -1429.9
     },
     "rot": {
       "x": -0,
-      "y": 180,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (7)",
-    "pos": {
-      "x": 328.38,
-      "y": 57.05,
-      "z": -1511.33
-    },
-    "rot": {
-      "x": 0,
       "y": 270,
       "z": 0
     },
     "scale": {
-      "x": 1,
-      "y": 16.7,
-      "z": 34.3
+      "x": 7,
+      "y": 6,
+      "z": 7
     }
   },
   {
@@ -434,9 +1025,9 @@
     "meshFileName": "medium_spring.fbx",
     "name": "medium_spring (2)",
     "pos": {
-      "x": 825.1,
+      "x": 847.5,
       "y": 44.2,
-      "z": -1449.1
+      "z": -1466.6
     },
     "rot": {
       "x": -0,
@@ -447,74 +1038,6 @@
       "x": 5.2,
       "y": 4.8,
       "z": 6
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (17)",
-    "pos": {
-      "x": 742.32,
-      "y": 64.12,
-      "z": -1478.03
-    },
-    "rot": {
-      "x": -0,
-      "y": 150,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (16)",
-    "pos": {
-      "x": 739.05,
-      "y": 64.12,
-      "z": -1465.18
-    },
-    "rot": {
-      "x": -0,
-      "y": 180,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
     }
   },
   {
@@ -570,9 +1093,9 @@
     "meshFileName": "small_2_spring.fbx",
     "name": "small_2_spring (2)",
     "pos": {
-      "x": 1094.51,
+      "x": 1116.91,
       "y": 146.45,
-      "z": -1373.98
+      "z": -1391.48
     },
     "rot": {
       "x": -0,
@@ -583,6 +1106,74 @@
       "x": 8.946002,
       "y": 8.946002,
       "z": 8.946002
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.00142759946,
+          "y": 16.5,
+          "z": 0.09268224
+        },
+        "scale": {
+          "x": 10.96,
+          "y": 27.8,
+          "z": 10.68
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "pillar_spring.fbx",
+    "name": "pillar_spring",
+    "pos": {
+      "x": 2052.7998,
+      "y": 112,
+      "z": -1396.7
+    },
+    "rot": {
+      "x": 0.8601655,
+      "y": 107.58149,
+      "z": 358.156677
+    },
+    "scale": {
+      "x": 11.2158689,
+      "y": 13.4157724,
+      "z": 13.1729488
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0.22,
+          "z": 0
+        },
+        "scale": {
+          "x": 2.3,
+          "y": 0.84,
+          "z": 2.32
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "small_1_spring.fbx",
+    "name": "small_1_spring (4)",
+    "pos": {
+      "x": 1857.6,
+      "y": 153.1,
+      "z": -1404.6
+    },
+    "rot": {
+      "x": -0,
+      "y": 270,
+      "z": 0
+    },
+    "scale": {
+      "x": 7,
+      "y": 6,
+      "z": 7
     }
   },
   {
@@ -628,53 +1219,19 @@
           "z": 0
         },
         "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
+          "x": 1,
+          "y": 1,
+          "z": 1
         }
       }
     ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (13)",
+    "meshDirectory": "",
+    "meshFileName": "unity default resources",
+    "name": "Spring1",
     "pos": {
-      "x": 739.87,
-      "y": 52.9,
-      "z": -1436.33
-    },
-    "rot": {
-      "x": -0,
-      "y": 120.000008,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2,
-          "y": 2,
-          "z": 1.99999988
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall",
-    "pos": {
-      "x": -7.6,
-      "y": 61.5,
-      "z": -372.7
+      "x": 1910.3,
+      "y": 158.18,
+      "z": -1430.12
     },
     "rot": {
       "x": -0,
@@ -682,9 +1239,43 @@
       "z": 0
     },
     "scale": {
-      "x": 1,
-      "y": 25.26,
-      "z": 52.5
+      "x": 4.2866,
+      "y": 4.2866,
+      "z": 4.2866
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": 0.0432654619,
+          "y": -0.0339189768,
+          "z": 0.22689341
+        },
+        "scale": {
+          "x": 6.5,
+          "y": 3.27,
+          "z": 18
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "medium_spring.fbx",
+    "name": "medium_spring (4)",
+    "pos": {
+      "x": 2316.6,
+      "y": 378.3,
+      "z": -1603
+    },
+    "rot": {
+      "x": -0,
+      "y": 108.8716,
+      "z": -0
+    },
+    "scale": {
+      "x": 6.35,
+      "y": 6.4848,
+      "z": 6.6
     }
   },
   {
@@ -706,9 +1297,9 @@
     "meshFileName": "unity default resources",
     "name": "Spring",
     "pos": {
-      "x": 1536.9,
+      "x": 1538.3,
       "y": 86.1,
-      "z": -1357.6
+      "z": -1375.1
     },
     "rot": {
       "x": -0,
@@ -759,40 +1350,6 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (14)",
-    "pos": {
-      "x": 749.22,
-      "y": 52.9,
-      "z": -1445.62
-    },
-    "rot": {
-      "x": -0,
-      "y": 150,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
           "x": -0.03,
           "y": 0.37,
           "z": -0.03
@@ -821,40 +1378,6 @@
       "x": 7.90917063,
       "y": 4.955,
       "z": 7.09679842
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2,
-          "y": 2,
-          "z": 2
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (4)",
-    "pos": {
-      "x": 41.8,
-      "y": 38.9,
-      "z": -1461.6
-    },
-    "rot": {
-      "x": 0,
-      "y": 321,
-      "z": 0
-    },
-    "scale": {
-      "x": 1,
-      "y": 16.4,
-      "z": 51.5
     }
   },
   {
@@ -895,34 +1418,55 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
+          "x": -0.03,
+          "y": 0.37,
+          "z": -0.03
         },
         "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
+          "x": 2.40984654,
+          "y": 1.37,
+          "z": 2.47351241
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (6)",
+    "meshFileName": "small_2_spring.fbx",
+    "name": "small_2_spring (6)",
     "pos": {
-      "x": 283.88,
-      "y": 49.3,
-      "z": -1488.2
+      "x": 2441.30029,
+      "y": 385.8,
+      "z": -1651
     },
     "rot": {
-      "x": 0,
-      "y": 270,
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 7.90917063,
+      "y": 4.955,
+      "z": 7.09679842
+    }
+  },
+  {
+    "boxColliders": null,
+    "meshDirectory": "",
+    "meshFileName": "unity default resources",
+    "name": "Goal",
+    "pos": {
+      "x": 2518.2002,
+      "y": 396.099976,
+      "z": -1688.5
+    },
+    "rot": {
+      "x": -0,
+      "y": 0,
       "z": 0
     },
     "scale": {
-      "x": 1,
-      "y": 16.7,
-      "z": 34.3
+      "x": 2,
+      "y": 2,
+      "z": 2
     }
   },
   {
@@ -930,33 +1474,33 @@
       {
         "pos": {
           "x": 0,
-          "y": 0,
+          "y": 0.22,
           "z": 0
         },
         "scale": {
-          "x": 2,
-          "y": 2,
-          "z": 2.00000024
+          "x": 2.3,
+          "y": 0.84,
+          "z": 2.32
         }
       }
     ],
     "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (3)",
+    "meshFileName": "small_1_spring.fbx",
+    "name": "small_1_spring (7)",
     "pos": {
-      "x": 28.7,
-      "y": 29,
-      "z": -1394.7
+      "x": 2518.2002,
+      "y": 386.3,
+      "z": -1688.5
     },
     "rot": {
       "x": 0,
-      "y": 329,
+      "y": 299.2431,
       "z": 0
     },
     "scale": {
-      "x": 1,
-      "y": 16.2,
-      "z": 39.9
+      "x": 7,
+      "y": 6,
+      "z": 7
     }
   },
   {
@@ -978,9 +1522,9 @@
     "meshFileName": "medium_spring.fbx",
     "name": "medium_spring (3)",
     "pos": {
-      "x": 1369.4,
+      "x": 1391.8,
       "y": 84.9,
-      "z": -1343.9
+      "z": -1361.4
     },
     "rot": {
       "x": -0,
@@ -1012,9 +1556,9 @@
     "meshFileName": "small_2_spring.fbx",
     "name": "small_2_spring (1)",
     "pos": {
-      "x": 920,
+      "x": 942.4,
       "y": 120.3,
-      "z": -1419.5
+      "z": -1437
     },
     "rot": {
       "x": -0,
@@ -1033,9 +1577,9 @@
     "meshFileName": "unity default resources",
     "name": "Checkpoint",
     "pos": {
-      "x": 1393.1,
+      "x": 1415.5,
       "y": 96.8,
-      "z": -1346
+      "z": -1363.5
     },
     "rot": {
       "x": -0,
@@ -1080,6 +1624,40 @@
       "x": 11.16,
       "y": 12.0958529,
       "z": 12.0958529
+    }
+  },
+  {
+    "boxColliders": [
+      {
+        "pos": {
+          "x": -0.03,
+          "y": 0.37,
+          "z": -0.03
+        },
+        "scale": {
+          "x": 2.40984654,
+          "y": 1.37,
+          "z": 2.47351241
+        }
+      }
+    ],
+    "meshDirectory": "Models/SpringIslands",
+    "meshFileName": "small_2_spring.fbx",
+    "name": "small_2_spring (5)",
+    "pos": {
+      "x": 1795.8,
+      "y": 148.3,
+      "z": -1388.6
+    },
+    "rot": {
+      "x": -7.01670955E-15,
+      "y": 180,
+      "z": -7.01670955E-15
+    },
+    "scale": {
+      "x": 7.90917063,
+      "y": 4.955,
+      "z": 7.09679842
     }
   },
   {
@@ -1154,74 +1732,6 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (12)",
-    "pos": {
-      "x": 727.5,
-      "y": 52.9,
-      "z": -1433.1
-    },
-    "rot": {
-      "x": -0,
-      "y": 90,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (5)",
-    "pos": {
-      "x": 242.4,
-      "y": 40.1,
-      "z": -1511.5
-    },
-    "rot": {
-      "x": 0,
-      "y": 270,
-      "z": 0
-    },
-    "scale": {
-      "x": 1,
-      "y": 16.7,
-      "z": 34.3
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
           "x": 0.0432654619,
           "y": -0.43,
           "z": 0.09
@@ -1290,40 +1800,6 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (19)",
-    "pos": {
-      "x": 764.07,
-      "y": 64.12,
-      "z": -1490.23
-    },
-    "rot": {
-      "x": -0,
-      "y": 90,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
           "x": -0.03,
           "y": 0.37,
           "z": -0.03
@@ -1352,40 +1828,6 @@
       "x": 7.90917063,
       "y": 4.955,
       "z": 7.09679842
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2,
-          "y": 2,
-          "z": 2
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (2)",
-    "pos": {
-      "x": -8.7,
-      "y": 13.4,
-      "z": -1384.1
-    },
-    "rot": {
-      "x": 0,
-      "y": 329,
-      "z": 0
-    },
-    "scale": {
-      "x": 1,
-      "y": 14.4,
-      "z": 31.7
     }
   },
   {
@@ -1460,40 +1902,6 @@
     "boxColliders": [
       {
         "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (18)",
-    "pos": {
-      "x": 751.42,
-      "y": 64.12,
-      "z": -1486.93
-    },
-    "rot": {
-      "x": -0,
-      "y": 120.000008,
-      "z": 0
-    },
-    "scale": {
-      "x": 0.7,
-      "y": 12.3,
-      "z": 6.7
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
           "x": 3.2,
           "y": 3.9,
           "z": 35.2
@@ -1509,9 +1917,9 @@
     "meshFileName": "wall.fbx",
     "name": "Collider",
     "pos": {
-      "x": 1658.03625,
+      "x": 1680.43628,
       "y": 110.1,
-      "z": -1402.43054
+      "z": -1419.93054
     },
     "rot": {
       "x": -0,
@@ -1522,74 +1930,6 @@
       "x": 1,
       "y": 1,
       "z": 1
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2,
-          "y": 2,
-          "z": 2
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (1)",
-    "pos": {
-      "x": 15.1,
-      "y": 72.4,
-      "z": -419.9
-    },
-    "rot": {
-      "x": -0,
-      "y": 0,
-      "z": 0
-    },
-    "scale": {
-      "x": 1,
-      "y": 25.26,
-      "z": 45.1
-    }
-  },
-  {
-    "boxColliders": [
-      {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 2.00000048,
-          "y": 2,
-          "z": 2.00000048
-        }
-      }
-    ],
-    "meshDirectory": "Models/SpringIslands",
-    "meshFileName": "wall.fbx",
-    "name": "wall (8)",
-    "pos": {
-      "x": 1220.6,
-      "y": 97.9,
-      "z": -1350.5
-    },
-    "rot": {
-      "x": 0,
-      "y": 255,
-      "z": 0
-    },
-    "scale": {
-      "x": 1,
-      "y": 35.7,
-      "z": 32
     }
   },
   {
@@ -1666,12 +2006,12 @@
         "pos": {
           "x": 0.12,
           "y": -2.94,
-          "z": -5.9
+          "z": -3.8
         },
         "scale": {
           "x": 8.81,
           "y": 3.23,
-          "z": 32.2
+          "z": 26.5
         }
       }
     ],
@@ -1679,9 +2019,9 @@
     "meshFileName": "step_spring.fbx",
     "name": "step_spring",
     "pos": {
-      "x": 1636.6,
+      "x": 1659,
       "y": 95.6,
-      "z": -1365.4
+      "z": -1382.9
     },
     "rot": {
       "x": -0,
@@ -1705,7 +2045,7 @@
         "scale": {
           "x": 8.09,
           "y": 2.89,
-          "z": 25.64
+          "z": 26.5
         }
       }
     ],
