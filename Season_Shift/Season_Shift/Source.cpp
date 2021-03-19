@@ -111,7 +111,7 @@ int WINAPI wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prevInst, _In_ LPWST
 			physicsEng->simulate(timer.dt());
 
 		Input::getInput().update(timer.dt());
-		if (Input::getInput().keyBeingPressed(Input::F11))
+		if (Input::getInput().keyPressed(Input::F11))
 		{
 			gph.setFullScreen(!gph.getFullScreenState());
 		}
